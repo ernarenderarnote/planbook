@@ -82,4 +82,4 @@ $classes = $monthView->getClasses();
 			 $(this).parents(".lesondropdown").hide();
 		});
 	});		 
-	</script>
+</script>

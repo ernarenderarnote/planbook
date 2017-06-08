@@ -7,6 +7,7 @@ use App\User;
 use App\UserClass;
 use App\SchoolYear;
 use App\ClassLesson;
+use App\Unit;
 class Month
 {
 /********************* PROPERTY ********************/  
@@ -24,6 +25,8 @@ class Month
     private $daysInMonth=0;
      
     private $naviHref= null;
+	
+	
      
     /********************* PUBLIC **********************/ 
 
@@ -284,5 +287,18 @@ class Month
                 '$("#pNext").attr("href","?day='.sprintf($nextDay).'");'.
             '</script>';
     }
+	
+	public function getUnits($classID){
+		$userID = Auth::id();
+		$units = Unit::where('user_id', '=', $userID)->where('class_id','=',$classID)->get();
+		return $units;
+		
+	}
+	
+	public function getLessons($classID,$date){
+		$userID = Auth::id();
+		$lessons = ClassLesson::where('user_id',$userID)->where('class_id',$classID)->where('lesson_date',$date)->get();
+		return $lessons;
+	}
 	
 }

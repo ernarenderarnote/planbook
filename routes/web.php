@@ -50,6 +50,7 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::get('/showCalendar', ['as' => 'showCalendar', 'uses' => 'DashboardController@showCalendar']);
 			Route::get('/weekCalendar', ['as' => 'week', 'uses' => 'DashboardController@weekView']);
             Route::get('/dayCalendar', ['as' => 'day', 'uses' => 'DashboardController@dayView']);
+			Route::Post('/editlessons', ['as' => 'editlesson', 'uses' => 'LessonController@create']);
         });
 
 

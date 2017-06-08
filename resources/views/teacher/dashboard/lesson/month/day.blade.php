@@ -91,30 +91,30 @@
 													<li data-toggle="modal" data-target="#pastemodal"> <i class="fa fa-paste" aria-hidden="true"></i> Paste</li>
 													<li> <i class="fa fa-arrow-right" aria-hidden="true"></i> Bump
 														<div class="copy-incrementfunction">
-															<input type="button"  onclick="incrementValue()" value="-" >
-															<input type="text" placeholder="2" class="copydropdown-value">
-															<input type="button"  onclick="decrementValue()" value="+" >
+															<input type="button" class="decrementBtn" value="-" >
+															<input type="text" value="1" class="copydropdown-value">
+															<input type="button" class="incrementBtn" value="+" >
 														</div>
 													</li>
 													<li> <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
 														<div class="copy-incrementfunction">
-															<input type="button"  onclick="incrementValue()" value="-" >
-															<input type="text" placeholder="2" class="copydropdown-value">
-															<input type="button"  onclick="decrementValue()" value="+" >
+															<input type="button" class="decrementBtn" value="-" >
+															<input type="text" value="1" id="spinner1" class="copydropdown-value">
+															<input type="button" class="incrementBtn"  value="+" >
 														</div>
 													</li>
 													<li> <i class="fa fa-forward" aria-hidden="true"></i> Extend Lesson
 														<div class="copy-incrementfunction">
-															<input type="button"  onclick="incrementValue()" value="-" >
-															<input type="text" placeholder="2" class="copydropdown-value">
-															<input type="button"  onclick="decrementValue()" value="+" >
+															<input type="button" class="decrementBtn" value="-" >
+															<input type="text" value="1" class="copydropdown-value">
+															<input type="button" class="incrementBtn" value="+" >
 														</div>
 													</li>
 													<li> <i class="fa fa-forward" aria-hidden="true"></i> Extend Standards
 														<div class="copy-incrementfunction">
-															<input type="button"  onclick="incrementValue()" value="-" >
-															<input type="text" placeholder="2" class="copydropdown-value">
-															<input type="button"  onclick="decrementValue()" value="+" >
+															<input type="button" class="decrementBtn" value="-" >
+															<input type="text" value="1" class="copydropdown-value">
+															<input type="button" class="incrementBtn" value="+" >
 														</div>
 													</li>
 												  <li data-toggle="modal" data-target="#deletemodal"> <i class="fa fa fa-trash" aria-hidden="true"></i> Delete Lessons</li>

@@ -4,11 +4,9 @@
 
 	$selectedYear = auth()->user()->selectedYear()->first();
 	$visibleDay = collect($selectedYear->class_schedule)->where("is_class", "1")->pluck("text")->map(function($day){ return "day-". strtolower($day); })->all();
-
 	$weeksInMonth = $monthView->_weeksInMonth();
 
 	$classes = $monthView->getWeekClasses();
-
 	@endphp
 	<style type="text/css">
 	   .month-view [data-day]{
@@ -63,26 +61,45 @@
 						$filtered = $classes->where('start_date', '<=' , $daysName)->where('end_date', '>=', $daysName)->where('user_id', '=' , Auth::user()->id )->all();
 						@endphp
 					
-						@if(!empty($filtered))    					
+					
 						<li class="weektab-content">
-							@foreach($filtered as $filters)
+					        
+							@forelse($filtered as $filters)
 							   
 								  @php
-									 $url = empty($filter->classlesson);
-									 
+								    $units = $monthView->getUnits($filters['id']);
+									$url = empty($filter->classlesson); 
 									$weekDay = date("l", $ts);
 									 
 									 $hasClass = !collect(json_decode($filters->class_schedule))
 									->where("text", $weekDay)
 									->where("is_class" , "1")
 									->isEmpty();
+									$getTime = collect(json_decode($filters->class_schedule))
+									->where("text", $weekDay)
+									->where("is_class" , "1")
+									->all();
+									$classStartTime ;
+									$classEndTime ;
 								@endphp 
+								@foreach($getTime as $gtime)
+								  @php
+									$classStartTime = $gtime->start_time;
+									$classEndTime = $gtime->end_time;
+									@endphp
+								@endforeach
 								@if($hasClass)
+									@php
+									print_r(@$data);
+									  @endphp
+						<div class="mainClass">			
 							<div class="languagearts week-tabcontentinner" style="background-color:{{ $filters['class_color'] }}; color:#fff; border-color: {{ $filters['class_color'] }};">
-							  {{ $filters['class_name'] }}
+							  {{ $filters['class_name'] }} 
+								 
+								 
 								<span class="week-icons">
 									<ul>
-										<li class="dropdown"><img src="/images/move-icon.png" class="move-icon" > </li>
+										<li class="dropdown"><img src="/images/move-icon.png" class="move-icon" ></li>
 										<li class="dropdown"> <img src="/images/downarrow2.png" class="downarrow-icon downarrowtoggle">
 											<div class="lesondropdown">
 												<div class="lessondropdown-header"> Lesson Actions 
@@ -92,7 +109,7 @@
 												</div>
 												<div class="lesondropdown-body lessondrop-bodymain">
 													<ul>
-														<li data-toggle="modal" data-target="#editmodal" > <i class="fa fa-pencil" aria-hidden="true"></i> Edit Lesson</li>
+														<li class="editBtn" > <i class="fa fa-pencil" title="{{ $filters['id'] }}" aria-hidden="true"></i> Edit Lesson</li>
 														<li data-toggle="modal" data-target="#movemodal"> <i class="fa fa-arrows" aria-hidden="true"></i> Move Lesson</li>
 														<li class="copy-field"> <i class="fa fa-copy" aria-hidden="true"></i> Copy
 															<div class="dropdown copy-dropdown">
@@ -123,30 +140,30 @@
 														<li data-toggle="modal" data-target="#pastemodal"> <i class="fa fa-paste" aria-hidden="true"></i> Paste</li>
 														<li> <i class="fa fa-arrow-right" aria-hidden="true"></i> Bump
 															<div class="copy-incrementfunction">
-																<input type="button"  onclick="incrementValue()" value="-" >
-																<input type="text" placeholder="2" class="copydropdown-value">
-																<input type="button"  onclick="decrementValue()" value="+" >
+																<input type="button" class="decrementBtn" value="-" >
+																<input type="text" value="1" class="copydropdown-value">
+																<input type="button" class="incrementBtn" value="+" >
 															</div>
 														</li>
 														<li> <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
 															<div class="copy-incrementfunction">
-																<input type="button"  onclick="incrementValue()" value="-" >
-																<input type="text" placeholder="2" class="copydropdown-value">
-																<input type="button"  onclick="decrementValue()" value="+" >
+																<input type="button" class="decrementBtn" value="-" >
+																<input type="text" value="1" class="copydropdown-value">
+																<input type="button" class="incrementBtn" value="+" >
 															</div>
 														</li>
 														<li> <i class="fa fa-forward" aria-hidden="true"></i> Extend Lesson
 															<div class="copy-incrementfunction">
-																<input type="button"  onclick="incrementValue()" value="-" >
-																<input type="text" placeholder="2" class="copydropdown-value">
-																<input type="button"  onclick="decrementValue()" value="+" >
+																<input type="button" class="decrementBtn" value="-" >
+																<input type="text" value="1" class="copydropdown-value">
+																<input type="button" class="incrementBtn" value="+" >
 															</div>
 														</li>
 														<li> <i class="fa fa-forward" aria-hidden="true"></i> Extend Standards
 															<div class="copy-incrementfunction">
-																<input type="button"  onclick="incrementValue()" value="-" >
-																<input type="text" placeholder="2" class="copydropdown-value">
-																<input type="button"  onclick="decrementValue()" value="+" >
+																<input type="button" class="decrementBtn" value="-" >
+																<input type="text" value="1" class="copydropdown-value">
+																<input type="button" class="incrementBtn" value="+" >
 															</div>
 														</li>
 													  <li data-toggle="modal" data-target="#deletemodal"> <i class="fa fa fa-trash" aria-hidden="true"></i> Delete Lessons</li>
@@ -158,11 +175,51 @@
 									</ul>
 								</span> 
 							</div>
+							<div class="appendText">
+								@php
+								$classID = $filters['id'];
+								$sqlDate = date('Y-d-m', strtotime($daysName));
+								$lessonsData = $monthView->getLessons($classID,$sqlDate);
+								@endphp
+								
+								@forelse($lessonsData as $lData)
+									<div class="t-heading"><h2>{{ $lData['lesson_title'] }}</h2></div>
+									<div class="t-cel">{{ $lData['lesson_start_time'] }}</div>
+									<div class="t-cel">{{ $lData['lesson_end_time'] }}</div>
+									<div class="t-cel">{{ $lData['unit'] }}</div>
+									<div class="t-cel">{!! $lData['lesson_text'] !!}</div>
+									<div class="t-cel">{!! $lData['notes'] !!}</div>
+									<div class="t-cel">{!! $lData['homework'] !!}</div>
+								
+									@empty
+									<div class="t-heading"><h2></h2></div>
+									<div class="t-cel"></div>
+									<div class="t-cel"></div>
+									<div class="t-cel"></div>
+									<div class="t-cel"></div>
+									<div class="t-cel"></div>
+									<div class="t-cel"></div>
+								
+								@endforelse
+								
+								
+							</div>
+							<div class="modal fade editmodalcontent" id="editModal" role="dialog">
+								<form method="post" action="" id="editlessonform" class="editlessonform">
+									{{ csrf_field() }}
+									@include("teacher.dashboard.lesson.create")
+								</form>	
+							</div>
+						</div>	
 							 @endif
+							 
 							
-							 @endforeach  
-							 @endif
+							@empty
+							
+							 @endforelse  
+							 	
 						</li>
+						
 					@endfor	  
 				</ul>   
             </div>
@@ -171,27 +228,94 @@
 		<!--End Week View-->
 	</div>
 	<!-- Add class Popup Starts Here -->
-	<div class="d-render-popoup t-data-popup" id="dynamicRenderDiv" style="display:none;">
-	</div>
+	
 
-<script type="text/javascript">
-$(document).ready(function(){
-	$(".downarrowtoggle").click(function(){
-		$(".lesondropdown").hide();
-		$(this).next(".lesondropdown").show();
-		
-    });
-	
-	$('body').click(function(e) {
-	 if($(e.target).is('.downarrowtoggle'))	
-		 return false;
-		if (!$(e.target).closest('.lesondropdown').length){
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$(".downarrowtoggle").click(function(){
 			$(".lesondropdown").hide();
-		}
-	});
-	
-	$(".copydropcrossicons").click(function(){
-         $(this).parents(".lesondropdown").hide();
+			$(this).next(".lesondropdown").show();
+			
+		});
+		
+		$('body').click(function(e) {
+		 if($(e.target).is('.downarrowtoggle'))	
+			 return false;
+			if (!$(e.target).closest('.lesondropdown').length){
+				$(".lesondropdown").hide();
+			}
+		});
+		
+		$(".copydropcrossicons").click(function(){
+			 $(this).parents(".lesondropdown").hide();
+		});
+	});		 
+	</script>
+    <script>
+  $(document).ready(function(){
+	var clickedClass;  
+    $(".editBtn").click(function(){
+	   clickedClass = $(this).closest(".mainClass");
+       $(this).closest(".mainClass").find("div.modal").modal();
     });
-});		 
+	$( ".editlessonform" ).on( "submit", function( event ) {
+	  event.preventDefault();
+	  var data =  $( this ).serialize();
+	  $.ajax({
+		  type:'POST',
+		  url: BASE_URL +'/teacher/dashboard/editlessons',
+		  data: data,
+		  //dataType: 'json',
+		  beforeSend: function () {
+			//obj.html('Sending... <i class="fa fa-send"></i>');
+		  },
+		  complete: function () {
+			//obj.html('Sent <i class="fa fa-send"></i>');
+		  },
+
+		  success: function (response) {
+			/* clickedClass.find("ul.appendText").html(
+			"<li>"+response.lessonTitle+"</li>"+
+			"<li>"+response.starttime+"</li>"+
+			"<li>"+response.endtime+"</li>"+
+			"<li>"+response.units+"</li>"+
+			"<li>"+response.lessonTxt+"</li>"+
+			"<li>"+response.notesTxt+"</li>"+
+			"<li>"+response.homeworkTxt+"</li>"
+			); */
+			$('#modal').modal().hide();
+			clickedClass.find("div.appendText").html(response);
+			clickedClass.find("div.modal").modal('hide');
+			console.log(response);
+
+			},
+
+
+		  error: function(data){
+			console.log("error");
+			console.log(data);
+		  }
+
+		});
+	});  
+});
+
+</script>
+<script>
+$(document).ready(function(){
+    var count = 0;
+    var height = 0;
+    $(".weektab-content").each(function(){
+         $(this).find(".mainClass").each(function(index){
+            var h = $(this).outerHeight(true)
+           if(h > height)
+             height = h;
+		     count = index;
+			 
+        });
+    });
+	alert(count);
+    $(".weektab-content .mainClass").height(height);
+    
+});
 </script>

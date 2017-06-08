@@ -617,3 +617,9 @@ div.activeCalendar {
     
     text-align: left;
 }
+nav.navbar .navbar-nav > li a:hover {
+  border: medium none;
+  color: #fff;
+  line-height: normal;
+}
+
