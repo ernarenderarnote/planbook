@@ -97,7 +97,7 @@
                 <li><a href="{{route('teacher.assignments.index')}}"><span class="add-ico"><img src="/images/assignments.png" alt="assignment"></span> <span class="add-text">Assignments</span></a></li>
                 <li><a href="{{route('teacher.classes.index')}}"><span class="add-ico"><img src="/images/classes.png" alt="classes"></span> <span class="add-text">Classes</span></a></li>
                 <li><a href="#"><span class="add-ico"><img src="/images/display.png" alt="display settings"></span> <span class="add-text">Display Settings</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="/images/icon-events.png" alt="event"></span> <span class="add-text">Events</span></a></li>
+                <li><a href="{{route('teacher.events.index')}}"><span class="add-ico"><img src="/images/icon-events.png" alt="event"></span> <span class="add-text">Events</span></a></li>
                 <li><a href="#"><span class="add-ico"><img src="/images/icon-grades.png" alt="grade"></span> <span class="add-text">Grades</span></a></li>
                 <li><a href="{{route('teacher.my_files.index')}}"><span class="add-ico"><img src="/images/icon-myfiles.png" alt="my files"></span> <span class="add-text">My Files</span></a></li>
                 <li><a href="#"><span class="add-ico"><img src="/images/icon-mylists.png" alt="my list"></span> <span class="add-text">My List</span></a></li>

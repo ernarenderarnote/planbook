@@ -11,7 +11,7 @@ use App\UserClass;
 use App\SchoolYear;
 use App\Unit;
 use App\Assessment;
-
+use App\ScoreWeighting;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Paginator;
@@ -24,7 +24,7 @@ use Redirect;
 use View;
 use Mail;
 use Exception;
-
+use App\MyFile;
 class AssessmentsController extends Controller
 {
     /**
@@ -43,13 +43,16 @@ class AssessmentsController extends Controller
 	 */
 	public function index()
 	{
+        $user_id = Auth::user()->id;
 		$assessments = Assessment::where('user_id',Auth::user()->id)->get();
-	
+		$authClasses = UserClass::where('year_id',Auth::user()->current_selected_year)->where('user_id',Auth::user()->id)->with('schoolYear')->get();
 		$this->data['assessments'] = $assessments;
-
-        //echo"<pre>";print_r($assessments);die;
-
-		return view('teacher.assessments.index', $this->data);
+		$this->data['classes'] = $authClasses;
+        $this->data['units'] = DB::table('units')
+             ->where('units.user_id',Auth::user()->id)
+             ->leftJoin('user_classes', 'units.class_id', '=', 'user_classes.id')
+             ->get();
+		    return view('teacher.assessments.index', $this->data);
 
 		//return redirect()->to('/');
 	}
@@ -64,7 +67,7 @@ class AssessmentsController extends Controller
         
         $this->data['userClasses'] = UserClass::where('year_id',Auth::user()->current_selected_year)->where('user_id',Auth::user()->id)->with('schoolYear')->get();
         $this->data['units'] = Unit::where('user_id',Auth::user()->id)->get();
-
+		$this->data['type']  = ScoreWeighting::where('class_id','0')->get();
 		//echo"<pre>";print_r( $this->data['userClasses']);die;
 
 
@@ -90,7 +93,7 @@ class AssessmentsController extends Controller
 
 
             $validation['class'] = 'required';
-            $validation['unit'] = 'required';
+            $validation['unit']  = 'required';
             $validation['title'] = 'required';
             $validation['total_points'] = 'numeric|max:100';
             
@@ -217,10 +220,74 @@ class AssessmentsController extends Controller
 	}
 
 
-
-
-
-
-
-
+    public function getScoreAssessment(Request $request, $assessment_id){
+		$response = array(); 
+		if($assessment_id != 0){
+        $this->data['userClasses'] = UserClass::where('year_id',Auth::user()->current_selected_year)
+									->where('user_id',Auth::user()->id)
+									->where('id',$assessment_id)
+									->with('schoolYear')
+									->get();
+		$this->data['units'] 	= Unit::where('user_id',Auth::user()->id)
+								->where('class_id',$assessment_id)
+								->get(); 
+		$this->data['checkScore'] = ScoreWeighting::where('user_id',Auth::user()->id)
+									->where('class_id',$assessment_id)
+								    ->first(); 
+		return view('teacher.assessments.score',$this->data);							
+		}
+		else{
+			$this->data['userClasses'] = '0';
+			$this->data['checkScore'] = ScoreWeighting::where('user_id',Auth::user()->id)
+									->where('class_id',$assessment_id)
+								    ->first(); 
+			return view('teacher.assessments.score',$this->data);
+		}
+		
+    }
+	
+	public function addScoreAssessment(Request $request){
+		$ScoreWeighting = new ScoreWeighting();
+		$response   = array();
+		$ScoreWeighting->user_id = Auth::id();
+		$ScoreWeighting->class_id = $request['class_id'];
+		$hasScore  = ScoreWeighting::where('user_id',Auth::user()->id)
+									->where('class_id',$request['class_id'])
+									->get();		
+		$ScoreWeighting->assessment = json_encode($request['assessment']);
+		$ScoreWeighting->assignment = json_encode($request['assignment']);
+		$ScoreWeighting->standard = json_encode($request['standard']);
+		if(count($hasScore) >= '1'){
+			ScoreWeighting::where('class_id',$request->class_id)
+				->where('user_id',Auth::user()->id)
+				->update(['assessment' => json_encode($request['assessment']),
+					  'assignment' => json_encode($request['assignment']),
+					  'standard' => json_encode($request['standard']),
+					  ]);
+				$response['success'] ='Updated Successfully';
+		}
+		elseif($ScoreWeighting->save()){
+			$response['success'] = 'Score Added Successfully';
+		}
+		return response()->json($response);
+			
+	}
+	public function getScoreAssessmentAll(){
+		return view('teacher.assessments.score');
+	}
+	
+	public function authUploads(Request $request){
+		$this->data['myFiles'] = MyFile::where('user_id',Auth::user()->id)->get();
+		return view('teacher.assessments.response', $this->data);
+    }
+	
+	public function seletedAssessment(Request $request){
+		$this->data['units'] 	= Unit::where('user_id',Auth::user()->id)
+								->where('class_id',$request->class_id)
+								->get(); 
+		$this->data['type']  = ScoreWeighting::where('class_id',$request->class_id)->get();	
+		return $this->data;
+		//return view('teacher.assessments.seletedresponse', $this->data);	
+	}
+	
 }

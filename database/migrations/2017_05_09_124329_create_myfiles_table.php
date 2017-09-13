@@ -17,6 +17,7 @@ class CreateMyfilesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->nullable();
             $table->string('file_name')->nullable();
+			$table->float('uploadSize', 8, 2)->nullable();
             $table->string('file_changeable_name')->nullable();
             $table->timestamps();
         });

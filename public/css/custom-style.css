@@ -394,7 +394,7 @@ input[type=color].form-control { padding: 0; width: auto; min-width: 40px; }
 .week-data .week-head { background-color: #dbdfe8; color: #0057c1; float: left; font-size: 12pt; list-style: outside none none; margin: 0; padding: 5px 0px; text-align: center; width: 20%; }
 .week-bodydata .weektab-content { cursor: pointer; float: left; font-size: 10pt; font-weight: 600; list-style: outside none none; margin-bottom: 8px; margin-right: 6px; padding: 2px 8px 4px; width: 19.5%; }
 .week-bodydata { float: left; margin-top: 13px; width: 100%; }
-.week-tabcontentinner { padding: 4px 9px; margin-bottom: 11px; }
+.week-tabcontentinner { padding: 4px 9px; border-radius:5px; }
 .memoriallesson { border-color: #c3d9ff; cursor: pointer; background-color: #C3D9FF; color: #0000ff; }
 .listtab-content .week-icons .downarrow-icon img { margin: 7px 2px 0; }
 .week-icons { float: right; }
@@ -454,12 +454,41 @@ input[type=color].form-control { padding: 0; width: auto; min-width: 40px; }
 .lesondropdown { background-color: #fff; border: 2px solid #0057c1; border-radius: 4px; display: none; height: auto; left: auto; position: absolute; right: -9px; top: -5px; width: 242px; z-index: 1; }
 .copy-dropdown { float: right; position: relative; }
 .copy-dropdown .btn-copy { background-color: #CFD2D9; padding: 2px 31px 2px 15px; text-align: left; }
-.copy-dropdown .caret-button { position: absolute; top: 1px; right: -2px; background-color: #0057C2; color: #fff; padding: 3px 5px 2px 5px; border-radius: 4px; }
+.copy-dropdown .caret-button {
+    background-color: #0057c2;
+    border-radius: 0px 4px 4px 0px;
+    color: #fff;
+    padding: 0px 5px 2px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 26px;
+    line-height: 26px;
+}
 .copydropdown-inner { min-width: 130px; }
 .lesondropdown .lesondropdown-body .copy-dropdown ul li { font-size: 14px; padding: 4px 10px; color: #444; }
-.copy-incrementfunction { float: right; background-color: #0057C2; }
-.copy-incrementfunction input[type="button"] { background-color: #0057C2; border: medium none; border-radius: 4px; color: #fff; font-size: 18px; margin: 0; padding: 0; text-align: center; width: 22px; }
-.copydropdown-value { background-color: #cfd2d9; border: medium none; padding: 4px 8px; width: 26px; }
+.copy-incrementfunction { float: right; }
+.copy-incrementfunction input[type="button"] {
+    background-color: #0057c2;
+    border: medium none;
+    color: #fff;
+    font-size: 10pt;
+    height: 26px;
+    margin: 0 0px;
+    padding: 0;
+    text-align: center;
+    width: 22px;
+    float: left;
+}
+.copydropdown-value {
+    background-color: #cfd2d9;
+    border: medium none;
+    font-size: 10pt;
+    height: 26px;
+    text-align: center;
+    width: 26px;
+    float: left;
+}
 .week-tabcontentinner:hover .week-icons { display: block; }
 .week-icons li img { opacity: 0; }
 .week-tabcontentinner:hover .week-icons li img { opacity: 1; }
@@ -552,14 +581,16 @@ input[type=color].form-control { padding: 0; width: auto; min-width: 40px; }
 .main-button:hover { background-color: #0068de; }
 .close-filebutton { background-color: #696969; border: 1px solid #696969; border-radius: 3px; box-shadow: -1px 1px 0 0 #a3a3a3 inset; color: #ffffff; }
 .filetable table { width: 100%; }
-.filetable tr { background-color: #fff; }
+.filetable tr { background-color: #fff; margin-bottom: 6px; float: left; width: 100%;
+}
+
 .filetable td { border-right: 1px solid #ddd; padding: 2px 5px; font-size: 16px; }
 .filetable td.filename { width: 79%; }
 .filetable td.filename a { vertical-align: top; }
 .filetable td label { color: #58595b; margin: 0px 8px; }
 .filetable td label input[type=checkbox] { margin: 3px 5px 0px 0px; vertical-align: top; }
 .filetable td .trash-button i { font-size: 22px; padding: 0px; }
-.filetable td .trash-button { padding: 7px 0px 5px 6px; width: auto; margin-bottom: 0px; cursor: pointer; }
+.filetable td .trash-button {  width: auto; margin-bottom: 0px; cursor: pointer; }
 .edittabmiddle .cke_top { background: #f0f0f0 none repeat scroll 0 0; }
 .edittabmiddle .mce-branding-powered-by { display: none; }
 .lesondropdown-body.lessondrop-bodymain:before { background-image: none; }
@@ -616,4 +647,547 @@ div.activeCalendar {
 .actionlesson .lessondropdown-header {
     
     text-align: left;
+}
+.progress 
+{
+
+  position:relative; 
+  width:400px; 
+  border: 1px solid #ddd; 
+  padding: 1px; 
+  border-radius: 3px; 
+}
+.bar 
+{ 
+  background-color: #B4F5B4; 
+  width:0%; 
+  height:20px; 
+  border-radius: 3px; 
+}
+.percent 
+{ 
+  position:absolute; 
+  display:inline-block; 
+  top:3px; 
+  left:48%; 
+}.popupProgress {
+    position: absolute;
+    top: 28px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    text-align: center;
+    background-color: rgba(255,255,255,.4);
+}
+.popupProgress .progress {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+    height: 30px;
+    border-radius: 0;
+    border: 2px solid #003b81;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    position: absolute;
+}
+.popupProgress .progress .bar {
+    height: 24px;
+    background-color: #003b81;
+    border-radius: 0;
+}
+.popupProgress .progress .percent {
+    color: #fff;
+    top: 4px;
+}
+.weektab-content .mainClass{
+	margin-bottom:10px;
+	border: 1px solid;
+    border-radius: 7px;
+}	
+/*15-6*/
+
+.standardtablemain .well { padding: 0px; border-radius: 0px; }
+.standardtablemain .header-standard { background-color: #0057c1; color: #fff; text-align: center; }
+.standardtablemain .standardmodal-row1 { width: 15%; float: left; border-right: 1px solid #fff; padding: 5px; }
+.standardtablemain .standardtablerow2 { padding: 5px; display: inline-block; }
+.standardtablemain .standardrow1inner { border-right: 1px solid #dbdfe8; padding-left: 22px; width: 14.9%; }
+.standardtablemain .glyphicon { position: absolute; left: 5px; top: 7px; color: #0057c1; }
+.standardtablemain .list-group-item { padding: 0px 0px; }
+.standardtablemain .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover { z-index: 2; color: #58595b; background-color: #dbdfe8; border-color: #dbdfe8; }
+.standardtablemain .well { max-height: 271px; overflow: auto; }
+.well.statelist-main { padding: 0px; max-height: 272px; overflow-y: auto; border: none; }
+.statelist-main .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover { z-index: 2; color: #58595b; background-color: #dbdfe8; border-color: #fff;  border-bottom:1px solid #fff;}
+.statelist-main .list-group-item:first-child { border-radius: 0px; }
+.statelist-main .well { max-height: 271px; overflow: auto; border-radius: 0px; }
+.statelist-main .glyphicon { padding-right: 6px; color: #0057c1; }
+.renew-button:hover{
+	color:#fff;
+}
+a.actiondropbutton.renew-button .caret {
+    margin-right: 8px;
+    cursor: pointer;
+}
+a.actiondropbutton.renew-button{
+cursor: pointer;
+}
+.main-buton.file-attchment.myFileuploads {
+    position: relative;
+    width: 150px;
+    cursor: pointer;
+    text-align: center;
+}
+.myFileuploads input[type="file"] {
+    opacity: 0;
+    position: absolute;
+    top: 6px;
+    width: 150px;
+    z-index: 999999999;
+    text-align: center;
+}
+.myFileuploads span.upload-text {
+    font-size: 15px;
+}
+/*.weektab-content .mainClass {
+    margin-bottom: 10px;
+    border: 1px solid #ff8040;
+    border-radius: 2px;
+    border-top: none;
+}
+ .week-tabcontentinner {
+    padding: 2px 6px;
+    margin-bottom: 0;
+    border-radius: 2px;
+    font-size: 12px;
+    text-transform: capitalize;
+    font-weight: 500;
+    transition: 0.6s;
+}
+.mainClass div {
+    border-bottom: 1px solid #ff8040;
+ } */
+ i.fa.fileDownload.fa-download.pull-right {
+    cursor: pointer;
+}
+/*16-6*/
+.standard-reportinginner { width: 910px; margin: 0 auto; display: block; }
+.standard-reportingform .input-fileds { color: #000; height: 24px; width: 100%; }
+.standard-reportingform label { width: 100%; }
+.standard-reportingform { background-color: #dbdfe8; border: 3px solid #0057c1; border-radius: 5px; display: inline-block; float: left; margin-right: 10px; padding: 10px; width: 800px; margin-bottom: 35px; }
+.standardform-row:first-child { margin-bottom: 11px; }
+.standardform-row { float: left; width: 100%; }
+.standardreport-button { float: right; width: 99px; }
+.standardreport-button .main-buton { font-size: 15px; margin-bottom: 15px; padding: 10px 0; width: 93px; }
+.main-buton:hover { background-color: #0068de; }
+.standard-reporttable { display: block; margin: 0 auto; max-height: 600px; width: 95%; overflow-y: auto; overflow-x: hidden; }
+.standard-reporttable .table { width: 100%; margin-bottom: 0px; border: 1px solid #ddd; }
+.standard-reporttable thead th { background-color: #0057c1; text-align: center; color: #fff; border: 1px solid #fff; }
+.standard-reporttable .description-field { width: 68%; }
+.standard-reporttable table.dataTable thead .sorting_asc { background-image: url(../images/sort_asc2.png); }
+.standard-reporttable table.dataTable thead .sorting_asc::after { display: none; }
+.standard-reporttable table.dataTable thead .sorting::after { display: none; }
+.standard-reporttable .table td { background-color: #fff; }
+.standard-reporttable table.dataTable.display tbody tr.odd>.sorting_1, table.dataTable.order-column.stripe tbody tr.odd>.sorting_1 { background-color: #fff; }
+.table.dataTable.no-footer { border: 1px solid #ddd; }
+.standard-reporttable table.dataTable thead .sorting { background-image: url(../images/sort_both2.png); }
+.standard-reporttable table.dataTable thead .sorting_desc:after { display: none; }
+.standard-reporttable table.dataTable thead .sorting_desc { background-image: url(../images/sort_desc2.png); }
+.applyfilemodalcontent { background-color: #ffffff; border: 5px solid #003b81; border-radius: 5px; height: auto; left: 0; margin: 0 auto; opacity: 1; position: absolute; right: 0; top: 37%; width: 600px; z-index: 999999999; display: none; }
+.applycontentbody { padding: 15px 8px; }
+.applycontentbody .button-group { margin: 0 auto; display: block; float: none; width: 60%; margin-top: 20px; }
+.applycontentbody .button-group button { padding: 8px 20px; font-size: 15px; }
+.applycontentbody .button-group .close-button { padding: 8px 20px; font-size: 15px; }
+.embedfilecontent .applycontentbody .button-group { display: block; float: none; margin: 20px auto 0; width: 77%; }
+.lessonsearch-content { margin: 11px 30px; }
+.lesson-searchform .search-field { height: 33px; padding: 0px 8px; }
+.lesson-searchform .main-buton { padding: 6px 14px; font-size: 15px; margin-right: 0px; display: inline-block; }
+.lessonsearch-contenttable .tHeader th { -moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-right-colors: none; -moz-border-top-colors: none; background-color: #0057c1; border-color: #0057c1 white #0057c1 #0057c1; border-image: none; border-style: solid; border-width: 1px; color: white; font-weight: normal; padding: 5px; text-align: center; }
+.lessonsearch-contenttable table { width: 100%; }
+.lessonsearch-contenttable { margin-top: 20px; }
+.lessonsearch-contenttable th.lesson-box { width: 46%; }
+.lessonsearch-contenttable .arrow-box { background-color: transparent; border: 0; width: 2%; }
+.lessonsearch-contenttable .arrow-box a { color: #000; font-size: 22px; cursor: pointer; }
+.lessonsearch-contenttable td { background-color: #ffffff; border-bottom: 1px solid #dbdfe8; border-left: 1px solid #dbdfe8; border-right: 1px solid #dbdfe8; padding: 5px; }
+.lessonsearch-contenttable .arrow-box a i { vertical-align: top; }
+.lesonsearch-dropdown { }
+.lessonsearch-contenttable .arrow-relative { position: relative; }
+.lessonsearch-contenttable .lesonsearch-dropdown { left: 27px; top: 5px; }
+.lesson-searchform { margin: 0 auto; width: 96%; }
+
+
+/*2-6*/
+.copy-header { background-color: #dbdfe8; color: #0057c1; font-size: 12pt; margin: 13px 0; padding: 5px; text-align: center; width: 100%; }
+.copy-contentheader { background-color: #003b81; color: white; font-size: 12pt; margin-bottom: 20px; padding: 3px; text-align: center; }
+.copy-content { margin: 0 auto; width: 98%; }
+.copy-textcontent p { color: #58595b; margin: 0 0 8px; }
+.copy-textcontent { margin: 20px 0; }
+.copy-content .copy-inputs { height: 31px; width: 110px; }
+.date-rangetext { display: inline-block; font-weight: bold; margin: 0 6px; padding-top: 6px; vertical-align: top; }
+.copy-content .language-dropdown { background-color: #dbdfe8; width: 157px; }
+.copy-content .list-contentbutton .dropdown-menu .unitdropbuton { background-color: #fff; }
+.copy-content .list-contentbutton .dropdown-menu .unitdropbuton:hover { color: #0057c1; }
+.copy-textcontent-left { width: 40%; float: left; }
+.copy-textcontent .datepicker { background: transparent url("./icon.png") no-repeat scroll right center / contain; vertical-align: top; }
+.copy-textcontent-right .btn { padding: 8px 20px; }
+.copy-contentbottom { background-color: #dbdfe8; color: #0057c1; display: inline-block; height: auto; padding: 5px; width: 100%; float: left; }
+.copy-botomtext { color: #0057c1; float: left; font-weight: bold; padding-top: 6px; }
+.copy-botombuttons { float: right; }
+.copy-botombuttons .btn-primary { padding: 4px; }
+.copytablemain-button .copyshow-button { display: none; }
+.copyshowmain .copyhide-button { display: none; }
+.copyshowmain .copyshow-button { display: block; }
+.copy-botombuttons .copytablemain-button { width: 96px; }
+.standardtable-inner input[type="checkbox"] { margin: 0 6px 0px 0px; }
+.copy-classtable table { width: 100%; }
+.copy-classtable table td { border: 1px solid #dbdfe8; padding: 5px; text-align: center; cursor: move; }
+.copy-classtable table td.copy-descriptionfield { text-align: left; width: 71%; }
+.copy-classtable tr:hover { border-left: 4px solid #0057c1; }
+.copy-classtable { float: left; width: 100%; height: 354px; overflow-y: scroll; }
+.copy-content .showlessonbutton { padding: 4px 4px; }
+.addteachercontent .modal-content { background-color: #dbdfe8; }
+.addteachercontent .addteacher-form .addteacherfield { width: 60%; }
+.addteacher-form label { min-width: 15%; text-align: right; }
+.addteacher-form .save-teacherdata { padding: 8px 24px; }
+.addteacher-form .col-md-12 { padding: 0px; }
+.addteacher-form .close-button { padding: 8px 24px; font-size: 14px; }
+.addschoolyear .modal-dialog { margin: 13% auto; width: 806px; }
+.addschoolyear .modal-content { background-color: #dbdfe8; }
+.addschoolyear .schoolyear-form .schoolform-field { width: 400px; margin-right: 6px; }
+.addschoolyear .schoolyear-form label { min-width: 10%; text-align: right; }
+.addschoolyear .schoolyear-form label.classeslabel { width: 100%; text-align: left; }
+.schoolyear-form .school-continuebutton { padding: 8px 20px; font-size: 14px; }
+.schoolyear-form .close-button { padding: 8px 20px; font-size: 14px; }
+.schoolschedulesection { background-color: #dbdfe8; border: 5px solid #003b81; border-radius: 5px; left: 0; right: 0; width: 800px; position: absolute; display: none; top: 20%; margin: 0 auto; }
+.school-schduleheader { background-color: #003b81; color: white; margin-bottom: 20px; padding: 0px 0px 0px 13px; width: 100%; float: left; }
+.actionschedule-button button { padding: 8px 15px; font-size: 15px; margin-right: 13px; }
+.actionschedule-button { position: relative; }
+.school-schduleheader .actionschedule-dropdown { width: 110px; left: auto; right: 0; padding: 0px; margin: 10px 0px; }
+.school-schduleheader .actionschedule-dropdown:before { background-image: url(../images/picklisttop.png); background-repeat: no-repeat; top: -10px; content: ""; left: 73%; height: inherit; right: 0; z-index: 1; position: absolute; background-size: cover; width: 17px; height: 10px; }
+.school-schduleheader .actionschedule-dropdown li { padding: 6px; font-size: 14px; width: 100%; }
+.school-schduleheader .actionschedule-dropdown li:hover, .school-schduleheader .actionschedule-dropdown li a:hover { background-color: #dbdfe8; }
+.school-schduleheader h2 { font-size: 20px; margin-top: 16px; }
+.actionschedule-button .cancel-schedule { color: #fff; font-size: 26px; display: inline-block; vertical-align: middle; margin-right: 8px; border: none; background: none; }
+.school-scheduleform .form-group label { width: 20%; text-align: right; }
+.school-scheduleform .form-group .input-fields { height: 24px; width: 208px; }
+.school-schedulebody { padding: 0px 24px; }
+.schedule-disablefield { width: 60px; }
+.school-scheduleform .day-namebutton { padding: 0px 4px; margin-left: 8px; }
+.school-scheduleform .form-group label.day-label { width: auto; margin: 0px 8px 0px 17px; }
+.day-checkboxes input[type=checkbox] { vertical-align: top; }
+.school-scheduleform .form-group label.dayname-checks { width: auto; margin-right: 6px; }
+.switchyear-table { width: 80%; }
+.switchyear-table th.switch-yearfirst { width: 60%; }
+.switchyear-table th { background-color: #0057c1; color: #fff; text-align: center; border-right: 1px solid #fff; font-weight: normal; padding: 4px 0px; }
+.switchyear-table td { text-align: left; border-right: 1px solid #ddd; font-weight: normal; padding: 4px 15px; cursor: pointer; }
+.switchyear-table .switchyearbodyrow.switchrowbackground { background-color: #dbdfe8; }
+.switchyear-table .switchyearbodyrow { background-color: #fff; }
+.switchyear-buttons button { padding: 6px 20px; font-size: 15px; margin: 0px; }
+.movemodalcontent .modal-body .button-group.switchyear-buttons { margin-top: 20px; }
+.alertmessagecontainer { background-color: #ffc7ce; height: 55px; vertical-align: middle; width: 100%; }
+.alertmessagecontainer .alertImage { padding: 10px; float: left; }
+.alertmessagecontainer .alertMessage { color: #cc0717; font-size: 14px; font-weight: bold; padding: 16px 10px 10px 7px; vertical-align: middle; float: left; }
+.addunitmodal .modal-body { position: relative; padding: 0; }
+.addunitmodal .editlessonform { padding: 15px; }
+.unitlesson-button { float: right; padding: 4px 11px; }
+.addunitmodal .standard-section { margin-top: 20px; }
+.addunitmodal .standard-section label { font-weight: bold; width: 14%; }
+.assesment-button { background-color: #0057c1; border: 1px solid #0057c1; border-radius: 3px; box-shadow: -1px 1px 0 0 #54a3f7 inset; color: #ffffff; cursor: pointer; padding: 4px 4px 2px 4px; }
+/*events section style here*/
+.events-section .list-contentbutton { padding: 13px 31px; }
+.events-section .event-icon { margin-right: 8px; }
+.events-section .events-table p { text-align: center; }
+.event-tableinner { margin: 0px 28px; width: 96%; height: 400px; overflow-y: scroll; }
+.events-section .events-table { margin-top: 11px; width: 100%; }
+.events-section .events-table table tr:hover { background-color: #dbdfe8; cursor: pointer; }
+.events-section .events-table table { width: 100%; }
+.events-section .events-table table td { border: 1px solid #ddd; padding: 8px; }
+.events-section .events-table table td.event-tablesecondfield { width: 93%; }
+/*grades section style here*/
+.list-contentbutton .dropdown-menu.gradedropdown .unitdropbuton { background-color: #fff; }
+.list-contentbutton .dropdown-menu.gradedropdown .unitdropbuton:hover { background-color: #0057c1; }
+.gradebutons .show-standard { display: none; }
+.gradebutons .standardmainbuttons { width: 133px; }
+.standardshowbutton .hide-standard { display: none; }
+.standardshowbutton .show-standard { display: block; }
+.modal-header.addperiodheder { text-align: left; border-bottom: none; }
+.addteachercontent .addperiodform .addteacherfield { width: 419px; margin-left: 8px; }
+.assesment-content .form-group label { width: 31%; }
+.assesment-content .titlefield label { width: 9.5%; }
+.assesment-content .standard-section { margin-top: 20px; }
+.assesment-content .standard-section label { font-weight: bold; font-size: 15px; width: auto; margin-right: 7px; }
+.addteacher-form.performanceform label { width: 24%; margin-right: 4px; }
+.performanceform select { width: 257px; }
+.addteacher-form.performanceform .reporttyperadio label { width: 100%; text-align: left; }
+.addteacher-form.performanceform .performancegradegroup label { width: 100%; text-align: left; }
+.performancegradegroup label input[type=checkbox] { margin-right: 4px; }
+.events-section div.studentGradesMsg { float: left; margin-left: 30px; width: 97%; }
+.addstudent-form .addstudent-field { width: 175px; }
+.addstudent-form label { width: 25%; text-align: right; }
+.addstudent-form .generate-button { padding: 2px 4px; }
+.events-section .student-added .tstudent { background-color: red; }
+.list-contentbutton.gradebutons { float: left; }
+.events-section .student-added { float: left; margin-top: 14px; }
+.student-addedbutton { color: #ffffff; font-size: 8pt; font-weight: bold; height: 15px; margin-right: 2px; text-align: center; width: 15px; padding: 2.5px 5px; }
+.events-section .student-added .sstudent { background-color: blue; }
+.studentlevel-button button.btn { width: 159px; text-align: center; }
+.studentlevel-button ul.dropdown-menu.language-dropdown { width: 60px; left: 0; right: 0px; padding: 11px 20px; text-align: center; }
+.studentlevel-button a.language-dropbutons.unitdropbuton { width: auto; }
+.studentlevel-button .list-contentbutton .caret { border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px dashed; vertical-align: middle; margin-left: 10px; }
+/*Import students style here*/
+.events-section .importstudentcontent .modal-content { background-color: #dbdfe8; border: 5px solid #003b81; }
+.events-section .importstudentcontent .importstudent-form label { float: left; margin: 0px 8px 0px 6px; }
+.events-section .importstudent-form { margin-top: 11px; float: left; }
+.events-section .importstudent-form button { padding: 8px 15px; }
+.events-section .assignstudentscontent button { padding: 8px 15px; }
+.events-section .studentsin-class { border: 5px solid #0057c1; background-color: #fff; border-radius: 5px; }
+.events-section .studentsclass-header { background-color: #0057c1; color: white; font-size: 12pt; margin-bottom: 20px; padding: 3px; text-align: center; }
+.events-section .assign-studentlistssection { float: left; width: 100%; padding: 20px 20px 0px 20px; }
+.events-section .studentsclass-body { height: 516px; }
+.events-section .studentlevel-button { margin-right: 0px; }
+.sharingoptions-section { background-color: #dbdfe8; border: 5px solid #003b81; border-radius: 5px; margin-left: auto; margin-right: auto; width: 800px; }
+.sharingoptions-header { background-color: #003b81; color: white; font-size: 18pt; padding: 3px 15px 8px 15px; width: 100%; display: inline-block; }
+.sharingoptions-header .save-button { padding: 4px 15px; }
+.sharingoptions-header .closebutton { color: #fff; cursor: pointer; padding-top: 2px; float: right; }
+.sharingoptions-body { padding: 7px 15px; }
+.sharingoptions-body p { font-style: italic; }
+.sharingoptions-form .form-group { margin: 11px 15px; }
+.sharingoptions-form input[type=checkbox], input[type=radio] { vertical-align: top; }
+.sharingoptions-form .sharingoptionscheck-labels { margin-right: 8px; }
+.sharingoptions-body p.link-plans { margin-top: 8px; font-style: normal; }
+.sharingoption-buttons { margin-left: 15px; color: #000; }
+.actionschedule-button .btn-primary.active, .btn-primary:active, .open > .dropdown-toggle.btn-primary { background-color: #0057c1; }
+.schoolyearsection { display: block; position: relative; width: 806px; }
+.addschoolyearinner .modal-dialog { margin: 12.6% auto; width: 806px; }
+.loader-content {    background-color: #ffffff;    border: 2px solid #0057c1;    border-radius: 3px;    color: #0057c1;    font-size: 20pt;    height: 55px;    position: absolute;    text-align: center;    width: 200px;    z-index: 999999999;    top: 50%;    left: 40%;    padding: 3px 0px;    line-height: 43px;	}
+.loader-content span.loading-text {    padding-right: 6px;}
+.attachOrEmbedBody span {    width: 100%;    float: left;    padding-bottom: 10px;}
+div#main-loader {  background-color: rgba(0, 0, 0, 0.5);  bottom: 0;  left: 0;  position: fixed;  right: 0;  top: 0;  z-index:999999999;}
+.copy-incrementfunction input[type="button"]:first-child {    border-radius: 4px 0 0 4px;}
+.copy-incrementfunction input[type="button"]:last-child {    border-radius: 0 4px 4px 0;}
+.calendar-view .calendar-data li .cell-main-data li {  max-height: 0;    min-width: initial;    min-height: 34px;    display: inline-block;    width: 100%;    text-align: left;    border: 0;    padding: 7px 7px;}
+.calendar-view .calendar-data li .cell-main-data .mainClass {    position: relative;}
+.calendar-view .calendar-data li .cell-main-data.overflow-v .mainClass {    position: initial;}
+.calendar-view .calendar-data li .cell-main-data {     max-height: 130px;    overflow-y: auto;    text-align: left;    padding: 5px;    display: inline-block;    width: 100%;}
+.calendar-view .calendar-data li .cell-main-data .week-icons {    position: absolute;    top:0px;    right: 6px;}
+.calendar-view .calendar-data li .cell-main-data .week-icons li.dropdown {    padding: 2px 0px;    line-height: 25px;    width: initial;    min-height: 23px;}
+.calendar-view.month-view .calendar-data li .mainClass .appendText {    width: 100%;    white-space: initial;    word-wrap: break-word;}
+.calendar-view .calendar-data li .cell-main-data .languagearts {    z-index: 0;}
+.cell-main-data .mainClass { margin-bottom: 5px; border: 1px solid; border-radius: 7px;}
+.daycontent .mainClass { margin-bottom: 5px; border: 1px solid; border-radius: 7px;}
+ .language-dropbutons {
+    border-radius: 4px;
+    color: #fff;
+    margin: 0 auto 11px;
+    padding: 4px 0 6px 11px;
+    text-align: left;
+    width: 145px;
+}
+
+.assessement-table
+{
+	display: block;
+	float: left;
+	margin: 20px auto;
+	width: 95%;
+	margin-left: 35px;
+}
+
+.assessment-section .list-contentbutton { margin-bottom: 20px; }
+
+.editmodalcontent .modal-dialog { margin-top: 260px; }
+
+.editscore-body p { margin-bottom: 11px; }
+
+.editscore-body
+{
+	width: 100%;
+	display: inline-block;
+}
+
+.added-assessmentbox { margin: 0 0 0px; }
+
+.assignment-table .tHeader th
+{
+	background-color: #0057c1;
+	border-right: 1px solid #fff;
+	color: white;
+	font-weight: normal;
+	padding: 5px;
+	text-align: center;
+}
+
+.assignment-table .tHeader
+{
+	background-color: #0057c1;
+	color: #fff;
+}
+
+.closeicon-assessment
+{
+	font-size: 22px;
+	color: #fff;
+	margin-left: 6px;
+}
+
+.assignment-table { margin-bottom: 15px; }
+
+.editmodalcontent form.editscore-form { margin-bottom: 0px; }
+
+.addassessmentform .form-group label { width: 33%; }
+
+.addassessmentform .titlefield label { width: 10%; }
+
+.assignment-table tbody td { padding: 2px 2px 0; }
+
+.assignment-table tbody td:first-child { padding-left: 0; }
+
+.assignment-table .tHeader th:nth-child(2) { border: 0px; }
+
+.assignment-table i:hover
+{
+	background-color: red;
+	border-radius: 4px;
+	color: #fff;
+	padding: 1px;
+}
+
+.assessement-table tbody tr:hover td { background-color: #dbdfe8; }
+.teacher-dash-action.pt-5.list-contentbutton.gradebutons {
+    padding: 0px;
+}
+.teacher-dash-action .language-dropdown {
+    
+    width: auto;
+}
+.teacher-dash-action.list-contentbutton .dropdown-menu .language-dropbutons {
+   
+    padding: 4px 11px 6px 11px;
+    
+    width: auto;
+    
+}
+.copy-contentleft input {
+    float: left;
+}
+.copy-contentleft span.date-rangetext {
+    float: left;
+}
+.copy-contentleft .showlessonbutton{
+	margin-left:8px;
+}
+
+.formatcolors-dropdown {
+  background-color: #dbdfe8;
+  border: 2px solid #0057c1;
+  display: none;
+  height: auto;
+  padding: 6px 10px;
+  position: absolute;
+  top: 26px;
+  width: 435px;
+  z-index: 100;
+}
+.formatcolors-dropdownlesson{
+	 background-color: #dbdfe8;
+  border: 2px solid #0057c1;
+  display: none;
+  height: auto;
+  padding: 6px 10px;
+  position: absolute;
+  top: 26px;
+  width: 435px;
+  z-index: 100;
+}
+.sortlistlessonsetting .formatcolors-dropdown tbody:hover {
+  background: none;
+}
+.btn-formattoggle {
+  float: left;
+  position: relative;
+}
+.format-displayfonts{
+	margin-right:2px;
+}
+.formatcolors-dropdowntable  .dButton {
+  border: 1px solid #91765d;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 10pt;
+  margin-right: -5px;
+  padding: 4px 8px 7px;
+  text-align: center;
+}
+.formatcolors-dropdowntable td {
+  padding: 0 2px 4px;
+}
+.formatcolors-dropdowntable   .bbutton{
+	background-color: rgb(211, 215, 207);
+	 font-weight: bold;
+}
+ .formatcolors-dropdowntable  .ibutton{
+	background-color: rgb(238, 238, 238);
+    font-style: italic;
+}
+ .formatcolors-dropdowntable  .ubutton{
+	 background-color: rgb(238, 238, 238);
+    margin: 0;
+    text-decoration: underline;
+}
+.formatcolors-dropdowntable select {
+  height: 33px;
+}
+.sortlistlessonsetting .formatcolors-dropdown table td {
+  padding: 0 2px 4px;
+}
+.formatcolorlabel-heading {
+  float: left;
+  font-weight: bold;
+  margin-bottom: 0;
+  text-align: center;
+  width: 33px;
+}
+.displaysetting-section {
+  display: inline-block;
+}
+.editlessonform .form-group .formatcolors-dropdown select {
+  height: 33px;
+  width: auto;
+}
+.editlessonform .form-group .formatcolors-dropdown input {
+  height: 33px;
+}
+.formateventdropdown-main {
+  right: 20px;
+  top: 31px;
+}
+.teachertabcontent {
+  background-color: #dbdfe8;
+  border: 5px solid #0057c1;
+  display: inline-block;
+  height: auto;
+  padding: 8px 15px;
+  width: 100%;
+}
+.editeventtabs .tab-content {
+  padding: 0 2px;
+}
+.teachertab-form .form-group {
+  float: left;
+  width: 100%;
+}
+.teachertab-form .form-group > label {
+  color: #58595b;
+  float: left;
+  font-weight: 700;
+  margin-right: 13px;
+  text-align: right;
+  width: 20%;
+  line-height: 20px;
+}
+.movemodalcontent .teachertab-form > p {
+  padding-bottom: 15px;
+}
+.teachertab-form .form-group input {
+  color: #000;
 }

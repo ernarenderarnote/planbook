@@ -50,8 +50,19 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::get('/showCalendar', ['as' => 'showCalendar', 'uses' => 'DashboardController@showCalendar']);
 			Route::get('/weekCalendar', ['as' => 'week', 'uses' => 'DashboardController@weekView']);
             Route::get('/dayCalendar', ['as' => 'day', 'uses' => 'DashboardController@dayView']);
-        });
-
+			Route::post('/getClasses', ['as' => 'class', 'uses' => 'ClassesController@getClass']);
+			Route::Post('/addlessons', ['as' => 'addlesson', 'uses' => 'LessonController@create']);
+			Route::Post('/attachFiles', ['as' => 'attachFiles', 'uses' => 'MyFilesController@myFileUpload']);
+			Route::Post('/movelessons', ['as' => 'movelessons', 'uses' => 'LessonController@movelessons']);
+			Route::Post('/copylessons', ['as' => 'copylessons', 'uses' => 'LessonController@copylessons']);
+			Route::Post('/bumplessons', ['as' => 'bumplessons', 'uses' => 'LessonController@bumplessons']);
+			Route::Post('/backlessons', [ 'as' => 'backlessons', 'uses' => 'LessonController@backlessons']);
+			Route::Post('/extendlessons', [ 'as' => 'extendlessons', 'uses' => 'LessonController@extendlessons']);
+			Route::Post('/deletelessons', [ 'as' => 'deletelessons', 'uses' => "LessonController@deletelessons"]);
+			Route::get('/authUploads', [ 'as' => 'authUploads', 'uses' => "MyFilesController@authUploads"]);
+			
+		});
+		
 
         /* School Year Routes*/
 
@@ -76,6 +87,8 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::match(['post'], '/add', [ 'as' => 'postAddClass', 'uses' => "ClassesController@postAddClass"]);
             Route::match(['get'], '/edit/{class_id}', [ 'as' => 'edit', "uses" => "ClassesController@getEditClass"]);
             Route::match(['post'], '/edit/{class_id}', [ 'as' => 'edit', "uses" => "ClassesController@postEditClass"]);
+			Route::match(['get'], '/import', [ 'as' => 'getImportClass', 'uses' => "ClassesController@getImportClass"]);
+            Route::match(['get'], '/importcalendar', [ 'as' => 'importCalendar', 'uses' => "ClassesController@importCalendar"]);
 
         });
 
@@ -100,8 +113,7 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
 
             Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "MyFilesController@index"]);
             Route::match(['post'], '/myFileUpload', [ 'as' => 'myFileUpload', 'uses' => "MyFilesController@myFileUpload"]);
-            
-
+            Route::match(['post'], '/myFileDownload', [ 'as' => 'myFileDownload', 'uses' => "MyFilesController@fileDownload"]);        
         });
 
         /* teacher Assignments Routes*/
@@ -114,8 +126,11 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::match(['post'], '/add', [ 'as' => 'postAddAssignment', 'uses' => "AssignmentsController@postAddAssignment"]);
             Route::match(['get'], '/edit/{assignment_id}', [ 'as' => 'getEditAssignment', "uses" => "AssignmentsController@getEditAssignment"]);
             Route::match(['post'], '/edit/{assignment_id}', [ 'as' => 'postEditAssignment', "uses" => "AssignmentsController@postEditAssignment"]);
-            
-
+            Route::match(['get'], '/score/{assessment_id}', [ 'as' => 'getScoreAssignment', 'uses' => "AssignmentsController@getScoreAssignment"]);
+			Route::match(['post'], '/scoreAdd', [ 'as' => 'addScoreAssignment', 'uses' => "AssignmentsController@addScoreAssignment"]);
+			Route::match(['get'], '/score', [ 'as' => 'getScoreAssignmentAll', 'uses' => "AssignmentsController@getScoreAssignmentAll"]);
+			route::match(['get'], '/authUploads', [ 'as' => 'authUploads', 'uses' => "AssignmentsController@authUploads"]);
+			route::match(['get'], '/seletedAssignment', [ 'as' => 'seletedAssignment', 'uses' => "AssignmentsController@seletedAssignment"]);
         });
 
         /* teacher Assessment Routes*/
@@ -128,10 +143,28 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::match(['post'], '/add', [ 'as' => 'postAddAssignment', 'uses' => "AssessmentsController@postAddAssessment"]);
             Route::match(['get'], '/edit/{assessment_id}', [ 'as' => 'getEditAssignment', "uses" => "AssessmentsController@getEditAssessment"]);
             Route::match(['post'], '/edit/{assessment_id}', [ 'as' => 'postEditAssignment', "uses" => "AssessmentsController@postEditAssessment"]);
-            
+            Route::match(['get'], '/score/{assessment_id}', [ 'as' => 'getScoreAssessment', 'uses' => "AssessmentsController@getScoreAssessment"]);
+			Route::match(['post'], '/scoreAdd', [ 'as' => 'getScoreAssessment', 'uses' => "AssessmentsController@addScoreAssessment"]);
+			Route::match(['get'], '/score', [ 'as' => 'getScoreAssessmentAll', 'uses' => "AssessmentsController@getScoreAssessmentAll"]);
+            route::match(['get'], '/authUploads', [ 'as' => 'authUploads', 'uses' => "AssessmentsController@authUploads"]);
+			route::match(['get'], '/seletedAssessment', [ 'as' => 'seletedAssessment', 'uses' => "AssessmentsController@seletedAssessment"]);
+			
+        });
+		/* teacher Standards Routes*/
 
+        Route::group([ 'prefix' => "standards", 'as' => 'standards.' ], function()
+        {
+            Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "StandardsController@index"]);
+			Route::match(['get','post'], '/explore', [ 'as' => 'explore', 'uses' => "StandardsController@explore"]);
         });
 
+		/* teacher Events Routes*/
+
+        Route::group([ 'prefix' => "events", 'as' => 'events.' ], function()
+        {
+            Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "EventsController@index"]);
+            
+        });
 
     });
   

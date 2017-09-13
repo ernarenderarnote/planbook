@@ -7,7 +7,6 @@
 
 <!-- time picker js -->
 <script src="{{ asset('/plugins/jonthornton-timepicker/jquery.timepicker.min.js') }}"></script>
-
 @stack('before-main-js')
 
 @stack('js')

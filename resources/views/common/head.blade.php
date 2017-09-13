@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{{ asset('/plugins/jonthornton-timepicker/jquery.timepicker.css') }}">
     
     @stack('before-main-css')
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="/css/custom-style.css" type="text/css" />
     <link rel="stylesheet" href="/css/responsive.css" type="text/css" />
     @stack('style')

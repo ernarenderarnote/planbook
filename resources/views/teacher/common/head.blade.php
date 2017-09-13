@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{{ asset('/plugins/datepicker/datepicker3.css') }}">
     <!-- time picker css jonthornton-timepicker -->
     <link rel="stylesheet" href="{{ asset('/plugins/jonthornton-timepicker/jquery.timepicker.css') }}">
-    
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
     
     @stack('before-main-css')
     <link rel="stylesheet" href="/css/custom-style.css" type="text/css" />

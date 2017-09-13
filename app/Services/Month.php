@@ -285,4 +285,10 @@ class Month
             '</script>';
     }
 	
+	public function getLessons($classID,$date){
+		$userID = Auth::id();
+		$lessons = ClassLesson::where('user_id',$userID)->where('class_id',$classID)->where('lesson_date',$date)->get();
+		return $lessons;
+	}
+	
 }

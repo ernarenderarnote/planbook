@@ -62,24 +62,4 @@ $classes = $monthView->getClasses();
    
 </script>
 @endpush
-<script type="text/javascript">
-	$(document).ready(function(){
-		$(".downarrowtoggle").click(function(){
-			$(".lesondropdown").hide();
-			$(this).next(".lesondropdown").show();
-			
-		});
-		
-		$('body').click(function(e) {
-		 if($(e.target).is('.downarrowtoggle'))	
-			 return false;
-			if (!$(e.target).closest('.lesondropdown').length){
-				$(".lesondropdown").hide();
-			}
-		});
-		
-		$(".copydropcrossicons").click(function(){
-			 $(this).parents(".lesondropdown").hide();
-		});
-	});		 
-	</script>
+<script src="{{ asset('/js/common_action.js') }}"></script>

@@ -54,9 +54,7 @@ class MyFilesController extends Controller
 
         $this->data['myFiles'] = MyFile::where('user_id',Auth::user()->id)->get();
 
-        
-       
-        return view('teacher.myfiles.index',$this->data);
+		return view('teacher.myfiles.index',$this->data);
     }
 
 
@@ -82,6 +80,7 @@ class MyFilesController extends Controller
 
         $MyFile->user_id = Auth::user()->id;
         $MyFile->file_name = $file;
+		$MyFile->uploadSize = $request->uploadSize;
         $MyFile->file_changeable_name = $filename;
                
                 
@@ -115,15 +114,17 @@ class MyFilesController extends Controller
     }
 
     // download file_id file
-    public function fileDownload($file_id){
-
-        $MyFile = MyFile::find($file_id);
-
-        
+    public function fileDownload(Request $request){
+		$file_id = $request->fileID;
+        $MyFile = MyFile::find($file_id); 
         $pathToFile= public_path().'/uploads/myfiles/'.$MyFile->file_name;
-        return response()->download($pathToFile);           
+		//return response()->download($pathToFile);   
+		return $pathToFile;
     }
-
+	public function authUploads(Request $request){
+		$this->data['myFiles'] = MyFile::where('user_id',Auth::user()->id)->get();
+		return view('teacher.dashboard.lesson.month.ajaxResponse',$this->data);
+    }
 
 
 

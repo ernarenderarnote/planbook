@@ -21,6 +21,7 @@
 		  display: block !important;
 	   }
 	</style>
+	<meta name="csrf-token" content="{{ csrf_token() }}" />
 	<div class="listtab-content tab-content" id="ActiveCalendar">
 		<!--Week Calendar View -->
 		<div class="weekcontent tab-pane active in" id="week">
@@ -61,107 +62,175 @@
 						$daysName = date("Y-m-d", $ts); 
 						$AllDays = date("l Y-m-d",strtotime("+$i days"));
 						$filtered = $classes->where('start_date', '<=' , $daysName)->where('end_date', '>=', $daysName)->where('user_id', '=' , Auth::user()->id )->all();
-						@endphp
-					
-						@if(!empty($filtered))    					
+						@endphp				
 						<li class="weektab-content">
-							@foreach($filtered as $filters)
+							@forelse($filtered as $filters)
 							   
 								  @php
 									 $url = empty($filter->classlesson);
-									 
-									$weekDay = date("l", $ts);
-									 
+									 $weekDay = date("l", $ts);
+									 $dateToPass = date("l Y-m-d",$ts);
+									 $dbDate = date("Y-m-d",$ts);
 									 $hasClass = !collect(json_decode($filters->class_schedule))
 									->where("text", $weekDay)
 									->where("is_class" , "1")
 									->isEmpty();
+									$classID = $filters['id'];
+									$sqlDate = date('Y-m-d', strtotime($daysName));
+									$lessonsData = $monthView->getLessons($classID,$sqlDate);
 								@endphp 
 								@if($hasClass)
-							<div class="languagearts week-tabcontentinner" style="background-color:{{ $filters['class_color'] }}; color:#fff; border-color: {{ $filters['class_color'] }};">
-							  {{ $filters['class_name'] }}
-								<span class="week-icons">
-									<ul>
-										<li class="dropdown"><img src="/images/move-icon.png" class="move-icon" > </li>
-										<li class="dropdown"> <img src="/images/downarrow2.png" class="downarrow-icon downarrowtoggle">
-											<div class="lesondropdown">
-												<div class="lessondropdown-header"> Lesson Actions 
-													<span class="cross-icon copydropcrossicons"> 
-														<i class="fa fa-close" aria-hidden="true"></i>
-													</span>
+								
+							<div class="mainClass" style="border-color: {{ $filters['class_color'] }}">			
+								<div class="languagearts week-tabcontentinner" style="background-color:{{ $filters['class_color'] }}; color:#fff; border-color: {{ $filters['class_color'] }};">
+								@forelse($lessonsData as $lData)		
+								 {!! $filters['class_name'] !!} {!!$lData['lesson_start_time']!!}  {!!$lData['lesson_end_time']!!}
+								  @empty 
+								  {!! $filters['class_name'] !!}
+								  @endforelse
+									<span class="week-icons">
+										<ul>
+											<li class="dropdown"><img src="/images/move-icon.png" class="move-icon" > </li>
+											<li class="dropdown"> <img src="/images/downarrow2.png" class="downarrow-icon downarrowtoggle">
+												<div class="lesondropdown">
+													<div class="lessondropdown-header"> Lesson Actions 
+														<span class="cross-icon copydropcrossicons"> 
+															<i class="fa fa-close" aria-hidden="true"></i>
+														</span>
+													</div>
+													<div class="lesondropdown-body lessondrop-bodymain">
+														<ul>
+															<li class="editBtn" id="editBtn" targetID = "{{ $filters['id'] }}" targetDay = "{{ $weekDay }}"  targetDate="{{ $dateToPass  }}"> <i class="fa fa-pencil" aria-hidden="true"></i> Edit Lesson</li>
+															<li data-toggle="modal" id="moveBtn" targetID = "{{ $filters['id'] }}" targetClass = "{{ $filters['class_name'] }}"  targetDate="{{ $dateToPass  }}"> <i class="fa fa-arrows" aria-hidden="true"></i> Move Lesson</li>
+															<li class="copy-field"> <i class="fa fa-copy" aria-hidden="true"></i> Copy
+																<div class="dropdown copy-dropdown">
+																	<button class="btn btn-copy dropdown-toggle" type="button" data-toggle="dropdown"> All
+																		<div class="caret-button"><span class="caret"></span></div>
+																	</button>
+																	<ul class="dropdown-menu copydropdown-inner">
+																	   <li>All Selection</li>
+																	   <li>
+																		  <input type="checkbox">
+																		  Lesson </li>
+																	   <li>
+																		  <input type="checkbox">
+																		  Homework </li>
+																	   <li>
+																		  <input type="checkbox">
+																		  Notes </li>
+																	   <li>
+																		  <input type="checkbox">
+																		  Standards </li>
+																	   <li>
+																		  <input type="checkbox">
+																		  Attachments </li>
+																	   <li>Done</li>
+																	</ul>
+																</div>
+															</li>
+															<li data-toggle="modal" data-target="#pastemodal"> <i class="fa fa-paste" aria-hidden="true"></i> Paste</li>
+															<li> 
+																<i class="fa fa-arrow-right" aria-hidden="true"></i> 
+																<span class="weekBump" token="{{ csrf_token() }}" targetID = "{{ $filters['id'] }}" targetDate="{{ $dbDate  }}">Bump</span>
+																<div class="copy-incrementfunction">
+																	<input type="button" class="decrementBtn" value="-" >
+																	<input type="text" value="1" class="copydropdown-value">
+																	<input type="button" class="incrementBtn" value="+" >
+																</div>
+															</li>
+															<li>
+																<i class="fa fa-arrow-left" aria-hidden="true"></i> 
+																<span class="weekBack" token="{{ csrf_token() }}" targetID = "{{ $filters['id'] }}" targetDate="{{ $dbDate  }}">Back</span>
+																<div class="copy-incrementfunction">
+																	<input type="button" class="decrementBtn" value="-" >
+																	<input type="text" value="1" class="copydropdown-value">
+																	<input type="button" class="incrementBtn" value="+" >
+																</div>
+															</li>
+															<li> 
+																<i class="fa fa-forward" aria-hidden="true"></i>
+																<span class="weekExtend" token="{{ csrf_token() }}" targetID = "{{ $filters['id'] }}" targetDate="{{ $dbDate  }}">Extend Lesson</span>
+																<div class="copy-incrementfunction">
+																	<input type="button" class="decrementBtn" value="-" >
+																	<input type="text" value="1" class="copydropdown-value">
+																	<input type="button" class="incrementBtn" value="+" >
+																</div>
+															</li>
+															<li>
+																<i class="fa fa-forward" aria-hidden="true"></i>
+																<span class="weekStandardsExtend" token="{{ csrf_token() }}" targetID = "{{ $filters['id'] }}" targetDate="{{ $dbDate  }}"> Extend Standards</span>
+																<div class="copy-incrementfunction">
+																	<input type="button" class="decrementBtn" value="-" >
+																	<input type="text" value="1" class="copydropdown-value">
+																	<input type="button" class="incrementBtn" value="+" >
+																</div>
+															</li>
+														  <li class="deleteLessons" data-toggle="modal" token="{{ csrf_token() }}" targetID = "{{ $filters['id'] }}" targetDate="{{ $dbDate  }}" ><i class="fa fa fa-trash" aria-hidden="true"></i> Delete Lessons</li>
+														  <li data-toggle="modal" token="{{ csrf_token() }}" data-target="#movemodal"><i class="fa fa-calendar" aria-hidden="true"></i> No Class Day</li>
+														</ul>
+													</div>
 												</div>
-												<div class="lesondropdown-body lessondrop-bodymain">
-													<ul>
-														<li data-toggle="modal" data-target="#editmodal" > <i class="fa fa-pencil" aria-hidden="true"></i> Edit Lesson</li>
-														<li data-toggle="modal" data-target="#movemodal"> <i class="fa fa-arrows" aria-hidden="true"></i> Move Lesson</li>
-														<li class="copy-field"> <i class="fa fa-copy" aria-hidden="true"></i> Copy
-															<div class="dropdown copy-dropdown">
-																<button class="btn btn-copy dropdown-toggle" type="button" data-toggle="dropdown"> All
-																	<div class="caret-button"><span class="caret"></span></div>
-																</button>
-																<ul class="dropdown-menu copydropdown-inner">
-																   <li>All Selection</li>
-																   <li>
-																	  <input type="checkbox">
-																	  Lesson </li>
-																   <li>
-																	  <input type="checkbox">
-																	  Homework </li>
-																   <li>
-																	  <input type="checkbox">
-																	  Notes </li>
-																   <li>
-																	  <input type="checkbox">
-																	  Standards </li>
-																   <li>
-																	  <input type="checkbox">
-																	  Attachments </li>
-																   <li>Done</li>
-																</ul>
-															</div>
-														</li>
-														<li data-toggle="modal" data-target="#pastemodal"> <i class="fa fa-paste" aria-hidden="true"></i> Paste</li>
-														<li> <i class="fa fa-arrow-right" aria-hidden="true"></i> Bump
-															<div class="copy-incrementfunction">
-																<input type="button"  onclick="incrementValue()" value="-" >
-																<input type="text" placeholder="2" class="copydropdown-value">
-																<input type="button"  onclick="decrementValue()" value="+" >
-															</div>
-														</li>
-														<li> <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
-															<div class="copy-incrementfunction">
-																<input type="button"  onclick="incrementValue()" value="-" >
-																<input type="text" placeholder="2" class="copydropdown-value">
-																<input type="button"  onclick="decrementValue()" value="+" >
-															</div>
-														</li>
-														<li> <i class="fa fa-forward" aria-hidden="true"></i> Extend Lesson
-															<div class="copy-incrementfunction">
-																<input type="button"  onclick="incrementValue()" value="-" >
-																<input type="text" placeholder="2" class="copydropdown-value">
-																<input type="button"  onclick="decrementValue()" value="+" >
-															</div>
-														</li>
-														<li> <i class="fa fa-forward" aria-hidden="true"></i> Extend Standards
-															<div class="copy-incrementfunction">
-																<input type="button"  onclick="incrementValue()" value="-" >
-																<input type="text" placeholder="2" class="copydropdown-value">
-																<input type="button"  onclick="decrementValue()" value="+" >
-															</div>
-														</li>
-													  <li data-toggle="modal" data-target="#deletemodal"> <i class="fa fa fa-trash" aria-hidden="true"></i> Delete Lessons</li>
-													  <li data-toggle="modal" data-target="#movemodal"> <i class="fa fa-calendar" aria-hidden="true"></i> No Class Day</li>
-													</ul>
-												</div>
-											</div>
-										</li>
-									</ul>
-								</span> 
-							</div>
-							 @endif
+											</li>
+										</ul>
+									</span> 
+								</div>
+								<div class="appendText">
+									@php
+									$classID = $filters['id'];
+									$sqlDate = date('Y-m-d', strtotime($daysName));
+									$lessonsData = $monthView->getLessons($classID,$sqlDate);
+									@endphp
+									
+									@forelse($lessonsData as $lData)
+										@php 
+											$groups = array();
+											$attach = $lData['attachments'];
+											$groups = explode(',',$attach);
+										@endphp
+										@if($lData['lesson_title'])
+										<div class="t-heading" style="border-bottom: 1px solid {{ $filters['class_color'] }}">{{ $lData['lesson_title'] }}</div>
+										@endif
+										@if($lData['unit'])
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}">{{ $lData['unit'] }}</div>
+										@endif	
+										@if($lData['lesson_text'])	
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}">{!! $lData['lesson_text'] !!}</div>
+										@endif
+										@if($lData['homework'])	
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Homework</h5>{!! $lData['homework'] !!}</div>
+										@endif
+										@if($lData['notes'])	
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Notes</h5>{!! $lData['notes'] !!}</div>
+										@endif
+										@if($groups)	
+										<div class="t-cel"><h4>Attachments:</h4>
+											@forelse($groups as $group)
+												@if($group)
+													<a target="_blank" href="../../uploads/myfiles/{{ $group }}">{{ $group }}</a>
+												@endif
+											@empty
+											
+											@endforelse
+										</div>
+										@endif
+										@empty
+										
+									
+									@endforelse
+									
+									
+								</div>
+							</div>	
+							@else
+							<div class="mainClass" style="border:1px solid purple;">		 
+								<div class="languagearts week-tabcontentinner" style="background-color:Purple; color:#fff; border-color:purple;">
+									No Class
+								</div>
+							</div>	
+							@endif
+							@empty	
+							@endforelse  
 							
-							 @endforeach  
-							 @endif
 						</li>
 					@endfor	  
 				</ul>   
@@ -173,25 +242,22 @@
 	<!-- Add class Popup Starts Here -->
 	<div class="d-render-popoup t-data-popup" id="dynamicRenderDiv" style="display:none;">
 	</div>
-
-<script type="text/javascript">
-$(document).ready(function(){
-	$(".downarrowtoggle").click(function(){
-		$(".lesondropdown").hide();
-		$(this).next(".lesondropdown").show();
-		
-    });
-	
-	$('body').click(function(e) {
-	 if($(e.target).is('.downarrowtoggle'))	
-		 return false;
-		if (!$(e.target).closest('.lesondropdown').length){
-			$(".lesondropdown").hide();
-		}
-	});
-	
-	$(".copydropcrossicons").click(function(){
-         $(this).parents(".lesondropdown").hide();
-    });
-});		 
-</script>
+	<div id="deletemodal" class="modal fade movemodalcontent" role="dialog" style="display: none;">
+		<div class="modal-dialog"> 
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Delete Lesson</h4>
+				</div>
+				<div class="modal-body">
+					<p>Would you like your lessons shifted back to accommodate for the deleted lesson?</p>
+					<div class="button-group">
+					  <button class="renew-button wshiftLessons" data-dismiss="modal"> Shift Lessons</button>
+					  <button class="renew-button wnshiftLessons" data-dismiss="modal"> Do not Shift Lessons</button>
+					  <button class="close-button" data-dismiss="modal"> Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<script src="{{ asset('/js/common_action.js') }}"></script>

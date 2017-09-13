@@ -8,8 +8,8 @@
   <div class="container-fluid">
     <div class="col-sm-12">
       <div class="teacher-dash-action pt-5">
-        <button type="button" class="btn btn-primary bg-white border-2 border-theme add-comments popup-custom-show" id="addClassButton" ><i class="fa fa-plus" aria-hidden="true"></i><span class="">Add Class</span></button>
-       <!--  <button type="button" class="btn btn-primary bg-white border-2 return-toplan "><span class="">Copy/Import Lessons</span></button> -->
+        <button type="button" class="btn btn-primary bg-white border-2 border-theme add-comments popup-custom-show" id="addClassButton" ><img src="/images/add2.png">&nbsp;&nbsp;<span class="">Add Class</span></button>
+        <a href="/teacher/classes/import" class="btn btn-primary bg-white border-2 return-toplan" id="addImportButton"><span class="">Copy/Import Lessons</span></a>
       </div>
     </div>
     <div class="table-responsive col-sm-12 pt-5">
@@ -154,8 +154,8 @@ $(document).ready(function() {
 
     });
 
-  });
-
+  }); 
+	
   //popup-custom  hide
   
   $("body").on('click','.d-popoup-close',function(){
