@@ -569,17 +569,23 @@
 						
 						$('#classId').val(classID);
 						$('.unitOptions').empty();
-						for (unit in response.unit) {
+						console.log(response);
+						/*for (unit in response.unit) {
 							unit = response.unit[unit];
 							if(unit != null){
-							$('.unitOptions').append("<option value=''>"+unit+"</option>");
+							$('.unitOptions').append("<option value>"+unit+"</option>");
 							}
 							
 							
-						}
-						if(!response.unit.length){
+						}*/
+						var result = response.unit;
+						$.each(result, function(k, v) {
+						    console.log(k +'is'+ v);
+						    $('.unitOptions').append("<option value='"+k+"'>"+v+"</option>");
+						});
+						/*if(!response.unit.length){
 							$('.unitOptions').html("<option value=''>Select Units</option>");
-						}
+						}*/
 						var userClass = response.userClass; 
 						if(response.times !=null){
 							var start_time = response.times.lesson_start_time;	

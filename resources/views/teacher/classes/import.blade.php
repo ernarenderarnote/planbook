@@ -85,19 +85,10 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6">
-            <div class="copy-contentbottom">
-                <div class="copy-botomtext"> FROM Lessons </div>
-                <div class="copy-botombuttons">
-                     <button class="btn btn-primary">Today </button>
-                     <div class="btn  btn-primary copytablemain-button"> <span class="copyhide-button">Hide Details</span> <span class="copyshow-button">Show Details</span> </div>
-                </div>
-            </div>
-            <div class="copy-classtable">
-                  <table border="1" id="draggable" class="lessonCalendar">
+        <div class="col-md-6 lessonCalendar" >
+            
                     
-                  </table>
-                </div>
+                 
         </div>
         <div class="col-md-6">
             <div class="copy-contentbottom">
@@ -178,6 +169,7 @@
         var tselected;
         var yselected;
         var uselected;
+        var class_id;
         $('.lselected li a').on('click',function(e){ 
 
             lselected        = $(this).text();
@@ -217,6 +209,7 @@
            
          });
         $('.uselected li a').on('click',function(e){
+           class_id = $(this).attr('target_id');
            if(typeof yselected != 'undefined'){  
             uselected     = $(this).text();
             var background   = $(this).css('background-color');
@@ -237,7 +230,7 @@
           $.ajax({
             type:'GET',
             url: BASE_URL +'/teacher/classes/importcalendar',
-            //data: formData,
+            data:{type:lselected,teacher:tselected,year:yselected,class_id:class_id},
             //dataType: 'json',
 
             beforeSend: function () {
@@ -264,5 +257,11 @@
 
         };
     </script>
+     <script>
+         $(document).on('click',".copyunits-arrowright",function(){
+          $(this).parents().next('tr').find(".copyunits-tableinner ").toggle();
+         }); 
+         
+      </script>
 @endpush
 

@@ -108,11 +108,11 @@
                      <div class="row">
                         <div class="col-md-4 form-group">
                            <label>Start Date</label>
-                           <input class="form-control input-fields" id="demo9" type="text">
+                           <input class="form-control input-fields datepicker" id="demo9" type="text">
                         </div>
                         <div class="col-md-4 form-group">
                            <label>Start Time</label>
-                           <input id="basicExample5" class="time ui-timepicker-input input-fields" autocomplete="off" type="text">
+                           <input id="basicExample5" class="time ui-timepicker-input input-fields timepicker" autocomplete="off" type="text">
                         </div>
                         <div class="col-md-4 form-group checkbox-field">
                            <label>
@@ -123,11 +123,11 @@
                      <div class="row">
                         <div class="col-md-4 form-group">
                            <label>End Date</label>
-                           <input class="form-control input-fields" id="demo10" type="text">
+                           <input class="form-control input-fields datepicker" id="demo10" type="text">
                         </div>
                         <div class="col-md-4 form-group">
                            <label>End Time</label>
-                           <input id="basicExample6" class="time ui-timepicker-input input-fields" autocomplete="off" type="text">
+                           <input id="basicExample6" class="time ui-timepicker-input input-fields timepicker" autocomplete="off" type="text">
                         </div>
                         <div class="col-md-4 form-group checkbox-field">
                            <label>
@@ -421,45 +421,27 @@
 	  @endsection
 
      @push('js')
-      <script type="text/javascript" src="../js/jquery.min.js"></script> 
+      <!--script type="text/javascript" src="../js/jquery.min.js"></script> 
       <script type="text/javascript" src="../js/bootstrap.min.js" ></script> 
       <script type="text/javascript" src="../js/custom.js" ></script> 
       <script type="text/javascript" src="../tinymce_4.6.3_dev/tinymce/js/tinymce/tinymce.js"></script> 
-      <script src="../js/dcalendar.picker.js"></script> 
-      <script src="../js/jquery.timepicker.js"></script> 
+      <!--script src="../js/dcalendar.picker.js"></script> 
+      <script src="../js/jquery.timepicker.js"></script--> 
       <script>
-         $('#demo9').dcalendarpicker();
-         $('#calendar-demo').dcalendar(); //creates the calendar
-         $('#demo10').dcalendarpicker();
-         $('#calendar-demo').dcalendar(); //creates the calendar
-         $('#basicExample5').timepicker();
-         $('#basicExample6').timepicker();
-         $('#basicExample7').timepicker();
-         $('#basicExample8').timepicker();
-         $('#demo8').dcalendarpicker();
-         $('#calendar-demo').dcalendar(); //creates the calendar
-         $('#demo11').dcalendarpicker();
-         $('#calendar-demo').dcalendar(); //creates the calendar
-         $('#demo12').dcalendarpicker();
-         $('#calendar-demo').dcalendar(); //creates the calendar
-         $('#demo13').dcalendarpicker();
-         $('#calendar-demo').dcalendar(); //creates the calendar
-         $('#demo14').dcalendarpicker();
-         $('#calendar-demo').dcalendar(); //creates the calendar-demo
-         $('#demo15').dcalendarpicker();
+         
          $('#calendar-demo').dcalendar(); //creates the calendar
          $(".fileattachmentmain").click(function(){
-                   $(".fileattachment-modal").show();
-                  });
-          $(".close-filebutton").click(function(){
-                   $(".fileattachment-modal").hide();
-                  });	
+             $(".fileattachment-modal").show();
+         });
+         $(".close-filebutton").click(function(){
+            $(".fileattachment-modal").hide();
+         });	
          $(".actiondropdownbuttonmain").click(function(){
-                   $(".actiondropdown").toggle();
-                  });
-$(".eventmain-format").click(function(){
-    $("#formateventmain-dropdownsetting").toggle();
-});				  
+             $(".actiondropdown").toggle();
+         });
+         $(document).on('click','.eventmain-format',function(){
+            $("#formateventmain-dropdownsetting").toggle();
+         });				  
       </script> 
       <script>
          tinymce.init({
@@ -470,7 +452,7 @@ $(".eventmain-format").click(function(){
              'advlist autolink lists link image charmap print preview hr anchor pagebreak',
              'searchreplace wordcount visualblocks visualchars code fullscreen',
              'insertdatetime media nonbreaking save table contextmenu directionality',
-             'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc help'
+             'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc Start Datehelp'
            ],
            toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
            toolbar2: 'print preview media | forecolor backcolor emoticons | codesample help',
@@ -484,4 +466,15 @@ $(".eventmain-format").click(function(){
           });
          
       </script>
+
+      <script type="text/javascript">
+  
+  $('.datepicker').datepicker({format: 'dd/mm/yyyy',autoclose:true});
+  $('.timepicker').timepicker({
+    'timeFormat': 'h:i A',
+    'scrollDefault' : '8:00am',
+    'forceRoundTime' : false,
+  });
+
+</script>
 	@endpush  
