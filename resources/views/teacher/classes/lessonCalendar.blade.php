@@ -1,4 +1,4 @@
-  @if($code == 1)
+  @if($code == 1 || $code==3)
     @php
     $end = '2018-02-28';
     $start = '2017-03-01';
@@ -29,15 +29,14 @@
      @php  
          $k = '1';
          @endphp
-    <div class="copy-contentbottom">
-                <div class="copy-botomtext"> FROM Lessons </div>
-                <div class="copy-botombuttons">
-                     <button class="btn btn-primary">Today </button>
-                     <div class="btn  btn-primary copytablemain-button"> <span class="copyhide-button">Hide Details</span> <span class="copyshow-button">Show Details</span> </div>
-                </div>
-            </div>
+    
             <div class="copy-classtable">
-                  <table border="1" id="draggable" class="lessonCalendar">    
+                @if($code==1)
+                
+                  <table border="1" id="draggable" class="lessonCalendar">  
+                @else
+                  <table border="1" id="droppable" class="lessonCalendar">  
+                 @endif   
     @for($i = 0; $i < $datediff + 1; $i++)
        @php
         
@@ -66,7 +65,8 @@
     @endfor 
    </table>
                 </div>  
-  @else
+  @endif
+   @if($code == 2)
   @php 
 
   @endphp
@@ -132,39 +132,10 @@
                   </table>
                </div>
 
-                    <!-- <tr>
-                      <td colspan="3" class="copyunitsinner-data">
-                           <div class="copyunits-tableinner" id="copyunits-tableinner1">
-                              <table>
-                                 <tr>
-                                    <th>Date</th>
-                                    <th class="copyunitsinner-column">Lesson</th>
-                                 </tr>
-                                 <tr>
-                                    <td>Wednesday 08/30/2017</td>
-                                    <td>dsfdsff
-                                       sfsddsfdsfdfdsfaf
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td>Wednesday 08/30/2017</td>
-                                    <td>dsfdsff
-                                       sfsddsfdsfdfdsfaf
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td>Wednesday 08/30/2017</td>
-                                    <td>dsfdsff
-                                       sfsddsfdsfdfdsfaf
-                                    </td>
-                                 </tr>
-                              </table>
-                           </div>
-                        </td> 
-                     </tr> -->
-                     
                     
   @endif
+
+
   
       
      

@@ -13,5 +13,17 @@
 <!--Data Table-->
 <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script> 
 @stack('before-main-js')
+<script>
+$(document).ready(function(){
+	
+$('.selectedClassYear li a').on('click',function(e){ 
+	lselected = $(this).text();
+	
+    var background   = $(this).css('background-color');
+    $(this).parents('.dropdown').find('.btn').html(lselected +' <span class="caret"></span>');
+   }); 
 
+});
+
+</script>
 @stack('js')

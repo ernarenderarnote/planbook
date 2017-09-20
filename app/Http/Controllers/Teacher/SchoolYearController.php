@@ -83,8 +83,9 @@ class SchoolYearController extends Controller
                 
             } else {
 
-                $school_year->school_year = $request->get('school_year');
+                $school_year->year_name = $request->get('school_year');
                 $school_year->user_id = Auth::user()->id;
+
                 $school_year->first_day = $request->get('first_day');
                 $school_year->last_day = $request->get('last_day');
                

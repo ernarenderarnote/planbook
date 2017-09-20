@@ -285,5 +285,17 @@ class ClassesController extends Controller
 		
 	}
 
+	public function copyCalendar(Request $request, $class_id){
+		$end   = '2018';
+		$start = '2017';
+			$this->data['classes'] = UserClass::where('user_id',Auth::user()->id)->where('id',$class_id)->where('start_date', '>=', $start)->Where('end_date', '<=' , $end)->orWhere(function($q) use($start, $end, $class_id){
+	       		$q->where('user_id',Auth::user()->id)->where('id',$class_id)->where('end_date', '>=' ,$start )->where('start_date' ,'<=', $end);
+				})->get();
+			$this->data['code']=3;   
+			$this->data['user_lessons']=$lessons = ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$class_id)->where('lesson_date', '>=', $start)->Where('lesson_date', '<=' , $end)->orWhere(function($q) use($start, $end, $class_id){
+	       		$q->where('user_id',Auth::user()->id)->where('class_id',$class_id)->where('lesson_date', '>=' ,$start )->where('lesson_date' ,'<=', $end);
+				})->get();
+			    return view('teacher.classes.lessonCalendar', $this->data);
 
+	}	
 }

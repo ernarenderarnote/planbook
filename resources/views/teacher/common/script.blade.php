@@ -7,6 +7,19 @@
 
 <!-- time picker js -->
 <script src="{{ asset('/plugins/jonthornton-timepicker/jquery.timepicker.min.js') }}"></script>
-@stack('before-main-js')
 
+@stack('before-main-js')
+<script>
+$(document).ready(function(){
+	
+$('.selectedClassYear li a').on('click',function(e){ 
+	
+	lselected = $(this).text();
+    var background   = $(this).css('background-color');
+    $(this).parents('.dropdown').find('.btn').html(lselected +' <span class="caret"></span>');
+   }); 
+
+});
+
+</script>
 @stack('js')

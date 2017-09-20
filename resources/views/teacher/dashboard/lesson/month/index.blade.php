@@ -1,4 +1,7 @@
 
+<script>
+	
+</script>
 @inject('monthView', 'App\Services\Month')
 
 @php 

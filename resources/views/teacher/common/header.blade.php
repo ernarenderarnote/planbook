@@ -3,9 +3,10 @@
     <div class="text-center head-center">
       <div class="pull-left text-left col-sm-2">
         <div class="dropdown">
-          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">2017 <span class="caret"></span></button>
-          <ul class="dropdown-menu">
-            <li><a href="#">2017</a></li>
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">2016-2017<span class="caret"></span></button>
+          <ul class="dropdown-menu selectedClassYear">
+            <li><a href="#">2016-2017</a></li>
+            <li><a href="#">2017-2018</a></li>
             <li><a href="#">Add a year</a></li>
           </ul>
         </div>

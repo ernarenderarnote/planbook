@@ -14,7 +14,7 @@
         {{ csrf_field() }}
 
         <div class="row">
-          <label class="control-label col-sm-2 text-right">Class Name</label>
+          <label class="control-label col-sm-2 text-right">Class Name</label>                             
           <div class="form-group col-sm-5 ">
             <input type="text" id="class_name" name="class_name" value="" class="form-control"/>
           </div>
@@ -95,7 +95,7 @@
 
             @endphp
               @foreach ($classesSchedules as $key => $classesSchedule)
-                
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
                 <div class="row pb-3">
                   <div class="col-sm-4">
                     <div class="checkbox">
@@ -143,3 +143,4 @@
   });
 
 </script>
+

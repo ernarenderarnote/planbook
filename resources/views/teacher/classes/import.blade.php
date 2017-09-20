@@ -1,7 +1,9 @@
 @extends('layouts.teacher')
 
 @section('content')
-
+<div id="main-loader" class="pageLoader" style="display:none">
+  <div class="loader-content"> <span class="loading-text">Loading</span> <img src="/images/loading.gif"> </div>
+</div>
 <div class="clearfix"></div>
 <div class="copy-header"> Copy Lessons </div>
 <div class="copy-content">
@@ -20,7 +22,7 @@
                     <button id="teacherBtn" type="button" class="teacherbtn btn unitsbutton list-contentmainbuton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Select Teacher<span class="caret"></span> </button>
                     <ul class="dropdown-menu language-dropdown tselected">
                         <li class="tacherselected"><a href="#" class="language-dropbutons unitdropbuton">My Classes </a></li>
-                        <li class="tacherselected"><a href="#" class="language-dropbutons unitdropbuton" data-toggle="modal" data-target="#importcsv">Import CSV </a></li>
+                        <li id="copyCsv" class="tacherselected"><a href="#" class="language-dropbutons unitdropbuton" data-toggle="modal" data-target="#importcsv">Import CSV </a></li>
                         <li class="tacherselected"><a href="#" class="language-dropbutons unitdropbuton"  data-toggle="modal" data-target="#addteacher">Add Teacher </a></li>
                     </ul>
                 </div>
@@ -85,9 +87,17 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6 lessonCalendar" >
-            
-                    
+        <div class="col-md-6 " >
+           <div class="copy-contentbottom">
+                <div class="copy-botomtext"> FROM Lessons </div>
+                <div class="copy-botombuttons">
+                     <button class="btn btn-primary">Today </button>
+                     <div class="btn  btn-primary copytablemain-button"> <span class="copyhide-button">Hide Details</span> <span class="copyshow-button">Show Details</span> </div>
+                </div>
+            </div> 
+            <div class="lessonCopyCalendar">
+
+            </div>        
                  
         </div>
         <div class="col-md-6">
@@ -98,11 +108,10 @@
                     <div class="btn  btn-primary copytablemain-button"> <span class="copyhide-button">Hide Details</span> <span class="copyshow-button">Show Details</span> </div>
                 </div>
             </div>
-            <div class="copy-classtable">
-                <table border="1" id="droppable">
-                     
-                </table>
-            </div>
+          <div class="lessonPasteCalendar">
+
+          </div>    
+            
         </div>
     </div>
 </div>
@@ -118,6 +127,34 @@
         <div class="button-group">
           <button class="renew-button return-button" data-dismiss="modal"> Return</button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Import Students popup start-->
+<div id="importstudents" class="modal fade movemodalcontent importstudentcontent" role="dialog">
+  <div class="modal-dialog"> 
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Import Students</h4>
+      </div>
+      <div class="modal-body">
+        <p>To ensure a valid import, please make sure that your CSV file is formatted correctly.</p>
+        <p>To view a sample CSV file, <a href="../help/students.csv" download="students">click here</a></p>
+        <form method="post" action="#" class="importstudent-form">
+             <div class="form-group">
+             <label for="importStudentsFile">Filename</label>
+             <input type="file"  name="importStudentsFile" size="45" >
+             </div>
+     
+        <div class="button-group">
+          <button class="renew-button"  data-dismiss="modal"> Import File</button>
+         
+          <button class="close-button" data-dismiss="modal"> Cancel</button>
+        </div>
+           </form>
       </div>
     </div>
   </div>
@@ -143,7 +180,7 @@
         function draganddrop() {
           $( "#draggable tr .copy-descriptionfield" ).draggable({
             start: function( event, ui ) { 
-               $(ui.item).addClass("yellow");
+               $(ui.item).css("background",'yellow');
             },
             stop:function( event, ui ) { 
                $(ui.item).removeClass("yellow");
@@ -155,13 +192,14 @@
             appendTo: 'body',
             cursor: 'move',
             live: true,
-            background:'blue'
+            color:'blue'
           });
           $( "#droppable .copy-descriptionfield" ).droppable({
             drop: function( event, ui ) {
-              $(this )
+              $(this)
                 .addClass( "ui-state-highlight" )
                 .html(ui.draggable.html());
+                console.log($(this).prev('td').text());
                }
           });
         } 
@@ -234,16 +272,16 @@
             //dataType: 'json',
 
             beforeSend: function () {
-              //obj.html('Sending... <i class="fa fa-send"></i>');
+              $('#main-loader').show();
             },
             complete: function () {
-              //obj.html('Sent <i class="fa fa-send"></i>');
+               $('#main-loader').hide();
             },
 
             success: function (response) {
               var html = '';
               //console.log(response);
-              $('.lessonCalendar').html(response);
+              $('.lessonCopyCalendar').html(response);
               draganddrop();
               },
 
@@ -257,11 +295,52 @@
 
         };
     </script>
+    <script>
+    $('.dropTableClass li a').on('click',function(e){ 
+            
+            lselected        = $(this).text();
+            var background   = $(this).css('background-color');
+            var id = $(this).attr('target_id');
+            $(this).parents('.btn-group').find('.btn').html(lselected +' <span class="caret"></span>');
+            $.ajax({
+            type:'GET',
+            url: BASE_URL +'/teacher/classes/importcalendar/'+id,
+            //dataType: 'json',
+            
+            beforeSend: function () {
+              $('#main-loader').show();
+            },
+            complete: function () {
+              $('#main-loader').hide();
+            },
+
+            success: function (response) {
+              var html = '';
+              //console.log(response);
+              $('.lessonPasteCalendar').html(response);
+              draganddrop();
+              
+              },
+
+
+            error: function(data){
+              console.log("error");
+              console.log(data);
+            }
+
+          });
+          e.preventDefault();
+         });
+    </script>
      <script>
          $(document).on('click',".copyunits-arrowright",function(){
           $(this).parents().next('tr').find(".copyunits-tableinner ").toggle();
          }); 
-         
+         $('#copyCsv').click(function(){
+            $('#importstudents').modal();
+         });  
       </script>
+
+
 @endpush
 
