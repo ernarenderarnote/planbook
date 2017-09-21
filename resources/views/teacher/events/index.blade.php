@@ -2,6 +2,9 @@
 
 @section('content')
 @php $url = request()->view ; @endphp
+<div id="main-loader" class="pageLoader" style="display:none">
+  <div class="loader-content"> <span class="loading-text">Loading</span> <img src="/images/loading.gif"> </div>
+</div>
 <div class="events-section">
          <div class="copy-header"> Events </div>
          <div class="list-contentbutton">
@@ -9,7 +12,7 @@
                <button type="button" class="btn unitsbutton"> Today</button>
             </div>
             <div class="btn-group">
-               <button type="button" class="btn unitsbutton" data-toggle="modal" data-target="#addevent"><img src="/images/add2.png" class="event-icon" > Add Event </button>
+               <button type="button" id="addEventButton" class="btn unitsbutton"><img src="/images/add2.png" class="event-icon" > Add Event </button>
             </div>
             <div class="btn-group">
                <button type="button" class="btn unitsbutton" data-toggle="modal" data-target="#importevents"><img src="/images/import.png" class="event-icon"> Import Events </button>
@@ -23,323 +26,90 @@
             <div class="event-tableinner">
                <table border="1">
                   <tbody>
-                     <tr data-toggle="modal" data-target="#addevent">
-                        <td>03/06/2017</td>
-                        <td class="event-tablesecondfield"> Winter Break</td>
-                     </tr>
-                     <tr data-toggle="modal" data-target="#addevent" >
-                        <td>03/06/2017</td>
-                        <td class="event-tablesecondfield"> Winter Break</td>
-                     </tr>
-                     <tr data-toggle="modal" data-target="#addevent">
-                        <td>03/06/2017</td>
-                        <td class="event-tablesecondfield"> Winter Break</td>
-                     </tr>
-                     <tr data-toggle="modal" data-target="#addevent">
-                        <td>03/06/2017</td>
-                        <td class="event-tablesecondfield"> Winter Break</td>
-                     </tr>
-                     <tr data-toggle="modal" data-target="#addevent">
-                        <td>03/06/2017</td>
-                        <td class="event-tablesecondfield"> Winter Break</td>
-                     </tr>
-                     <tr data-toggle="modal" data-target="#addevent">
-                        <td>03/06/2017</td>
-                        <td class="event-tablesecondfield"> Winter Break</td>
-                     </tr>
-                     <tr data-toggle="modal" data-target="#addevent">
-                        <td>03/06/2017</td>
-                        <td class="event-tablesecondfield"> Winter Break</td>
-                     </tr>
-                     <tr data-toggle="modal" data-target="#addevent">
-                        <td>03/06/2017</td>
-                        <td class="event-tablesecondfield"> Winter Break</td>
-                     </tr>
-                     <tr data-toggle="modal" data-target="#addevent">
-                        <td>03/06/2017</td>
-                        <td class="event-tablesecondfield"> Winter Break</td>
-                     </tr>
-                     <tr data-toggle="modal" data-target="#addevent">
-                        <td>03/06/2017</td>
-                        <td class="event-tablesecondfield"> Winter Break</td>
-                     </tr>
-                     <tr data-toggle="modal" data-target="#addevent">
-                        <td>03/06/2017</td>
-                        <td class="event-tablesecondfield"> Winter Break</td>
-                     </tr>
-                     <tr data-toggle="modal" data-target="#addevent">
-                        <td>03/06/2017</td>
-                        <td class="event-tablesecondfield"> Winter Break</td>
-                     </tr>
-                     <tr data-toggle="modal" data-target="#addevent">
-                        <td>03/06/2017</td>
-                        <td class="event-tablesecondfield"> Winter Break</td>
-                     </tr>
-                     <tr data-toggle="modal" data-target="#addevent">
-                        <td>03/06/2017</td>
-                        <td class="event-tablesecondfield"> Winter Break</td>
-                     </tr>
-                     <tr data-toggle="modal" data-target="#addevent">
-                        <td>03/06/2017</td>
-                        <td class="event-tablesecondfield"> Winter Break</td>
-                     </tr>
+                     @forelse($events as $event)
+                     <tr class="edit_events">
+                        <td>{{$event->start_date}}</td>
+                        <td class="event-tablesecondfield">{{$event->event_title}}</td>
+                     </tr> 
+                     @empty
+                        <tr>
+                    <td colspan="8">No Record Found ! </td>
+                  </tr>
+                     @endforelse
+
                   </tbody>
                </table>
             </div>
          </div>
       </div>
       <!--add event popup start-->
-      <div id="addevent" class="modal fade editmodalcontent listmodalcontent" role="dialog">
-         <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-               <div class="modal-header">
-                  <div class="normalLesson pull-left">
-                     <p> Event</p>
-                  </div>
-                  <div class="actionright pull-right">
-                     <button class="actiondropbutton renew-button">Save</button>
-                     <a class="closebutton" data-dismiss="modal"><i class="fa fa-close" aria-hidden="true"></i></a> 
-                  </div>
-               </div>
+      <div id="dynamicRenderDiv" class="d-render-popoup t-data-popup modal fade editmodalcontent listmodalcontent in" role="dialog">
 
-               <div class="modal-body">
-                  <form method="post" action="#" class="editlessonform">
-                     <div class="row">
-                        <div class="col-md-4 form-group">
-                           <label>Start Date</label>
-                           <input class="form-control input-fields datepicker" id="demo9" type="text">
-                        </div>
-                        <div class="col-md-4 form-group">
-                           <label>Start Time</label>
-                           <input id="basicExample5" class="time ui-timepicker-input input-fields timepicker" autocomplete="off" type="text">
-                        </div>
-                        <div class="col-md-4 form-group checkbox-field">
-                           <label>
-                           <input type="checkbox" value="">
-                           No School Day</label>
-                        </div>
-                     </div>
-                     <div class="row">
-                        <div class="col-md-4 form-group">
-                           <label>End Date</label>
-                           <input class="form-control input-fields datepicker" id="demo10" type="text">
-                        </div>
-                        <div class="col-md-4 form-group">
-                           <label>End Time</label>
-                           <input id="basicExample6" class="time ui-timepicker-input input-fields timepicker" autocomplete="off" type="text">
-                        </div>
-                        <div class="col-md-4 form-group checkbox-field">
-                           <label>
-                           <input type="checkbox" value="">
-                           Private Event</label>
-                        </div>
-                     </div>
-                     <div class="row">
-                        <div class="form-group col-md-4">
-                           <label>Repeats</label>
-                           <select  name="repeats" id="repeats">
-                              <option value="daily">Daily</option>
-                              <option value="weekly">Weekly</option>
-                              <option value="biweekly">Biweekly</option>
-                           </select>
-                        </div>
-                     </div>
-                     <div class="row">
-                        <div class="form-group col-md-12 titlefield">
-                           <label>Event Title</label>
-                           <input type="text" name="title" class="memorialtitlefied">
-                           
-						   <div class="btn-formattoggle">
- <button class="formatevent-button renew-button eventmain-format" type="button">Format</button>
-   <div class="formatcolors-dropdown formateventdropdown-main" id="formateventmain-dropdownsetting">
-  
-   <table class="formatcolors-dropdowntable">
-       <tbody>
-         <tr>
-            <td colspan="4">
-              <div id="titleShowCell"><label class="checkbox-inline" style="display:none;"><input value="Y" type="checkbox">Show title of lesson section in plan view</label></div>
-            </td>
-             <td>
-             <label class="formatcolorlabel-heading">Text</label>
-            </td>
-            <td>
-             <label class="formatcolorlabel-heading">Fill</label>
-            </td>
-         </tr>
-         <tr>
-             <td>
-             <label style="text-align:right; width:45px; padding-top:4px;">Title:</label>
-            </td>
-             <td>
-            <select id="formatTitleFont">
-						<option style="font-family: andale mono, times;" value="1">Andale Mono</option>
-						<option style="font-family: arial, helvetica, sans-serif;" value="2">Arial</option>
-						<option style="font-family: arial black, avant garde;" value="3">Arial Black</option>
-						<option style="font-family: book antiqua, palatino;" value="4">Book Antiqua</option>
-						<option style="font-family: comic sans ms, sans-serif;" value="5">Comic Sans MS</option>
-						<option style="font-family: courier new, courier;" value="6">Courier New</option>
-						<option style="font-family: georgia, palatino;" value="7">Georgia</option>
-						<option style="font-family: helvetica;" value="8">Helvetica</option>
-						<option style="font-family: impact, chicago;" value="9">Impact</option>
-						<option style="font-family: tahoma, arial, helvetica, sans-serif;" value="10">Tahoma</option>
-						<option style="font-family: terminal, monaco;" value="11">Terminal</option>
-						<option style="font-family: times new roman, times;" value="12">Times New Roman</option>
-						<option style="font-family: trebuchet ms, geneva;" value="13">Trebuchet MS</option>
-						<option style="font-family: verdana, geneva;" value="14">Verdana</option>
-					</select>
-            </td>
-           
-            <td>
-					<select class="format-displayfonts" id="formatTitleSize">
-						<option value="8">8pt</option>
-						<option value="9">9pt</option> 
-						<option value="10">10pt</option>
-						<option value="11">11pt</option> 
-						<option value="12">12pt</option>
-						<option value="13">13pt</option> 
-						<option value="14">14pt</option>
-					</select>
-				</td>
-                
-       
-         <td>
-					<div class="dButtons">
-						<div id="formatTitleB" class="dButton bbutton" title="Bold">B</div>
-						<div id="formatTitleI" class="dButton ibutton" title="Italic" style="font-style: italic; background-color: rgb(238, 238, 238);">I</div>
-						<div id="formatTitleU" class="dButton ubutton" title="Underline" style="text-decoration: underline; margin: 0px; background-color: rgb(238, 238, 238);">U</div>
-					</div>
-				</td>
-                 <td>
-					<input class="form-control" type="color">
-				</td>
-                <td>
-					<input class="form-control" type="color">
-				</td>
-         
-         </tr>
-          <tr>
-             <td>
-             <label style="text-align:right; width:45px; padding-top:4px;">Body:</label>
-            </td>
-             <td>
-            <select id="formatTitleFont">
-						<option style="font-family: andale mono, times;" value="1">Andale Mono</option>
-						<option style="font-family: arial, helvetica, sans-serif;" value="2">Arial</option>
-						<option style="font-family: arial black, avant garde;" value="3">Arial Black</option>
-						<option style="font-family: book antiqua, palatino;" value="4">Book Antiqua</option>
-						<option style="font-family: comic sans ms, sans-serif;" value="5">Comic Sans MS</option>
-						<option style="font-family: courier new, courier;" value="6">Courier New</option>
-						<option style="font-family: georgia, palatino;" value="7">Georgia</option>
-						<option style="font-family: helvetica;" value="8">Helvetica</option>
-						<option style="font-family: impact, chicago;" value="9">Impact</option>
-						<option style="font-family: tahoma, arial, helvetica, sans-serif;" value="10">Tahoma</option>
-						<option style="font-family: terminal, monaco;" value="11">Terminal</option>
-						<option style="font-family: times new roman, times;" value="12">Times New Roman</option>
-						<option style="font-family: trebuchet ms, geneva;" value="13">Trebuchet MS</option>
-						<option style="font-family: verdana, geneva;" value="14">Verdana</option>
-					</select>
-            </td>
-           
-            <td>
-					<select class="format-displayfonts" id="formatTitleSize">
-						<option value="8">8pt</option>
-						<option value="9">9pt</option> 
-						<option value="10">10pt</option>
-						<option value="11">11pt</option> 
-						<option value="12">12pt</option>
-						<option value="13">13pt</option> 
-						<option value="14">14pt</option>
-					</select>
-				</td>
-                
-       
-         <td>
-					<div class="dButtons">
-						<div id="formatTitleB" class="dButton bbutton" title="Bold">B</div>
-						<div id="formatTitleI" class="dButton ibutton" title="Italic" style="font-style: italic; background-color: rgb(238, 238, 238);">I</div>
-						<div id="formatTitleU" class="dButton ubutton" title="Underline" style="text-decoration: underline; margin: 0px; background-color: rgb(238, 238, 238);">U</div>
-					</div>
-				</td>
-                 <td>
-					<input class="form-control" type="color">
-				</td>
-                <td>
-					<input class="form-control" type="color">
-				</td>
-         
-         </tr>
-       </tbody>
-   </table>
-  </div>
- 
+      </div>
+      <!--fileattachment modal start here-->
+<div class="fileattachment-modal">
+    <div class="fileattachment-header">My Files</div>
+    <div class="fileattachment-body">
+      <form name="fileattachment" id="fileAttachment" action="" method="post" enctype="multipart/form-data">
+         {{ csrf_field() }}
+         <div>
+            <input type="text" id="myInput" placeholder="Search File(s)" class="form-control">
+         </div>
+         <div class="file-attchedtext">
+            <ul class="list-group checked-list-box" id="myUL">
+               <div class="file-attchedmain">
+                  
+                  
+               </div>
+            </ul>
+         </div>
+         <div class="file-attchedbutton">
+            <button Type="button" class="main-buton applyfilebuton filebuttons">Apply</button>
+            <button type="button" class="main-buton  filebuttons">Clear all</button>
+            <div class="main-buton file-attchment">
+               <input type="file" id="uploadFile" name="fileuploaddata">
+               <span class="upload-text">Upload New File</span> </div>
+            <a href="#" class="close-filebutton filebuttons">Cancel</a>
+         </div>
+      </form>  
+   </div>
+   <div class="popupProgress" style="display:none;">
+      <div class='progress' id="progress_div">
+         <div class='bar' id='bar1'></div>
+         <div class='percent' id='Imgpercent'>0%</div>
+      </div>
+    </div>     
 </div>
-                        </div>
-                     </div>
-                     <div class="Description-memorial">
-                        <p>Description</p>
-                        <textarea placeholder="Write Somehting">    </textarea>
-                     </div>
-                     <div class="added-daysection">
-                        <p>Added Days <a href="" class="main-buton"><i class="fa fa-plus" aria-hidden="true"></i></a></p>
-                     </div>
-                     <div class="added-dayinner">
-                        <input class="form-control input-fields" id="demo8" type="text" size="10">
-                        <i class="fa fa-close" aria-hidden="true"></i> 
-                     </div>
-                     <div class="added-daysection">
-                        <p>Removed Days <a href="" class="main-buton"><i class="fa fa-plus" aria-hidden="true"></i></a></p>
-                     </div>
-                     <div class="added-dayinner">
-                        <input class="form-control input-fields" id="demo11" type="text" size="10">
-                        <i class="fa fa-close" aria-hidden="true"></i> 
-                     </div>
-                     <div class="attachment-field">
-                        <div class="form-group">
-                           <label>Attachments</label>
-                           <a class="main-buton attachment-button fileattachmentmain"> <img src="/images/paperclip.png"></a> <a class="main-buton attachment-button"> <img src="/images/google-drive.png"></a> 
-                        </div>
-                     </div>
-                     <div class="filetable">
-                        <table>
-                           <tbody>
-                              <tr>
-                                 <td class="filename"><a href="#"> site.jpg </a></td>
-                                 <td><label>
-                                    <input type="checkbox">
-                                    Private</label>
-                                 </td>
-                                 <td>
-                                    <div class="main-buton trash-button"><i class="fa fa-trash" aria-hidden="true"></i></div>
-                                 </td>
-                              </tr>
-                           </tbody>
-                        </table>
-                     </div>
-                  </form>
-               </div>
-            </div>
-         </div>
+<!--File apply and embed modal here-->
+<div class="applyfilemodalcontent" id="applyfilemodal" >
+  <div class="fileattachment-header">Image Actions</div>
+  <div class="fileattachment-body applycontentbody ">
+    <form method="post" action="#" class="applyImgForm">
+      <div class="attachOrEmbedBody" id="attachOrEmbedBody"><span></span></div>
+      <div class="button-group">
+        <button type="button" class="main-buton fileAttach">Attach</button>
+        <button type="button" class="main-buton embedfilebutton" type="button">Embed</button>
+        <button type="button" class="close-button closefile-button">Cancel</button>
       </div>
-      <!--file attachment popup start-->
-      <div class="fileattachment-modal">
-         <div class="fileattachment-header">My Files</div>
-         <div class="fileattachment-body">
-            <div>
-               <input placeholder="Search File(s)" id="filterFilePickerFiles" type="text" class="file-attchedinput">
-            </div>
-            <div class="file-attchedtext"> </div>
-            <div class="file-attchedbutton">
-               <button class="main-buton filebuttons">Apply</button>
-               <button class="main-buton  filebuttons">Clear all</button>
-               <div class="main-buton file-attchment">
-                  <input type="file">
-                  <span class="upload-text">Upload New File</span> 
-               </div>
-               <button class="close-filebutton filebuttons">Cancel</button>
-            </div>
-         </div>
+    </form>
+  </div>
+</div>
+<div class="applyfilemodalcontent embedfilecontent" id="embedfilemodal">
+  <div class="fileattachment-header">Embed Image</div>
+  <div class="fileattachment-body applycontentbody">
+    <form method="post" action="">
+      <p>Select lesson section for image</p>
+      <div class="button-group">
+        <button type="button" class="main-buton ebdLesson">Lesson</button>
+        <button type="button" class="main-buton ebdhomework">Homework</button>
+        <button type="button" class="main-buton ebdnotes">Notes</button>
+        <button class="close-button closeembedfile-button" type="button">Cancel</button>
       </div>
+    </form>
+  </div>
+</div>
+
+<!-- Add class Popup Starts Here -->
      
       <!--export eventtable popup start-->
       <div id="exportevents" class="modal fade movemodalcontent in" role="dialog">
@@ -421,15 +191,10 @@
 	  @endsection
 
      @push('js')
-      <!--script type="text/javascript" src="../js/jquery.min.js"></script> 
-      <script type="text/javascript" src="../js/bootstrap.min.js" ></script> 
-      <script type="text/javascript" src="../js/custom.js" ></script> 
-      <script type="text/javascript" src="../tinymce_4.6.3_dev/tinymce/js/tinymce/tinymce.js"></script> 
-      <!--script src="../js/dcalendar.picker.js"></script> 
-      <script src="../js/jquery.timepicker.js"></script--> 
+      <!--script type="text/javascript" src="../js/custom.js" ></script--> 
+      <!--script type="text/javascript" src="../tinymce_4.6.3_dev/tinymce/js/tinymce/tinymce.js"></script--> 
+      
       <script>
-         
-         $('#calendar-demo').dcalendar(); //creates the calendar
          $(".fileattachmentmain").click(function(){
              $(".fileattachment-modal").show();
          });
@@ -441,40 +206,248 @@
          });
          $(document).on('click','.eventmain-format',function(){
             $("#formateventmain-dropdownsetting").toggle();
-         });				  
+         });	
+
+         	  
       </script> 
       <script>
-         tinymce.init({
-           selector: 'textarea',
-           height: 400,
-           theme: 'modern',
-           plugins: [
-             'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-             'searchreplace wordcount visualblocks visualchars code fullscreen',
-             'insertdatetime media nonbreaking save table contextmenu directionality',
-             'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc Start Datehelp'
-           ],
-           toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-           toolbar2: 'print preview media | forecolor backcolor emoticons | codesample help',
-           image_advtab: true,
-           templates: [
-             { title: 'Test template 1', content: 'Test 1' },
-             { title: 'Test template 2', content: 'Test 2' }
-           ],
-           content_css: [
-            ]
+         var num = 0;
+         $(document).on('click','.addday',function(){
+            var html = '';
+            html +='<div class="added-dayinner addDays">';
+            html += '<input name="addday[]" class="form-control datepicker input-fields" id="demo8" type="text" size="10">';
+            html += '<i class="fa fa-close" aria-hidden="true"></i>';
+            html +='</div>';
+            $('.addDiv').append(html);
+            $('.datepicker').datepicker({format: 'dd/mm/yyyy',autoclose:true});
+         });
+         $(document).on('click','.removeday',function(){
+            var html = '';
+            html +='<div class="added-dayinner addDays">';
+            html += '<input name="removeday[]" class="form-control datepicker input-fields" id="demo8" type="text" size="10">';
+            html += '<i class="fa fa-close" aria-hidden="true"></i>';
+            html +='</div>';
+            $('.removeDiv').append(html);
+            $('.datepicker').datepicker({format: 'dd/mm/yyyy',autoclose:true});
+         });      
+         $(document).on('click','.fa-close',function(){
+            $(this).closest(".addDays").fadeOut(300);
+
           });
-         
+         $(".closefile-button").click(function(){
+          $("#dynamicRenderDiv").hide();
+         });
+
       </script>
 
       <script type="text/javascript">
+      $("#addEventButton").click(function(){
+
+
+         $("#dynamicRenderDiv").show().load("/teacher/events/add",function(){
+
+            //$('.datepicker').datepicker({format: 'dd/mm/yyyy',});
+            
+
+          });
+
+        });    
   
-  $('.datepicker').datepicker({format: 'dd/mm/yyyy',autoclose:true});
-  $('.timepicker').timepicker({
-    'timeFormat': 'h:i A',
-    'scrollDefault' : '8:00am',
-    'forceRoundTime' : false,
-  });
+        /*Show user upload files*/
+      $("body").on('click','.fileattachmentmain',function(e){
+         e.preventDefault();
+         $.ajax({
+           type:'get',
+           contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
+           dataType : "html",
+           data:{"_token": "{{ csrf_token() }}"},
+           url: 'authUploads',
+           success:function(response){
+            $('.file-attchedmain').append(response);  
+            $(".fileattachment-modal").show();
+           },
+           error: function(response){
+            console.log("error");
+            console.log(response);
+           }
+
+         });   
+      }) ; 
+      /*End Show user upload files*/
+       <!--Apply images and embed script-->
+
+       $(".closefile-button").click(function(){
+          $("#applyfilemodal").hide();
+         });
+         $("body").on('click','.applyfilebuton',function(){
+         $('.fileattachment-modal').css('display','none');
+         $("#applyfilemodal").show();
+         
+         });
+         $('body').on('click','.fileAttach',function(){
+            $('.attachedFiles tr').css('display','block');
+            $('#applyfilemodal').hide();
+         });
+         $('body').on('click','.embedfilebutton',function(){
+            $("#applyfilemodal").hide();
+            var id = tinymce.activeEditor.selection.getNode().id;
+            $('.lessonTab').addClass('active').siblings().removeClass('active');
+            if($('#homework').hasClass('active') || $('#notes').hasClass('active')){
+            $('#homework').removeClass('active');
+            $('#notes').removeClass('active');
+            $('#description').addClass('active in'); 
+            }
+               var val = tinymce.get('description').getContent();
+               tinymce.execCommand('mceFocus',false,'description');
+               $("form.applyImgForm :input[name = embID]").each(function(index, elm){
+                  var imgVal = $(this).val();
+                  tinymce.get('description').execCommand("mceInsertContent", false, "<br/><img style='width:200px; max-width: 100%; height: 200px;' src='/uploads/myfiles/"+imgVal+"'/><br/>");
+               });
+               $("#embedfilemodal").hide();
+               });
+        $(".closeembedfile-button").click(function(){
+          $("#embedfilemodal").hide();
+         });    
+
+        $('body').on('change','#uploadFile',function(e){
+            var validExts = "*.pdf; *.jpg; *.png".replace(/\s+|\*/g, '').split(";");
+            for(var i=0; i<e.target.files.length; i++){
+               fileExt = e.target.files[i].name.substring(e.target.files[i].name.lastIndexOf('.'));
+               if (validExts.indexOf(fileExt) < 0) {
+                  alert("Invalid file selected, valid files are of " + validExts.toString() + " types.");
+                  return false;
+               }
+
+               if(e.target.files[i].size > 300*1024*1024){
+                  alert("File too large, we only accept 300MB");
+                  return false;
+               }
+               $('#main-loader').css('display','block');
+            }
+            console.log(e.target.files);
+            var $this = $(this);
+            var formData = new FormData();
+            formData.append("file", e.target.files[0]);
+            formData.append("uploadSize", ((e.target.files[0].size)/1024).toFixed(2));
+            formData.append("_token", $this.closest('form').find("[name='_token']").val());
+            
+            $.ajax({
+               xhr: function() {
+               var xhr = new window.XMLHttpRequest();
+               xhr.upload.addEventListener("progress", function(evt) {
+                 if (evt.lengthComputable) {
+                  $('.popupProgress').css("display","block");  
+                  var percentComplete = evt.loaded / evt.total;
+                  percentComplete = parseInt(percentComplete * 100);
+                  console.log(percentComplete);
+                  var percentVal = percentComplete + '%';
+                   $('#bar1').width(percentVal);
+                   $('#Imgpercent').html(percentVal);
+                  if (percentComplete === 100) {
+
+                  }
+
+                 }
+               }, false);
+
+               return xhr;
+              },     
+              type:'POST',
+              url: 'attachFiles',
+              data: formData,
+              cache:false,
+              contentType: false,
+              processData: false,
+
+              success:function(data){
+               $(".file-attchedmain").load("authUploads"); 
+               //$('#main-loader').css('display','none');
+               setTimeout(function(){
+                  $('.popupProgress').css("display","none"); 
+                  
+               }, 1000);   
+               },
+               error: function(data){
+               console.log("error");
+               console.log(data);
+              }
+
+            });
+         }); 
+        /* Add class dtatt*/
+
+  $("body").on('click','#save_event_button',function(e){
+      tinyMCE.triggerSave();
+      e.preventDefault();
+
+    var formData = $("#eventaddform").serialize();
+
+    var obj = $(this);
+    $.ajax({
+      type:'POST',
+      url: BASE_URL +'/teacher/events/add',
+      data: formData,
+      dataType: 'json',
+
+      beforeSend: function () {
+        $('#main-loader').show();
+      },
+      complete: function () {
+        $('#main-loader').hide();
+      },
+
+      success: function (response) {
+        var html = '';
+
+        $('#warning-box').remove();
+        $('#success-box').remove();
+
+        if(response['error']){
+            html += '<div id="warning-box" class="alert alert-danger fade in">';
+            html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+            html += '<strong>Error!</strong>';
+
+            for (var i = 0; i < response['error'].length; i++) {
+                html += '<p>' + response['error'][i] + '</p>';
+            }
+
+            html += '</div>';
+            $('#eventaddform').before(html);
+            
+        }
+
+        if(response['success']){
+               
+          console.log(response['success']);
+
+          html += '<div id="success-box" class="alert alert-success fade in">';
+          html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+          html += '<strong>You Have created Evetn successfully !</strong>';
+          html += '</div>';
+
+          $('#eventaddform').before(html);
+          $('#eventaddform')[0].reset();
+          setTimeout(function(){ 
+            $(".d-render-popoup").fadeOut();
+             window.location.reload();
+           }, 5000);
+
+
+         
+        }
+
+
+        },
+
+
+      error: function(data){
+        console.log("error");
+        console.log(data);
+      }
+
+    });
+
+  }); 
 
 </script>
 	@endpush  

@@ -10,7 +10,7 @@ use Facades\App\Helpers\Common;
 use App\UserClass;
 use App\SchoolYear;
 use App\Unit;
-use App\Assessment;
+use App\Events;
 
 
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +24,7 @@ use Redirect;
 use View;
 use Mail;
 use Exception;
-
+use App\MyFile;
 class EventsController extends Controller
 {
     /**
@@ -43,32 +43,25 @@ class EventsController extends Controller
 	 */
 	public function index()
 	{
-		/*$assessments = Assessment::where('user_id',Auth::user()->id)->get();
-		$authClasses = UserClass::where('year_id',Auth::user()->current_selected_year)->where('user_id',Auth::user()->id)->with('schoolYear')->get();
-		$this->data['assessments'] = $assessments;
-		$this->data['classes'] = $authClasses;
-        //echo"<pre>";print_r($authClasses);die;*/
-
+		$this->data['events'] = Events::where('user_id',Auth::user()->id)->get();
 		return view('teacher.events.index', $this->data);
-
-		//return redirect()->to('/');
 	}
 
 	/**
 	 * Get add assessment view
 	 */
-	public function getAddAssessment()
+	public function getAddEvents()
 	{
 	
 		// get user class
         
-        $this->data['userClasses'] = UserClass::where('year_id',Auth::user()->current_selected_year)->where('user_id',Auth::user()->id)->with('schoolYear')->get();
-        $this->data['units'] = Unit::where('user_id',Auth::user()->id)->get();
+        /*$this->data['userClasses'] = UserClass::where('year_id',Auth::user()->current_selected_year)->where('user_id',Auth::user()->id)->with('schoolYear')->get();
+        $this->data['units'] = Unit::where('user_id',Auth::user()->id)->get();*/
 
 		//echo"<pre>";print_r( $this->data['userClasses']);die;
 
 
-		return view('teacher.assessments.add', $this->data);
+		return view('teacher.events.add');
 
 	}
 
@@ -76,24 +69,21 @@ class EventsController extends Controller
 	 * Post add Assessment view
 	 */
 
-	public function postAddAssessment(Request $request)
+	public function postAddEvents(Request $request)
 	{
 
 		$response = array();
 
-        $Assessment = new Assessment();
+        $Events = new Events();
 
 
         if($request->isMethod('post')) {
 
             //echo"<pre>";print_r($request->all());die;
 
-
-            $validation['class'] = 'required';
-            $validation['unit'] = 'required';
             $validation['title'] = 'required';
-            $validation['total_points'] = 'numeric|max:100';
-            
+            $validation['startdate'] ='required';
+            $validation['enddate']='required'; 
 
             $validator = Validator::make($request->all(), $validation);
 
@@ -102,29 +92,34 @@ class EventsController extends Controller
                 $response['error'] = $validator->errors()->all();
 
             }else{
-
-                //echo"<pre>";print_r($request->all());die;
+                //$dataarr = serialize($request->attach);
+                //echo"<pre>";print_r($dataarr);die;
 
             	$format = 'd/m/Y';
 
-                $Assessment->user_id = Auth::id();
-                $Assessment->class_id = $request['class'];
-                $Assessment->starts_on = \Carbon\Carbon::createFromFormat($format, $request['starts_on']);
-                $Assessment->ends_on = \Carbon\Carbon::createFromFormat($format,$request['ends_on']);
-                $Assessment->unit_id = $request['unit'];
-                $Assessment->title = $request['title'];
-                $Assessment->description = $request['description'];
-                $Assessment->total_points = $request['total_points'];
+                $Events->user_id = Auth::id();
+                $Events->start_date = \Carbon\Carbon::createFromFormat($format, $request['startdate']);
+                $Events->end_date = \Carbon\Carbon::createFromFormat($format,$request['enddate']);
+                $Events->start_time = $request['starttime'];
+                $Events->end_time = $request['endtime'];
+                $Events->repeat = $request['repeats'];
+                $Events->school_day = $request['schoolday'];
+                $Events->event_title = $request['title'];
+                $Events->event_text = $request['description'];
+                $Events->attachment = serialize($request['attach']);
+                $Events->add_day = serialize($request['addday']);
+                $Events->remove_day = serialize($request['removeday']);
+                $Events->private_event = $request['privateevent'];
 
 
-                if($Assessment->save()){
-
+                if($Events->save()){
+                
                     $response['success'] = 'TRUE';
 
-                }
+                } 
 
             }
-
+            
         }
 
         return response()->json($response);
@@ -216,10 +211,51 @@ class EventsController extends Controller
 
 	}
 
+    public function authUploads(Request $request){
+        $this->data['myFiles'] = MyFile::where('user_id',Auth::user()->id)->get();
+        return view('teacher.events.response', $this->data);
+    }
 
 
+    public function myFileUpload(Request $request)
+    {
 
 
+        //echo"<pre>";print_r($request->all());
+             
+          
+        $original_path = $request->file('file')->getRealPath();
+        $file = $request->file('file'); 
+        $fileExtension = $file->getClientOriginalExtension();
+        $filename = $file->getClientOriginalName();
+        $file = time().'-'.str_random(6).'-'. $filename;
+        
+        $request->file('file')->move(base_path() . '/public/uploads/myfiles', $file);
+        
+        //MyFile::create(['file' => $file]);
+
+
+        $MyFile = new MyFile();
+
+        $MyFile->user_id = Auth::user()->id;
+        $MyFile->file_name = $file;
+        $MyFile->uploadSize = $request->uploadSize;
+        $MyFile->file_changeable_name = $filename;
+               
+                
+
+        if($MyFile->save()){
+
+           return response()->json(["status" => 'ok', "file" => $file ]);
+
+        }else{
+          return response()->json(["status" => 'error', "file" => $file ]);
+
+        }
+
+
+       
+    }
 
 
 

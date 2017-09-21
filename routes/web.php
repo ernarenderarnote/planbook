@@ -164,7 +164,10 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
         Route::group([ 'prefix' => "events", 'as' => 'events.' ], function()
         {
             Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "EventsController@index"]);
-            
+            Route::match(['get'], '/add', [ 'as' => 'addEvents', 'uses' => "EventsController@getAddEvents"]);
+            route::match(['get'], '/authUploads', [ 'as' => 'authUploads', 'uses' => "EventsController@authUploads"]);
+            Route::Post('/attachFiles', ['as' => 'attachFiles', 'uses' => 'EventsController@myFileUpload']);
+             Route::match(['post'], '/add', [ 'as' => 'postAddEvent', 'uses' => "EventsController@postAddEvents"]);
         });
 
     });

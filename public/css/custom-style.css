@@ -1262,3 +1262,54 @@ div#main-loader {  background-color: rgba(0, 0, 0, 0.5);  bottom: 0;  left: 0;  
 .copyunits-maincolumn .fa.fa-arrow-right {
   cursor: pointer;
 }
+
+.added-dayinner .input-fields {
+    height: 28px;
+    width: 98px;
+    float: left;
+    margin-right: 8px;
+}
+.editlessonform .titlefield input.memorialtitlefied {
+    width: 60%;
+    float: left;
+}
+.btn-formattoggle {
+    float: left;
+    position: relative;
+}
+.formatevent-button {
+    margin-left: 8px;
+    padding: 0 8px;
+}
+.added-daysection {
+    float: left;
+    width: 100%;
+    margin: 20px 0px 13px 0px;
+}
+.added-daysection p {
+    color: #58595b;
+    font-weight: bold;
+    font-size: 15px;
+}
+.added-daysection .main-buton {
+    padding: 4px 4px 3px 4px;
+    margin-left: 20px;
+}
+.added-dayinner i {
+    color: #fff;
+    font-size: 23px;
+    vertical-align: top;
+}
+.added-dayinner {
+    width: 100%;
+    float: left;
+}
+.added-dayinner p {
+    width: 100%;
+    float: left;
+}
+.added-dayinner i:hover {
+    background-color: red;
+    border-radius: 4px;
+    padding: 1px;
+}
