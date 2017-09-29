@@ -168,6 +168,8 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             route::match(['get'], '/authUploads', [ 'as' => 'authUploads', 'uses' => "EventsController@authUploads"]);
             Route::Post('/attachFiles', ['as' => 'attachFiles', 'uses' => 'EventsController@myFileUpload']);
              Route::match(['post'], '/add', [ 'as' => 'postAddEvent', 'uses' => "EventsController@postAddEvents"]);
+             Route::match(['get'], '/edit/{event_id}', [ 'as' => 'getEditEvent', "uses" => "EventsController@getEditEvent"]);
+             Route::match(['post'], '/edit/{event_id}', [ 'as' => 'postEditEvent', "uses" => "EventsController@postEditEvent"]);
         });
 
     });

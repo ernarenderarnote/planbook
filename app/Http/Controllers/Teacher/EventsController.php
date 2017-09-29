@@ -128,26 +128,17 @@ class EventsController extends Controller
 
 
 	/**
-	 * Get Assessment edit view
+	 * Get Event edit view
 	 */
-	public function getEditAssessment($assessment_id)
+	public function getEditEvent($event_id)
 	{
 
        
-        // get user units
-        $this->data['units'] = Unit::where('user_id',Auth::user()->id)->get();
+       // get user events
         
-        // get user class
+        $this->data['userEvents'] = Events::where('user_id',Auth::user()->id)->where('id',$event_id)->get();
 
-        $this->data['userClasses'] = UserClass::where('year_id',Auth::user()->current_selected_year)->where('user_id',Auth::user()->id)->with('schoolYear')->get();
-
-		// get Assessment
-
-		$this->data['assessment'] = Assessment::where('id', $assessment_id)->with('userClass')->with('unit')->first();
-
-		//echo"<pre>";print_r($this->data['assessment']);die;
-
-		return view('teacher.assessments.edit', $this->data);
+		return view('teacher.events.edit',$this->data);
 
 	}
 
@@ -155,25 +146,22 @@ class EventsController extends Controller
 	 * Post Edit assignment
 	 */
 
-	public function postEditAssessment(Request $request, $assessment_id)
+	public function postEditEvent(Request $request, $event_id)
 	{
 
 		$response = array();
 
-        $Assessment = Assessment::where('id', $assessment_id)->first();
+        $Events = Events::where('id', $event_id)->first();
 
 
         if($request->isMethod('post')) {
 
             //echo"<pre>";print_r($request->all());die;
 
-
-
             $rules = array(
-                'class'  => 'required',
-                'unit'   => 'required',
                 'title'  => 'required',
-                'total_points'  => 'numeric|max:100',
+                'startdate'   => 'required',
+                'enddate'  => 'required',
                 
             );
 
@@ -186,18 +174,22 @@ class EventsController extends Controller
             }else{
 
             	$format = 'd/m/Y';
-               
-                $Assessment->user_id = Auth::id();
-                $Assessment->class_id = $request['class'];
-                $Assessment->starts_on = \Carbon\Carbon::createFromFormat($format, $request['starts_on']);
-                $Assessment->ends_on = \Carbon\Carbon::createFromFormat($format,$request['ends_on']);
-                $Assessment->unit_id = $request['unit'];
-                $Assessment->title = $request['title'];
-                $Assessment->description = $request['description'];
-                $Assessment->total_points = $request['total_points'];
 
+                $Events->user_id = Auth::id();
+                $Events->start_date = \Carbon\Carbon::createFromFormat($format, $request['startdate']);
+                $Events->end_date = \Carbon\Carbon::createFromFormat($format,$request['enddate']);
+                $Events->start_time = $request['starttime'];
+                $Events->end_time = $request['endtime'];
+                $Events->repeat = $request['repeats'];
+                $Events->school_day = $request['schoolday'];
+                $Events->event_title = $request['title'];
+                $Events->event_text = $request['description'];
+                $Events->attachment = serialize($request['attach']);
+                $Events->add_day = serialize($request['addday']);
+                $Events->remove_day = serialize($request['removeday']);
+                $Events->private_event = $request['privateevent'];
 
-                if($Assessment->save()){
+                if($Events->save()){
 
                     $response['success'] = 'TRUE';
 

@@ -27,9 +27,18 @@
                <table border="1">
                   <tbody>
                      @forelse($events as $event)
-                     <tr class="edit_events">
+                     <tr class="edit_events" data-event-id="{{ $event->id }}">
                         <td>{{$event->start_date}}</td>
-                        <td class="event-tablesecondfield">{{$event->event_title}}</td>
+                        <td class="event-tablesecondfield">{{$event->event_title}}
+                         <br/>
+                         @if($event->attachment!='')
+                          @php $attachments = unserialize($event->attachment); @endphp
+                          @foreach($attachments as $attach) 
+                            <a href="../../uploads/myfiles/{{ $attach }}" target='_blank'>{{ $attach }}</a><br/>
+                          @endforeach
+                         @endif   
+
+                        </td>
                      </tr> 
                      @empty
                         <tr>
@@ -448,6 +457,97 @@
     });
 
   }); 
+  $(".edit_events").click(function(){
 
+    var event_id = $(this).data("event-id");
+    
+    $("#dynamicRenderDiv").show().load("/teacher/events/edit/"+event_id,function(){
+
+      //$('.datepicker').datepicker({format: 'dd/mm/yyyy',});
+      
+
+    });
+
+    /* Save edit classs datra*/
+
+  $("body").on('click','#save_edit_event_data_button',function(e){
+  tinyMCE.triggerSave();
+  e.preventDefault();
+    var event_id = $("#geteventid").val();
+    var formData = $('#eventaddform').serialize();
+    alert(formData);
+    var obj = $(this);
+    $.ajax({
+    contentType: "application/x-www-form-urlencoded; charset=UTF-8",  
+      type:'POST',
+      url: BASE_URL +'/teacher/events/edit/'+event_id,
+      data: formData,
+      dataType: 'json',
+
+      beforeSend: function () {
+        $('#main-loader').show();
+      },
+      complete: function () {
+        $('#main-loader').hide();
+      },
+
+      success: function (response) {
+        var html = '';
+
+        $('#warning-box').remove();
+        $('#success-box').remove();
+
+        if(response['error']){
+            html += '<div id="warning-box" class="alert alert-danger fade in">';
+            html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+            html += '<strong>Error!</strong>';
+
+            for (var i = 0; i < response['error'].length; i++) {
+                html += '<p>' + response['error'][i] + '</p>';
+            }
+
+            html += '</div>';
+            $('.errorMessage').before(html);
+            
+        }
+
+        if(response['success']){
+               
+          console.log(response['success']);
+
+          html += '<div id="success-box" class="alert alert-success fade in">';
+          html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+          html += '<strong>You Have Edit Event successfully !</strong>';
+          html += '</div>';
+
+          $('#eventaddform').before(html);
+          $('#eventaddform')[0].reset();
+          setTimeout(function(){ 
+            $(".d-render-popoup").fadeOut();
+             window.location.reload();
+           }, 5000);
+
+
+         
+        }
+
+        },
+
+
+      error: function(data){
+        console.log("error");
+        console.log(data);
+      }
+
+    });
+      
+
+
+
+  }); 
+  $(document).on('click','.closebutton',function(){
+    $(this).closest('#dynamicRenderDiv').hide();
+  });
+  });
 </script>
 	@endpush  
