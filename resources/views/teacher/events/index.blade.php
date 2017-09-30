@@ -15,10 +15,10 @@
                <button type="button" id="addEventButton" class="btn unitsbutton"><img src="/images/add2.png" class="event-icon" > Add Event </button>
             </div>
             <div class="btn-group">
-               <button type="button" class="btn unitsbutton" data-toggle="modal" data-target="#importevents"><img src="/images/import.png" class="event-icon"> Import Events </button>
+               <button type="button" id="importBtn" class="btn unitsbutton"><img src="/images/import.png" class="event-icon"> Import Events </button>
             </div>
             <div class="btn-group">
-               <button type="button" class="btn unitsbutton" data-toggle="modal" data-target="#exportevents"><img src="/images/export.png" class="event-icon"> Export Events </button>
+               <button type="button" id="exportBtn" class="btn unitsbutton"><img src="/images/export.png" class="event-icon"> Export Events </button>
             </div>
          </div>
          <div class="events-table">
@@ -132,8 +132,8 @@
                   <p>Yellow Bus.com uses HTML code to format lesson and event text (bold, italics, etc.) If you plan to import this file back into planbook.com, you should include this HTML. If you plan to use the file in another application (such as Microsoft Word) that does not recognize HTML formatting, you should not include the HTML.</p>
                   <p>Do you want to include HTML formatting in your export file?</p>
                   <div class="button-group">
-                     <button class="renew-button" type="button"> Include HTML</button>
-                     <button class="renew-button" type="button"> Do not include HTML</button>
+                     <button class="renew-button csvDownloads" type="button"> Include HTML</button>
+                     <button class="renew-button csvDownloads" type="button"> Do not include HTML</button>
                      <button class="close-button" data-dismiss="modal" type="button"> Cancel Export</button>
                   </div>
                </div>
@@ -158,7 +158,8 @@
                      <div class="tab-content">
                         <div id="teacher" class="tab-pane fade in active">
                            <div class="teachertabcontent">
-                              <form method="post" action="" class="teachertab-form">
+                              <form method="post" action="" action="/teacher/events/importExcel" enctype="multipart/form-data" class="teachertab-form" id="">
+                              {{ csrf_field() }}
                                  <p>To import events from another teacher, enter teacher's email address and teacher key</p>
                                  <div class="form-group">
                                     <label>Teacher Email</label>
@@ -177,15 +178,16 @@
                         </div>
                         <div id="csvfiles" class="tab-pane fade">
                            <div class="teachertabcontent">
-                              <form method="post" action="" class="teachertab-form">
+                              <form method="post" action="{{ URL::to('/teacher/events/importExcel') }}" class="teachertab-form" enctype="multipart/form-data" id="csvImportForm">
+                                {{ csrf_field() }}
                                  <p>To ensure a valid import, please make sure that your CSV file is formatted correctly.</p>
                                  <p>To view a sample CSV file, <a href="#">click here</a></p>
                                  <div class="form-group">
                                     <label>Filename</label>
-                                    <input name="importFile" size="45" type="file">
+                                    <input name="import_file" size="45" type="file">
                                  </div>
                                  <div class="button-group">
-                                    <button class="renew-button" type="button"> Import File</button>
+                                    <button class="renew-button importFile" type="button"> Import File</button>
                                     <button class="close-button" data-dismiss="modal" type="button"> Cancel</button>
                                  </div>
                               </form>
@@ -202,7 +204,83 @@
      @push('js')
       <!--script type="text/javascript" src="../js/custom.js" ></script--> 
       <!--script type="text/javascript" src="../tinymce_4.6.3_dev/tinymce/js/tinymce/tinymce.js"></script--> 
-      
+     
+      <script>
+          /*Import events*/ 
+          
+          $("#importBtn").click(function(){
+             $("#importevents").modal();
+         });
+          $(document).on('click','.importFile',function(){
+              var formData = $('#csvImportForm').serialize()
+
+              var obj = $(this);
+              $.ajax({
+                type:'POST',
+                url: BASE_URL +'/teacher/events/importExcel',
+                data: formData,
+               
+
+                beforeSend: function () {
+                  $('#main-loader').show();
+                },
+                complete: function () {
+                  $('#main-loader').hide();
+                },
+
+                success: function (response) {
+                  /*var html = '';
+
+                  $('#warning-box').remove();
+                  $('#success-box').remove();
+
+                  if(response['error']){
+                      html += '<div id="warning-box" class="alert alert-danger fade in">';
+                      html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+                      html += '<strong>Error!</strong>';
+
+                      for (var i = 0; i < response['error'].length; i++) {
+                          html += '<p>' + response['error'][i] + '</p>';
+                      }
+
+                      html += '</div>';
+                      $('#eventaddform').before(html);
+                      
+                  }
+
+                  if(response['success']){
+                         
+                    console.log(response['success']);
+
+                    html += '<div id="success-box" class="alert alert-success fade in">';
+                    html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+                    html += '<strong>You Have created Event successfully !</strong>';
+                    html += '</div>';
+
+                    $('#eventaddform').before(html);
+                    $('#eventaddform')[0].reset();
+                    setTimeout(function(){ 
+                      $(".d-render-popoup").fadeOut();
+                       window.location.reload();
+                     }, 5000);
+
+
+                   
+                  }*/
+
+                    console.log(response);
+                  },
+
+
+                error: function(data){
+                  console.log("error");
+                  console.log(data);
+                }
+
+              });
+          });
+
+      </script>
       <script>
          $(".fileattachmentmain").click(function(){
              $(".fileattachment-modal").show();
@@ -216,7 +294,35 @@
          $(document).on('click','.eventmain-format',function(){
             $("#formateventmain-dropdownsetting").toggle();
          });	
+        $('#exportBtn').on('click',function(){
+          $('#exportevents').modal();
+        });
+        $(document).on('click','.csvDownloads',function(){
+          var url = BASE_URL +'/teacher/events/downloadExcel/xls';
+            $.ajax({
+              type:'get',
+              url: BASE_URL +'/teacher/events/downloadExcel/xls',
+              beforeSend: function () {
+                $('#main-loader').show();
+              },
+              complete: function () {
+                $('#main-loader').hide();
+              },
 
+              success: function (data) {
+                  document.location.href = url;
+                  $('#exportevents').modal('hide');
+                },
+
+
+              error: function(data){
+                console.log("error");
+                console.log(data);
+              }
+
+            });
+
+        });
          	  
       </script> 
       <script>
@@ -431,7 +537,7 @@
 
           html += '<div id="success-box" class="alert alert-success fade in">';
           html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
-          html += '<strong>You Have created Evetn successfully !</strong>';
+          html += '<strong>You Have created Event successfully !</strong>';
           html += '</div>';
 
           $('#eventaddform').before(html);
@@ -548,6 +654,9 @@
   $(document).on('click','.closebutton',function(){
     $(this).closest('#dynamicRenderDiv').hide();
   });
+  /*csv Downloads*/
+  
+
   });
 </script>
 	@endpush  

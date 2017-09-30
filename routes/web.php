@@ -170,6 +170,9 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
              Route::match(['post'], '/add', [ 'as' => 'postAddEvent', 'uses' => "EventsController@postAddEvents"]);
              Route::match(['get'], '/edit/{event_id}', [ 'as' => 'getEditEvent', "uses" => "EventsController@getEditEvent"]);
              Route::match(['post'], '/edit/{event_id}', [ 'as' => 'postEditEvent', "uses" => "EventsController@postEditEvent"]);
+             Route::get('/importExport', [ 'as' => 'importExport', "uses" => 'EventsController@importExport']);
+             Route::get('/downloadExcel/{events}', [ 'as' => 'downloadExcel', "uses" => 'EventsController@downloadExcel']);
+             Route::post('/importExcel', [ 'as' => 'importExcel', "uses" => 'EventsController@importExcel']);
         });
 
     });

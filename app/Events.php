@@ -12,7 +12,7 @@ class Events extends Model
      * @var string
      */
     protected $table = 'events';
-	
+	public $fillable = ['start_date','end_date','starttime','endtime','repeats','schoolday','title','description'];
 	//public $timestamps = false;
 
 
