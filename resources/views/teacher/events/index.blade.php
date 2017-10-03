@@ -187,7 +187,7 @@
                                     <input name="import_file" size="45" type="file">
                                  </div>
                                  <div class="button-group">
-                                    <button class="renew-button importFile" type="button"> Import File</button>
+                                    <input class="renew-button importFile" type="submit" vlaue="Import File">
                                     <button class="close-button" data-dismiss="modal" type="button"> Cancel</button>
                                  </div>
                               </form>
@@ -211,7 +211,7 @@
           $("#importBtn").click(function(){
              $("#importevents").modal();
          });
-          $(document).on('click','.importFile',function(){
+          $(document).on('click','.importFile1',function(){
               var formData = $('#csvImportForm').serialize()
 
               var obj = $(this);

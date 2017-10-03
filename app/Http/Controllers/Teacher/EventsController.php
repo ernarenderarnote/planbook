@@ -270,6 +270,8 @@ class EventsController extends Controller
             $path = Input::file('import_file')->getRealPath();
             $data = Excel::load($path, function($reader) {
             })->get();
+            print_r($data);
+            die();
             if(!empty($data) && $data->count()){
                 foreach ($data as $key => $value) {
                     $insert[] = ['title' => $value->title, 'description' => $value->description];

@@ -232,6 +232,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Entrust'  => Zizaco\Entrust\EntrustFacade::class,
         'Excel' => 'Maatwebsite\Excel\Facades\Excel',
+        'Input'     => Illuminate\Support\Facades\Input::class,
     ],
 
 ];
