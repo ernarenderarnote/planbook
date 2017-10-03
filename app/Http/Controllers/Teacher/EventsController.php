@@ -270,11 +270,9 @@ class EventsController extends Controller
             $path = Input::file('import_file')->getRealPath();
             $data = Excel::load($path, function($reader) {
             })->get();
-            print_r($data);
-            die();
             if(!empty($data) && $data->count()){
                 foreach ($data as $key => $value) {
-                    $insert[] = ['title' => $value->title, 'description' => $value->description];
+                    $insert[] = ['user_id' => Auth::user()->id, 'start_date' => $value->startdate,'end_date'=>$value->enddate,'start_time'=>$value->starttime,'end_time'=>$value->endtime,'repeat'=>$value->repeats,'school_day'=>$value->schoolday,'event_title'=>$value->title,'event_text'=>$value->description];
                 }
                 if(!empty($insert)){
                     DB::table('events')->insert($insert);
