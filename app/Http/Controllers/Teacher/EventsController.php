@@ -272,7 +272,7 @@ class EventsController extends Controller
             })->get();
             if(!empty($data) && $data->count()){
                 foreach ($data as $key => $value) {
-                    $insert[] = ['user_id' => Auth::user()->id, 'start_date' => $value->startdate,'end_date'=>$value->enddate,'start_time'=>$value->starttime,'end_time'=>$value->endtime,'repeat'=>$value->repeats,'school_day'=>$value->schoolday,'event_title'=>$value->title,'event_text'=>$value->description];
+                    $insert[] = ['user_id' => Auth::user()->id, 'start_date' => $value->start_date,'end_date'=>$value->end_date,'start_time'=>$value->start_time,'end_time'=>$value->end_time,'repeat'=>$value->repeat,'school_day'=>$value->school_day,'event_title'=>$value->event_title,'event_text'=>$value->event_text];
                 }
                 if(!empty($insert)){
                     DB::table('events')->insert($insert);
