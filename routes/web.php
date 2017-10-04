@@ -173,6 +173,7 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
              Route::get('/importExport', [ 'as' => 'importExport', "uses" => 'EventsController@importExport']);
              Route::get('/downloadExcel/{events}', [ 'as' => 'downloadExcel', "uses" => 'EventsController@downloadExcel']);
              Route::post('/importExcel', [ 'as' => 'importExcel', "uses" => 'EventsController@importExcel']);
+             Route::get('/getyear', [ 'as' => 'getyear', "uses" => 'EventsController@getImport']);
         });
 
     });
@@ -180,7 +181,15 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
 
 });
 
+Route::group(['namespace' => 'Student','prefix' => 'student', 'as' => 'student.'], function()
+{
 
+    Route::group([ 'prefix' => "dashboard", 'as' => 'dashboard.' ], function(){
+
+            Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "DashboardController@index"]);
+
+    });
+});
 
 
 Route::get('/privacy', function () {

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Facades\App\Helpers\Common;
-
+use App\User;
 use App\UserClass;
 use App\SchoolYear;
 use App\Unit;
@@ -53,14 +53,6 @@ class EventsController extends Controller
 	 */
 	public function getAddEvents()
 	{
-	
-		// get user class
-        
-        /*$this->data['userClasses'] = UserClass::where('year_id',Auth::user()->current_selected_year)->where('user_id',Auth::user()->id)->with('schoolYear')->get();
-        $this->data['units'] = Unit::where('user_id',Auth::user()->id)->get();*/
-
-		//echo"<pre>";print_r( $this->data['userClasses']);die;
-
 
 		return view('teacher.events.add');
 
@@ -265,22 +257,55 @@ class EventsController extends Controller
         })->download($events);
     }
     public function importExcel()
-    {
+    {   $insert = array();    
         if(Input::hasFile('import_file')){
             $path = Input::file('import_file')->getRealPath();
             $data = Excel::load($path, function($reader) {
             })->get();
             if(!empty($data) && $data->count()){
                 foreach ($data as $key => $value) {
+                   
                     $insert[] = ['user_id' => Auth::user()->id, 'start_date' => $value->start_date,'end_date'=>$value->end_date,'start_time'=>$value->start_time,'end_time'=>$value->end_time,'repeat'=>$value->repeat,'school_day'=>$value->school_day,'event_title'=>$value->event_title,'event_text'=>$value->event_text];
                 }
                 if(!empty($insert)){
                     DB::table('events')->insert($insert);
-                    dd('Insert Record successfully.');
+                    return redirect()->back()->with('success', 'Events Imported Successfully!');
                 }
             }
         }
         return back();
+    }
+
+    public function getImport(Request $request)
+    {   
+        $insert = array();
+        $response = array();
+        $user = User::where('email',$request->email)->where('promotional_code',$request->shareKey)->pluck('id')->all();
+        $user_selected_school_year = SchoolYear::where('id',Auth::user()->current_selected_year)->where('user_id',Auth::user()->id)->pluck('year_name')->all();
+        if(empty($user)){
+            $response['error']=array('Teacher Email or Teacher Key is Invalid');
+            return response()->json($response);
+        }
+        else{
+           $Events = Events::where('user_id', $user)->get(); 
+           if(!empty($Events) && $Events->count()){
+                foreach ($Events as $key => $value) {
+                   
+                    $insert[] = ['user_id' => Auth::user()->id, 'start_date' => $value->start_date,'end_date'=>$value->end_date,'start_time'=>$value->start_time,'end_time'=>$value->end_time,'repeat'=>$value->repeat,'school_day'=>$value->school_day,'event_title'=>$value->event_title,'event_text'=>$value->event_text];
+                }
+                if(!empty($insert)){
+                    DB::table('events')->insert($insert);
+                    $response['success'] = 'TRUE'; 
+                        return response()->json($response);
+                }
+                else{
+                        $response['error'] = array('No Events are present for this teacher '); 
+                        return response()->json($response);
+                }
+
+            }
+        }
+        die();
     }
 
 

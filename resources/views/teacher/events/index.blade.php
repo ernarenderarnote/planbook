@@ -5,6 +5,8 @@
 <div id="main-loader" class="pageLoader" style="display:none">
   <div class="loader-content"> <span class="loading-text">Loading</span> <img src="/images/loading.gif"> </div>
 </div>
+
+
 <div class="events-section">
          <div class="copy-header"> Events </div>
          <div class="list-contentbutton">
@@ -23,6 +25,13 @@
          </div>
          <div class="events-table">
             <p> Events</p>
+            @if (\Session::has('success'))
+                <div class="alert alert-success">
+                    <ul>
+                        <li>{!! \Session::get('success') !!}</li>
+                    </ul>
+                </div>
+            @endif
             <div class="event-tableinner">
                <table border="1">
                   <tbody>
@@ -31,11 +40,13 @@
                         <td>{{$event->start_date}}</td>
                         <td class="event-tablesecondfield">{{$event->event_title}}
                          <br/>
-                         @if($event->attachment!='')
-                          @php $attachments = unserialize($event->attachment); @endphp
-                          @foreach($attachments as $attach) 
+                          @php $attachments = unserialize($event->attachment); 
+                          @endphp
+                          @if(!empty($attachments))
+                          @forelse($attachments as $attach) 
                             <a href="../../uploads/myfiles/{{ $attach }}" target='_blank'>{{ $attach }}</a><br/>
-                          @endforeach
+                          @empty
+                          @endforelse
                          @endif   
 
                         </td>
@@ -158,19 +169,29 @@
                      <div class="tab-content">
                         <div id="teacher" class="tab-pane fade in active">
                            <div class="teachertabcontent">
-                              <form method="post" action="" action="/teacher/events/importExcel" enctype="multipart/form-data" class="teachertab-form" id="">
+                            <form method="post" action="" action="/teacher/events/importExcel" enctype="multipart/form-data" class="teachertab-form" id="">
                               {{ csrf_field() }}
                                  <p>To import events from another teacher, enter teacher's email address and teacher key</p>
                                  <div class="form-group">
                                     <label>Teacher Email</label>
-                                    <input id="shareEmailEvent" name="shareEmailEvent" size="40" title="Enter teacher's email address" type="text">
+                                    <input id="shareEmailEvent" name="email" size="40" title="Enter teacher's email address" type="text" required>
                                  </div>
                                  <div class="form-group">
                                     <label>Teacher Key</label>
-                                    <input id="shareKeyEvent" name="shareKeyEvent" size="40" title="Enter teacher's security key" type="text">
+                                    <input id="shareKeyEvent" name="shareKey" size="40" title="Enter teacher's security key" type="text" required>
                                  </div>
-                                 <div class="button-group">
-                                    <button class="renew-button" type="button"> Continue</button>
+                                 <!--div class="form-group return-year">
+                                    <label class="col-md-12 selectyear-label">Select a school year to import.</label>
+                                    <label>School Year</label>
+                                    <select id="school-yearevent">
+                                         <option value="2016-2017">2016-2017</option>
+                                         <option value="2016-2017">2016-2017</option>
+                                         <option value="2016-2017">2016-2017</option>
+                                         <option value="2016-2017">2016-2017</option>
+                                    </select>
+                                 </div-->
+                                 <div class="button-group submit-import">
+                                    <button class="renew-button import-continue" type="button"> Continue</button>
                                     <button class="close-button" data-dismiss="modal" type="button"> Cancel</button>
                                  </div>
                               </form>
@@ -229,7 +250,40 @@
                 },
 
                 success: function (response) {
-                  /*var html = '';
+                  
+
+                    console.log(response);
+                  },
+
+
+                error: function(data){
+                  console.log("error");
+                  console.log(data);
+                }
+
+              });
+          });
+
+          /*Import using Teacher's Sharing Key*/
+          $(document).on('click','.import-continue',function(){
+            var formData = $(this).closest('form').serialize();
+            alert(formData);
+            var url = BASE_URL +'/teacher/events/getyear';
+            $.ajax({
+              type:'get',
+              url: url,
+              data:formData,
+              dataType : "json",
+              beforeSend: function () {
+                $('#main-loader').show();
+              },
+              complete: function () {
+                $('#main-loader').hide();
+              },
+
+              success: function (response) {
+                console.log(response);
+                  var html = '';
 
                   $('#warning-box').remove();
                   $('#success-box').remove();
@@ -244,7 +298,7 @@
                       }
 
                       html += '</div>';
-                      $('#eventaddform').before(html);
+                      $('.modal-body').before(html);
                       
                   }
 
@@ -254,11 +308,11 @@
 
                     html += '<div id="success-box" class="alert alert-success fade in">';
                     html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
-                    html += '<strong>You Have created Event successfully !</strong>';
+                    html += '<strong> Events imported successfully !</strong>';
                     html += '</div>';
 
-                    $('#eventaddform').before(html);
-                    $('#eventaddform')[0].reset();
+                    $('.editeventtabs').before(html);
+                    //$('.editeventtabs')[0].reset();
                     setTimeout(function(){ 
                       $(".d-render-popoup").fadeOut();
                        window.location.reload();
@@ -266,18 +320,16 @@
 
 
                    
-                  }*/
-
-                    console.log(response);
-                  },
+                  }
+                },
 
 
-                error: function(data){
-                  console.log("error");
-                  console.log(data);
-                }
+              error: function(data){
+                console.log("error");
+                console.log(data);
+              }
 
-              });
+            });
           });
 
       </script>

@@ -56,7 +56,6 @@ class GuestController extends Controller
         $user = new User();
 
         switch ($request['user_role']) {
-
             case 2:
 
                 //Registed as a teacher
@@ -135,9 +134,18 @@ class GuestController extends Controller
                     $user = Auth::user();
 
 
-                    
+                    $role = Auth::user()->roles->pluck('name');
                     $response['success'] = 'TRUE';
-                    $response['success_redirect_url'] = '/teacher/dashboard/index';
+                        if(Auth::user()->hasRole('teacher')){
+                          $response['success_redirect_url'] = '/teacher/dashboard/index';  
+                        }
+                        elseif(Auth::user()->hasRole('student')){
+                            $response['success_redirect_url'] = '/student/dashboard/index'; 
+                        }
+                        elseif(Auth::user()->hasRole('admin')){
+                            $response['success_redirect_url'] = '/admin/dashboard/index'; 
+                        }
+
 
                 } else {
 
