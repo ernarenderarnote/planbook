@@ -49,9 +49,9 @@
            </div>
             <div class="copy-textcontent copy-contentleft">
                 <p> Date range to copy (leave empty for ALL lessons)</p>
-                <input class="form-control copy-inputs datepicker" id="demo5" type="text">
+                <input class="form-control copy-inputs datepicker" type="text">
                 <span class="date-rangetext">to</span>
-                <input class="form-control copy-inputs datepicker" id="demo6" type="text">
+                <input class="form-control copy-inputs datepicker" type="text">
                 <button class="btn  btn-primary showlessonbutton">Show Lesson</button>
             </div>
         </div>
@@ -177,7 +177,7 @@
     </script>
 
     <script>
-        function draganddrop() {
+        function draganddrop(){
           $( "#draggable tr .copy-descriptionfield" ).draggable({
             start: function( event, ui ) { 
                $(ui.item).css("background",'yellow');
@@ -269,7 +269,6 @@
             type:'GET',
             url: BASE_URL +'/teacher/classes/importcalendar',
             data:{type:lselected,teacher:tselected,year:yselected,class_id:class_id},
-            //dataType: 'json',
 
             beforeSend: function () {
               $('#main-loader').show();

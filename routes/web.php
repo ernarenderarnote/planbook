@@ -176,6 +176,21 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
              Route::get('/getyear', [ 'as' => 'getyear', "uses" => 'EventsController@getImport']);
         });
 
+        /* Teacher's Grades Routes*/
+
+        Route::group([ 'prefix' => "grades", 'as' => 'grades.' ], function()
+        {
+
+            Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "GradesController@index"]);
+        });
+
+        /* Teacher's Add Student Routes*/
+
+        Route::group([ 'prefix' => "addstudents", 'as' => 'addstudents.' ], function()
+        {
+
+            Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "AddstudentController@index"]);
+        });
     });
   
 
