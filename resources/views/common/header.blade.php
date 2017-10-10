@@ -60,7 +60,26 @@
   </div>
 </div>
 <!-- header End-->
-
+<!-- popup-studentlogin-->
+<div id="studentLoginBox" class="editBox student-popupmain">
+ <p class="popup-heading">Student View</p>
+  <div class="editBoxRow alertContainer text-center">
+    <div class="alertImage"> <img src="images/icon-alert.png" /> </div>
+    <div class="alertMessage" id="studentErrorMsg"> </div>
+  </div>
+  <div class="pl-4 pt-4 pr-4">
+    <form method="post" action="#" id="studentLogin">
+    {{ csrf_field() }}
+      <input id="shareEmail" name="email" type="email" placeholder="Email Address or Student ID" class="popup-input mb-4" />
+      <input id="shareKey" name="password" type="password" placeholder="Student Key" class="popup-input mb-4"  />
+      <div class=" mb-4">
+        <button type="submit" name="applyStudent" id="applyStudent" class="button popup-btn"/>Sign In</button>
+        <input type="button" id="cancelStudent" class="greybutton popup-btn cancel" Value="Cancel"  />
+      </div>
+    </form>
+  </div>
+</div>
+<!-- popup-studentlogin-->
 
 <!-- popup-signup-->
 <div id="newUserBox" class="editBox" >
@@ -229,7 +248,7 @@ $(document).ready(function() {
                       html += '<p>' + response['error'][i] + '</p>';
                   }
 
-                  html += '</div>';
+                 html += '</div>';
                   $('#loginErrorMsg').html(html);
                   //$('#login_loader').hide();
               }
@@ -246,7 +265,9 @@ $(document).ready(function() {
           }
       });
   });
-
+  $(document).on('click','.cancel',function(){
+    $('.editBox').modal('hide');
+  });
 
    
 });

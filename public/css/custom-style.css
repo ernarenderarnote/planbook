@@ -355,7 +355,7 @@ input[type=color].form-control { padding: 0; width: auto; min-width: 40px; }
 .type-view-drop ul.dropdown-menu.view-dropdown { min-width: 360px; }
 .dropdown-menu.view-dropdown { padding: 15px 10px; }
 .view-dropdown .nav-pills > li.active > a { background-color: #0057c1; color: #fff; }
-.view-dropdown .nav > li > a:focus, .nav > li > a:hover, .view-dropdown .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover { background-color: transparent; border: 1px solid #0057c1; box-shadow: none; color: #0057c1; }
+.view-dropdown .nav > li > a:focus, .nav > li > a:hover, .view-dropdown .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover { background-color: transparent; border: 1px solid #0057c1; box-shadow: none; color: #fff; }
 .view-dropdown .nav-pills > li + li { margin-left: 11px; }
 .viewlistleft { background-color: #ffffff; border: 2px solid #0057c1; border-radius: 3px; cursor: pointer; }
 .view-list { padding: 20px 0; width: 100%; }
@@ -1320,4 +1320,12 @@ div#main-loader {  background-color: rgba(0, 0, 0, 0.5);  bottom: 0;  left: 0;  
 }
 .gradebutons .btn-group {
     margin-bottom: 20px;
+}
+.student-popupmain {
+    padding-right: 0px !important;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 162px;
+    position:fixed;
 }

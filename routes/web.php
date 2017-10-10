@@ -29,7 +29,18 @@ Route::get('/logout', array(
     'as' => 'logout',
     'uses' => 'GuestController@logout',
 ));
+Route::get('/student/logout', array(
+    'as' => 'logout',
+    'uses' => 'StudentController@logout',
+));
 
+Route::post('/studentlogin', ['as'=>'studentlogin','uses'=>'StudentController@studentAuth']);
+   
+/*Route::group(['middleware' => ['student']], function () {
+    
+    Route::post('/studentlogin', ['as'=>'studentlogin','uses'=>'StudentController@studentAuth']);
+   
+});*/
 /**  Dashboard  **/ 
 Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.','middleware'=>'auth'], function()
 {
@@ -190,13 +201,14 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
         {
 
             Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "AddstudentController@index"]);
+            Route::match(['post'], '/add', [ 'as' => 'postAddEvent', 'uses' => "AddstudentController@postAddStudents"]);
         });
     });
   
 
 });
 
-Route::group(['namespace' => 'Student','prefix' => 'student', 'as' => 'student.'], function()
+Route::group(['namespace' => 'Student','prefix' => 'student', 'as' => 'student.','middleware'=>'student'], function()
 {
 
     Route::group([ 'prefix' => "dashboard", 'as' => 'dashboard.' ], function(){

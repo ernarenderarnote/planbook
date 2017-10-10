@@ -314,3 +314,67 @@
 
 
 @endsection
+
+@push('js')
+  <script>
+    $(document).ready(function(){
+       $('#viewPlans').on('click',function(){
+        $('#studentLoginBox').modal(); 
+     });
+    }); 
+    $("body").on('click','#applyStudent',function(e){
+      var obj = $(this);
+
+      event.preventDefault();
+
+      //$('#login_loader').show();
+
+      $.ajax({
+          url: "{{ url('/studentlogin') }}",
+          type: 'POST',
+          dataType: 'json',
+          data: $("#studentLogin").serialize(),
+          beforeSend: function () {
+              //obj.html('Saving... <i class="fa fa-floppy-o"></i>');
+          },
+          complete: function () {
+              //  obj.html('Save <i class="fa fa-floppy-o"></i>');
+          },
+          success: function (response) {
+              var html = '';
+              console.log(response);
+              $('#warning-box').remove();
+              $('#success-box').remove();
+
+              if (response['error']) {
+                  html += '<div id="warning-box" class="alert alert-danger fade in">';
+                  html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+                  html += '<strong>Error!</strong>';
+
+                  for (var i = 0; i < response['error'].length; i++) {
+                      html += '<p>' + response['error'][i] + '</p>';
+                  }
+
+                  html += '</div>';
+                  $('.alertContainer').before(html);
+                  //$('#login_loader').hide();
+              }
+
+              if (response['success']) {
+
+
+                  window.location.href = APP_URL + response['success_redirect_url'];
+
+                  //$('#login_loader').hide();
+
+
+              }
+          }
+      });
+  });
+
+  
+ 
+  </script>
+   
+@endpush

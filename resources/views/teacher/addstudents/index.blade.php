@@ -64,42 +64,44 @@
           <p>Student</p>
         </div>
         <div class="actionright pull-right">
-          <button class="actiondropbutton renew-button">Save</button>
+          <button type="submit" class="actiondropbutton renew-button" id="save_student_button">Save</button>
           <a class="closebutton" data-dismiss="modal"><i class="fa fa-close" aria-hidden="true"></i></a> </div>
       </div>
       <div class="modal-body">
-        <form method="post" action="#" class="addstudent-form">
+        <form method="post" id="studentaddform" action="#" class="addstudent-form">
+         {{ csrf_field() }}
+         <input id="user_role" name="user_role" type="hidden" value="3">
           <div class="form-group col-md-6">
             <label>Student ID</label>
-            <input id="studentCode" type="text" class="addstudent-field">
+            <input id="studentCode" type="text" name="sudentID" class="addstudent-field">
           </div>
           <div class="form-group col-md-6">
             <label>Email Address</label>
-            <input id="emailaddress" type="email" class="addstudent-field">
+            <input name="email" id="emailaddress" type="email" class="addstudent-field">
           </div>
           <div class="form-group col-md-6">
             <label>First Name</label>
-            <input id="firstname" type="text" class="addstudent-field">
+            <input name="firstName" id="firstname" type="text" class="addstudent-field">
           </div>
           <div class="form-group col-md-6">
             <label>Parent Email</label>
-            <input id="parentemail" type="email" class="addstudent-field">
+            <input name="parentemail" id="parentemail" type="email" class="addstudent-field">
           </div>
           <div class="form-group col-md-6">
             <label>Middle Name</label>
-            <input id="middlename" type="text" class="addstudent-field">
+            <input name="middlename" id="middlename" type="text" class="addstudent-field">
           </div>
           <div class="form-group col-md-6">
             <label>Phone Number</label>
-            <input id="phonenumber" type="email" class="addstudent-field">
+            <input name="phonenumber" id="phonenumber" type="email" class="addstudent-field">
           </div>
           <div class="form-group col-md-6">
             <label>Last Name</label>
-            <input id="lastname" type="text" class="addstudent-field">
+            <input name="lastname" id="lastname" type="text" class="addstudent-field">
           </div>
           <div class="form-group col-md-6">
             <label>Birthdate</label>
-            <input class="addstudent-field" id="demo" type="text">
+            <input name="birthdate" class="addstudent-field" id="demo" type="text">
           </div>
           <div class="form-group col-md-6">
             <label>Grade Level</label>
@@ -121,10 +123,10 @@
               <option value="12">Grade 12</option>
               <option value="99">Inactive</option>
             </select>
-          </div>
+          </div>  
           <div class="form-group col-md-6">
             <label>Student Key</label>
-            <input class="addstudent-field"  type="text">
+            <input name="password" class="addstudent-field"  type="text">
             <button class="main-buton generate-button"> Generate</button>
           </div>
         </form>
@@ -172,5 +174,78 @@ $('#demo').dcalendarpicker();
 $('#calendar-demo').dcalendar(); //creates the calendar
 </script>
 @push('js')
-   
+<script>
+/*Add Student*/
+  $("body").on('click','#save_student_button',function(e){
+      e.preventDefault();
+
+    var formData = $("#studentaddform").serialize();
+
+    var obj = $(this);
+    $.ajax({
+      type:'POST',
+      url: BASE_URL +'/teacher/addstudents/add',
+      data: formData,
+      dataType: 'json',
+
+      beforeSend: function () {
+        $('#main-loader').show();
+      },
+      complete: function () {
+        $('#main-loader').hide();
+      },
+
+      success: function (response) {
+        var html = '';
+
+        $('#warning-box').remove();
+        $('#success-box').remove();
+
+        if(response['error']){
+            html += '<div id="warning-box" class="alert alert-danger fade in">';
+            html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+            html += '<strong>Error!</strong>';
+
+            for (var i = 0; i < response['error'].length; i++) {
+                html += '<p>' + response['error'][i] + '</p>';
+            }
+
+            html += '</div>';
+            $('#eventaddform').before(html);
+            
+        }
+
+        if(response['success']){
+               
+          console.log(response['success']);
+
+          html += '<div id="success-box" class="alert alert-success fade in">';
+          html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+          html += '<strong>You Have created Event successfully !</strong>';
+          html += '</div>';
+
+          $('#eventaddform').before(html);
+          $('#eventaddform')[0].reset();
+          setTimeout(function(){ 
+            $(".d-render-popoup").fadeOut();
+             window.location.reload();
+           }, 5000);
+
+
+         
+        }
+
+
+        },
+
+
+      error: function(data){
+        console.log("error");
+        console.log(data);
+      }
+
+    });
+
+  }); 
+  </script> 
 @endpush  

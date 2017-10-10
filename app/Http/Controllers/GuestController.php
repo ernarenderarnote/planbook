@@ -139,14 +139,14 @@ class GuestController extends Controller
                         if(Auth::user()->hasRole('teacher')){
                           $response['success_redirect_url'] = '/teacher/dashboard/index';  
                         }
-                        elseif(Auth::user()->hasRole('student')){
+                        /*elseif(Auth::user()->hasRole('student')){
                             $response['success_redirect_url'] = '/student/dashboard/index'; 
                         }
                         elseif(Auth::user()->hasRole('admin')){
                             $response['success_redirect_url'] = '/admin/dashboard/index'; 
                         }
 
-
+*/
                 } else {
 
                     $response['error'] = ['These credentials do not match our records.!'];

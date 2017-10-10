@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Facades\App\Helpers\Common;
-
+use App\Students;
 use App\UserClass;
 use App\SchoolYear;
 use App\Unit;
@@ -39,7 +39,7 @@ class AddstudentController extends Controller
 	}
 
    /**
-	 * Assessment List
+	 * 
 	 */
 	public function index()
 	{
@@ -47,5 +47,24 @@ class AddstudentController extends Controller
 
 	}
 
-	
+	public function postAddStudents(Request $request){
+		$response = array();
+        $students = new Students();
+        $students->studentID = $request['sudentID'];
+        $students->user_id = Auth::id();
+        $students->name = $request['firstName'];
+        $students->middle_name = $request['middlename'];
+		$students->last_name= $request['lastname'];
+		$students->grade_level=$request['gradeLevel'];
+		$students->email = $request['email'];
+        $students->parent_email =$request['parentemail'];
+		$students->phone_number=$request['phonenumber'];
+		$students->birthdate=$request['birthdate'];
+		$students->password = Hash::make($request['password']);
+        $students->save();
+        Auth::login($students);
+
+        $response['success'] = 'TRUE';
+        //$response['success_redirect_url'] = '/student/dashboard/index';*/
+	}
 }

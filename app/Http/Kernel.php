@@ -60,5 +60,6 @@ class Kernel extends HttpKernel
         'permission' => \Zizaco\Entrust\Middleware\EntrustPermission::class,
         'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
         "IsSignupCompleted" => \App\Http\Middleware\IsTeacherSetupCompleted::class,
+        "student" => \App\Http\Middleware\RedirectIfNotStudent::class,
     ];
 }

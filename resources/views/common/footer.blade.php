@@ -18,24 +18,41 @@
 </div>
 <!--footer end--> 
 <!-- popup-studentlogin-->
-<div id="studentLoginBox" class="editBox">
-  <p class="popup-heading">Student View</p>
-  <div class="editBoxRow alertContainer text-center">
+
+<!-- popup-signup-->
+<div id="newUserBox" class="editBox student-loginmain" >
+  <p class="popup-heading">Sign Up</p>
+  <div class="editBoxRow alertContainer text-center" style="display:none;">
     <div class="alertImage"> <img src="images/icon-alert.png" /> </div>
-    <div class="alertMessage" id="studentErrorMsg"> </div>
+    <div class="alertMessage" id="newUserErrorMsg"> </div>
   </div>
   <div class="pl-4 pt-4 pr-4">
-    <form>
-      <input id="shareEmail" name="shareEmail" type="email" placeholder="Email Address or Student ID" class="popup-input mb-4" />
-      <input id="shareKey" name="shareKey" type="password" placeholder="Student Key" class="popup-input mb-4"  />
-      <div class=" mb-4">
-        <input type="submit" name="applyStudent" id="applyStudent" class="button popup-btn" value="Sign In" />
-        <input type="button" id="cancelStudent" class="greybutton popup-btn" Value="Cancel"  />
+    <div class="clearfix"></div>
+    <div class="button-group">
+      <div class="row">
+        <div class="form-group col-sm-5 text-left"> <a class="btn btn-facebook button  width-auto" href="/auth/facebook" target="_self"> <span class="pr-2">Login with </span><i class="fa fa-facebook" aria-hidden="true"></i></a> </div>
+        <div class="col-sm-2">
+          <h4> Or </h4>
+        </div>
+        <div class="form-group col-sm-5 text-center"> <a class="btn btn-google button width-auto" href="/auth/google" target="_self">  <span class="pr-2">Login with </span> <i class="fa fa-google-plus" aria-hidden="true"></i></a> </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <form id="signupform" role="form" method="POST">
+      {{ csrf_field() }}
+      <input id="user_role" name="user_role" type="hidden" value="2" />
+      <input id="email" name="email" type="email" placeholder="Email Address" class="popup-input mb-4" />
+      <input id="password" name="password" type="password" placeholder="Password" class="popup-input mb-4" />
+      <input id="password_confirmation" name="password_confirmation" type="password" placeholder="Confirm Password" class="popup-input mb-4" />
+      <div class="mb-4">
+        <input type="button" name="applyNewUser" id="applyNewUser" class="button popup-btn" value="Sign Up"  />
+        <span style="display:none;" id="regNewUser" class="full-section" >Registering...</span>
+        <input type="button" id="cancelNewUser" class="greybutton  popup-btn" Value="Cancel" />
       </div>
     </form>
   </div>
 </div>
-<!-- popup-studentlogin-->
+<!-- popup-signup-->
 <div id="overview" class="modalDialog" style="display:none;">
   <div> <a id="closeVideoBox" href="javascript:void(0);" title="Close" class="close">X</a>
     <video id="planbookVideo" width="699px" height="393px" controls>
