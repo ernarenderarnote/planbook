@@ -287,7 +287,13 @@ class Month
 	
 	public function getLessons($classID,$date){
 		$userID = Auth::id();
-		$lessons = ClassLesson::where('user_id',$userID)->where('class_id',$classID)->where('lesson_date',$date)->get();
+        if($userID!=''){
+            $lessons = ClassLesson::where('user_id',$userID)->where('class_id',$classID)->where('lesson_date',$date)->get();
+        }
+		else{
+            $userID = auth()->guard('students')->user()->user_id;
+             $lessons = ClassLesson::where('user_id',$userID)->where('class_id',$classID)->where('lesson_date',$date)->get();
+        }
 		return $lessons;
 	}
 	

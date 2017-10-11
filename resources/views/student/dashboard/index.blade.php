@@ -453,19 +453,19 @@
 	$(document).ready(function() {
 		var currentUrl = '@php echo $url @endphp' ;
 		if(currentUrl == 'week'){
-		$("#dynamicCalendarContent").load("/teacher/dashboard/weekCalendar");
+		$("#dynamicCalendarContent").load("/student/dashboard/weekCalendar");
 			$(".get-calendar").click(function(e){
 
-			$("#dynamicCalendarContent").load("/teacher/dashboard/weekCalendar"+$(this).attr('href') ,function(){
+			$("#dynamicCalendarContent").load("/student/dashboard/weekCalendar"+$(this).attr('href') ,function(){
 
 			});
 			e.preventDefault();
 		});	
 		}
 		else if(currentUrl == 'day'){
-			$("#dynamicCalendarContent").load("/teacher/dashboard/dayCalendar");
+			$("#dynamicCalendarContent").load("/student/dashboard/dayCalendar");
 			$(".get-calendar").click(function(e){
-			$("#dynamicCalendarContent").load("/teacher/dashboard/dayCalendar"+$(this).attr('href') ,function(){
+			$("#dynamicCalendarContent").load("/student/dashboard/dayCalendar"+$(this).attr('href') ,function(){
 				//$('.datepicker').datepicker({format: 'dd/mm/yyyy',});
 			});
 
@@ -473,12 +473,10 @@
 		});
 		}
 		else{
-			$("#dynamicCalendarContent").load("/teacher/dashboard/showCalendar");
+			$("#dynamicCalendarContent").load("/student/dashboard/showCalendar");
 			$(".get-calendar").click(function(e){
 
-			$("#dynamicCalendarContent").load("/teacher/dashboard/showCalendar"+$(this).attr('href') ,function(){
-
-				//$('.datepicker').datepicker({format: 'dd/mm/yyyy',});
+			$("#dynamicCalendarContent").load("/student/dashboard/showCalendar"+$(this).attr('href') ,function(){
 			});
 
 			e.preventDefault();
@@ -543,7 +541,7 @@
 			    event.preventDefault();
 				$.ajax({
 					  type:'POST',
-					  url: BASE_URL +'/teacher/dashboard/getClasses',
+					  url: BASE_URL +'/student/dashboard/getClasses',
 					  data: {
 							"_token": "{{ csrf_token() }}"	,
 							"classID":classID,
@@ -668,7 +666,7 @@
 				  success: function (response) {
 					$('#editmodal').modal('hide');
 					if(currentUrl =='week'){	
-						$("#dynamicCalendarContent").load("/teacher/dashboard/weekCalendar" ,function(){
+						$("#dynamicCalendarContent").load("/student/dashboard/weekCalendar" ,function(){
 							$(".pageLoader").hide();  
 						});
 					}
@@ -678,7 +676,7 @@
 						});
 					}
 					else{
-						$("#dynamicCalendarContent").load("/teacher/dashboard/showCalendar" ,function(){
+						$("#dynamicCalendarContent").load("/student/dashboard/showCalendar" ,function(){
 							$(".pageLoader").hide();  
 						});
 					}	
@@ -800,7 +798,7 @@
 		    event.preventDefault();		
 			$.ajax({
 				  type:'POST',
-				  url: BASE_URL +'/teacher/dashboard/movelessons',
+				  url: BASE_URL +'/student/dashboard/movelessons',
 				  data:data,
 				  beforeSend: function () {
 					$(".pageLoader").show();  
@@ -811,17 +809,17 @@
 				  success: function (response) {
 					$('#movemodal').modal('hide');
 					if(currentUrl =='week'){	
-						$("#dynamicCalendarContent").load("/teacher/dashboard/weekCalendar" ,function(){
+						$("#dynamicCalendarContent").load("/student/dashboard/weekCalendar" ,function(){
 							$(".pageLoader").hide();  
 						});
 					}
 					else if(currentUrl == 'day'){
-						$("#dynamicCalendarContent").load("/teacher/dashboard/dayCalendar" ,function(){
+						$("#dynamicCalendarContent").load("/student/dashboard/dayCalendar" ,function(){
 							$(".pageLoader").hide();  
 						});
 					}
 					else{
-						$("#dynamicCalendarContent").load("/teacher/dashboard/showCalendar" ,function(){
+						$("#dynamicCalendarContent").load("/student/dashboard/showCalendar" ,function(){
 							$(".pageLoader").hide();  
 						});
 					}	
@@ -837,7 +835,7 @@
 		    event.preventDefault();		
 			$.ajax({
 				  type:'POST',
-				  url: BASE_URL +'/teacher/dashboard/copylessons',
+				  url: BASE_URL +'/student/dashboard/copylessons',
 				  data:data,
 				  beforeSend: function () {
 				  },
@@ -847,12 +845,12 @@
 				  success: function (response) {
 					$('#movemodal').modal('hide');
 					if(currentUrl =='week'){	
-						$("#dynamicCalendarContent").load("/teacher/dashboard/weekCalendar" ,function(){
+						$("#dynamicCalendarContent").load("/student/dashboard/weekCalendar" ,function(){
 							$(".pageLoader").hide();  
 						});
 					}
 					else if(currentUrl == 'day'){
-						$("#dynamicCalendarContent").load("/teacher/dashboard/dayCalendar" ,function(){
+						$("#dynamicCalendarContent").load("/student/dashboard/dayCalendar" ,function(){
 							$(".pageLoader").hide();  
 						});
 					}

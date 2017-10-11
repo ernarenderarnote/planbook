@@ -212,8 +212,10 @@ Route::group(['namespace' => 'Student','prefix' => 'student', 'as' => 'student.'
 {
 
     Route::group([ 'prefix' => "dashboard", 'as' => 'dashboard.' ], function(){
-
+            Route::get('/showCalendar', ['as' => 'showCalendar', 'uses' => 'DashboardController@showCalendar']);
             Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "DashboardController@index"]);
+            Route::get('/weekCalendar', ['as' => 'week', 'uses' => 'DashboardController@weekView']);
+            Route::get('/dayCalendar', ['as' => 'day', 'uses' => 'DashboardController@dayView']);
 
     });
 });

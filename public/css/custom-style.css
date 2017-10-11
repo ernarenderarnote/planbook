@@ -1329,3 +1329,20 @@ div#main-loader {  background-color: rgba(0, 0, 0, 0.5);  bottom: 0;  left: 0;  
     top: 162px;
     position:fixed;
 }
+.type-view-drop ul.dropdown-menu.view-dropdown.studentview-dropdown {
+    min-width: 310px;
+    background: rgb(219, 223, 232);
+    top: 36px;
+}
+.user-drop .dropdown-menu.student-signout {
+    min-width: 100px;
+    padding: 0;
+    text-align: center;
+    background: rgb(219, 223, 232);
+}
+ .user-drop .dropdown .student-signout  li {
+    height:auto;
+    width: 100%;
+    text-align: center;
+    min-height: 0px;
+}

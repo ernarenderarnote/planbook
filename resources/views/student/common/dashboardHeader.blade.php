@@ -17,7 +17,7 @@
           
           
 <span class="caret"></span></button>
-          <ul class="dropdown-menu pull-right">
+          <ul class="dropdown-menu pull-right student-signout">
             <li><a href="/student/logout"><span class="add-ico"><img src="/images/icon-signout.png" alt="sign out"></span> <span class="add-text">Sign out</span></a></li>
           </ul>
         </div>
@@ -28,32 +28,9 @@
           <ul class="p-0 m-0">
             <li><a href="#" class="btn btn-primary px-3 py-2">Today</a></li>
             <li><a href="#" class="color-theme"><i class="fa fa-2x fa-calendar" aria-hidden="true"></i><span class="sr-only">calendar</span></a></li>
-            <li><a href="#" class="btn btn-primary px-3 py-2"><i class="fa fa-chevron-left" aria-hidden="true"></i><span class="sr-only">goto left</span></a> <a href="#" class="btn btn-primary px-3 py-2"><i class="fa fa-chevron-right" aria-hidden="true"></i><span class="sr-only">goto right</span></a> </li>
+            <li><a href="#" class="btn btn-primary px-3 py-2 get-calendar" id="pPrev"><i class="fa fa-chevron-left" aria-hidden="true"></i><span class="sr-only">goto left</span></a> <a href="#" class="btn btn-primary px-3 py-2 get-calendar" id="pNext"><i class="fa fa-chevron-right" aria-hidden="true"></i><span class="sr-only">goto right</span></a> </li>
             <li><a href="#" class="color-theme "><i class="fa fa-2x fa-file-text-o" aria-hidden="true"></i><span class="sr-only">calendar</span></a></li>
-            <!--<li><a href="#" class="btn btn-primary px-3 py-2">Copy</a></li>
-            <li class="dropdown">
-              <button class="btn btn-primary px-3 py-2 dropdown-toggle" type="button" data-toggle="dropdown">Add <span class="caret"></span></button>
-              <ul class="dropdown-menu">
-                <li><a href="#"><span class="add-ico"><img src="../images/assessment-add.png" alt="add-assessment"></span> <span class="add-text">Add<br>
-                  Assessment</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/assignment-add.png" alt="add assignment"></span> <span class="add-text">Add<br>
-                  Assignment</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/class-add.png"  alt="add class"></span> <span class="add-text">Add<br>
-                  Class</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/event-add.png" alt="add event"></span> <span class="add-text">Add<br>
-                  Event</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/extra-lesson-add.png" alt="add extra lesson"></span> <span class="add-text">Add<br>
-                  Extra Lesson</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/noschool.png" alt="add assignment"></span> <span class="add-text">Add No<br>
-                  School Day</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/addyear.png" alt="add school year"></span> <span class="add-text">Add<br>
-                  School year</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/template-add.png" alt="add template"></span> <span class="add-text">Add<br>
-                  Template</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/unit-add.png" alt="add unit"></span> <span class="add-text">Add<br>
-                  Unit</span></a></li>
-              </ul>
-            </li>-->
+            
           </ul>
         </div>
       </div>
@@ -62,37 +39,26 @@
           <ul class="p-0 m-0">
             <li><a href="#" class="btn btn-primary px-3 py-2 show-comment"><i class="fa fa fa-commenting-o" aria-hidden="true"></i><span class="sr-only">comments</span></a></li>
             <li><a href="#" class="btn btn-primary px-3 py-2 "><span class="">A<sup>+</sup></span></a></li>
-            <!--<li><a href="#" class="color-theme"><i class="fa fa-2x fa-print" aria-hidden="true"></i><span class="sr-only">Print</span></a></li>-->
+            
             <li><a href="#" class="collepse-minus btn btn-primary px-3 py-2"><i class="fa fa-minus" aria-hidden="true"></i><span class="sr-only"></span></a> </li>
-            <!--<li><a href="#" class="color-theme "><i class="fa fa-2x fa-file-text-o" aria-hidden="true"></i><span class="sr-only">collepse</span></a></li>-->
+            
             <li class="type-view-drop dropdown">
               <button class="btn btn-primary px-3 py-2 dropdown-toggle" type="button" data-toggle="dropdown">View <span class="caret"></span></button>
-              <ul class="dropdown-menu">
-                <li><a href="#">2017</a></li>
-                <li><a href="#">Add a year</a></li>
+              <ul class="dropdown-menu view-dropdown studentview-dropdown">
+              <div class="viewnav-tabs">
+                <ul class="nav nav-pills">
+              <li><a href="{{route('student.dashboard.index',['view'=>'day'])}}" class="btn btn-primary calBtn">Day</a>
+              </li>
+              <li><a href="{{route('student.dashboard.index',['view'=>'week'])}}" class="btn btn-primary calBtn" >Week</a>
+              </li>
+              <li><a href="{{route('student.dashboard.index')}}" class="btn btn-primary calBtn">Month</a>
+              </li>
+              
+            </ul>
+           </div> 
               </ul>
             </li>
-            <!--<li class="goto-drop dropdown">
-              <button class="btn btn-primary px-3 py-2 dropdown-toggle" type="button" data-toggle="dropdown">Go to <span class="caret"></span></button>
-              <ul class="dropdown-menu">
-                <li><a href="#"><span class="add-ico"><img src="../images/plans.png" alt="plan"></span> <span class="add-text">Plan</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/assessments.png" alt="assessment"></span> <span class="add-text">Assessments</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/assignments.png" alt="assignment"></span> <span class="add-text">Assignments</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/classes.png" alt="classes"></span> <span class="add-text">Classes</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/display.png" alt="display settings"></span> <span class="add-text">Display Settings</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/icon-events.png" alt="event"></span> <span class="add-text">Events</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/icon-grades.png" alt="grade"></span> <span class="add-text">Grades</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/icon-myfiles.png" alt="my files"></span> <span class="add-text">My Files</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/icon-mylists.png" alt="my list"></span> <span class="add-text">My List</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/icon-strategy.png" alt="strategies"></span> <span class="add-text">My Strategies</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/icon-schoolyear.png"  alt="School Year"></span> <span class="add-text">School Year</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/icon-sharing.png" alt="shearing"></span> <span class="add-text">Sharing Options</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/icon-standards2.png" alt="standard"></span> <span class="add-text">Standards Reporting</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/icon-students.png" alt="students"></span> <span class="add-text">Students</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/icon-templates.png" alt="template"></span> <span class="add-text">Templates</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="../images/icon-units.png" alt="units"></span> <span class="add-text">Units</span></a></li>
-              </ul>
-            </li>-->
+            
           </ul>
         </div>
       </div>
