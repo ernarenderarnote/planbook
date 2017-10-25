@@ -8,7 +8,7 @@
   <div class="copy-header"> Select class, then drag and drop students to add or remove from class</div>
   <div class="list-contentbutton gradebutons">
     <div class="btn-group">
-      <button type="button" class="btn languagebuton list-contentmainbuton  dropdown-toggle classBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> Language Arts <span class="caret"></span> </button>
+      <button type="button" class="btn languagebuton list-contentmainbuton  dropdown-toggle classBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select Class<span class="caret"></span> </button>
       <ul class="dropdown-menu language-dropdown">
       @forelse($classes as $class)
         <li class="classSelected"><a href="#" class="language-dropbutons languagebuton" style="background-color:{{ $class->class_color }}; color: #fff;" data-id = "{{$class->id}}">{{$class->class_name}}</a></li>
@@ -104,6 +104,9 @@
   
 @push('js')
   <script>
+      $("document").ready(function() {
+        $('.classSelected:first-child a').trigger('click');
+      });
      $('.classSelected a').on('click',function(){
         var classVar = $(this).text();
         var classId  = $(this).data('id'); 
