@@ -943,7 +943,10 @@ cursor: pointer;
 .events-section .studentsin-class { border: 5px solid #0057c1; background-color: #fff; border-radius: 5px; }
 .events-section .studentsclass-header { background-color: #0057c1; color: white; font-size: 12pt; margin-bottom: 20px; padding: 3px; text-align: center; }
 .events-section .assign-studentlistssection { float: left; width: 100%; padding: 20px 20px 0px 20px; }
-.events-section .studentsclass-body { height: 516px; }
+.events-section .studentsclass-body {
+    height: auto;
+    min-height: 350px;
+}
 .events-section .studentlevel-button { margin-right: 0px; }
 .sharingoptions-section { background-color: #dbdfe8; border: 5px solid #003b81; border-radius: 5px; margin-left: auto; margin-right: auto; width: 800px; }
 .sharingoptions-header { background-color: #003b81; color: white; font-size: 18pt; padding: 3px 15px 8px 15px; width: 100%; display: inline-block; }
@@ -1345,4 +1348,227 @@ div#main-loader {  background-color: rgba(0, 0, 0, 0.5);  bottom: 0;  left: 0;  
     width: 100%;
     text-align: center;
     min-height: 0px;
+}
+.show-assignmentsgrades {
+    width: 100%;
+    float: left;
+    margin-left: 31px;
+}
+.show-assignmentsgrades p {
+    font-weight: bold;
+    font-size: 15px;
+}
+.show-assignmentsgrades {
+    width: 91%;
+    float: left;
+    margin-left: 31px;
+    position: relative;
+    margin-bottom: 31px;
+}
+.show-assignmentstop {
+    width: auto;
+    float: left;
+	margin-right:20px;
+	position: absolute;
+	left:0;
+	right:0;
+	min-width:400px;
+}
+.show-gradeassignmentsbuttons button {
+    float: left;
+    padding: 5px;
+    background-color: #DCDEE9;
+    border-right: 2px solid #F4F4F6;
+    color: #2065CB;
+    cursor: pointer;
+    text-align: center;
+    min-width: 40px;
+    border: none;
+    margin-right: 6px;
+	border-radius:0px;
+}
+
+
+.show-gradeassignmentsbuttons button.active{
+	  background-color: #2065CB;
+color: #FFFFFF;
+
+}
+.show-gradeassignmentsbuttons button:last-child {
+    border-radius: 0px 5px 5px 0px;
+}
+.show-gradeassignmentsbuttons button:first-child {
+    border-radius: 5px 0px 0px 5px;
+}
+.show-gradeassignmentsbuttons {
+    width: 100%;
+    float: left;
+}
+.show-assignmentstablerow1{
+	width:202px;
+}
+.show-assignmentstablerow2{
+	width: 80px;
+    border-right: 1px solid white;
+    border-bottom: 1px solid #0057C1;
+    background-color: #0057C1;
+    color: white;
+    height: 140px;
+    vertical-align: bottom;
+   padding-bottom:20px;
+    padding-left: 20px;
+	
+}
+.showassesmenttable-innerrow {
+    display: inline-block;
+    -moz-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+   
+}
+.show-assignmentstable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+.show-assesmentsorting i {
+    width: 15px;
+    background-color: #0057C1;
+    color: white;
+    text-align: center;
+    border-radius: 3px;
+    margin-left: 11px;
+    cursor: pointer;
+}
+.show-assessmentrowbackground {
+    background: rgb(255, 199, 206);
+}
+.individualStudentGradesBox{
+	float:left;
+	width:100%;
+}
+.individualStudentGradesBox .nav{
+	   width: 91%;
+    float: left;
+    margin-left: 31px;
+	font-weight:bold;
+}
+.individualStudentGradesBox .nav td button {
+    background-color: #ffffff;
+    border: 2px solid #0057c1;
+    border-radius: 5px;
+    color: #0057c1;
+    font-weight: bold;
+    margin-left: 20px;
+    padding: 4px 8px;
+}
+.individualStudentGradesBox .nav td button:focus, .individualStudentGradesBox .nav td button:hover{
+	background-color:#0057c1;
+	color:#fff;
+}
+.individualStudentGradesBox .percentage {
+   margin-bottom:20px;
+    margin-left: 31px;
+    margin-top: 20px;
+    display: inline-block;
+}
+.individualStudentGradesBox .percentage input{
+	text-align: right; 
+	width: 50px;
+	margin-left:8px;
+}
+.individualStudentGradesContainer th{
+	   color: white;
+background-color: #0057C1;
+border-bottom-color: white;
+border-bottom-width: 1px;
+border-bottom-style: solid;
+font-weight: bold;
+padding:4px 0px;
+text-align:center;
+}
+
+.individualStudentGradesContainer table {
+    width: 97%;
+    margin: 0px 31px 20px 31px;
+}
+.individualStudentGradesContainer tr.data td {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #DBDFE8;
+    border-right-width: 1px;
+    border-right-style: solid;
+    border-right-color: #DBDFE8;
+    background-color: #FFFFFF;
+	padding:4px 8px;
+}
+.individualStudentGradesContainer tr.data.dataheader td:last-child{
+	border-right:0px;
+}
+.individualStudentGradesContainer tr.data.dataheader td {
+    background-color: #DBDFE8;
+    border: 1px solid #DBDFE8;
+        border-right-width: 1px;
+        border-right-style: solid;
+        border-right-color: rgb(219, 223, 232);
+    text-align: center;
+    border-right: 1px solid #fff;
+    color: #000;
+	
+}
+
+.individualStudentGradesContainer tr.data td .individualStudentGrade {
+    width: 60px;
+    text-align: right;
+    font-size: 13px;
+    color: #58595b;
+    border: 1px solid #fff;
+}
+.individualStudentGradesContainer tr.data td:last-child {
+    width: 85%;
+}
+.individualStudentGradesContainer tr.data .studentGradeNote {
+ border: 1px solid #fff;
+    width: 100%;
+}
+.individualStudentGradesContainer tr.data td .individualStudentGrade:hover,  .individualStudentGradesContainer tr.data td .individualStudentGrade:focus{
+    border: 1px solid #ddd;
+    box-shadow: 1px 1px 1px 1px #ddd;
+}
+ /*.individualStudentGradesContainer tr.data td .individualStudentGrade:focus{
+
+    background-color: rgb(255, 199, 206);
+}*/
+.individualStudentGradesContainer tr.data .studentGradeNote:hover, .individualStudentGradesContainer tr.data .studentGradeNote:focus {
+    border: 1px solid #ddd;
+    box-shadow: 1px 1px 1px 1px #ddd;
+}
+/*.individualStudentGradesContainer tr.data .studentGradeNote:focus  {
+    background-color: rgb(226, 239, 218);
+}*/
+span.student-results {
+    background-color: #DBDFE8;
+    width: auto;
+    padding: 5px;
+    border-radius: 2px;
+    margin: 0px 4px;
+    display: inline-block;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+.student-results .tStudent {
+    background-color: red;
+    height: auto;
+    width: auto;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 8pt;
+    margin-right: 2px;
+    display: inline-block;
+    height: 15px;
+    width: 15px;
+    
+}
+.student-results  .tStudent.sStudent{
+background-color: blue;
 }

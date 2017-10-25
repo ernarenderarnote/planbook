@@ -12,9 +12,6 @@
 
 	  @endif
 
-
-		
-
 		@yield('content')
 
 		@include('student.common.footer')

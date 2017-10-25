@@ -25,7 +25,7 @@ use View;
 use Mail;
 use Exception;
 use App\MyFile;
-class AddstudentController extends Controller
+class AssignstudentController extends Controller
 {
     /**
     * $data array pass data to view 
@@ -43,11 +43,18 @@ class AddstudentController extends Controller
 	 */
 	public function index()
 	{
-	   $this->data['students'] = Students::where('teacher_id',Auth::user()->id)->get();
-       return view('teacher.addstudents.index', $this->data);
+	   $this->data['classes'] = UserClass::where('user_id',Auth::user()->id)->get();
+       return view('teacher.assignstudents.index', $this->data);
 
 	}
-
+	public function getStudents(Request $request,$id){
+		$response = array();
+		$students = Students::where('teacher_id',Auth::user()->id)->get();
+		$response['success'] = 'TRUE';
+		$response['students'] = $students;
+        return response()->json($response);
+;
+	}
 	public function postAddStudents(Request $request){
 		$response = array();
         $students = new Students();

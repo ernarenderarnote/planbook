@@ -46,6 +46,153 @@
             </div>
          </div>
       </div>
+
+      <!-----grades-->
+
+      <div class="show-assignmentsgrades">
+         <div class="show-assignmentstop">
+            <p>Show Assignments</p>
+            <div class="show-gradeassignmentsbuttons">
+               <button class="btn active" type="button">All</button>
+               <button class="btn" type="button">None</button>
+               <button class="btn" type="button">Prior</button>
+               <button class="btn" type="button">Next</button>
+            </div>
+            <p>Show Assessments</p>
+            <div class="show-gradeassignmentsbuttons">
+               <button class="btn active" type="button">All</button>
+               <button class="btn" type="button">None</button>
+               <button class="btn" type="button">Prior</button>
+               <button class="btn" type="button">Next</button>
+            </div>
+         </div>
+         <div class="show-assignmentstable">
+            <table>
+               <thead>
+                  <tr>
+                     <th class="show-assignmentstablerow1"></th>
+                     <th class="show-assignmentstablerow2"><span class="showassesmenttable-innerrow">Overall</span></th>
+                     <th class="show-assignmentstablerow2"><span class="showassesmenttable-innerrow">Period</span></th>
+                     <th class="show-assignmentstablerow2"><span class="showassesmenttable-innerrow">liuh<br><span style="font-size: 9px;">No Category</span></span></th>
+                     <th class="show-assignmentstablerow2"><span class="showassesmenttable-innerrow">tuis<br><span style="font-size: 9px;">No Category</span></span></th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td> Due Date <span class="show-assesmentsorting pull-right">Sort<i class="fa fa-caret-left" aria-hidden="true"></i></span></td>
+                     <td> </td>
+                     <td> </td>
+                     <td> 10/02</td>
+                     <td class="show-assessmentrowbackground"></td>
+                  </tr>
+                  <tr>
+                     <td>Class Average</td>
+                     <td> </td>
+                     <td> </td>
+                     <td> 10/02</td>
+                     <td>10/50</td>
+                  </tr>
+                  <tr>
+                     <td>arnote, narender</td>
+                     <td> </td>
+                     <td> </td>
+                     <td> 10/02</td>
+                     <td>10</td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+      <div class="individualStudentGradesBox">
+         <div class="nav">
+            <table>
+               <tbody>
+                  <tr>
+                     <td id="studentName">arnote, narender</td>
+                     <td>
+                        <button  class="navButton" type="button">All</button>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="percentage">
+            <table>
+               <tbody>
+                  <tr>
+                     <th>Percentage:</th>
+                     <td><input id="individualStudentOverrideScore" value="100"   type="text"></td>
+                     <th style="padding-left: 25px;">Letter Grade:</th>
+                     <td id="individualStudentLetterGrade"></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="individualStudentGradesContainer">
+            <table style="border-collapse:collapse;">
+               <thead>
+                  <th colspan="5">Assignments</th>
+               </thead>
+               <tbody>
+                  <tr class="data dataheader">
+                     <td>Title</td>
+                     <td>Type</td>
+                     <td>  Due Date</td>
+                     <td>Points</td>
+                     <td>Notes</td>
+                  </tr>
+                  <tr class="data">
+                     <td>liuh</td>
+                     <td></td>
+                     <td>10/02/2017</td>
+                     <td><input class="individualStudentGrade" id="isgASG347389" tabindex="1" type="text" value="10"><span> / 50</span></td>
+                     <td><input class="studentGradeNote" tabindex="3"></td>
+                  </tr>
+                  <tr class="data">
+                     <td>liuh</td>
+                     <td></td>
+                     <td>10/02/2017</td>
+                     <td><input class="individualStudentGrade" id="isgASG347389" tabindex="1" type="text" value="10"><span> / 50</span></td>
+                     <td><input class="studentGradeNote" tabindex="3"></td>
+                  </tr>
+               </tbody>
+            </table>
+            <table style="border-collapse:collapse;">
+               <thead>
+                  <th colspan="5">Assessments</th>
+               </thead>
+               <tbody>
+                  <tr class="data dataheader">
+                     <td>Title</td>
+                     <td>Type</td>
+                     <td>  Due Date</td>
+                     <td>Points</td>
+                     <td>Notes</td>
+                  </tr>
+                  <tr class="data">
+                     <td>liuh</td>
+                     <td></td>
+                     <td></td>
+                     <td><input class="individualStudentGrade" id="isgASG347389" tabindex="1" type="text" value="10"><span> / 50</span></td>
+                     <td><input class="studentGradeNote" tabindex="3"></td>
+                  </tr>
+                  <tr class="data">
+                     <td>liuh</td>
+                     <td></td>
+                     <td></td>
+                     <td><input class="individualStudentGrade" id="isgASG347389" tabindex="1" type="text" value="10"><span> / 50</span></td>
+                     <td><input class="studentGradeNote" tabindex="3"></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+
+
+      <!--grades-->
+
+
+
       <!-- Addperiod Section Start Here -->
       <div id="addperiod" class="modal fade movemodalcontent editmodalcontent  addteachercontent in" role="dialog">
          <div class="modal-dialog">

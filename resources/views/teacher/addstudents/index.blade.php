@@ -9,13 +9,13 @@
   <div class="copy-header"> Students</div>
   <div class="list-contentbutton gradebutons">
     <div class="btn-group">
-      <button type="button" class="btn unitsbutton"  data-toggle="modal" data-target="#addstudent"><img src="../images/add2.png" class="event-icon"> Add Students </button>
+      <button type="button" class="btn unitsbutton"  data-toggle="modal" data-target="#addstudent"><img src="/images/add2.png" class="event-icon"> Add Students </button>
     </div>
     <div class="btn-group">
-      <button type="button" class="btn unitsbutton"  data-toggle="modal" data-target="#importstudents"><img src="../images/import.png" class="event-icon"> Import Students </button>
+      <button type="button" class="btn unitsbutton"  data-toggle="modal" data-target="#importstudents"><img src="/images/import.png" class="event-icon"> Import Students </button>
     </div>
     <div class="btn-group">
-      <a type="button" class="btn unitsbutton" href="#"><img src="../images/import.png" class="event-icon"> Assign Students </a>
+      <a type="button" class="btn unitsbutton" href=" {{route('teacher.assignstudents.index')}}"><img src="/images/import.png" class="event-icon"> Assign Students </a>
     </div>
   </div>
   <div class="student-added"><span class="tstudent student-addedbutton">T</span> Students added by Teacher<br>
@@ -47,7 +47,20 @@
           <div class="col-md-12">
           <div class="studentsin-class">
                 <div class="studentsclass-header">Students in Class</div>
-                <div class="studentsclass-body"></div>
+                <div class="studentsclass-body">
+                @forelse($students as $student)
+                <span class="student-results">
+                <span class="tStudent">T</span>
+                {{ $student->name }} , {{$student->last_name}}  
+                </span>
+                @empty
+                @endforelse 
+                <!--span class="student-results">
+                <span class="tStudent sStudent">S</span>
+                narender,arnote 
+                </span--> 
+
+                </div>
            </div>     
           </div>
         
@@ -163,16 +176,7 @@
 </div>
 
 @endsection
-  <script type="text/javascript" src="../js/jquery.min.js"></script> 
-<script type="text/javascript" src="../js/bootstrap.min.js" ></script> 
-<script type="text/javascript" src="../js/custom.js" ></script> 
-<script type="text/javascript" src="../tinymce_4.6.3_dev/tinymce/js/tinymce/tinymce.js"></script> 
-<script src="../js/dcalendar.picker.js"></script> 
-<script src="../js/jquery.timepicker.js"></script> 
-<script>
-$('#demo').dcalendarpicker();
-$('#calendar-demo').dcalendar(); //creates the calendar
-</script>
+  
 @push('js')
 <script>
 /*Add Student*/
@@ -197,7 +201,7 @@ $('#calendar-demo').dcalendar(); //creates the calendar
 
       success: function (response) {
         var html = '';
-
+        console.log(response);
         $('#warning-box').remove();
         $('#success-box').remove();
 
