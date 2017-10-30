@@ -63,7 +63,6 @@ class AddstudentController extends Controller
 		$students->birthdate=$request['birthdate'];
 		$students->password = Hash::make($request['password']);
         $students->save();
-        Auth::login($students);
 
         $response['success'] = 'TRUE';
         $response['success_redirect_url'] = '/student/dashboard/index';

@@ -26,6 +26,12 @@ class Students extends Authenticatable
     ];
 
     public function teacher(){
-        return $this->belongsTo(User::class,'id');
+        return $this->belongsTo(ClassAssigned::class);
+    }
+
+    public function assignClass(){
+
+        return $this->hasMany(ClassAssigned::class);
+
     }
 }

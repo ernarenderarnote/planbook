@@ -211,6 +211,7 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
 
             Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "AssignstudentController@index"]);
             Route::match(['get','post'], '/getStudents/{id}', [ 'as' => 'getStudents', "uses" => "AssignstudentController@getStudents"]);
+            Route::match(['get','post'], '/assignAllStudents/{id}', [ 'as' => 'getStudents', "uses" => "AssignstudentController@AssignAllStudents"]);
         });
     });
   

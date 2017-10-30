@@ -15,6 +15,7 @@ use App\ScoreWeighting;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Paginator;
+use App\ClassAssigned;
 use Session;
 use Input;
 use Validator;
@@ -49,11 +50,44 @@ class AssignstudentController extends Controller
 	}
 	public function getStudents(Request $request,$id){
 		$response = array();
+
 		$students = Students::where('teacher_id',Auth::user()->id)->get();
-		$response['success'] = 'TRUE';
-		$response['students'] = $students;
+
+		$inclass = ClassAssigned::where('teacher_id',Auth::user()->id)->where('class_id',$id)->get();
+		
+		$studentsArray = Students::where('teacher_id',Auth::user()->id)->get()->pluck('id');
+
+		$inclassArray = ClassAssigned::where('teacher_id',Auth::user()->id)->where('class_id',$id)->get()->pluck('student_id');
+		$diff = $studentsArray->diff($inclassArray)->all();
+
+		$notInClass = Students::whereIn('id', $diff)->get();
+
+		$dataInClass = Students::whereIn('id', $inclassArray)->get();
+
+		$response['success']  	 = 'TRUE';
+		$response['students'] 	 = $students;
+		$response['inclass']  	 = $dataInClass;
+		$response['notInClass']  = $notInClass;
         return response()->json($response);
 ;
+	}
+
+	public function AssignAllStudents(Request $request,$id){
+		$students = Students::where('teacher_id',Auth::user()->id )->get()->pluck('id');
+		$assigned = ClassAssigned::where('teacher_id',Auth::user()->id )->where('class_id',$id)->get()->pluck('student_id');
+		$diff = $students->diff($assigned)->all();
+		print_r($diff);
+		$response = array();
+		/*foreach($students as $student_id){
+			$classAssigned = new ClassAssigned();
+	        $classAssigned->student_id = $student_id;
+	        $classAssigned->teacher_id = Auth::id();
+	        $classAssigned->class_id   = $id;
+	        $classAssigned->save();
+	        
+	      
+		}*/
+		
 	}
 	public function postAddStudents(Request $request){
 		$response = array();

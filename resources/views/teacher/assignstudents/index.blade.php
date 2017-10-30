@@ -8,7 +8,7 @@
   <div class="copy-header"> Select class, then drag and drop students to add or remove from class</div>
   <div class="list-contentbutton gradebutons">
     <div class="btn-group">
-      <button type="button" class="btn languagebuton list-contentmainbuton  dropdown-toggle classBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select Class<span class="caret"></span> </button>
+      <button type="button" id ="classBtn" data-id='' class="btn languagebuton list-contentmainbuton  dropdown-toggle classBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Select Class<span class="caret"></span> </button>
       <ul class="dropdown-menu language-dropdown">
       @forelse($classes as $class)
         <li class="classSelected"><a href="#" class="language-dropbutons languagebuton" style="background-color:{{ $class->class_color }}; color: #fff;" data-id = "{{$class->id}}">{{$class->class_name}}</a></li>
@@ -52,13 +52,13 @@
     <div class="col-md-6">
       <div class="studentsin-class">
         <div class="studentsclass-header">Students in Class</div>
-        <div class="studentsclass-body"></div>
+        <div class="studentsclass-body" id="studentsinClass"></div>
       </div>
     </div>
     <div class="col-md-6">
       <div class="studentsin-class">
         <div class="studentsclass-header">Students not in Class</div>
-        <div class="studentsclass-body"></div>
+        <div class="studentsclass-body" id="notstudentsinClass"></div>
       </div>
     </div>
   </div>
@@ -74,7 +74,7 @@
       <div class="modal-body">
         <p>This will assign all of your students to your Language Arts class. Would you like to continue?</p>
         <div class="button-group">
-          <button class="renew-button"  data-dismiss="modal"> Continue</button>
+          <button class="renew-button" id="assignAll" data-dismiss="modal"> Continue</button>
           <button class="close-button" data-dismiss="modal"> Cancel</button>
         </div>
       </div>
@@ -112,6 +112,7 @@
         var classId  = $(this).data('id'); 
         var background = $(this).css('background-color');
         $('.classBtn').html(classVar +' <span class="caret"></span>');
+        $('.classBtn').attr('data-id',classId);
         $('.classBtn').css({'background-color':background,'border-color':background, 'color':'#fff'});
          $.ajax({
             type:'get',
@@ -126,13 +127,51 @@
             },
 
             success: function (response) {
-              $(".studentsclass-body").html("");
-              var students = response.students;
+              $("#studentsinClass").html("");
+              $("#notstudentsinClass").html("");
+              var students = response.inclass;
               for(var i in students){
-                $('.studentsclass-body').append('<span class="student-results"><span class="tStudent">T</span>'+students[i]['name']+','+students[i]['last_name']+'</span>'); 
-               console.log(students[i]['name']+','+students[i]['last_name']);
+                $('#studentsinClass').append('<span class="student-results"><span class="tStudent">T</span>'+students[i]['name']+','+students[i]['last_name']+'</span>'); 
+               console.log(students[i]);
+              }
+              var studentsN = response.notInClass;
+              for(var i in studentsN){
+                $('#notstudentsinClass').append('<span class="student-results"><span class="tStudent">T</span>'+studentsN[i]['name']+','+studentsN[i]['last_name']+'</span>'); 
+               //console.log(students);
               }
 
+            },
+            error: function(data){
+              console.log("error");
+              //console.log(data);
+            }
+
+         });
+      });
+
+     $('#assignAll').on('click',function(e){
+        var classID = $('#classBtn').data('id');
+        $('#assignstudents').modal('hide');
+        e.preventDefault();
+        alert(classID);
+        $.ajax({
+            type:'post',
+            url: BASE_URL +'/teacher/assignstudents/assignAllStudents/'+classID,
+            dataType: 'json',
+            data: {
+              "_token": "{{ csrf_token() }}",
+              },  
+
+            beforeSend: function () {
+              //obj.html('Sending... <i class="fa fa-send"></i>');
+            },
+            complete: function () {
+              //obj.html('Sent <i class="fa fa-send"></i>');
+            },
+
+            success: function (response) {
+               console.log(response);
+             
             },
             error: function(data){
               console.log("error");
