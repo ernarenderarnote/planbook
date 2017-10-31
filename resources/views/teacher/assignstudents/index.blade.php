@@ -74,7 +74,7 @@
       <div class="modal-body">
         <p>This will assign all of your students to your Language Arts class. Would you like to continue?</p>
         <div class="button-group">
-          <button class="renew-button" id="assignAll" data-dismiss="modal"> Continue</button>
+          <a href="javascript:;" data-id='' class="renew-button" id="assignAll"> Continue</a>
           <button class="close-button" data-dismiss="modal"> Cancel</button>
         </div>
       </div>
@@ -111,6 +111,7 @@
         var classVar = $(this).text();
         var classId  = $(this).data('id'); 
         var background = $(this).css('background-color');
+        $('#assignAll').attr('data-id',classId);
         $('.classBtn').html(classVar +' <span class="caret"></span>');
         $('.classBtn').attr('data-id',classId);
         $('.classBtn').css({'background-color':background,'border-color':background, 'color':'#fff'});
@@ -137,12 +138,12 @@
               var studentsN = response.notInClass;
               for(var i in studentsN){
                 $('#notstudentsinClass').append('<span class="student-results"><span class="tStudent">T</span>'+studentsN[i]['name']+','+studentsN[i]['last_name']+'</span>'); 
-               //console.log(students);
+               
               }
-
+              draganddrop();
             },
             error: function(data){
-              console.log("error");
+              console.log("data");
               //console.log(data);
             }
 
@@ -150,10 +151,7 @@
       });
 
      $('#assignAll').on('click',function(e){
-        var classID = $('#classBtn').data('id');
-        $('#assignstudents').modal('hide');
-        e.preventDefault();
-        alert(classID);
+        var classID = $(this).attr('data-id');
         $.ajax({
             type:'post',
             url: BASE_URL +'/teacher/assignstudents/assignAllStudents/'+classID,
@@ -163,22 +161,52 @@
               },  
 
             beforeSend: function () {
-              //obj.html('Sending... <i class="fa fa-send"></i>');
+               $('#assignstudents').modal('hide');
             },
             complete: function () {
               //obj.html('Sent <i class="fa fa-send"></i>');
             },
 
             success: function (response) {
-               console.log(response);
+              // console.log(response);
              
+              $("#studentsinClass").html("");
+              $("#notstudentsinClass").html("");
+              var students = response.inclass;
+              for(var i in students){
+                $('#studentsinClass').append('<span class="student-results"><span class="tStudent">T</span>'+students[i]['name']+','+students[i]['last_name']+'</span>'); 
+               
+              }
+              draganddrop();
             },
             error: function(data){
-              console.log("error");
               console.log(data);
             }
 
          });
+        e.preventDefault();
       });
   </script> 
+  <!--Drag and Drop assign classes-->
+  <script>
+  function draganddrop(){
+    $( ".student-results", '#studentsinClass' ).draggable({
+          cancel: "a.ui-icon", // clicking an icon won't initiate dragging
+          revert: "invalid", // when not dropped, the item will revert back to its initial position
+          //containment: "document",
+          helper: "clone",
+          cursor: "move"      
+      });
+      //http://jsfiddle.net/GRDww/40/
+      // let the transfer be droppable, accepting the gallery items
+      $('#notstudentsinClass').droppable({
+          //accept: "#studentsinClass > .student-results",
+          activeClass: "ui-state-highlight",
+          drop: function( event, ui ) {
+              deleteImage( ui.draggable );
+          }
+    });
+  }   
+  </script>
+  <!--Drag and Drop assign classes-->
 @endpush  

@@ -73,12 +73,18 @@ class AssignstudentController extends Controller
 	}
 
 	public function AssignAllStudents(Request $request,$id){
+		
 		$students = Students::where('teacher_id',Auth::user()->id )->get()->pluck('id');
+		
 		$assigned = ClassAssigned::where('teacher_id',Auth::user()->id )->where('class_id',$id)->get()->pluck('student_id');
+		
 		$diff = $students->diff($assigned)->all();
-		print_r($diff);
+		
 		$response = array();
-		/*foreach($students as $student_id){
+
+		$response['status']='TRUE';
+		
+		foreach($diff as $student_id){
 			$classAssigned = new ClassAssigned();
 	        $classAssigned->student_id = $student_id;
 	        $classAssigned->teacher_id = Auth::id();
@@ -86,8 +92,9 @@ class AssignstudentController extends Controller
 	        $classAssigned->save();
 	        
 	      
-		}*/
-		
+		}
+		 $response['inclass'] = Students::whereIn('id', $diff)->get();
+		 return response()->json($response);
 	}
 	public function postAddStudents(Request $request){
 		$response = array();
