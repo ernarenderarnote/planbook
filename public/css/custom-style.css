@@ -1554,7 +1554,7 @@ span.student-results {
     display: inline-block;
     margin-bottom: 8px;
     cursor: pointer;
-    z-index:9999999;
+    z-index:1;
 }
 .student-results .tStudent {
     background-color: red;
@@ -1573,17 +1573,3 @@ span.student-results {
 .student-results  .tStudent.sStudent{
 background-color: blue;
 }
-.custom-state-active { background: #eee;}
-.gallery li { float: left; width: 96px; padding: 0.4em; margin: 0.4em 0.4em; text-align: center; }
-.gallery li h5 { margin: 0 0 0.4em; cursor: move; }
-.gallery li a { float: right; }
-.gallery li a.ui-icon-zoomin { float: left; }
-.gallery li img { width: 100%; cursor: move; }
- 
-#transfer { float: right; width: 100%; min-height: 250px; }
-#transfer h4 { line-height: 16px; margin: 0 0 0.4em; }
-#transfer h4 .ui-icon { float: left; }
-#transfer .gallery h5 { display: none; }
-  
-button{display:block; margin-top:20px; width:200px;}
-#gen_dialog {display:none;}

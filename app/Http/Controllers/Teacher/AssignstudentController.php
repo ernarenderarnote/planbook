@@ -69,7 +69,6 @@ class AssignstudentController extends Controller
 		$response['inclass']  	 = $dataInClass;
 		$response['notInClass']  = $notInClass;
         return response()->json($response);
-;
 	}
 
 	public function AssignAllStudents(Request $request,$id){
@@ -96,24 +95,54 @@ class AssignstudentController extends Controller
 		 $response['inclass'] = Students::whereIn('id', $diff)->get();
 		 return response()->json($response);
 	}
-	public function postAddStudents(Request $request){
-		$response = array();
-        $students = new Students();
-        $students->studentID = $request['sudentID'];
-        $students->teacher_id = Auth::id();
-        $students->name = $request['firstName'];
-        $students->middle_name = $request['middlename'];
-		$students->last_name= $request['lastname'];
-		$students->grade_level=$request['gradeLevel'];
-		$students->email = $request['email'];
-        $students->parent_email =$request['parentemail'];
-		$students->phone_number=$request['phonenumber'];
-		$students->birthdate=$request['birthdate'];
-		$students->password = Hash::make($request['password']);
-        $students->save();
-        Auth::login($students);
 
-        $response['success'] = 'TRUE';
-        $response['success_redirect_url'] = '/student/dashboard/index';
+	public function AssignSingleStudent(Request $request){
+		$response = array();
+		$classAssigned = new ClassAssigned();
+		$classAssigned->teacher_id = Auth::user()->id;
+		$classAssigned->class_id   = $request->class_id;
+		$classAssigned->student_id = $request->student_id;
+		if($classAssigned->save()){
+			$response['success'] = 'TRUE';
+		}
+
+		return response()->json($response);
+	}
+
+	public function RemoveSingleStudent(Request $request){
+		ClassAssigned::where('class_id',$request->class_id)->where('student_id',$request->student_id)
+			->where('teacher_id',Auth::user()->id)
+			->delete();	
+	}
+
+	public function FilterStudent(request $request,$id){
+		$response = array();
+
+		$students = Students::where('teacher_id',Auth::user()->id)->get();
+
+		$inclass = ClassAssigned::where('teacher_id',Auth::user()->id)->where('class_id',$id)->get();
+		if($request->gradelevel!=''){
+			$studentsArray = Students::where('teacher_id',Auth::user()->id)->where('grade_level',$request->gradelevel)->get()->pluck('id');
+		}
+		else{
+			$studentsArray = Students::where('teacher_id',Auth::user()->id)->get()->pluck('id');
+		}
+
+		$inclassArray = ClassAssigned::where('teacher_id',Auth::user()->id)->where('class_id',$id)->get()->pluck('student_id');
+		$diff = $studentsArray->diff($inclassArray)->all();
+		
+		$notInClass = Students::whereIn('id', $diff)->get();
+
+		$dataInClass = Students::whereIn('id', $inclassArray)->get();
+
+		$response['success']  	 = 'TRUE';
+		$response['students'] 	 = $students;
+		$response['inclass']  	 = $dataInClass;
+		$response['notInClass']  = $notInClass;
+        return response()->json($response);
+	}
+
+	public function RemoveAllStudent(Request $request,$id){
+
 	}
 }

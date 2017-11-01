@@ -212,6 +212,10 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "AssignstudentController@index"]);
             Route::match(['get','post'], '/getStudents/{id}', [ 'as' => 'getStudents', "uses" => "AssignstudentController@getStudents"]);
             Route::match(['get','post'], '/assignAllStudents/{id}', [ 'as' => 'getStudents', "uses" => "AssignstudentController@AssignAllStudents"]);
+            Route::match(['get','post'], '/assignSingle', [ 'as' => 'assignSingle', "uses" => "AssignstudentController@AssignSingleStudent"]);
+            Route::match(['get','post'], '/removeSingle', [ 'as' => 'assignSingle', "uses" => "AssignstudentController@RemoveSingleStudent"]);
+            Route::match(['get','post'], '/filterStudents/{id}', [ 'as' => 'filterStudents', "uses" => "AssignstudentController@FilterStudent"]);
+            Route::match(['get','post'], '/removeAllStudents', [ 'as' => 'removeAllStudents', "uses" => "AssignstudentController@RemoveAllStudent"]);
         });
     });
   
