@@ -1573,3 +1573,12 @@ span.student-results {
 .student-results  .tStudent.sStudent{
 background-color: blue;
 }
+
+
+form#studentaddform {
+    display: flex;
+    flex-wrap: wrap;
+    display: -webkit-flex;
+    display: -ms-flex;
+    flex-wrap: -ms-wrap;
+}

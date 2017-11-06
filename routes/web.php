@@ -195,13 +195,41 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "GradesController@index"]);
         });
 
+        /* Teacher's Mylist Routes*/
+
+        Route::group([ 'prefix' => "mylist", 'as' => 'mylist.' ], function()
+        {
+
+            Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "MylistController@index"]);
+            Route::match(['get'], '/add', [ 'as' => 'getAddList', 'uses' => "MylistController@getAddList"]);
+            Route::match(['post'], '/add', [ 'as' => 'postAddList', 'uses' => "MylistController@postAddmylist"]);
+            Route::match(['get'], '/edit/{id}', [ 'as' => 'getEditList', 'uses' => "MylistController@getEditList"]);
+            Route::match(['post'], '/edit/{id}', [ 'as' => 'postEditMylist', "uses" => "MylistController@postEditMylist"]);
+        });
+
+        /* Teacher's strategies Routes*/
+
+        Route::group([ 'prefix' => "mystrategies", 'as' => 'mystrategies.' ], function()
+        {
+
+            Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "MystrategiesController@index"]);
+            Route::match(['get'], '/add', [ 'as' => 'getAddList', 'uses' => "MystrategiesController@getAddstrategies"]);
+            Route::match(['post'], '/add', [ 'as' => 'postAddList', 'uses' => "MystrategiesController@postAddstrategies"]);
+            Route::match(['get'], '/edit/{id}', [ 'as' => 'getEditMystrategies', 'uses' => "MystrategiesController@getEditstrategies"]);
+            Route::match(['post'], '/edit/{id}', [ 'as' => 'postEditMystrategies', "uses" => "MystrategiesController@postEditstrategies"]);
+        });
+
         /* Teacher's Add Student Routes*/
 
         Route::group([ 'prefix' => "addstudents", 'as' => 'addstudents.' ], function()
         {
 
             Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "AddstudentController@index"]);
-            Route::match(['post'], '/add', [ 'as' => 'postAddEvent', 'uses' => "AddstudentController@postAddStudents"]);
+            Route::match(['get'], '/add', [ 'as' => 'getAddStudent', "uses" => "AddstudentController@getAddStudents"]);
+            Route::match(['post'], '/add', [ 'as' => 'getAddStudent', "uses" => "AddstudentController@postAddStudents"]);
+            Route::match(['get'], '/edit/{id}', [ 'as' => 'geteditStudent', "uses" => "AddstudentController@getEditStudents"]);
+            Route::match(['post'], '/edit/{id}', [ 'as' => 'posteditStudent', "uses" => "AddstudentController@postEditStudents"]);
+
         });
 
         /* Teacher's Assign Student Routes*/
@@ -215,7 +243,7 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::match(['get','post'], '/assignSingle', [ 'as' => 'assignSingle', "uses" => "AssignstudentController@AssignSingleStudent"]);
             Route::match(['get','post'], '/removeSingle', [ 'as' => 'assignSingle', "uses" => "AssignstudentController@RemoveSingleStudent"]);
             Route::match(['get','post'], '/filterStudents/{id}', [ 'as' => 'filterStudents', "uses" => "AssignstudentController@FilterStudent"]);
-            Route::match(['get','post'], '/removeAllStudents', [ 'as' => 'removeAllStudents', "uses" => "AssignstudentController@RemoveAllStudent"]);
+            Route::match(['get','post'], '/removeAllStudents/{id}', [ 'as' => 'removeAllStudents', "uses" => "AssignstudentController@RemoveAllStudent"]);
         });
     });
   

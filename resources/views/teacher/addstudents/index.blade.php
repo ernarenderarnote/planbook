@@ -9,7 +9,7 @@
   <div class="copy-header"> Students</div>
   <div class="list-contentbutton gradebutons">
     <div class="btn-group">
-      <button type="button" class="btn unitsbutton"  data-toggle="modal" data-target="#addstudent"><img src="/images/add2.png" class="event-icon"> Add Students </button>
+      <button type="button" class="btn unitsbutton"  id="addstudent"><img src="/images/add2.png" class="event-icon"> Add Students </button>
     </div>
     <div class="btn-group">
       <button type="button" class="btn unitsbutton"  data-toggle="modal" data-target="#importstudents"><img src="/images/import.png" class="event-icon"> Import Students </button>
@@ -49,7 +49,7 @@
                 <div class="studentsclass-header">Students in Class</div>
                 <div class="studentsclass-body">
                 @forelse($students as $student)
-                <span class="student-results">
+                <span class="student-results" data-id="{{ $student->id}}" >
                 <span class="tStudent">T</span>
                 {{ $student->name }} , {{$student->last_name}}  
                 </span>
@@ -66,87 +66,14 @@
         
    </div>
 </div>
+ <!-- Add class Popup Starts Here -->
+      <div class="d-render-popoup t-data-popup modal fade editmodalcontent in" id="dynamicRenderDiv" role="dialog">
+        
 
-<!-- Addstudent Section Start Here -->
-<div id="addstudent" class="modal fade movemodalcontent editmodalcontent  addteachercontent in" role="dialog">
-  <div class="modal-dialog"> 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header addperiodheder">
-        <div class="normalLesson pull-left">
-          <p>Student</p>
-        </div>
-        <div class="actionright pull-right">
-          <button type="submit" class="actiondropbutton renew-button" id="save_student_button">Save</button>
-          <a class="closebutton" data-dismiss="modal"><i class="fa fa-close" aria-hidden="true"></i></a> </div>
       </div>
-      <div class="modal-body">
-        <form method="post" id="studentaddform" action="#" class="addstudent-form">
-         {{ csrf_field() }}
-         <input id="user_role" name="user_role" type="hidden" value="3">
-          <div class="form-group col-md-6">
-            <label>Student ID</label>
-            <input id="studentCode" type="text" name="sudentID" class="addstudent-field">
-          </div>
-          <div class="form-group col-md-6">
-            <label>Email Address</label>
-            <input name="email" id="emailaddress" type="email" class="addstudent-field">
-          </div>
-          <div class="form-group col-md-6">
-            <label>First Name</label>
-            <input name="firstName" id="firstname" type="text" class="addstudent-field">
-          </div>
-          <div class="form-group col-md-6">
-            <label>Parent Email</label>
-            <input name="parentemail" id="parentemail" type="email" class="addstudent-field">
-          </div>
-          <div class="form-group col-md-6">
-            <label>Middle Name</label>
-            <input name="middlename" id="middlename" type="text" class="addstudent-field">
-          </div>
-          <div class="form-group col-md-6">
-            <label>Phone Number</label>
-            <input name="phonenumber" id="phonenumber" type="email" class="addstudent-field">
-          </div>
-          <div class="form-group col-md-6">
-            <label>Last Name</label>
-            <input name="lastname" id="lastname" type="text" class="addstudent-field">
-          </div>
-          <div class="form-group col-md-6">
-            <label>Birthdate</label>
-            <input name="birthdate" class="addstudent-field" id="demo" type="text">
-          </div>
-          <div class="form-group col-md-6">
-            <label>Grade Level</label>
-            <select name="gradeLevel" id="gradeLevel" class="addstudent-field">
-              <option value=""></option>
-              <option value="-1">Pre-K</option>
-              <option value="0">Kindergarten</option>
-              <option value="1">Grade 1</option>
-              <option value="2">Grade 2</option>
-              <option value="3">Grade 3</option>
-              <option value="4">Grade 4</option>
-              <option value="5">Grade 5</option>
-              <option value="6">Grade 6</option>
-              <option value="7">Grade 7</option>
-              <option value="8">Grade 8</option>
-              <option value="9">Grade 9</option>
-              <option value="10">Grade 10</option>
-              <option value="11">Grade 11</option>
-              <option value="12">Grade 12</option>
-              <option value="99">Inactive</option>
-            </select>
-          </div>  
-          <div class="form-group col-md-6">
-            <label>Student Key</label>
-            <input name="password" class="addstudent-field"  type="text">
-            <button class="main-buton generate-button"> Generate</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+
+      <!-- Add class popup end here ! -->
+
 <!--Import Students popup start-->
 <div id="importstudents" class="modal fade movemodalcontent importstudentcontent" role="dialog">
   <div class="modal-dialog"> 
@@ -179,6 +106,12 @@
   
 @push('js')
 <script>
+
+  $('#addstudent').on('click',function(){
+    $("#dynamicRenderDiv").show().load("/teacher/addstudents/add",function(){
+
+    });
+  })
 /*Add Student*/
   $("body").on('click','#save_student_button',function(e){
       e.preventDefault();
@@ -225,11 +158,11 @@
 
           html += '<div id="success-box" class="alert alert-success fade in">';
           html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
-          html += '<strong>You Have created Event successfully !</strong>';
+          html += '<strong>You Have Added Student successfully !</strong>';
           html += '</div>';
 
-          $('#eventaddform').before(html);
-          $('#eventaddform')[0].reset();
+          $('#studentaddform').before(html);
+          $('#studentaddform')[0].reset();
           setTimeout(function(){ 
             $(".d-render-popoup").fadeOut();
              window.location.reload();
@@ -251,5 +184,88 @@
     });
 
   }); 
+
+  /*Edit student*/
+
+  $('.student-results').on('click',function(e){
+    var studentID = $(this).attr('data-id');
+    $("#dynamicRenderDiv").show().load("/teacher/addstudents/edit/"+studentID,function(){
+
+    });
+  });
+
+  /*Add Student*/
+  $("body").on('click','#edit_student_button',function(e){
+      e.preventDefault();
+    var id = $("#editStudet_id").val();
+    var formData = $("#studenteditform").serialize();
+
+    var obj = $(this);
+    $.ajax({
+      type:'POST',
+      url: BASE_URL +'/teacher/addstudents/edit/'+id,
+      data: formData,
+      dataType: 'json',
+
+      beforeSend: function () {
+        $('#main-loader').show();
+      },
+      complete: function () {
+        $('#main-loader').hide();
+      },
+
+      success: function (response) {
+        var html = '';
+        console.log(response);
+        $('#warning-box').remove();
+        $('#success-box').remove();
+
+        if(response['error']){
+            html += '<div id="warning-box" class="alert alert-danger fade in">';
+            html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+            html += '<strong>Error!</strong>';
+
+            for (var i = 0; i < response['error'].length; i++) {
+                html += '<p>' + response['error'][i] + '</p>';
+            }
+
+            html += '</div>';
+            $('#eventaddform').before(html);
+            
+        }
+
+        if(response['success']){
+               
+          console.log(response['success']);
+
+          html += '<div id="success-box" class="alert alert-success fade in">';
+          html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+          html += '<strong>You Have Edit Student successfully !</strong>';
+          html += '</div>';
+
+          $('#studenteditform').before(html);
+          $('#studenteditform')[0].reset();
+          setTimeout(function(){ 
+            $(".d-render-popoup").fadeOut();
+             window.location.reload();
+           }, 5000);
+
+
+         
+        }
+
+
+        },
+
+
+      error: function(data){
+        console.log("error");
+        console.log(data);
+      }
+
+    });
+
+  }); 
+
   </script> 
 @endpush  

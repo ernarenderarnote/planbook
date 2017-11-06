@@ -281,10 +281,7 @@ $(document).ready(function() {
 
     var assessment_id = $(this).data("assessment-id");
     
-    $("#dynamicRenderDiv").show().load("/teacher/assessments/edit/"+assessment_id,function(){
-
-      //$('.datepicker').datepicker({format: 'dd/mm/yyyy',});
-      
+    $("#dynamicRenderDiv").show().load("/teacher/mylist/edit/"+assessment_id,function(){
 
     });
 

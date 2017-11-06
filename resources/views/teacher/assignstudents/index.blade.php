@@ -178,11 +178,11 @@
             success: function (response) {
               // console.log(response);
              
-              $("#studentsinClass").html("");
+              //$("#studentsinClass").html("");
               $("#notstudentsinClass").html("");
               var students = response.inclass;
               for(var i in students){
-                $('#studentsinClass').append('<span class="student-results draggable"><span class="tStudent">T</span>'+students[i]['name']+','+students[i]['last_name']+'</span>'); 
+                $('#studentsinClass').append('<span class="student-results draggable" data-id='+students[i]['id']+'><span class="tStudent">T</span>'+students[i]['name']+','+students[i]['last_name']+'</span>'); 
                
               }
               draganddrop();
@@ -337,8 +337,8 @@
     });  
     /*Remove all assigned Students*/
 
-    /*$('#removeAll').on('click',function(e){
-        var classID = $(this).attr('data-id');
+    $('#removeAll').on('click',function(e){
+        var classID = $('#classBtn').attr('data-id');
         $.ajax({
             type:'post',
             url: BASE_URL +'/teacher/assignstudents/removeAllStudents/'+classID,
@@ -348,7 +348,6 @@
               },  
 
             beforeSend: function () {
-              $('#assignstudents').modal('hide');
               $('#main-loader').show();
             },
             complete: function () {
@@ -356,15 +355,16 @@
             },
 
             success: function (response) {
-              // console.log(response);
-             
-              $("#studentsinClass").html("");
-              $("#notstudentsinClass").html("");
-              var students = response.inclass;
-              for(var i in students){
-                $('#studentsinClass').append('<span class="student-results draggable"><span class="tStudent">T</span>'+students[i]['name']+','+students[i]['last_name']+'</span>'); 
-               
-              }
+              console.log(response);
+              if(response.success=='TRUE'){
+                  $("#notstudentsinClass").html("");
+                var students = response.notInClass;
+                for(var i in students){
+                  $('#notstudentsinClass').append('<span class="student-results draggable" data-id='+students[i]['id']+'><span class="tStudent">T</span>'+students[i]['name']+','+students[i]['last_name']+'</span>'); 
+                }  
+                $("#studentsinClass").html("");
+                
+              } 
               draganddrop();
             },
             error: function(data){
@@ -373,7 +373,7 @@
 
          });
         e.preventDefault();
-      });*/
+      });
   </script>
    
 

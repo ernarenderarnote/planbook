@@ -110,9 +110,15 @@ class AssignstudentController extends Controller
 	}
 
 	public function RemoveSingleStudent(Request $request){
-		ClassAssigned::where('class_id',$request->class_id)->where('student_id',$request->student_id)
-			->where('teacher_id',Auth::user()->id)
-			->delete();	
+		$response = array();
+		$removeSingle = ClassAssigned::where('class_id',$request->class_id)->where('student_id',$request->student_id)
+			->where('teacher_id',Auth::user()->id);
+		if($removeSingle->delete()){
+
+			$response['success'] = 'TRUE';
+		}
+			
+		return response()->json($response);		
 	}
 
 	public function FilterStudent(request $request,$id){
@@ -143,6 +149,16 @@ class AssignstudentController extends Controller
 	}
 
 	public function RemoveAllStudent(Request $request,$id){
+		$students = Students::where('teacher_id',Auth::user()->id )->get()->pluck('id');
+		$allstudents = Students::where('teacher_id',Auth::user()->id )->get();
+		$assigned = ClassAssigned::where('teacher_id',Auth::user()->id )->where('class_id',$id)->get()->pluck('id');
+		$removeAll =ClassAssigned::whereIn('id',$assigned);
+		if($removeAll->delete()){
 
+			$response['success'] = 'TRUE';
+		}
+				
+		 $response['notInClass'] = $allstudents;
+		 return response()->json($response);
 	}
 }
