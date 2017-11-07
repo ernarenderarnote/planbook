@@ -85,18 +85,19 @@
       <div class="modal-body">
         <p>To ensure a valid import, please make sure that your CSV file is formatted correctly.</p>
         <p>To view a sample CSV file, <a href="../help/students.csv" download="students">click here</a></p>
-        <form method="post" action="#" class="importstudent-form">
-             <div class="form-group">
-             <label for="importStudentsFile">Filename</label>
-             <input type="file"  name="importStudentsFile" size="45" >
-             </div>
-     
-        <div class="button-group">
-          <button class="renew-button"  data-dismiss="modal"> Import File</button>
-         
-          <button class="close-button" data-dismiss="modal"> Cancel</button>
-        </div>
-           </form>
+        <form method="post" action="#" class="importstudent-form" id="csvImportForm" enctype="multipart/form-data">
+         {{ csrf_field() }}
+            <div class="form-group">
+            <label for="importStudentsFile">Filename</label>
+            <input type="file" name="import_file" size="45" >
+            </div>
+       
+            <div class="button-group">
+              <input class="renew-button importFile" type="submit" vlaue="Import File">
+             
+              <button class="close-button" data-dismiss="modal"> Cancel</button>
+            </div>
+        </form>
       </div>
     </div>
   </div>
@@ -266,6 +267,41 @@
     });
 
   }); 
+   $(document).on('click','.closebutton',function(){
+    $('#dynamicRenderDiv').hide();
+  });
 
+  /*Import events*/        
+  
+    $(document).on('click','.importFile',function(e){
+        var formData = $('#csvImportForm').serialize()
+
+        var obj = $(this);
+        $.ajax({
+          type:'POST',
+          url: BASE_URL +'/teacher/addstudents/importExcel',
+          data: formData,
+         
+
+          beforeSend: function () {
+            $('#main-loader').show();
+          },
+          complete: function () {
+            $('#main-loader').hide();
+          },
+
+          success: function (response) {
+              console.log(response);
+            },
+
+
+          error: function(data){
+            console.log("error");
+            console.log(data);
+          }
+
+        });
+        e.preventDefault();
+    }); 
   </script> 
 @endpush  

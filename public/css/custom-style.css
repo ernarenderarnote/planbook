@@ -1582,3 +1582,11 @@ form#studentaddform {
     display: -ms-flex;
     flex-wrap: -ms-wrap;
 }
+
+form#studenteditform {
+    display: flex;
+    flex-wrap: wrap;
+    display: -webkit-flex;
+    display: -ms-flex;
+    flex-wrap: -ms-wrap;
+}

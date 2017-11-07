@@ -249,7 +249,7 @@ class EventsController extends Controller
     public function downloadExcel($events)
     {
         $data = Events::get()->toArray();
-        return Excel::create('itsolutionstuff_example', function($excel) use ($data) {
+        return Excel::create('events', function($excel) use ($data) {
             $excel->sheet('mySheet', function($sheet) use ($data)
             {
                 $sheet->fromArray($data);

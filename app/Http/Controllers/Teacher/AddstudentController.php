@@ -25,6 +25,7 @@ use View;
 use Mail;
 use Exception;
 use App\MyFile;
+use Excel;
 class AddstudentController extends Controller
 {
     /**
@@ -131,7 +132,7 @@ class AddstudentController extends Controller
 
 
             $rules = array(
-                'studentID'     => 'required',
+                'studentID'    => 'required',
                 'gradeLevel'   => 'required',
                 'email'        => 'required',
                 'parentemail'  => 'required',
@@ -139,7 +140,6 @@ class AddstudentController extends Controller
                 'firstName'    => 'required',
                 'middlename'   => 'required',
                 'lastname'     => 'required',
-     
             );
 
             $validator = Validator::make($request->all(), $rules);
@@ -175,6 +175,44 @@ class AddstudentController extends Controller
 
     }
 
+    public function importExcel()
+    {   
+        
+        $insert = array();    
+        if(Input::hasFile('import_file')){
+            echo"hello";
+            $path = Input::file('import_file')->getRealPath();
+            $data = Excel::load($path, function($reader) {
+            })->get();
+            print_r($data);
+            die();
+            if(!empty($data) && $data->count()){
+                foreach ($data as $key => $value) {
+                   print_r($value);
+                   die(); 
+                    /*$insert[] = [
+                    'user_id'    => Auth::user()->id, 
+                    'start_date' => $value->start_date,
+                    'end_date'   => $value->end_date,
+                    'start_time' => $value->start_time,
+                    'end_time'   => $value->end_time,
+                    'repeat'     => $value->repeat,
+                    'school_day' => $value->school_day,
+                    'event_title'=> $value->event_title,
+                    'event_text' => $value->event_text
+                    ];*/
+                }
+                /*if(!empty($insert)){
+                    DB::table('events')->insert($insert);
+                    return redirect()->back()->with('success', 'Events Imported Successfully!');
+                }*/
+            }
+        }
+        else{
+            echo "hii";
+        }
+       // return back();
+    }
 
 	
 }

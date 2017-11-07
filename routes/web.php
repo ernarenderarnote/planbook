@@ -229,7 +229,7 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::match(['post'], '/add', [ 'as' => 'getAddStudent', "uses" => "AddstudentController@postAddStudents"]);
             Route::match(['get'], '/edit/{id}', [ 'as' => 'geteditStudent', "uses" => "AddstudentController@getEditStudents"]);
             Route::match(['post'], '/edit/{id}', [ 'as' => 'posteditStudent', "uses" => "AddstudentController@postEditStudents"]);
-
+            Route::post('/importExcel', [ 'as' => 'importExcel', "uses" => 'AddstudentController@importExcel']);
         });
 
         /* Teacher's Assign Student Routes*/

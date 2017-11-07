@@ -232,7 +232,7 @@
           $("#importBtn").click(function(){
              $("#importevents").modal();
          });
-          $(document).on('click','.importFile1',function(){
+          $(document).on('click','.importFile',function(){
               var formData = $('#csvImportForm').serialize()
 
               var obj = $(this);
