@@ -177,42 +177,53 @@ class AddstudentController extends Controller
 
     public function importExcel()
     {   
-        
-        $insert = array();    
+        $response = array();
+        $insert   = array();    
         if(Input::hasFile('import_file')){
-            echo"hello";
             $path = Input::file('import_file')->getRealPath();
             $data = Excel::load($path, function($reader) {
             })->get();
-            print_r($data);
-            die();
             if(!empty($data) && $data->count()){
                 foreach ($data as $key => $value) {
-                   print_r($value);
-                   die(); 
-                    /*$insert[] = [
-                    'user_id'    => Auth::user()->id, 
-                    'start_date' => $value->start_date,
-                    'end_date'   => $value->end_date,
-                    'start_time' => $value->start_time,
-                    'end_time'   => $value->end_time,
-                    'repeat'     => $value->repeat,
-                    'school_day' => $value->school_day,
-                    'event_title'=> $value->event_title,
-                    'event_text' => $value->event_text
-                    ];*/
+                    $insert[] = [
+                        'studentID'      => $value->student_id_optional,
+                        'teacher_id'     => Auth::user()->id, 
+                        'name'           => $value->first_name_required,
+                        'middle_name'    => $value->middle_name_optional,
+                        'last_name'      => $value->last_name_required,
+                        'grade_level'    => $value->grade_level_required,
+                        'email'          => $value->email_address_required,
+                        'parent_email'   => $value->parent_email_optional,
+                        'phone_number'   => $value->phone_number_optional,
+                        'birthdate'      => $value->birthdate_optional,
+                        'password'       => Hash::make($value->access_code_required),
+                    ];
                 }
-                /*if(!empty($insert)){
-                    DB::table('events')->insert($insert);
-                    return redirect()->back()->with('success', 'Events Imported Successfully!');
-                }*/
+                if(!empty($insert) && $value->email_address_required!='' && $value->access_code_required!=''){
+                    DB::table('students')->insert($insert);
+                    $response['success'] = 'TRUE';
+                }
             }
         }
         else{
-            echo "hii";
+            $response['success'] = 'FALSE';
         }
-       // return back();
+        return response()->json($response);  
     }
 
+    public function FilterStudent(request $request){
+        $response = array();
+
+        if($request->gradelevel!=''){
+            $studentsArray = Students::where('teacher_id',Auth::user()->id)->where('grade_level',$request->gradelevel)->get();
+        }
+        else{
+            $studentsArray = Students::where('teacher_id',Auth::user()->id)->get();
+        }
+
+        $response['success']     = 'TRUE';
+        $response['students']    = $studentsArray;
+        return response()->json($response);
+    }
 	
 }

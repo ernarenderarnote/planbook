@@ -2,7 +2,7 @@
 
 	@php 
 
-	$selectedYear = auth()->guard('students')->user()->teacher;
+	$selectedYear = auth()->guard('students')->user()->selectedYear()->first();
 	$visibleDay = collect($selectedYear->class_schedule)->where("is_class", "1")->pluck("text")->map(function($day){ return "day-". strtolower($day); })->all();
 
 	$weeksInMonth = $monthView->_weeksInMonth();
@@ -61,7 +61,7 @@
 						@php	
 						$daysName = date("Y-m-d", $ts); 
 						$AllDays = date("l Y-m-d",strtotime("+$i days"));
-						$filtered = $classes->where('start_date', '<=' , $daysName)->where('end_date', '>=', $daysName)->where('user_id', '=' ,auth()->guard('students')->user()->user_id )->all();
+						$filtered = $classes->where('start_date', '<=' , $daysName)->where('end_date', '>=', $daysName)->where('user_id', '=' ,auth()->guard('students')->user()->teacher_id )->all();
 						@endphp				
 						<li class="weektab-content">
 							@forelse($filtered as $filters)

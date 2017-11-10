@@ -22,24 +22,24 @@
     <span class="sstudent student-addedbutton">S</span> Students assigned by School </div>
   <div class="list-contentbutton gradebutons pull-right">
     <div class="btn-group studentlevel-button">
-      <button type="button" class="btn unitsbutton list-contentmainbuton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> All Levels<span class="caret"></span> </button>
+      <button type="button" id="filterGradeLevel" class="btn unitsbutton list-contentmainbuton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-level> All Levels<span class="caret"></span> </button>
       <ul class="dropdown-menu language-dropdown">
-        <li><a href="#" class="language-dropbutons unitdropbuton">All levels </a></li>
-        <li><a href="#" class="language-dropbutons unitdropbuton">Pre-K </a></li>
-        <li><a href="#" class="language-dropbutons unitdropbuton">Kindergarten </a></li>
-        <li><a href="#" class="language-dropbutons unitdropbuton">Grade 1</a></li>
-        <li><a href="#" class="language-dropbutons unitdropbuton">Grade 2 </a></li>
-        <li><a href="#" class="language-dropbutons unitdropbuton">Grade 3</a></li>
-        <li><a href="#" class="language-dropbutons unitdropbuton">Grade 4</a></li>
-        <li><a href="#" class="language-dropbutons unitdropbuton">Grade 5</a></li>
-        <li><a href="#" class="language-dropbutons unitdropbuton">Grade 6</a></li>
-        <li><a href="#" class="language-dropbutons unitdropbuton">Grade 7 </a></li>
-        <li><a href="#" class="language-dropbutons unitdropbuton">Grade 8</a></li>
-        <li><a href="#" class="language-dropbutons unitdropbuton">Grade 9</a></li>
-        <li><a href="#" class="language-dropbutons unitdropbuton">Grade 10</a></li>
-        <li><a href="#" class="language-dropbutons unitdropbuton">Grade 11</a></li>
-        <li><a href="#" class="language-dropbutons unitdropbuton">Grade 12</a></li>
-        <li><a href="#" class="language-dropbutons unitdropbuton">Inactive</a></li>
+        <li class="gradeLevelPicker"><a href="#" class="language-dropbutons unitdropbuton" data-level=''>All levels </a></li>
+        <li class="gradeLevelPicker"><a href="#" class="language-dropbutons unitdropbuton" data-level='-1'>Pre-K </a></li>
+        <li class="gradeLevelPicker"><a href="#" class="language-dropbutons unitdropbuton" data-level='0'>Kindergarten </a></li>
+        <li class="gradeLevelPicker"><a href="#" class="language-dropbutons unitdropbuton" data-level='1'>Grade 1</a></li>
+        <li class="gradeLevelPicker"><a href="#" class="language-dropbutons unitdropbuton" data-level='2'>Grade 2 </a></li>
+        <li class="gradeLevelPicker"><a href="#" class="language-dropbutons unitdropbuton" data-level='3'>Grade 3</a></li>
+        <li class="gradeLevelPicker"><a href="#" class="language-dropbutons unitdropbuton" data-level='4'>Grade 4</a></li>
+        <li class="gradeLevelPicker"><a href="#" class="language-dropbutons unitdropbuton" data-level='5'>Grade 5</a></li>
+        <li class="gradeLevelPicker"><a href="#" class="language-dropbutons unitdropbuton" data-level='6'>Grade 6</a></li>
+        <li class="gradeLevelPicker"><a href="#" class="language-dropbutons unitdropbuton" data-level='7'>Grade 7 </a></li>
+        <li class="gradeLevelPicker"><a href="#" class="language-dropbutons unitdropbuton" data-level='8'>Grade 8</a></li>
+        <li class="gradeLevelPicker"><a href="#" class="language-dropbutons unitdropbuton" data-level='9'>Grade 9</a></li>
+        <li class="gradeLevelPicker"><a href="#" class="language-dropbutons unitdropbuton" data-level='10'>Grade 10</a></li>
+        <li class="gradeLevelPicker"><a href="#" class="language-dropbutons unitdropbuton" data-level='11'>Grade 11</a></li>
+        <li class="gradeLevelPicker"><a href="#" class="language-dropbutons unitdropbuton" data-level='12'>Grade 12</a></li>
+        <li class="gradeLevelPicker"><a href="#" class="language-dropbutons unitdropbuton" data-level='99'>Inactive</a></li>
       </ul>
     </div>
   </div>
@@ -188,7 +188,7 @@
 
   /*Edit student*/
 
-  $('.student-results').on('click',function(e){
+  $(document).on('click','.student-results',function(e){
     var studentID = $(this).attr('data-id');
     $("#dynamicRenderDiv").show().load("/teacher/addstudents/edit/"+studentID,function(){
 
@@ -273,15 +273,17 @@
 
   /*Import events*/        
   
-    $(document).on('click','.importFile',function(e){
-        var formData = $('#csvImportForm').serialize()
-
+    $('.importstudent-form').on('submit',function(e){
+        var formData = new FormData(this);
         var obj = $(this);
         $.ajax({
           type:'POST',
           url: BASE_URL +'/teacher/addstudents/importExcel',
           data: formData,
-         
+          cache: false,
+          contentType: false,
+          processData: false,
+          async: false,
 
           beforeSend: function () {
             $('#main-loader').show();
@@ -291,7 +293,44 @@
           },
 
           success: function (response) {
+              var html = '';
               console.log(response);
+              $('#warning-box').remove();
+              $('#success-box').remove();
+
+              if(response['error']){
+                  html += '<div id="warning-box" class="alert alert-danger fade in">';
+                  html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+                  html += '<strong>Error!</strong>';
+
+                  for (var i = 0; i < response['error'].length; i++) {
+                      html += '<p>' + response['error'][i] + '</p>';
+                  }
+
+                  html += '</div>';
+                  $('.modal-body').before(html);
+                  
+              }
+
+              if(response['success']){
+                     
+                console.log(response['success']);
+
+                html += '<div id="success-box" class="alert alert-success fade in">';
+                html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+                html += '<strong>You Have Import Student successfully !</strong>';
+                html += '</div>';
+
+                $('.modal-body').before(html);
+                $('.importstudent-form')[0].reset();
+                setTimeout(function(){ 
+                  $(".importstudentcontent").fadeOut();
+                   window.location.reload();
+                 }, 5000);
+
+
+               
+              }
             },
 
 
@@ -303,5 +342,49 @@
         });
         e.preventDefault();
     }); 
+    /*level Filter*/
+    $('.gradeLevelPicker a').on('click',function(){
+      var classVar   = $(this).text();
+      var datalevel  = $(this).data('level'); 
+      var background = $(this).css('background-color');
+      $('#filterGradeLevel').html(classVar +' <span class="caret"></span>');
+      $('#filterGradeLevel').attr('data-level',datalevel);
+      $('#filterGradeLevel').css({'background-color':background,'border-color':background, 'color':'#fff'}); 
+      $.ajax({
+        type:'post',
+        data:{
+          "_token"     : "{{ csrf_token() }}",
+          'gradelevel':datalevel
+
+        },
+        url: BASE_URL +'/teacher/addstudents/filterStudents/',
+        dataType: 'json',
+
+        beforeSend: function () {
+          $('#main-loader').show();
+        },
+        complete: function () {
+          $('#main-loader').hide();
+        },
+
+        success: function (response) {
+          $(".studentsclass-body").html("");
+          var studentsN = response.students;
+          if(studentsN.length > 0){
+            for(var i in studentsN){
+              $('.studentsclass-body').append('<span class="student-results" data-id='+studentsN[i]['id']+'><span class="tStudent">T</span>'+studentsN[i]['name']+','+studentsN[i]['last_name']+'</span>'); 
+             
+            }
+          }
+          else{
+              $('.studentsclass-body').append('<span class="">No Students For this grade level.</span>'); 
+          }
+        },
+        error: function(data){
+          console.log("data");
+        }
+
+      });
+    });  
   </script> 
 @endpush  

@@ -7,6 +7,7 @@
 @php 
 
 $selectedYear = auth()->user()->selectedYear()->first();
+
 $visibleDay = collect($selectedYear->class_schedule)->where("is_class", "1")->pluck("text")->map(function($day){ return "day-". strtolower($day); })->all();
 
 $weeksInMonth = $monthView->_weeksInMonth();

@@ -34,4 +34,7 @@ class Students extends Authenticatable
         return $this->hasMany(ClassAssigned::class);
 
     }
+     public function selectedYear(){
+        return $this->belongsTo(SchoolYear::class,'teacher_id','user_id');
+    }
 }

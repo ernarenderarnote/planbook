@@ -1,6 +1,8 @@
 
 @php 
-   $filtered = $classes->where('start_date', '<=' , $content['date'])->where('end_date', '>=', $content['date'])->where('user_id', '=' , auth()->guard('students')->user()->user_id )->all();
+   $filtered = $classes->where('start_date', '<=' , $content['date'])->where('end_date', '>=', $content['date'])->where('user_id', '=' , auth()->guard('students')->user()->teacher_id )->all();
+
+
 @endphp
 @if(!empty($filtered))
 <div class="cell-main-data">

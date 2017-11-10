@@ -2,7 +2,7 @@
 
 	@php 
 
-	$selectedYear = auth()->guard('students')->user()->teacher;
+	$selectedYear = auth()->guard('students')->user()->selectedYear()->first();
 	$visibleDay = collect($selectedYear->class_schedule)->where("is_class", "1")->pluck("text")->map(function($day){ return "day-". strtolower($day); })->all();
 
 	$weeksInMonth = $monthView->_weeksInMonth();
@@ -32,7 +32,7 @@
 			@php	
 		    $DayName = $monthView->getDay(); 
 			$ts = strtotime($DayName);
-			$filtered = $classes->where('start_date', '<=' , $DayName)->where('end_date', '>=', $DayName)->where('user_id', '=' , auth()->guard('students')->user()->user_id )->all();
+			$filtered = $classes->where('start_date', '<=' , $DayName)->where('end_date', '>=', $DayName)->where('user_id', '=' , auth()->guard('students')->user()->teacher_id )->all();
 			@endphp
 			@if(!empty($filtered))
 				@foreach($filtered as $filters)
