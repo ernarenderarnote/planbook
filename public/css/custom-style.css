@@ -953,12 +953,13 @@ cursor: pointer;
 .sharingoptions-header .save-button { padding: 4px 15px; }
 .sharingoptions-header .closebutton { color: #fff; cursor: pointer; padding-top: 2px; float: right; }
 .sharingoptions-body { padding: 7px 15px; }
-.sharingoptions-body p { font-style: italic; }
-.sharingoptions-form .form-group { margin: 11px 15px; }
+.sharingoptions-body p {font-style: italic;font-size: 14px;}
+.sharingoptions-body .form-group  label, .future-worksgroup label {font-size: 14px;}
+.sharingoptions-form .form-group { margin: 8px 0px; }
 .sharingoptions-form input[type=checkbox], input[type=radio] { vertical-align: top; }
 .sharingoptions-form .sharingoptionscheck-labels { margin-right: 8px; }
-.sharingoptions-body p.link-plans { margin-top: 8px; font-style: normal; }
-.sharingoption-buttons { margin-left: 15px; color: #000; }
+.sharingoptions-body p.link-plans { margin-top: 8px; font-style: normal; margin-bottom:8px; }
+.sharingoption-buttons {color: #000; margin-right: 8px;}
 .actionschedule-button .btn-primary.active, .btn-primary:active, .open > .dropdown-toggle.btn-primary { background-color: #0057c1; }
 .schoolyearsection { display: block; position: relative; width: 806px; }
 .addschoolyearinner .modal-dialog { margin: 12.6% auto; width: 806px; }

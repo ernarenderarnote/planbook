@@ -84,7 +84,7 @@
       </div>
       <div class="modal-body">
         <p>To ensure a valid import, please make sure that your CSV file is formatted correctly.</p>
-        <p>To view a sample CSV file, <a href="../help/students.csv" download="students">click here</a></p>
+        <p>To view a sample CSV file, <a href="/images/students.csv" download="students.csv">click here</a></p>
         <form method="post" action="#" class="importstudent-form" id="csvImportForm" enctype="multipart/form-data">
          {{ csrf_field() }}
             <div class="form-group">

@@ -246,6 +246,15 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::match(['get','post'], '/filterStudents/{id}', [ 'as' => 'filterStudents', "uses" => "AssignstudentController@FilterStudent"]);
             Route::match(['get','post'], '/removeAllStudents/{id}', [ 'as' => 'removeAllStudents', "uses" => "AssignstudentController@RemoveAllStudent"]);
         });
+
+        /* Teacher's Sharing Option Routes*/
+        
+        Route::group([ 'prefix' => "sharingoption", 'as' => 'sharingoption.' ], function()
+        {
+
+            Route::match(['get','post'], '/', [ 'as' => 'index', 'uses' => "SharingoptionController@index"]);
+           
+        });
     });
   
 
