@@ -907,7 +907,7 @@
 					tinymce.execCommand('mceFocus',false,'lessonTxt');
 					$("form.applyImgForm :input[name = embID]").each(function(index, elm){
 						var imgVal = $(this).val();
-						tinymce.get('lessonTxt').execCommand("mceInsertContent", false, "<br/><img style='width:200px; max-width: 100%; height: 200px;' src='/uploads/myfiles/"+imgVal+"'/><br/>");
+						tinymce.get('lessonTxt').execCommand("mceInsertContent", false, "<br/><img style='width:200px; max-width: 100%; height: 200px;' src='/uploads/myfiles/"+imgVal+"'/>");
 					});
 					$("#embedfilemodal").hide();
 					});
@@ -921,7 +921,7 @@
 				}
 				$("form.applyImgForm :input[name = embID]").each(function(index, elm){
 						var imgVal = $(this).val();
-						tinymce.get('homeworkTxt').execCommand("mceInsertContent", false, "<br/><img style='width:200px; max-width: 100%; height: 200px;' src='/uploads/myfiles/"+imgVal+"'/><br/>");
+						tinymce.get('homeworkTxt').execCommand("mceInsertContent", false, "<br/><img style='width:200px; max-width: 100%; height: 200px;' src='/uploads/myfiles/"+imgVal+"'/>");
 					});
 				$("#embedfilemodal").hide();	
 			});
@@ -935,7 +935,7 @@
 				}
 				$("form.applyImgForm :input[name = embID]").each(function(index, elm){
 						var imgVal = $(this).val();
-						tinymce.get('notesTxt').execCommand("mceInsertContent", false, "<br/><img style='width:200px; max-width: 100%; height: 200px;' src='/uploads/myfiles/"+imgVal+"'/><br/>");
+						tinymce.get('notesTxt').execCommand("mceInsertContent", false, "<br/><img style='width:200px; max-width: 100%; height: 200px;' src='/uploads/myfiles/"+imgVal+"'/>");
 					});
 				$("#embedfilemodal").hide();
 			});
@@ -957,6 +957,6 @@
 		$('.view-dropdown').on('click', function(event){
 			event.stopPropagation();
 		});
-		
+		/*https://medium.com/@krunallathiya/login-with-facebook-in-laravel-5-4-3c783fdc2b9d*/
 	</script>	
 @endpush

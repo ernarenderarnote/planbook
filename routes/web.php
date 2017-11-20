@@ -19,7 +19,8 @@ Route::post('/signUp', array(
     'as' => 'signUp',
     'uses' => 'GuestController@register'
 ));
-
+Route::get('/redirect', 'SocialAuthFacebookController@redirect');
+Route::get('/callback', 'SocialAuthFacebookController@callback');
 Route::post('/login', array(
     'as' => 'login',
     'uses' => 'GuestController@login',
@@ -100,7 +101,8 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::match(['post'], '/edit/{class_id}', [ 'as' => 'edit', "uses" => "ClassesController@postEditClass"]);
 			Route::match(['get'], '/import', [ 'as' => 'getImportClass', 'uses' => "ClassesController@getImportClass"]);
             Route::match(['get'], '/importcalendar', [ 'as' => 'importCalendar', 'uses' => "ClassesController@importCalendar"]);
-            Route::match(['get'], '/importcalendar/{class_id}', [ 'as' => 'importCalendar', 'uses' => "ClassesController@copyCalendar"]);
+            Route::match(['get'], '/importcalendar/{class_id}/{year}', [ 'as' => 'importCalendar', 'uses' => "ClassesController@copyCalendar"]);
+            Route::match(['post'], '/copyclass', [ 'as' => 'copyClass', 'uses' => "ClassesController@copyClass"]);
 
         });
 

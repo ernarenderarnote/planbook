@@ -59,7 +59,7 @@
             <div class="copy-contentheader"> Copy To </div>
             <div class="list-contentbutton">
                 <div class="btn-group">
-                    <button type="button" class="btn unitsbutton list-contentmainbuton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Select Class<span class="caret"></span> </button>
+                    <button type="button" class="btn unitsbutton list-contentmainbuton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" id="copyTo" aria-expanded="false"> Select Class<span class="caret"></span> </button>
                     <ul class="dropdown-menu language-dropdown dropTableClass">
                         @forelse($user_classes as $class)
                         <li><a href="#" class="language-dropbutons unitdropbuton" target_id="{{$class->id}}">{{ $class->class_name }}</a></li>
@@ -178,11 +178,11 @@
     <script>
         function draganddrop(){
           $( "#draggable tr .copy-descriptionfield" ).draggable({
-            start: function( event, ui ) { 
-               $(ui.item).css("background",'yellow');
+            start: function(event, ui){ 
+              $(this).css("height",10); 
             },
-            stop:function( event, ui ) { 
-               $(ui.item).removeClass("yellow");
+            stop: function(event, ui) {
+             $(this).css("height",150); 
             },
                     
             containment : 'document',
@@ -198,8 +198,12 @@
               $(this)
                 .addClass( "ui-state-highlight" )
                 .html(ui.draggable.html());
-                console.log($(this).prev('td').text());
-               }
+                var lesson_id     = $(this).find('span').attr('data-id');
+                var to_date       = $(this).prev('td').text();
+                var copy_to_class = $('#copyTo').attr('class_id'); 
+                var type          = $('#lessonBtn').text(); 
+                copyDroppedData(lesson_id,to_date,copy_to_class,type);
+              }
           });
         } 
         var lselected;
@@ -278,7 +282,6 @@
 
             success: function (response) {
               var html = '';
-              //console.log(response);
               $('.lessonCopyCalendar').html(response);
               draganddrop();
               },
@@ -300,9 +303,11 @@
             var background   = $(this).css('background-color');
             var id = $(this).attr('target_id');
             $(this).parents('.btn-group').find('.btn').html(lselected +' <span class="caret"></span>');
+            $(this).parents('.btn-group').find('.btn').attr('class_id',id);
+            var year = $('.yearbtn').text();
             $.ajax({
             type:'GET',
-            url: BASE_URL +'/teacher/classes/importcalendar/'+id,
+            url: BASE_URL +'/teacher/classes/importcalendar/'+id+'/'+year,
             //dataType: 'json',
             
             beforeSend: function () {
@@ -329,6 +334,37 @@
           });
           e.preventDefault();
          });
+
+        /*Post Droped lessons*/
+        function copyDroppedData(lesson_id,to_date,copy_to_class,type){
+          $.ajax({
+            type:'POST',
+            url: BASE_URL +'/teacher/classes/copyclass',
+            data:{"_token": "{{ csrf_token() }}",'type':type,'lesson_id':lesson_id, 'date':to_date,'to_class':copy_to_class},
+
+            beforeSend: function () {
+              $('#main-loader').show();
+            },
+            complete: function () {
+               $('#main-loader').hide();
+            },
+
+            success: function (response) {
+              var html = '';
+              //console.log(response);
+              $('.lessonPasteCalendar').html(response);
+              draganddrop();
+              },
+
+
+            error: function(data){
+              console.log("error");
+              console.log(data);
+            }
+
+          });
+        }  
+
     </script>
      <script>
          $(document).on('click',".copyunits-arrowright",function(){
@@ -338,6 +374,7 @@
             $('#importstudents').modal();
          });  
       </script>
+
 
 
 @endpush

@@ -842,8 +842,9 @@ cursor: pointer;
 .copy-classtable table { width: 100%; }
 .copy-classtable table td { border: 1px solid #dbdfe8; padding: 5px; text-align: center; cursor: move; }
 .copy-classtable table td.copy-descriptionfield { text-align: left; width: 71%; }
-.copy-classtable tr:hover { border-left: 4px solid #0057c1; }
-.copy-classtable { float: left; width: 100%; height: 354px; overflow-y: scroll; }
+.lessonCalendar tr.ui-widget-content td:first-child {position: relative; z-index: 0; }
+.lessonCalendar tr.ui-widget-content:hover td:first-child:before {content: ""; left: 0; top: 0; bottom: 0; width: 6px; height: 100%; background-color: #0057c1; position: absolute; }
+.copy-classtable {float: left; width: 100%; height: auto; overflow-y: scroll; max-height: 510px;}
 .copy-content .showlessonbutton { padding: 4px 4px; }
 .addteachercontent .modal-content { background-color: #dbdfe8; }
 .addteachercontent .addteacher-form .addteacherfield { width: 60%; }
@@ -1591,3 +1592,15 @@ form#studenteditform {
     display: -ms-flex;
     flex-wrap: -ms-wrap;
 }
+.copy-descriptiontext h5 {
+    margin: 8px 0px 8px 0px;
+    font-weight: bold;
+    font-size: 18px;
+}
+.copy-descriptiontext p {
+    padding: 0px;
+    font-size: 15px;
+}
+/*.copy-descriptiontext br {
+    display: none;
+}*/

@@ -242,10 +242,12 @@ class ClassesController extends Controller
 	}
 
 	public function importCalendar(Request $request){
-		$end   = '2018';
-		$start = '2017';
-		$type  = $request->type;
-        
+		$schoolYear = $request->year; 
+		$year_name  = explode('-',$schoolYear);
+		$start 		= $year_name[0];
+		$end        = $year_name[1];
+		$type  		= $request->type;
+		$this->data['current_selected_year'] = $request->year; 
 		if($type=='Lessons'){
 			$class_id = $request->class_id;
 			$this->data['classes'] = UserClass::where('user_id',Auth::user()->id)->where('id',$class_id)->where('start_date', '>=', $start)->Where('end_date', '<=' , $end)->orWhere(function($q) use($start, $end, $class_id){
@@ -275,7 +277,7 @@ class ClassesController extends Controller
 				$unitCount[] = ClassLesson::where('unit',$ui)->where('user_id',Auth::id())->get()->count();
 				$unitLessons[] = ClassLesson::where('unit',$ui)->where('user_id',Auth::id())->get();
 			}
-
+			$this->data['current_selected_year'] = $request->year; 
 			$this->data['class_lessons'] = $unitLessons;
 			$this->data['unitCount'] = array_combine($unitTitle,$unitLessons);
 			//print_r($this->data['class_lessons']);
@@ -285,9 +287,49 @@ class ClassesController extends Controller
 		
 	}
 
-	public function copyCalendar(Request $request, $class_id){
-		$end   = '2018';
-		$start = '2017';
+	public function copyCalendar(Request $request, $class_id, $year){
+		$schoolYear = $year; 
+		$year_name  = explode('-',$schoolYear);
+		$start 		= $year_name[0];
+		$end        = $year_name[1];
+			$this->data['classes'] = UserClass::where('user_id',Auth::user()->id)->where('id',$class_id)->get();
+			$this->data['code']=3;   
+			$this->data['user_lessons']=$lessons = ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$class_id)->where('lesson_date', '>=', $start)->Where('lesson_date', '<=' , $end)->orWhere(function($q) use($start, $end, $class_id){
+	       		$q->where('user_id',Auth::user()->id)->where('class_id',$class_id)->where('lesson_date', '>=' ,$start )->where('lesson_date' ,'<=', $end);
+				})->get();
+			    return view('teacher.classes.lessonCalendar', $this->data);
+
+	}	
+
+	public function copyClass(Request $request ){
+		$date       = $request->date;
+		$class_date = explode(' ',$date);
+		$response   = array();
+        $classLessons = new ClassLesson();
+        $class_id  = $request->to_class;
+        if($request->isMethod('post') && $request->type='Lessons') {
+        	$haslesson = ClassLesson::where('user_id',Auth::user()->id)->where('lesson_date',$class_date[1])->where('class_id',$request->to_class)->first();
+        	if($haslesson==''){
+        		$lessons   = ClassLesson::where('user_id',Auth::user()->id)->where('id',$request->lesson_id)->first();
+	 			$classLessons->class_id = $request->to_class;
+				$classLessons->user_id = Auth::user()->id;
+				$classLessons->lesson_date = $class_date[1];
+				$classLessons->lesson_start_time = $lessons->lesson_start_time;
+			    $classLessons->lesson_end_time = $lessons->lesson_end_time;
+				$classLessons->unit = $lessons->unit;
+				$classLessons->lesson_title = $lessons->lesson_title;
+				$classLessons->lesson_text = $lessons->lesson_text;
+				$classLessons->homework = $lessons->homework;
+				$classLessons->notes = $lessons->notes;
+				$classLessons->standards = $lessons->standards;
+				$classLessons->lock_lesson_to_date = $lessons->lock_lesson_to_date; 
+				$classLessons->attachments = $lessons->attachments; 
+				if($classLessons->save()){
+
+                    $schoolYear ='2017-2018'; 
+		$year_name  = explode('-',$schoolYear);
+		$start 		= $year_name[0];
+		$end        = $year_name[1];
 			$this->data['classes'] = UserClass::where('user_id',Auth::user()->id)->where('id',$class_id)->where('start_date', '>=', $start)->Where('end_date', '<=' , $end)->orWhere(function($q) use($start, $end, $class_id){
 	       		$q->where('user_id',Auth::user()->id)->where('id',$class_id)->where('end_date', '>=' ,$start )->where('start_date' ,'<=', $end);
 				})->get();
@@ -297,5 +339,12 @@ class ClassesController extends Controller
 				})->get();
 			    return view('teacher.classes.lessonCalendar', $this->data);
 
-	}	
+                }
+        	}
+        	else{
+        		$response['success'] = 'FALSE';
+        	}	
+        	return response()->json($response);	
+        }
+	}
 }
