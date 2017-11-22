@@ -2,7 +2,7 @@
     @php
     $firstDay     = auth()->user()->selectedYear()->first();
     $end          = '';
-    $start          = '';
+    $start        = '';
     $visibleDay   = array();
     $lesson_title = array();
     $lesson_date  = array();
@@ -11,7 +11,7 @@
     $standard     = array();
     $lesson_txt   = array();
     $lessons_id   = array();
-
+    $arr_length   = count($user_lessons);
   @endphp    
   @forelse($classes as $user_data)
     @php
@@ -27,6 +27,7 @@
     $datediff = strtotime($end) - strtotime($start);
     $datediff = floor($datediff/(60*60*24));
   @endphp
+
   @forelse($user_lessons as $lessons)
     @php
       $lesson_date[]  = $lessons->lesson_date ;
@@ -60,12 +61,12 @@
           
             <tr class="ui-widget-content" data-lesson="">
               <td>{{ $k }}</td>
-              <td>{{ $all_dates }}</td>
+              <td data-lesson='{{$dates[1]}}'>{{ $all_dates }}</td>
               <td class="copy-descriptionfield copy-descriptiontext">
               @if (count($lesson_date)>=1)
-                @for($j=0;$j<=1;$j++ )
+                @for($j=0;$j < $arr_length;$j++ )
                   @if(in_array($lesson_date[$j],$dates))
-                    @if($lesson_id[$j])
+                    @if($lesson_id[$j]) 
                      <span class='lessonClass' data-id="{{$lesson_id[$j]}}"></span> 
                     @endif 
                      <h5>{{ $lesson_title[$j] }}</h5>
@@ -97,8 +98,9 @@
   @endif
    @if($code == 2)
   @php 
-
+  $response = 'units';
   @endphp
+
      <div class="copy-contentbottom unitbottoomsection">
         <div class="copy-botomtext"> FROM Units 
         </div>
@@ -113,38 +115,36 @@
               <th>End
               </th>
            </tr>
-           @forelse($unitCount as $unit=>$val)
-            
-            
-            <tr class="unittable-relativemain">
+
+           @forelse($unitsGet as $unit)
+            @php $countLessons = count($unit->lessons); @endphp
+            <tr class="unittable-relativemain copy-descriptionfield" data-id="{{$unit['id']}}">
               <td class="copyunits-maincolumn">
                  <i class="fa fa-arrow-right copyunits-arrowright" aria-hidden="true" id="copyunits-arrowmain">
                  </i> 
                  <i class="fa fa-arrow-down" aria-hidden="true">
-                 </i>{{ $unit }} (lessons) 
+                 </i>{{$unit['unit_id']}} {{ $unit['unit_title'] }}({{$countLessons}} lessons) 
               </td>
-              <td>
-              </td>
-              <td>
-              </td>
+              <td>{{ $unit['starts_on'] }}</td>
+              <td>{{ $unit['ends_on'] }}</td>
            </tr> 
            <tr>
             <td colspan="3" class="copyunitsinner-data">
                  <div class="copyunits-tableinner" id="copyunits-tableinner1">
-                    <table>
+                    <table id="unitDrags">
                        <tr>
                           <th>Date</th>
                           <th class="copyunitsinner-column">Lesson</th>
                        </tr>
-                       @foreach($val as $v)
-                        @php $date_get = $v->lesson_date;
+                       @foreach($unit->lessons as $lesson )
+                        @php $date_get = $lesson['lesson_date'];
                         $newDate = date("l d-m-Y", strtotime($date_get));
                         @endphp
-                       <tr>
+                        <tr>
                           <td>{{ $newDate }}</td>
-                          <td>{{ $v->lesson_title }}</td>
+                          <td>{{ $lesson['lesson_title'] }}</td>
                        </tr>
-                        @endforeach
+                       @endforeach
                     </table>
                  </div>
               </td> 

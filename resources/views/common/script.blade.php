@@ -2,7 +2,7 @@
 <script type="text/javascript" src="/js/bootstrap.min.js" ></script> 
 <script type="text/javascript" src="/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="/js/jquery-ui.js"></script>
-
+<script type="text/javascript" src="/js/jquery.ui.touch-punch.js"></script> 
 <!-- datepicker js -->
 <script src="{{ asset('/plugins/datepicker/bootstrap-datepicker.js') }}"></script>
 <!-- time picker js -->

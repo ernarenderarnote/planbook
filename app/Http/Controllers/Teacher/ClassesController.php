@@ -264,24 +264,10 @@ class ClassesController extends Controller
 		else{
 			$this->data['code']=2;
 
-			$getUnits = Unit::where('class_id',$request->class_id)->where('user_id',Auth::id())->get();
-			$unitIds   = array();
-			$unitTitle = array();
-			$unitCount = array();
-			$unitLessons = array();
-			foreach($getUnits as $units){
-				$unitIds[]   =  $units['id'];
-				$unitTitle[] =  $units['unit_title']; 
-			}
-			foreach($unitIds as $ui){
-				$unitCount[] = ClassLesson::where('unit',$ui)->where('user_id',Auth::id())->get()->count();
-				$unitLessons[] = ClassLesson::where('unit',$ui)->where('user_id',Auth::id())->get();
-			}
-			$this->data['current_selected_year'] = $request->year; 
-			$this->data['class_lessons'] = $unitLessons;
-			$this->data['unitCount'] = array_combine($unitTitle,$unitLessons);
-			//print_r($this->data['class_lessons']);
-			//exit;
+			$getUnits  = Unit::where('class_id',$request->class_id)->where('user_id',Auth::id())->with('lessons')->get();
+
+			$this->data['unitsGet']  = $getUnits;
+
 			return view('teacher.classes.lessonCalendar', $this->data);
 		}
 		
@@ -292,12 +278,14 @@ class ClassesController extends Controller
 		$year_name  = explode('-',$schoolYear);
 		$start 		= $year_name[0];
 		$end        = $year_name[1];
-			$this->data['classes'] = UserClass::where('user_id',Auth::user()->id)->where('id',$class_id)->get();
-			$this->data['code']=3;   
-			$this->data['user_lessons']=$lessons = ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$class_id)->where('lesson_date', '>=', $start)->Where('lesson_date', '<=' , $end)->orWhere(function($q) use($start, $end, $class_id){
-	       		$q->where('user_id',Auth::user()->id)->where('class_id',$class_id)->where('lesson_date', '>=' ,$start )->where('lesson_date' ,'<=', $end);
-				})->get();
-			    return view('teacher.classes.lessonCalendar', $this->data);
+		$this->data['classes'] = UserClass::where('user_id',Auth::user()->id)->where('id',$class_id)->where('start_date', '>=', $start)->Where('end_date', '<=' , $end)->orWhere(function($q) use($start, $end, $class_id){
+       		$q->where('user_id',Auth::user()->id)->where('id',$class_id)->where('end_date', '>=' ,$start )->where('start_date' ,'<=', $end);
+			})->get();
+		$this->data['code']=3;   
+		$this->data['user_lessons']=$lessons = ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$class_id)->where('lesson_date', '>=', $start)->Where('lesson_date', '<=' , $end)->orWhere(function($q) use($start, $end, $class_id){
+       		$q->where('user_id',Auth::user()->id)->where('class_id',$class_id)->where('lesson_date', '>=' ,$start )->where('lesson_date' ,'<=', $end);
+			})->get();
+		    return view('teacher.classes.lessonCalendar', $this->data);
 
 	}	
 
@@ -307,7 +295,7 @@ class ClassesController extends Controller
 		$response   = array();
         $classLessons = new ClassLesson();
         $class_id  = $request->to_class;
-        if($request->isMethod('post') && $request->type='Lessons') {
+        if($request->isMethod('post') && $request->type == 'Lessons') {
         	$haslesson = ClassLesson::where('user_id',Auth::user()->id)->where('lesson_date',$class_date[1])->where('class_id',$request->to_class)->first();
         	if($haslesson==''){
         		$lessons   = ClassLesson::where('user_id',Auth::user()->id)->where('id',$request->lesson_id)->first();
@@ -325,19 +313,18 @@ class ClassesController extends Controller
 				$classLessons->lock_lesson_to_date = $lessons->lock_lesson_to_date; 
 				$classLessons->attachments = $lessons->attachments; 
 				if($classLessons->save()){
-
                     $schoolYear ='2017-2018'; 
-		$year_name  = explode('-',$schoolYear);
-		$start 		= $year_name[0];
-		$end        = $year_name[1];
-			$this->data['classes'] = UserClass::where('user_id',Auth::user()->id)->where('id',$class_id)->where('start_date', '>=', $start)->Where('end_date', '<=' , $end)->orWhere(function($q) use($start, $end, $class_id){
-	       		$q->where('user_id',Auth::user()->id)->where('id',$class_id)->where('end_date', '>=' ,$start )->where('start_date' ,'<=', $end);
-				})->get();
-			$this->data['code']=3;   
-			$this->data['user_lessons']=$lessons = ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$class_id)->where('lesson_date', '>=', $start)->Where('lesson_date', '<=' , $end)->orWhere(function($q) use($start, $end, $class_id){
-	       		$q->where('user_id',Auth::user()->id)->where('class_id',$class_id)->where('lesson_date', '>=' ,$start )->where('lesson_date' ,'<=', $end);
-				})->get();
-			    return view('teacher.classes.lessonCalendar', $this->data);
+					$year_name  = explode('-',$schoolYear);
+					$start 		= $year_name[0];
+					$end        = $year_name[1];
+					$this->data['classes'] = UserClass::where('user_id',Auth::user()->id)->where('id',$class_id)->where('start_date', '>=', $start)->Where('end_date', '<=' , $end)->orWhere(function($q) use($start, $end, $class_id){
+			       		$q->where('user_id',Auth::user()->id)->where('id',$class_id)->where('end_date', '>=' ,$start )->where('start_date' ,'<=', $end);
+						})->get();
+					$this->data['code']=3;   
+					$this->data['user_lessons']=$lessons = ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$class_id)->where('lesson_date', '>=', $start)->Where('lesson_date', '<=' , $end)->orWhere(function($q) use($start, $end, $class_id){
+			       		$q->where('user_id',Auth::user()->id)->where('class_id',$class_id)->where('lesson_date', '>=' ,$start )->where('lesson_date' ,'<=', $end);
+						})->get();
+					    return view('teacher.classes.lessonCalendar', $this->data);
 
                 }
         	}
@@ -346,5 +333,44 @@ class ClassesController extends Controller
         	}	
         	return response()->json($response);	
         }
+        if($request->type=='Units'){
+        	$date       = $request->date;
+        	$dateq[]    = $date;
+			$class_id   = explode('+',$request->to_class); 
+			$blank_date = explode(',',$class_id[1]);
+			$dateCount  = array_merge($dateq,$blank_date);
+        	$lessons = ClassLesson::where('user_id',Auth::user()->id)->where('unit',$request->lesson_id)->get()->pluck('id');
+        	$presentLessons = ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$class_id[0])->where('lesson_date' ,'>=', $date)->get();
+        	$j = 0;
+      		for($i=0;$i<count($dateCount);$i++){
+      			$classLessons = new ClassLesson();
+      			if($j==count($lessons)){
+      				break;
+      			}
+      			$getLesson   = ClassLesson::where('user_id',Auth::user()->id)->where('id',$lessons[$i])->first();
+      			$classLessons->class_id = $class_id[0];
+				$classLessons->user_id = Auth::user()->id;
+				$classLessons->lesson_date = $dateCount[$i];
+				$classLessons->lesson_start_time = $getLesson->lesson_start_time;
+			    $classLessons->lesson_end_time = $getLesson->lesson_end_time;
+				$classLessons->unit = $getLesson->unit;
+				$classLessons->lesson_title = $getLesson->lesson_title;
+				$classLessons->lesson_text = $getLesson->lesson_text;
+				$classLessons->homework = $getLesson->homework;
+				$classLessons->notes = $getLesson->notes;
+				$classLessons->standards = $getLesson->standards;
+				$classLessons->lock_lesson_to_date = $getLesson->lock_lesson_to_date; 
+				$classLessons->attachments = $getLesson->attachments; 
+				if($classLessons->save()){
+				  $success = 'TRUE';	
+				}	
+      			
+				$j++;
+      		}
+      		$response['success']     = $success;
+      		$response['unit_copied'] = 'TRUE';
+            return response()->json($response);			
+        }
+
 	}
 }

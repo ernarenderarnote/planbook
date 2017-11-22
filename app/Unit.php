@@ -31,6 +31,11 @@ class Unit extends Model
         return $this->belongsTo('App\UserClass','class_id');
     }
 
+    public function lessons(){
+
+
+        return $this->hasMany('App\ClassLesson','unit');
+    }
     
 
    

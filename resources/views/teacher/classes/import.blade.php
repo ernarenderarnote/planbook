@@ -177,12 +177,29 @@
 
     <script>
         function draganddrop(){
-          $( "#draggable tr .copy-descriptionfield" ).draggable({
+          var unit_id ;
+          $( ".copy-descriptionfield" ).draggable({
             start: function(event, ui){ 
-              $(this).css("height",10); 
+              ui.helper.css({"background-color":"blue","color":"#fff",'padding':'10px'});
+              var type = $('#lessonBtn').attr('btn-type');
+              switch(type) {
+                case 'Lessons':
+                  var txt  = $('#classbtn').text();
+                  var date = $(this).prev('td').text();
+                  ui.helper.html('<div>'+txt+'<br/>'+date+'</div>');
+                break;
+                case 'Units':
+                  unit_id  = $(this).attr('data-id');
+                  var txt  = $(this).text();
+                  ui.helper.html('<div>'+txt+'</div>');
+                break;
+                default:
+                console.log('something went wrong');
+              }
+              
             },
             stop: function(event, ui) {
-             $(this).css("height",150); 
+             //$(this).css("height",150); 
             },
                     
             containment : 'document',
@@ -195,17 +212,35 @@
           });
           $( "#droppable .copy-descriptionfield" ).droppable({
             drop: function( event, ui ) {
-              $(this)
-                .addClass( "ui-state-highlight" )
-                .html(ui.draggable.html());
-                var lesson_id     = $(this).find('span').attr('data-id');
-                var to_date       = $(this).prev('td').text();
-                var copy_to_class = $('#copyTo').attr('class_id'); 
-                var type          = $('#lessonBtn').text(); 
-                copyDroppedData(lesson_id,to_date,copy_to_class,type);
+                var type = $('#lessonBtn').attr('btn-type');
+                switch(type) {
+                  case 'Lessons':
+                    $(this).addClass( "ui-state-highlight" ).html(ui.draggable.html());
+                    var lesson_id     = $(this).find('span').attr('data-id');
+                    var to_date       = $(this).prev('td').text();
+                    var copy_to_class = $('#copyTo').attr('class_id'); 
+                    copyDroppedData(lesson_id,to_date,copy_to_class,type);
+                    $(this).addClass( "ui-state-highlight").html(ui.draggable.html());
+                  break;
+                  case 'Units':
+                    var to_date       = $(this).prev('td').attr('data-lesson');
+                    var copy_to_class = $('#copyTo').attr('class_id'); 
+                    var next_lessons  = $(this).parent('tr').nextAll('tr').find('.copy-descriptiontext').prev('td');
+                    var blank_dates   = [];
+                    $(next_lessons).each(function( index ) {
+                      blank_dates.push($( this ).attr('data-lesson'));
+                    });
+                    //console.log(dates);
+                    copyDroppedData(unit_id,to_date,copy_to_class+'+'+blank_dates,type);
+                  break;
+                  default:
+                  console.log('something went wrong');
+                }
+                     
               }
           });
         } 
+
         var lselected;
         var tselected;
         var yselected;
@@ -216,6 +251,7 @@
             lselected        = $(this).text();
             var background   = $(this).css('background-color');
             $(this).parents('.btn-group').find('.btn').html(lselected +' <span class="caret"></span>');
+            $(this).parents('.btn-group').find('.btn').attr('btn-type',lselected);
             if(typeof tselected != 'undefined' && typeof lselected != 'undefined' &&typeof yselected != 'undefined' && typeof uselected != 'undefined'){
               console.log(lselected+''+tselected+''+yselected+''+uselected);
                 ajaxCall();
@@ -281,10 +317,12 @@
             },
 
             success: function (response) {
+              //console.log(response);
               var html = '';
               $('.lessonCopyCalendar').html(response);
-              draganddrop();
-              },
+              draganddrop(); 
+          
+            },
 
 
             error: function(data){
@@ -322,7 +360,7 @@
               //console.log(response);
               $('.lessonPasteCalendar').html(response);
               draganddrop();
-              
+             
               },
 
 
@@ -350,13 +388,22 @@
             },
 
             success: function (response) {
-              var html = '';
-              //console.log(response);
-              $('.lessonPasteCalendar').html(response);
-              draganddrop();
-              },
-
-
+              if(response.success=='TRUE' && response.unit_copied=='TRUE'){
+                var html = '';
+                $('.lessonPasteCalendar').html('');
+                var trigger_id = $('#copyTo').attr('class_id');
+                var trigger_id1 = $('#copyTo').parent('.btn-group').find("ul li .unitdropbuton[target_id='"+trigger_id+"']").trigger('click');
+                var txt  = $('#copyTo').parent('.btn-group').find("ul li .unitdropbuton[target_id='"+trigger_id+"']").text();
+                $(this).parents('.btn-group').find('.btn').html(txt +' <span class="caret"></span>');
+                
+                draganddrop();
+              }
+              else if(response.success=='TRUE'){
+                var html = '';
+                $('.lessonPasteCalendar').html(response);
+                draganddrop();
+              }
+            },
             error: function(data){
               console.log("error");
               console.log(data);
@@ -372,7 +419,8 @@
          }); 
          $('#copyCsv').click(function(){
             $('#importstudents').modal();
-         });  
+         }); 
+
       </script>
 
 
