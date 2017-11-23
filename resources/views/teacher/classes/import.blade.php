@@ -49,9 +49,9 @@
            </div>
             <div class="copy-textcontent copy-contentleft">
                 <p> Date range to copy (leave empty for ALL lessons)</p>
-                <input class="form-control copy-inputs datepicker" type="text">
+                <input class="form-control copy-inputs filter-start-date" value='' type="text">
                 <span class="date-rangetext">to</span>
-                <input class="form-control copy-inputs datepicker" type="text">
+                <input class="form-control copy-inputs filter-end-date"  value='' type="text">
                 <button class="btn  btn-primary showlessonbutton">Show Lesson</button>
             </div>
         </div>
@@ -167,7 +167,7 @@
              $(".copytablemain-button").toggleClass("copyshowmain");
         });
         
-        $('.datepicker').datepicker({format: 'dd/mm/yyyy',autoclose:true});
+        $('.datepicker').datepicker();
         $('.timepicker').timepicker({
             'timeFormat': 'h:i A',
             'scrollDefault' : '8:00am',
@@ -246,6 +246,8 @@
         var yselected;
         var uselected;
         var class_id;
+        var start_date;
+        var end_date;
         $('.lselected li a').on('click',function(e){ 
 
             lselected        = $(this).text();
@@ -302,12 +304,27 @@
             }
 
          });
-
+        
+        /*Show lesson filter*/
+        $(document).ready(function(){
+          $('.filter-start-date').datepicker()
+            .on(".filter-start-date change", function (e) {
+            start_date  = e.target.value;
+        });
+        $('.filter-end-date').datepicker()
+            .on(".filter-start-date change", function (e) {
+            end_date  = e.target.value;
+        });
+        $('.showlessonbutton').on('click',function(){
+           ajaxCall();
+        });
+        })
+        
         function ajaxCall(){
           $.ajax({
             type:'GET',
             url: BASE_URL +'/teacher/classes/importcalendar',
-            data:{type:lselected,teacher:tselected,year:yselected,class_id:class_id},
+            data:{type:lselected,teacher:tselected,year:yselected,class_id:class_id,start_date:start_date,end_date:end_date},
 
             beforeSend: function () {
               $('#main-loader').show();

@@ -12,21 +12,31 @@
     $lesson_txt   = array();
     $lessons_id   = array();
     $arr_length   = count($user_lessons);
-  @endphp    
+  @endphp  
+   
   @forelse($classes as $user_data)
     @php
-      $end          = $user_data['end_date'];
-      $start        = $user_data['start_date'];
+        $end        = $user_data['end_date'];
+        $start      = $user_data['start_date'];
       $working_days = $user_data->class_schedule;
-      $visibleDay = collect(json_decode($user_data->class_schedule))->where("is_class", "1")->pluck("text")->all();
+      $visibleDay   = collect(json_decode($user_data->class_schedule))->where("is_class", "1")->pluck("text")->all();
     @endphp
     @empty
   @endforelse
-
-  @php
+   @if(isset($date_filter))
+    @php $datesget = explode('+',$date_filter);
+         $end_filter_date   =  $datesget[1];
+         $start_filter_date =  $datesget[0];  
+         $datediff = strtotime($end_filter_date) - strtotime($start_filter_date);
+         $datediff = $datediff/(60*60*24);     
+    @endphp
+    @else
+    @php
     $datediff = strtotime($end) - strtotime($start);
     $datediff = floor($datediff/(60*60*24));
   @endphp
+   @endif
+  
 
   @forelse($user_lessons as $lessons)
     @php

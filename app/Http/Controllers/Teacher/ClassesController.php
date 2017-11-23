@@ -244,8 +244,15 @@ class ClassesController extends Controller
 	public function importCalendar(Request $request){
 		$schoolYear = $request->year; 
 		$year_name  = explode('-',$schoolYear);
-		$start 		= $year_name[0];
-		$end        = $year_name[1];
+		if($request->start_date && $request->end_date){
+			$start      =  date("Y-m-d", strtotime($request->start_date));
+			$end        =  date("Y-m-d", strtotime($request->end_date));
+			$this->data['date_filter'] = $start.'+'.$end;
+		}
+		else{
+			$start 		= $year_name[0];
+			$end        = $year_name[1];
+		}
 		$type  		= $request->type;
 		$this->data['current_selected_year'] = $request->year; 
 		if($type=='Lessons'){
@@ -334,42 +341,51 @@ class ClassesController extends Controller
         	return response()->json($response);	
         }
         if($request->type=='Units'){
+        	$format     = 'd/m/Y';
         	$date       = $request->date;
         	$dateq[]    = $date;
 			$class_id   = explode('+',$request->to_class); 
 			$blank_date = explode(',',$class_id[1]);
 			$dateCount  = array_merge($dateq,$blank_date);
-        	$lessons = ClassLesson::where('user_id',Auth::user()->id)->where('unit',$request->lesson_id)->get()->pluck('id');
+			$haslesson 	= ClassLesson::where('user_id',Auth::user()->id)->where('unit',$request->lesson_id)->where('lesson_date',$date)->get()->count();
+        	$lessons 	= ClassLesson::where('user_id',Auth::user()->id)->where('unit',$request->lesson_id)->get()->pluck('id');
         	$presentLessons = ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$class_id[0])->where('lesson_date' ,'>=', $date)->get();
-        	$j = 0;
-      		for($i=0;$i<count($dateCount);$i++){
-      			$classLessons = new ClassLesson();
-      			if($j==count($lessons)){
-      				break;
-      			}
-      			$getLesson   = ClassLesson::where('user_id',Auth::user()->id)->where('id',$lessons[$i])->first();
-      			$classLessons->class_id = $class_id[0];
-				$classLessons->user_id = Auth::user()->id;
-				$classLessons->lesson_date = $dateCount[$i];
-				$classLessons->lesson_start_time = $getLesson->lesson_start_time;
-			    $classLessons->lesson_end_time = $getLesson->lesson_end_time;
-				$classLessons->unit = $getLesson->unit;
-				$classLessons->lesson_title = $getLesson->lesson_title;
-				$classLessons->lesson_text = $getLesson->lesson_text;
-				$classLessons->homework = $getLesson->homework;
-				$classLessons->notes = $getLesson->notes;
-				$classLessons->standards = $getLesson->standards;
-				$classLessons->lock_lesson_to_date = $getLesson->lock_lesson_to_date; 
-				$classLessons->attachments = $getLesson->attachments; 
-				if($classLessons->save()){
-				  $success = 'TRUE';	
-				}	
-      			
-				$j++;
-      		}
-      		$response['success']     = $success;
-      		$response['unit_copied'] = 'TRUE';
-            return response()->json($response);			
+        	if($haslesson>=1){
+        		$response['success']     = 'TRUE';
+	      		$response['unit_copied'] = 'TRUE';
+	            return response()->json($response);
+        	}
+        	else{
+        		$j = 1;
+	      		for($i=0;$i<count($dateCount);$i++){
+	      			$classLessons = new ClassLesson();
+	      			if($j==count($dateCount)){
+	      				break;
+	      			}
+	      			$getLesson   = ClassLesson::where('user_id',Auth::user()->id)->where('id',$lessons[$i])->first();
+	      			$classLessons->class_id = $class_id[0];
+					$classLessons->user_id = Auth::user()->id;
+					$classLessons->lesson_date = $dateCount[$i];
+					$classLessons->lesson_start_time = $getLesson->lesson_start_time;
+				    $classLessons->lesson_end_time = $getLesson->lesson_end_time;
+					$classLessons->unit = $getLesson->unit;
+					$classLessons->lesson_title = $getLesson->lesson_title;
+					$classLessons->lesson_text = $getLesson->lesson_text;
+					$classLessons->homework = $getLesson->homework;
+					$classLessons->notes = $getLesson->notes;
+					$classLessons->standards = $getLesson->standards;
+					$classLessons->lock_lesson_to_date = $getLesson->lock_lesson_to_date; 
+					$classLessons->attachments = $getLesson->attachments; 
+					if($classLessons->save()){
+					  $success = 'TRUE';	
+					}	
+					$j++;
+	      		}
+	      		$response['success']     = $success;
+	      		$response['unit_copied'] = 'TRUE';
+	            return response()->json($response);
+        	}
+        				
         }
 
 	}
