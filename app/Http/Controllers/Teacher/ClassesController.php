@@ -298,17 +298,19 @@ class ClassesController extends Controller
 
 	public function copyClass(Request $request ){
 		$date       = $request->date;
-		$class_date = explode(' ',$date);
+		$dateq[]    = $date;
+		$class_id   = explode('+',$request->to_class); 
+		$blank_date = explode(',',$class_id[1]);
+		$dateCount  = array_merge($dateq,$blank_date);
 		$response   = array();
         $classLessons = new ClassLesson();
-        $class_id  = $request->to_class;
         if($request->isMethod('post') && $request->type == 'Lessons') {
-        	$haslesson = ClassLesson::where('user_id',Auth::user()->id)->where('lesson_date',$class_date[1])->where('class_id',$request->to_class)->first();
+        	$haslesson = ClassLesson::where('user_id',Auth::user()->id)->where('lesson_date',$date)->where('class_id',$class_id[0])->first();
         	if($haslesson==''){
         		$lessons   = ClassLesson::where('user_id',Auth::user()->id)->where('id',$request->lesson_id)->first();
-	 			$classLessons->class_id = $request->to_class;
+	 			$classLessons->class_id = $class_id[0];
 				$classLessons->user_id = Auth::user()->id;
-				$classLessons->lesson_date = $class_date[1];
+				$classLessons->lesson_date = $date;
 				$classLessons->lesson_start_time = $lessons->lesson_start_time;
 			    $classLessons->lesson_end_time = $lessons->lesson_end_time;
 				$classLessons->unit = $lessons->unit;
@@ -324,22 +326,79 @@ class ClassesController extends Controller
 					$year_name  = explode('-',$schoolYear);
 					$start 		= $year_name[0];
 					$end        = $year_name[1];
-					$this->data['classes'] = UserClass::where('user_id',Auth::user()->id)->where('id',$class_id)->where('start_date', '>=', $start)->Where('end_date', '<=' , $end)->orWhere(function($q) use($start, $end, $class_id){
-			       		$q->where('user_id',Auth::user()->id)->where('id',$class_id)->where('end_date', '>=' ,$start )->where('start_date' ,'<=', $end);
+					$this->data['classes'] = UserClass::where('user_id',Auth::user()->id)->where('id',$class_id[0])->where('start_date', '>=', $start)->Where('end_date', '<=' , $end)->orWhere(function($q) use($start, $end, $class_id){
+			       		$q->where('user_id',Auth::user()->id)->where('id',$class_id[0])->where('end_date', '>=' ,$start )->where('start_date' ,'<=', $end);
 						})->get();
 					$this->data['code']=3;   
-					$this->data['user_lessons']=$lessons = ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$class_id)->where('lesson_date', '>=', $start)->Where('lesson_date', '<=' , $end)->orWhere(function($q) use($start, $end, $class_id){
-			       		$q->where('user_id',Auth::user()->id)->where('class_id',$class_id)->where('lesson_date', '>=' ,$start )->where('lesson_date' ,'<=', $end);
+					$this->data['user_lessons']=$lessons = ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$class_id[0])->where('lesson_date', '>=', $start)->Where('lesson_date', '<=' , $end)->orWhere(function($q) use($start, $end, $class_id){
+			       		$q->where('user_id',Auth::user()->id)->where('class_id',$class_id[0])->where('lesson_date', '>=' ,$start )->where('lesson_date' ,'<=', $end);
 						})->get();
 					    return view('teacher.classes.lessonCalendar', $this->data);
 
                 }
         	}
         	else{
-        		$response['success'] = 'FALSE';
+        		$presentLessons = ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$class_id[0])->where('lesson_date' ,'>=', $date)->orderBy('lesson_date')->get()->pluck('lesson_date')->toArray();
+        		$lessonsArray   = ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$class_id[0])->where('lesson_date' ,'>=', $date)->orderBy('lesson_date')->get()->toArray();
+			   //print_r($lessonsArray);
+        		$lid               = array();
+			    $lesson_start_time = array();
+			    $lesson_end_time   = array();
+			    $unit 			   = array();
+			    $lesson_title 	   = array();
+			    $lesson_text 	   = array();
+			    $homework          = array();
+			    $notes             = array();
+			    $standards         = array();
+			    $attachments 	   = array();
+			    $lock_lesson_to_date = array();
+        		foreach($lessonsArray as $updateLessons=>$value){
+        			$lid[]               = $value['id'];
+        			$lesson_start_time[] = $value['lesson_start_time'];
+				    $lesson_end_time[]   = $value['lesson_end_time'];
+				    $unit[]		   		 = $value['unit'];
+				    $lesson_title[] 	 = $value['lesson_title'];
+				    $lesson_text[] 	     = $value['lesson_text'];
+				    $homework[]          = $value['homework'];
+				    $notes[]             = $value['notes'];
+				    $standards[]         = $value['standards'];
+				    $attachments[] 	     = $value['attachments'];
+				    $lock_lesson_to_date[] = $value['lock_lesson_to_date'];
+        		}
+
+        		$j = 0;
+        		foreach($dateCount as $d){
+        			$classCopied = new ClassLesson();
+        			if(!in_array($d,$presentLessons)){
+        				break;
+        			}
+	        		else{	
+		        		ClassLesson::where('user_id',Auth::user()->id)->where('id',$lid[$j])->update(['lesson_date' => $dateCount[$j+1]]);
+		        		$lessons   = ClassLesson::where('user_id',Auth::user()->id)->where('id',$request->lesson_id)->first();
+		 				$classLessons->class_id = $class_id[0];
+						$classLessons->user_id = Auth::user()->id;
+						$classLessons->lesson_date = $date;
+						$classLessons->lesson_start_time = $lessons->lesson_start_time;
+				   		$classLessons->lesson_end_time = $lessons->lesson_end_time;
+						$classLessons->unit = $lessons->unit;
+						$classLessons->lesson_title = $lessons->lesson_title;
+						$classLessons->lesson_text = $lessons->lesson_text;
+						$classLessons->homework = $lessons->homework;
+						$classLessons->notes = $lessons->notes;
+						$classLessons->standards = $lessons->standards;
+						$classLessons->lock_lesson_to_date = $lessons->lock_lesson_to_date; 
+						$classLessons->attachments = $lessons->attachments; 
+						if($classLessons->save()){
+							$response['success'] = 'TRUE';
+							$response['unit_copied']='TRUE';
+		    			}
+		    		}
+        			$j++;
+        		}
         	}	
         	return response()->json($response);	
         }
+
         if($request->type=='Units'){
         	$format     = 'd/m/Y';
         	$date       = $request->date;

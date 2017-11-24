@@ -16,8 +16,8 @@
    
   @forelse($classes as $user_data)
     @php
-        $end        = $user_data['end_date'];
-        $start      = $user_data['start_date'];
+      $end          = $user_data['end_date'];
+      $start        = $user_data['start_date'];
       $working_days = $user_data->class_schedule;
       $visibleDay   = collect(json_decode($user_data->class_schedule))->where("is_class", "1")->pluck("text")->all();
     @endphp

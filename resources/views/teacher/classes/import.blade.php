@@ -217,9 +217,14 @@
                   case 'Lessons':
                     $(this).addClass( "ui-state-highlight" ).html(ui.draggable.html());
                     var lesson_id     = $(this).find('span').attr('data-id');
-                    var to_date       = $(this).prev('td').text();
+                    var to_date       = $(this).prev('td').attr('data-lesson');
                     var copy_to_class = $('#copyTo').attr('class_id'); 
-                    copyDroppedData(lesson_id,to_date,copy_to_class,type);
+                    var next_lessons  = $(this).parent('tr').nextAll('tr').find('.copy-descriptiontext').prev('td');
+                    var blank_dates   = [];
+                    $(next_lessons).each(function( index ) {
+                      blank_dates.push($( this ).attr('data-lesson'));
+                    });
+                    copyDroppedData(lesson_id,to_date,copy_to_class+'+'+blank_dates,type);
                     $(this).addClass( "ui-state-highlight").html(ui.draggable.html());
                   break;
                   case 'Units':
@@ -316,7 +321,9 @@
             end_date  = e.target.value;
         });
         $('.showlessonbutton').on('click',function(){
-           ajaxCall();
+          if(typeof tselected != 'undefined' && typeof lselected != 'undefined' &&typeof yselected != 'undefined' && typeof uselected != 'undefined'){
+            ajaxCall();
+          }
         });
         })
         
@@ -340,8 +347,6 @@
               draganddrop(); 
           
             },
-
-
             error: function(data){
               console.log("error");
               console.log(data);
