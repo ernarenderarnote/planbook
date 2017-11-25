@@ -8,7 +8,7 @@
             <td><img class="img-responsive" src="images/12-dollar-badge.png" alt=""></td>
             <td>
               <div class="logo-signup" style="">
-                <a href="#" id="signUpButton" class="button  signup">Sign up</a><br/>
+                <a href="#" id="signUpButton" class="button  signupmain">Sign up</a><br/>
                 and receive a one month<br/>
                 free trial.
               </div>
@@ -16,7 +16,7 @@
           </tr>
         </table>
       </div>
-      <div class="col-sm-4 text-center head-center"><img class="img-responsive" src="images/planbook.png" alt=""></div>
+      <div class="col-sm-4 text-center head-center"><img class="img-responsive" src="images/logonew.png" alt=""></div>
       <div class="col-sm-4">
         
           <div class="header-form text-right">
@@ -25,7 +25,6 @@
               <span id="viewPlans" class="form-top navButton">Student View</span>
               <span  id="forgotPW" class="form-top navButton">Forgot Password</span>
             </p>
-
             <form role="form" method="POST" id="login_form">
               {{ csrf_field() }}
               <p>
@@ -44,7 +43,7 @@
 
                   <td>
                     <div class="head-f-s">
-                      <input type="submit" name="applyLogin" id="login_button" class="button" value="Login" >
+                      <input type="submit" name="applyLogin" id="login_button" class="button signupmain" value="Login" >
                       <p id="loadingMsg" class="text-bold mt-1" style="display:none;" >Loading...</p>
                     </div>
                   </td>

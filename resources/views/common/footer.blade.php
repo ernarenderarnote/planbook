@@ -1,21 +1,29 @@
 <!--footer content-->
-<div class="footer full-section p-5">
+<div class="footer full-section">
   <div class="container">
+  <div class="footer-logo">
+    <img src="images/footerlogo.png">
+</div>
     <div class="row" >
-      <ul class="footer-img text-center p-0 full-section">
-        <li><img  src="images/planbookwhite.png" alt=""></li>
-        <li><a href="http://www.facebook.com/planbookcom" target="_blank" title="Follow us on Facebook"  class="ml-4"><img src="images/facebook.png"></a></li>
-        <li><a href="http://www.twitter.com/planbookcom" target="_blank" title="Follow us on Twitter" class="ml-4"><img src="images/twitter.png"></a></li>
+      <ul class="footer-img text-center p-0  col-md-5 col-md-offset-1">
+        <li>theyellowbus.com.br</li>
+        <li><a href="http://www.facebook.com/planbookcom" target="_blank" title="Follow us on Facebook"  class="ml-4"><img src="images/facebookfooter.png"></a></li>
+        <li><a href="http://www.twitter.com/planbookcom" target="_blank" title="Follow us on Twitter" class="ml-4"><img src="images/twittefooter.png"></a></li>
+      </ul>
+      <ul class="footer-img text-center p-0  col-md-6 footer-contact">
+        
+        <li>support@theyellowbus.com.br</li>
+        <li>(88) 8888-8888</li>
       </ul>
     </div>
   </div>
   <ul class="p-3 m-0 full-section text-center footer-supline">
     <li><a id="termLink" href="help/terms.html" target="_blank" class="navButton">Terms of Service</a></li>
     <li><a id="privacyLink" href="help/privacy.html" target="_blank" class="navButton">Privacy Policy</a></li>
-    <li>support@planbook.com</li>
-    <li>(888) 205-5528 </li>
+    
   </ul>
 </div>
+
 <!--footer end--> 
 <!-- popup-studentlogin-->
 

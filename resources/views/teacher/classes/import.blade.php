@@ -1,6 +1,9 @@
 @extends('layouts.teacher')
 
 @section('content')
+<div class="lesson-copiedmain" style="display:none;">
+<span>Lessons copied</span>
+</div>
 <div id="main-loader" class="pageLoader" style="display:none">
   <div class="loader-content"> <span class="loading-text">Loading</span> <img src="/images/loading.gif"> </div>
 </div>
@@ -72,7 +75,7 @@
                 <div class="copy-textcontent-left">
                      <p> Where to place copied lessons</p>
                      <p>
-                        <input  name="importOptions" id="append" value="A" type="radio">
+                        <input  name="importOptions" id="append" value="A" type="radio" checked>
                         AFTER existing lessons
                      </p>
                      <p>
@@ -412,6 +415,10 @@
             success: function (response) {
               if(response.success=='TRUE' && response.unit_copied=='TRUE'){
                 var html = '';
+                $('.lesson-copiedmain').show();
+                setTimeout(function(){ 
+                   $('.lesson-copiedmain').hide(); }, 
+                3000);
                 $('.lessonPasteCalendar').html('');
                 var trigger_id = $('#copyTo').attr('class_id');
                 var trigger_id1 = $('#copyTo').parent('.btn-group').find("ul li .unitdropbuton[target_id='"+trigger_id+"']").trigger('click');
@@ -421,6 +428,10 @@
                 draganddrop();
               }
               else if(response.success=='TRUE'){
+                $('.lesson-copiedmain').show();
+                setTimeout(function(){ 
+                   $('.lesson-copiedmain').hide(); }, 
+                3000);
                 var html = '';
                 $('.lessonPasteCalendar').html(response);
                 draganddrop();
@@ -433,7 +444,15 @@
 
           });
         }  
-
+        /*radio checked script*/
+        $('input:radio[name=importOptions]').change(function() {
+          if (this.value == 'I') {
+              $('#demo7').prop("disabled",false);
+          }
+          else{
+              $('#demo7').prop("disabled",true);
+          }
+        });
     </script>
      <script>
          $(document).on('click',".copyunits-arrowright",function(){
