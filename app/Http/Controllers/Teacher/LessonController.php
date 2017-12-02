@@ -433,7 +433,6 @@ class LessonController extends Controller
 			   $dateGet = date('Y-m-d', strtotime($date.'next '.$day));
 			   $date = $dateGet;
 			 }
-			 //echo $dateGet;
 				$extendLesson = new ClassLesson();
 				$extendLesson->lesson_date = $dateGet;
 				$extendLesson->class_id = $request->class_id;
@@ -448,8 +447,7 @@ class LessonController extends Controller
 				$extendLesson->attachments = $attachments;
 				$extendLesson->lock_lesson_to_date = $lock_lesson_to_date;			
 				$extendLesson->save();
-			}
-			
+			}		
 		}
 	}
 	

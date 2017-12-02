@@ -25,7 +25,7 @@ use View;
 use Mail;
 use Exception;
 
-class StandardsController extends Controller
+class TemplateController extends Controller
 {
     
     private $data = array();
@@ -45,7 +45,7 @@ class StandardsController extends Controller
     }
 
     /**
-     * S
+     * 
      *
      * @return \Illuminate\Http\Response
      */
@@ -54,14 +54,14 @@ class StandardsController extends Controller
 
         //$this->data['myFiles'] = MyFile::where('user_id',Auth::user()->id)->get();
 
-		return view('teacher.standards.index');
+		return view('teacher.template.index');
     }
 	public function explore()
     {
 
         //$this->data['myFiles'] = MyFile::where('user_id',Auth::user()->id)->get();
 
-		return view('teacher.standards.explore');
+		//return view('teacher.standardReportings.explore');
     }
 
 }

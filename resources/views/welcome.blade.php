@@ -248,7 +248,7 @@
       </div>
       <div class="col-sm-4">
         <div class="teacher-r third-review">
-          <p>Thank you so much for Planbook.com! I love using it. Every week when I submit my plans to my principal, I receive an email from her saying, "I love this plan format!"</p>
+          <p>Thank you so much for theyellowbus.com.br! I love using it. Every week when I submit my plans to my principal, I receive an email from her saying, "I love this plan format!"</p>
         </div>
         <div class="review-auth"><strong>Leslie</strong><br/>
           Language Arts Teacher<br/>
@@ -269,9 +269,9 @@
         <div>
          <!-- <p class="avi-tag">Apps available for Android and iOS</p>-->
         </div>
-        <div class="pt-3"><a href="#" target="_blank" class="button">Yellowbuscom: responsive site </a></div>
-        <div class="pt-3"><a href="https://itunes.apple.com/us/app/planbook.com/id671763634?mt=8" target="_blank" class="button">Get Yellowbuscom for iOS</a></div>
-        <div class="pt-3"><a href="https://play.google.com/store/apps/details?id=com.planbook" target="_blank" class="button">Get Yellowbuscomfor Android</a></div>
+        <div class="pt-3"><a href="#" target="_blank" class="button">theyellowbus.com.br: responsive site </a></div>
+        <div class="pt-3"><a href="https://itunes.apple.com/us/app/theyellowbus.com.br/id671763634?mt=8" target="_blank" class="button">Get theyellowbus.com.br for iOS</a></div>
+        <div class="pt-3"><a href="https://play.google.com/store/apps/details?id=com.planbook" target="_blank" class="button">Get theyellowbus.com.brfor Android</a></div>
       </div>
       <div class="col-sm-6 img-box"><img  src="images/aplicativos.png" class="img-responsive" alt="">  </div>
     </div>
@@ -288,7 +288,7 @@
       <div class="col-sm-3">
         <div class="rcorners1">
           <div class="priceHead">Annual Subscription</div>
-          <div class="price-textmain"> A one year subscription to planbook.com is only $12, with additional discounts for multi-year purchases.<br/>
+          <div class="price-textmain"> A one year subscription to theyellowbus.com.br is only $12, with additional discounts for multi-year purchases.<br/>
             <br/>
             We offer a no cost, no obligation, 30 day trial, so feel free to give it a try! </div>
           <div class="text-center m-0">
@@ -299,7 +299,7 @@
       <div class="col-sm-3">
         <div class="rcorners1">
           <div class="priceHead">Three Free Months</div>
-           <div class="price-textmain"> A one year subscription to planbook.com is only $12, with additional discounts for multi-year purchases.<br/>
+           <div class="price-textmain"> A one year subscription to theyellowbus.com.br is only $12, with additional discounts for multi-year purchases.<br/>
             <br/>
             We offer a no cost, no obligation, 30 day trial, so feel free to give it a try! </div>
         </div>
@@ -307,7 +307,7 @@
       <div class="col-sm-3">
         <div class="rcorners1">
           <div class="priceHead">Six Free Months</div>
-           <div class="price-textmain"> A one year subscription to planbook.com is only $12, with additional discounts for multi-year purchases.<br/>
+           <div class="price-textmain"> A one year subscription to theyellowbus.com.br is only $12, with additional discounts for multi-year purchases.<br/>
             <br/>
             We offer a no cost, no obligation, 30 day trial, so feel free to give it a try! </div>
         </div>
@@ -315,7 +315,7 @@
       <div class="col-sm-3">
         <div class="rcorners1">
           <div class="priceHead">School or District</div>
-          <div class="price-textmain"> A one year subscription to planbook.com is only $12, with additional discounts for multi-year purchases.<br>
+          <div class="price-textmain"> A one year subscription to theyellowbus.com.br is only $12, with additional discounts for multi-year purchases.<br>
             <br>
             We offer a no cost, no obligation, 30 day trial, so feel free to give it a try! </div>
         </div>

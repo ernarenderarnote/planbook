@@ -800,7 +800,8 @@ cursor: pointer;
 .standardreport-button { float: right; width: 99px; }
 .standardreport-button .main-buton { font-size: 15px; margin-bottom: 15px; padding: 10px 0; width: 93px; }
 .main-buton:hover { background-color: #0068de; }
-.standard-reporttable { display: block; margin: 0 auto; max-height: 600px; width: 95%; overflow-y: auto; overflow-x: hidden; }
+.standard-reporttable { display: block; margin: 0 auto;  width: 95%;}
+
 .standard-reporttable .table { width: 100%; margin-bottom: 0px; border: 1px solid #ddd; }
 .standard-reporttable thead th { background-color: #0057c1; text-align: center; color: #fff; border: 1px solid #fff; }
 .standard-reporttable .description-field { width: 68%; }
@@ -1173,7 +1174,9 @@ div#main-loader {  background-color: rgba(0, 0, 0, 0.5);  bottom: 0;  left: 0;  
   width: 33px;
 }
 .displaysetting-section {
-  display: inline-block;
+    display: inline-block;
+    max-height: 660px;
+    overflow-y: scroll;
 }
 .editlessonform .form-group .formatcolors-dropdown select {
   height: 33px;
@@ -1862,5 +1865,276 @@ background-color: #F9EDBE;
 }
 .site-bannerlogo img {
     max-height: 200px;
+}
+/*Dispalysetting section style here*/
+
+.displaysetting-heading {
+  font-weight: bold;
+}
+.displaysetting-heading button.renew-button {
+  font-size: 16px;
+  margin-left: 8px;
+  padding: 0 8px;
+  font-weight: normal;
+}
+.samoplelayout-content .modal-dialog {
+  margin: 12% auto;
+  width: 701px;
+}
+.samplelistlayoutmain .samplelistinner {
+  background-color: #ffffff;
+  border: 2px solid #0057c1;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.samplelistlayout-header{
+background-color: #003b81;
+ color: white;
+ font-size: 12pt;
+ padding: 3px;
+ text-align: center;
+}
+.samoplelayout-content .modal-dialog {
+  margin: 12% auto;
+  width: 701px;
+}
+.samoplelayout-content  .modal-content {
+   background-color: #dbdfe8;
+ 
+}
+.samplelistlayout-body{
+    background-color:#fff;
+    width:100%;
+}
+.samplelistlayout-body ul li{
+    list-style:none;
+    padding-bottom:8px;
+}
+.samplelistlayout-body ul {
+  min-height: 237px;
+  padding: 10px 10px 10px 16px;
+}
+.samplelayout-selectbutton {
+  margin: 0 0 10px;
+  text-align: center;
+  width: 100%;
+}
+.samplelayout-selectbutton .renew-button {
+  margin-right: 0;
+}
+.samplelayout-cancelbutton {
+  float: left;
+  margin-top: 20px;
+  width: 100%;
+}
+.teachertable-main .tHeader th {
+  -moz-border-bottom-colors: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  background-color: #0057c1;
+  border-color: #0057c1 white #0057c1 #0057c1;
+  border-image: none;
+  border-style: solid;
+  border-width: 1px;
+  color: white;
+  font-weight: normal;
+  padding: 5px;
+  text-align: center;
+  width: 60px;
+}
+.teachertable-main  table {
+  margin-top: 20px;
+}
+.teachertable-main .tHeader th.sectionname-field{
+width:220px;
+}
+.sortlistlessonsetting{
+    padding:0px;
+    margin:0px;
+}
+
+.sortlistlessonsetting li{
+    list-style:none;
+}
+.sortlistlessonsetting li i {
+  color: #000;
+  width: 26px;
+}
+.sortlistlessonsetting  td .sSStyle {
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: top;
+}
+.teachertable-main .sortlistlessonsetting table {
+  margin-top: 8px;
+}
+ .sortlistlessonsetting table  td .lessonlabel-fields {
+  width: 223px;
+}
+.sortlistlessonsetting table td {
+  cursor: grab;
+  padding: 0 2px;
+}
+.lessonformat-button {
+  font-size: 14px;
+  margin-right: 8px;
+  padding: 0 8px;
+}
+.sortlistlessonsetting tbody:hover {
+  background-color: #0057c1;
+}
+.sortlistlessonsetting tbody:hover .lessonformat-textmain{
+    color:#fff;
+}
+.lessonformat-textmain {
+  float: left;
+  min-width: 68px;
+}
+.teachertable-main .tHeader th.sectiontype-field {
+  width: 88px;
+}
+.sharingoptions-body p.lessondisplay-text {
+  font-style: normal;
+  font-weight: bold;
+  margin: 20px 0 11px;
+}
+.lessonsettingdisplay-lists {
+  margin: 0;
+  padding: 0 15px;
+}
+
+.lessonsettingdisplay-lists li {
+  float: left;
+  list-style: outside none none;
+  padding-bottom: 8px;
+  width: 100%;
+}
+.lessontitledisplay-setting {
+  background-color: #ffffff;
+  color: #000000;
+  float: left;
+  font-family: arial,helvetica,sans-serif;
+  font-size: 10pt;
+  font-style: normal;
+  font-weight: 700;
+  margin-right: 13px;
+  padding: 1px 8px;
+  text-decoration: none;
+  width: 200px;
+}
+.displaysetting-section .lesson-heightsection {
+  margin-left: 20px;
+}
+.eventtitledisplay-setting{
+    background-color: #c3d9ff;
+    color: #0000ff;
+    float: left;
+    font-family: arial,helvetica,sans-serif;
+    font-size: 10pt;
+    font-style: normal;
+    font-weight: 700;
+    margin-right: 13px;
+    padding: 1px 8px;
+    text-decoration: none;
+    width: 200px;
+    
+}
+.date-formatlabel {
+  margin-right: 8px;
+}
+.tabSettings{
+    display:none;
+}
+.formatcolors-dropdown {
+  background-color: #dbdfe8;
+  border: 2px solid #0057c1;
+  display: none;
+  height: auto;
+  padding: 6px 10px;
+  position: absolute;
+  top: 26px;
+  width: 435px;
+  z-index: 100;
+}
+.formatcolors-dropdownlesson{
+     background-color: #dbdfe8;
+  border: 2px solid #0057c1;
+  display: none;
+  height: auto;
+  padding: 6px 10px;
+  position: absolute;
+  top: 26px;
+  width: 435px;
+  z-index: 100;
+}
+.sortlistlessonsetting .formatcolors-dropdown tbody:hover {
+  background: none;
+}
+.btn-formattoggle {
+  float: left;
+  position: relative;
+}
+.format-displayfonts{
+    margin-right:2px;
+}
+.formatcolors-dropdowntable  .dButton {
+  border: 1px solid #91765d;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 10pt;
+  margin-right: -5px;
+  padding: 4px 8px 7px;
+  text-align: center;
+}
+.formatcolors-dropdowntable td {
+  padding: 0 2px 4px;
+}
+.formatcolors-dropdowntable   .bbutton{
+    background-color: rgb(211, 215, 207);
+     font-weight: bold;
+}
+ .formatcolors-dropdowntable  .ibutton{
+    background-color: rgb(238, 238, 238);
+    font-style: italic;
+}
+ .formatcolors-dropdowntable  .ubutton{
+     background-color: rgb(238, 238, 238);
+    margin: 0;
+    text-decoration: underline;
+}
+.formatcolors-dropdowntable select {
+  height: 33px;
+}
+.sortlistlessonsetting .formatcolors-dropdown table td {
+  padding: 0 2px 4px;
+}
+.formatcolorlabel-heading {
+  float: left;
+  font-weight: bold;
+  margin-bottom: 0;
+  text-align: center;
+  width: 33px;
+}
+.displaysetting-section {
+  display: inline-block;
+}
+.editlessonform .form-group .formatcolors-dropdown select {
+  height: 33px;
+  width: auto;
+}
+.editlessonform .form-group .formatcolors-dropdown input {
+  height: 33px;
+}
+.formateventdropdown-main {
+  right: 20px;
+  top: 31px;
+}
+.displaysetting-section .sortlistlessonsetting table td {
+    padding: 4px 2px;
+}
+.displaysetting-section .sortlistlessonsetting table td .lessonlabel-fields {
+   
+    height: 24px;
 }
 

@@ -167,7 +167,7 @@ class ClassesController extends Controller
             $rules = array(
                 'class_name'   => 'required',
                 'start_date'   => 'required',
-                'end_date'   => 'required',
+                'end_date'     => 'required',
                 
             );
 
@@ -447,5 +447,47 @@ class ClassesController extends Controller
         				
         }
 
+	}
+
+	public function copyAfterBefore(Request $request){
+		$visibleDay   	= array();
+		$lastDate 	    = array();
+		$date   		= explode('-',$request->year);
+		$start  		= $date[0];
+		$end    		= $date[1]; 
+		$copyTo 		= $request->copyTo;
+		$copyFrom       = $request->class_id;
+		$working_dates  = array();
+		$lastLesson 	= ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$request->copyTo)->where('lesson_date', '>=', $start)->Where('lesson_date', '<=' , $end)->orWhere(function($q) use($start, $end, $copyTo){
+       		$q->where('user_id',Auth::user()->id)->where('class_id',$copyTo)->where('lesson_date', '>=' ,$start )->where('lesson_date' ,'<=', $end);
+			})->orderBy('lesson_date', 'desc')->first();
+		$user_classes = UserClass::where('user_id',Auth::user()->id)->where('id',$request->copyTo)->where('start_date', '>=', $start)->Where('end_date', '<=' , $end)->orWhere(function($q) use($start, $end, $copyTo){
+			       		$q->where('user_id',Auth::user()->id)->where('id',$copyTo)->where('end_date', '>=' ,$start )->where('start_date' ,'<=', $end);
+						})->get();
+		$fromLesson = ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$copyFrom)->where('lesson_date', '>=', $start)->Where('lesson_date', '<=' , $end)->orWhere(function($q) use($start, $end, $copyFrom){
+       		$q->where('user_id',Auth::user()->id)->where('class_id',$copyFrom)->where('lesson_date', '>=' ,$start )->where('lesson_date' ,'<=', $end);
+			})->orderBy('lesson_date', 'asc')->get();
+		foreach($user_classes as $user_data){
+			$visibleDay   = collect(json_decode($user_data->class_schedule))->where("is_class", "1")->pluck("text")->all();
+			$lastDate  = $user_data->end_date;
+		}
+		$datediff = strtotime($lastDate) - strtotime($lastLesson->lesson_date);
+    	$datediff = floor($datediff/(60*60*24));
+		for($i = 0; $i < $datediff + 1; $i++){
+          $all_dates = date("l Y-m-d", strtotime($lastLesson->lesson_date . ' + ' . $i . 'day'));
+          $dates = explode(' ',$all_dates);
+      	  if(in_array($dates[0],$visibleDay)){
+          
+   			$working_dates[] = $dates[1];
+
+           }     
+	
+		}
+        
+        for($j=0;$j<count($working_dates)-1;$j++){
+        	//echo $working_dates[$j+1].'<br>';
+        	$k=0;
+        	echo $fromLesson;
+        }
 	}
 }

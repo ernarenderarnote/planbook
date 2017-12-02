@@ -103,6 +103,7 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::match(['get'], '/importcalendar', [ 'as' => 'importCalendar', 'uses' => "ClassesController@importCalendar"]);
             Route::match(['get'], '/importcalendar/{class_id}/{year}', [ 'as' => 'importCalendar', 'uses' => "ClassesController@copyCalendar"]);
             Route::match(['post'], '/copyclass', [ 'as' => 'copyClass', 'uses' => "ClassesController@copyClass"]);
+            Route::match(['post'], '/copyafterbefore', [ 'as' => 'copyafterbefore', 'uses' => "ClassesController@copyAfterBefore"]);
 
         });
 
@@ -254,7 +255,25 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
         Route::group([ 'prefix' => "sharingoption", 'as' => 'sharingoption.' ], function()
         {
 
-            Route::match(['get','post'], '/', [ 'as' => 'index', 'uses' => "SharingoptionController@index"]);
+            Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "SharingoptionController@index"]);
+           
+        });
+
+        /* Teacher's tepmplate Option Routes*/
+        
+        Route::group([ 'prefix' => "template", 'as' => 'template.' ], function()
+        {
+
+            Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "TemplateController@index"]);
+           
+        });
+
+        /* Teacher's display Option Routes*/
+        
+        Route::group([ 'prefix' => "display", 'as' => 'display.' ], function()
+        {
+
+            Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "DisplayController@index"]);
            
         });
     });

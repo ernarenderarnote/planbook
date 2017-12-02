@@ -104,10 +104,10 @@
                 <li><a href=""><span class="add-ico"><img src="/images/icon-mylists.png" alt="my list"></span> <span class="add-text">My List</span></a></li>
                 <li><a href=""><span class="add-ico"><img src="/images/icon-strategy.png" alt="strategies"></span> <span class="add-text">My Strategies</span></a></li>
                 <li><a href="{{route('teacher.school_year.getAddSchoolYear')}}"><span class="add-ico"><img src="/images/icon-schoolyear.png"  alt="School Year"></span> <span class="add-text">School Year</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="/images/icon-sharing.png" alt="shearing"></span> <span class="add-text">Sharing Options</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="/images/icon-standards2.png" alt="standard"></span> <span class="add-text">Standards Reporting</span></a></li>
+                <li><a href="{{route('teacher.sharingoption.index')}}"><span class="add-ico"><img src="/images/icon-sharing.png" alt="shearing"></span> <span class="add-text">Sharing Options</span></a></li>
+                <li><a href="{{route('teacher.standards.index')}}"><span class="add-ico"><img src="/images/icon-standards2.png" alt="standard"></span> <span class="add-text">Standards Reporting</span></a></li>
                 <li><a href="{{route('teacher.addstudents.index')}}"><span class="add-ico"><img src="/images/icon-students.png" alt="students"></span> <span class="add-text">Students</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="/images/icon-templates.png" alt="template"></span> <span class="add-text">Templates</span></a></li>
+                <li><a href="{{route('teacher.template.index')}}"><span class="add-ico"><img src="/images/icon-templates.png" alt="template"></span> <span class="add-text">Templates</span></a></li>
                 <li><a href="{{route('teacher.units.index')}}"><span class="add-ico"><img src="/images/icon-units.png" alt="units"></span> <span class="add-text">Units</span></a></li>
               </ul>
             </li>

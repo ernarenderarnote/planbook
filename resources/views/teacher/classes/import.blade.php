@@ -15,7 +15,7 @@
             <div class="copy-contentheader"> Copy From </div>
             <div class="list-contentbutton">
                 <div class="btn-group">
-                    <button id="lessonBtn" type="button" class="lessonbtn btn unitsbutton list-contentmainbuton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Lessons<span class="caret"></span> </button>
+                    <button id="lessonBtn" type="button" class="lessonbtn btn unitsbutton list-contentmainbuton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" btn-type="Lessons">Lessons<span class="caret"></span> </button>
                     <ul class="dropdown-menu language-dropdown lselected">
                         <li class="selectedlessons"><a href="#" class="language-dropbutons unitdropbuton" data-toggle="modal" data-target="#importcsv">Lessons</a></li>
                         <li class="selectedlessons"><a href="#" class="language-dropbutons unitdropbuton"  data-toggle="modal" data-target="#addteacher">Units</a></li>
@@ -84,7 +84,7 @@
                         <input class="form-control copy-inputs datepicker" id="demo7" type="text" disabled="disabled">
                 </div>
                 <div class="copy-textcontent-right">
-                    <button class="btn  btn-primary"> Copy Lesson</button>
+                    <button class="btn  btn-primary" id="copyImportLessons"> Copy Lesson</button>
                 </div>
             </div>
         </div>
@@ -297,8 +297,9 @@
          });
         $('.uselected li a').on('click',function(e){
            class_id = $(this).attr('target_id');
+           $('#classbtn').attr('class_data',class_id);
            if(typeof yselected != 'undefined'){  
-            uselected     = $(this).text();
+            uselected        = $(this).text();
             var background   = $(this).css('background-color');
             $(this).parents('.btn-group').find('.btn').html(uselected +' <span class="caret"></span>');
           }
@@ -448,13 +449,51 @@
         $('input:radio[name=importOptions]').change(function() {
           if (this.value == 'I') {
               $('#demo7').prop("disabled",false);
+              //$('#copyImportLessons').prop('disabled',false);
           }
           else{
               $('#demo7').prop("disabled",true);
+              //$('#copyImportLessons').prop('disabled',true);
           }
         });
-    </script>
-     <script>
+
+        /*While using before date to copy*/
+        $('#copyImportLessons').on('click',function(){
+          var type      = $('#lessonBtn').attr('btn-type');
+          var year      = $('#yearbtn').text();
+          var class_id  = $('#classbtn').attr('class_data'); 
+          var insert    = $('input:radio[name=importOptions]:checked').val();
+          var copyTo    = $('#copyTo').attr('class_id');
+          console.log(type+''+year+''+class_id+''+insert);
+          afterbeforecopy(type,year,class_id,insert,copyTo);
+        });
+
+        /*function to copy lessons after and before*/
+        function afterbeforecopy(type,year,class_id,insert,copyTo){
+          $.ajax({
+            type:'POST',
+            url: BASE_URL +'/teacher/classes/copyafterbefore',
+            data:{"_token": "{{ csrf_token() }}",'type':type,'year':year, 'class_id':class_id,'insert':insert,'copyTo':copyTo},
+
+            beforeSend: function () {
+              $('#main-loader').show();
+            },
+            complete: function () {
+               $('#main-loader').hide();
+            },
+
+            success: function (response) {
+              
+            },
+            error: function(data){
+              console.log("error");
+              console.log(data);
+            }
+
+          });
+        }  
+      </script>
+      <script>
          $(document).on('click',".copyunits-arrowright",function(){
           $(this).parents().next('tr').find(".copyunits-tableinner ").toggle();
          }); 

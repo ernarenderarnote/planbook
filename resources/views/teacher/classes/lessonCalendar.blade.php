@@ -28,7 +28,7 @@
          $end_filter_date   =  $datesget[1];
          $start_filter_date =  $datesget[0];  
          $datediff = strtotime($end_filter_date) - strtotime($start_filter_date);
-         $datediff = $datediff/(60*60*24);     
+         $datediff = $datediff/(60*60*24);    
     @endphp
     @else
     @php
