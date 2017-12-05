@@ -464,16 +464,17 @@
           var class_id  = $('#classbtn').attr('class_data'); 
           var insert    = $('input:radio[name=importOptions]:checked').val();
           var copyTo    = $('#copyTo').attr('class_id');
-          console.log(type+''+year+''+class_id+''+insert);
-          afterbeforecopy(type,year,class_id,insert,copyTo);
+          var beforeDate= $('#demo7').val();
+          console.log(type+''+year+''+class_id+''+insert+''+beforeDate);
+          afterbeforecopy(type,year,class_id,insert,copyTo,beforeDate);
         });
 
         /*function to copy lessons after and before*/
-        function afterbeforecopy(type,year,class_id,insert,copyTo){
+        function afterbeforecopy(type,year,class_id,insert,copyTo,beforeDate){
           $.ajax({
             type:'POST',
             url: BASE_URL +'/teacher/classes/copyafterbefore',
-            data:{"_token": "{{ csrf_token() }}",'type':type,'year':year, 'class_id':class_id,'insert':insert,'copyTo':copyTo},
+            data:{"_token": "{{ csrf_token() }}",'type':type,'year':year, 'class_id':class_id,'insert':insert,'copyTo':copyTo,'beforeDate':beforeDate },
 
             beforeSend: function () {
               $('#main-loader').show();
@@ -486,8 +487,8 @@
               
             },
             error: function(data){
-              console.log("error");
-              console.log(data);
+              //console.log("error");
+              //console.log(data);
             }
 
           });

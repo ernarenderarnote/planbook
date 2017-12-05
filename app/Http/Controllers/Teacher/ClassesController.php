@@ -450,44 +450,241 @@ class ClassesController extends Controller
 	}
 
 	public function copyAfterBefore(Request $request){
-		$visibleDay   	= array();
-		$lastDate 	    = array();
-		$date   		= explode('-',$request->year);
-		$start  		= $date[0];
-		$end    		= $date[1]; 
-		$copyTo 		= $request->copyTo;
-		$copyFrom       = $request->class_id;
-		$working_dates  = array();
-		$lastLesson 	= ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$request->copyTo)->where('lesson_date', '>=', $start)->Where('lesson_date', '<=' , $end)->orWhere(function($q) use($start, $end, $copyTo){
-       		$q->where('user_id',Auth::user()->id)->where('class_id',$copyTo)->where('lesson_date', '>=' ,$start )->where('lesson_date' ,'<=', $end);
-			})->orderBy('lesson_date', 'desc')->first();
-		$user_classes = UserClass::where('user_id',Auth::user()->id)->where('id',$request->copyTo)->where('start_date', '>=', $start)->Where('end_date', '<=' , $end)->orWhere(function($q) use($start, $end, $copyTo){
-			       		$q->where('user_id',Auth::user()->id)->where('id',$copyTo)->where('end_date', '>=' ,$start )->where('start_date' ,'<=', $end);
-						})->get();
-		$fromLesson = ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$copyFrom)->where('lesson_date', '>=', $start)->Where('lesson_date', '<=' , $end)->orWhere(function($q) use($start, $end, $copyFrom){
-       		$q->where('user_id',Auth::user()->id)->where('class_id',$copyFrom)->where('lesson_date', '>=' ,$start )->where('lesson_date' ,'<=', $end);
-			})->orderBy('lesson_date', 'asc')->get();
-		foreach($user_classes as $user_data){
-			$visibleDay   = collect(json_decode($user_data->class_schedule))->where("is_class", "1")->pluck("text")->all();
-			$lastDate  = $user_data->end_date;
-		}
-		$datediff = strtotime($lastDate) - strtotime($lastLesson->lesson_date);
-    	$datediff = floor($datediff/(60*60*24));
-		for($i = 0; $i < $datediff + 1; $i++){
-          $all_dates = date("l Y-m-d", strtotime($lastLesson->lesson_date . ' + ' . $i . 'day'));
-          $dates = explode(' ',$all_dates);
-      	  if(in_array($dates[0],$visibleDay)){
-          
-   			$working_dates[] = $dates[1];
+		$response       	= array();
+		$visibleDay   		= array();
+		$lastDate 	    	= array();
+		$first_date         = array();  
+		$date   			= explode('-',$request->year);
+		$start  			= $date[0];
+		$end    			= $date[1]; 
+		$copyTo 			= $request->copyTo;
+		$copyFrom       	= $request->class_id;
+		$working_dates  	= array();
+		$id 				= array();
+		$class_id			= array();
+		$user_id			= array();
+		$lesson_date 		= array();
+		$lesson_start_time	= array();
+		$lesson_end_time	= array();
+		$unit 				= array();
+		$lesson_title 		= array();
+		$lesson_text 		= array();
+		$homework 			= array();
+		$notes 				= array();
+		$standards 			= array();
+		$attachments 		= array();
+		$lock_lesson_to_date= array();
 
-           }     
-	
-		}
-        
-        for($j=0;$j<count($working_dates)-1;$j++){
-        	//echo $working_dates[$j+1].'<br>';
-        	$k=0;
-        	echo $fromLesson;
-        }
+		if($request->insert=='A'){
+
+			$lastLesson 	= ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$request->copyTo)->where('lesson_date', '>=', $start)->Where('lesson_date', '<=' , $end)->orWhere(function($q) use($start, $end, $copyTo){
+	       		$q->where('user_id',Auth::user()->id)->where('class_id',$copyTo)->where('lesson_date', '>=' ,$start )->where('lesson_date' ,'<=', $end);
+				})->orderBy('lesson_date', 'desc')->first();
+			$user_classes = UserClass::where('user_id',Auth::user()->id)->where('id',$request->copyTo)->where('start_date', '>=', $start)->Where('end_date', '<=' , $end)->orWhere(function($q) use($start, $end, $copyTo){
+				       		$q->where('user_id',Auth::user()->id)->where('id',$copyTo)->where('end_date', '>=' ,$start )->where('start_date' ,'<=', $end);
+							})->get();
+			$fromLesson = ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$copyFrom)->where('lesson_date', '>=', $start)->Where('lesson_date', '<=' , $end)->orWhere(function($q) use($start, $end, $copyFrom){
+	       		$q->where('user_id',Auth::user()->id)->where('class_id',$copyFrom)->where('lesson_date', '>=' ,$start )->where('lesson_date' ,'<=', $end);
+				})->orderBy('lesson_date', 'asc')->get();
+			foreach($user_classes as $user_data){
+				$visibleDay   = collect(json_decode($user_data->class_schedule))->where("is_class", "1")->pluck("text")->all();
+				$lastDate  = $user_data->end_date;
+				$first_date= $user_data->start_date;
+			}
+			if($lastLesson!=''){
+				$datediff = strtotime($lastDate) - strtotime($lastLesson->lesson_date);
+			}
+			else{
+				$datediff = strtotime($lastDate) - strtotime($first_date);
+			}
+	    	$datediff = floor($datediff/(60*60*24));
+			for($i = 0; $i < $datediff + 1; $i++){
+			 	if($lastLesson!=''){		
+	          		$all_dates = date("l Y-m-d", strtotime($lastLesson->lesson_date . ' + ' . $i . 'day'));
+	      		}
+	      		else{
+	      			$all_dates = date("l Y-m-d", strtotime($first_date. ' + ' . $i . 'day'));
+	      		}
+	          $dates = explode(' ',$all_dates);
+	      	  if(in_array($dates[0],$visibleDay)){
+	          
+	   			$working_dates[] = $dates[1];
+
+	           }     
+		
+			}
+
+	        foreach($fromLesson as $lessonsDetails){
+	        	$id[] 					= $lessonsDetails->id;
+	        	$class_id[]				= $lessonsDetails->class_id;
+				$user_id[]				= $lessonsDetails->user_id;
+				$lesson_date[] 			= $lessonsDetails->lesson_date;
+				$lesson_start_time[]	= $lessonsDetails->lesson_start_time;
+				$lesson_end_time[]		= $lessonsDetails->lesson_end_time;
+				$unit[] 				= $lessonsDetails->unit;
+				$lesson_title[] 		= $lessonsDetails->lesson_title;
+				$lesson_text[] 	    	= $lessonsDetails->lesson_text;
+				$homework[] 			= $lessonsDetails->homework;
+				$notes[] 				= $lessonsDetails->notes;
+				$standards[] 			= $lessonsDetails->standards;
+				$attachments[] 			= $lessonsDetails->attachments;
+				$lock_lesson_to_date[]	= $lessonsDetails->lock_lesson_to_date;
+	        }
+	       
+	        for($j=0;$j<count($fromLesson);$j++){
+
+	        	$classLessons = new ClassLesson();
+	        	$classLessons->class_id = $copyTo;
+				$classLessons->user_id 	= Auth::user()->id;
+				if($lastLesson!=''){
+					$classLessons->lesson_date = $working_dates[$j+1];
+				}
+				else{
+					$classLessons->lesson_date = $working_dates[$j];
+				}
+				$classLessons->lesson_start_time = $lesson_start_time[$j];
+			    $classLessons->lesson_end_time = $lesson_end_time[$j];
+				$classLessons->unit = $unit[$j];
+				$classLessons->lesson_title = $lesson_title[$j];
+				$classLessons->lesson_text = $lesson_text[$j];
+				$classLessons->homework = $homework[$j];
+				$classLessons->notes = $notes[$j];
+				$classLessons->standards = $standards[$j];
+				$classLessons->lock_lesson_to_date = $lock_lesson_to_date[$j]; 
+				$classLessons->attachments = $attachments[$j]; 
+				if($classLessons->save()){
+				  $success = 'TRUE';	
+				}	
+	        }
+	        if(isset($success)){
+	        	$response['success'] = $success;
+	        }
+		    else{
+		    	$response['error'] = 'Some of the lessons goes outside the class Schedule';
+		    }
+		    return response()->json($response);
+		} 
+		else{
+			$lesson_start = $request->beforeDate;
+			$lastLesson 	= ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$request->copyTo)->where('lesson_date', '>=', $lesson_start)->Where('lesson_date', '<=' , $end)->orWhere(function($q) use($lesson_start, $end, $copyTo){
+	       		$q->where('user_id',Auth::user()->id)->where('class_id',$copyTo)->where('lesson_date', '>=' ,$lesson_start )->where('lesson_date' ,'<=', $end);
+				})->orderBy('lesson_date', 'asc')->get();
+			
+			$user_classes = UserClass::where('user_id',Auth::user()->id)->where('id',$request->copyTo)->where('start_date', '>=', $start)->Where('end_date', '<=' , $end)->orWhere(function($q) use($start, $end, $copyTo){
+				       		$q->where('user_id',Auth::user()->id)->where('id',$copyTo)->where('end_date', '>=' ,$start )->where('start_date' ,'<=', $end);
+							})->get();
+			$fromLesson = ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$copyFrom)->where('lesson_date', '>=', $start)->Where('lesson_date', '<=' , $end)->orWhere(function($q) use($start, $end, $copyFrom){
+	       		$q->where('user_id',Auth::user()->id)->where('class_id',$copyFrom)->where('lesson_date', '>=' ,$start )->where('lesson_date' ,'<=', $end);
+				})->orderBy('lesson_date', 'asc')->get();
+			foreach($user_classes as $user_data){
+				$visibleDay   = collect(json_decode($user_data->class_schedule))->where("is_class", "1")->pluck("text")->all();
+				$lastDate  = $user_data->end_date;
+			}
+			$datediff = strtotime($lastDate) - strtotime($lesson_start);
+	    	$datediff = floor($datediff/(60*60*24));
+			for($i = 0; $i < $datediff + 1; $i++){
+	          $all_dates = date("l Y-m-d", strtotime($lesson_start . ' + ' . $i . 'day'));
+	          $dates = explode(' ',$all_dates);
+	      	  if(in_array($dates[0],$visibleDay)){
+	          
+	   			 $working_dates[] = $dates[1];
+
+	           }     
+		
+			}
+			$all        = count($working_dates);
+			$adding     = count($fromLesson);
+			$existing   = count($lastLesson);
+		    $nodesCheck = $all-($adding + $existing); 
+		    if($nodesCheck <= 0){
+		    	$response['error'] = 'Lessons overloaded';
+		    	$delete = array_slice($working_dates, - $nodesCheck);
+		    }
+		    else{
+		    	foreach($fromLesson as $lessonsDetails){
+		        	//$id[] 					= $lessonsDetails->id;
+		        	$class_id[]				= $lessonsDetails->class_id;
+					$user_id[]				= $lessonsDetails->user_id;
+					$lesson_date[] 			= $lessonsDetails->lesson_date;
+					$lesson_start_time[]	= $lessonsDetails->lesson_start_time;
+					$lesson_end_time[]		= $lessonsDetails->lesson_end_time;
+					$unit[] 				= $lessonsDetails->unit;
+					$lesson_title[] 		= $lessonsDetails->lesson_title;
+					$lesson_text[] 	    	= $lessonsDetails->lesson_text;
+					$homework[] 			= $lessonsDetails->homework;
+					$notes[] 				= $lessonsDetails->notes;
+					$standards[] 			= $lessonsDetails->standards;
+					$attachments[] 			= $lessonsDetails->attachments;
+					$lock_lesson_to_date[]	= $lessonsDetails->lock_lesson_to_date;
+	       		 }
+	       		 foreach($lastLesson as $lessonsDetails){
+		        	$id[] 					= $lessonsDetails->id;
+		        	$class_id[]				= $lessonsDetails->class_id;
+					$user_id[]				= $lessonsDetails->user_id;
+					$lesson_date[] 			= $lessonsDetails->lesson_date;
+					$lesson_start_time[]	= $lessonsDetails->lesson_start_time;
+					$lesson_end_time[]		= $lessonsDetails->lesson_end_time;
+					$unit[] 				= $lessonsDetails->unit;
+					$lesson_title[] 		= $lessonsDetails->lesson_title;
+					$lesson_text[] 	    	= $lessonsDetails->lesson_text;
+					$homework[] 			= $lessonsDetails->homework;
+					$notes[] 				= $lessonsDetails->notes;
+					$standards[] 			= $lessonsDetails->standards;
+					$attachments[] 			= $lessonsDetails->attachments;
+					$lock_lesson_to_date[]	= $lessonsDetails->lock_lesson_to_date;
+	       		}
+	       		for($i=0;$i<$working_dates;$i++){
+	       			$checkList = ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$copyTo)->where('lesson_date',$working_dates[$i])->first();
+	       			if($i>=$adding && $checkList==''){
+	       				break;
+	       			}
+	       			else{
+	    				$checkLesson = ClassLesson::where('user_id',Auth::user()->id)->where('class_id',$copyTo)->where('lesson_date',$working_dates[$i])->first();
+	       				if($checkLesson==''){
+	       					$classLessons = new ClassLesson();
+				        	$classLessons->class_id = $copyTo;
+							$classLessons->user_id 	= Auth::user()->id;
+							$classLessons->lesson_date = $working_dates[$i];
+							$classLessons->lesson_start_time = $lesson_start_time[$i];
+						    $classLessons->lesson_end_time = $lesson_end_time[$i];
+							$classLessons->unit = $unit[$i];
+							$classLessons->lesson_title = $lesson_title[$i];
+							$classLessons->lesson_text = $lesson_text[$i];
+							$classLessons->homework = $homework[$i];
+							$classLessons->notes = $notes[$i];
+							$classLessons->standards = $standards[$i];
+							$classLessons->lock_lesson_to_date = $lock_lesson_to_date[$i]; 
+							$classLessons->attachments = $attachments[$i]; 
+							if($classLessons->save()){
+							  $success = 'TRUE';	
+							}
+							
+	       				}
+	       				else{
+	       					ClassLesson::find($id[$i])->delete();
+	       					$classLessons = new ClassLesson();
+				        	$classLessons->class_id = $copyTo;
+							$classLessons->user_id 	= Auth::user()->id;
+							$classLessons->lesson_date = $working_dates[$i];
+							$classLessons->lesson_start_time = $lesson_start_time[$i];
+						    $classLessons->lesson_end_time = $lesson_end_time[$i];
+							$classLessons->unit = $unit[$i];
+							$classLessons->lesson_title = $lesson_title[$i];
+							$classLessons->lesson_text = $lesson_text[$i];
+							$classLessons->homework = $homework[$i];
+							$classLessons->notes = $notes[$i];
+							$classLessons->standards = $standards[$i];
+							$classLessons->lock_lesson_to_date = $lock_lesson_to_date[$i]; 
+							$classLessons->attachments = $attachments[$i]; 
+							if($classLessons->save()){
+							  $success = 'TRUE';	
+							}
+	       				}
+	       			}
+	       		}
+		    	$response['success'] = 'TRUE';
+		    }
+		    return response()->json($response);
+		}   
 	}
 }
