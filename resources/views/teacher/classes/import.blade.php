@@ -466,7 +466,19 @@
           var copyTo    = $('#copyTo').attr('class_id');
           var beforeDate= $('#demo7').val();
           console.log(type+''+year+''+class_id+''+insert+''+beforeDate);
-          afterbeforecopy(type,year,class_id,insert,copyTo,beforeDate);
+          if(insert=='A'){
+            afterbeforecopy(type,year,class_id,insert,copyTo,beforeDate);
+
+          }
+          else{
+            if(confirm("This action will cause lesson(s) to be shifted outside of your class date range. Or Existing lessons from the following dates will be deleted: Would you like to continue?")) {
+                afterbeforecopy(type,year,class_id,insert,copyTo,beforeDate);
+              }
+              else{
+                console.log('cancel');
+              }
+          }
+          //afterbeforecopy(type,year,class_id,insert,copyTo,beforeDate);
         });
 
         /*function to copy lessons after and before*/
@@ -484,7 +496,7 @@
             },
 
             success: function (response) {
-              
+              console.log(response);
             },
             error: function(data){
               //console.log("error");
