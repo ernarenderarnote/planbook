@@ -263,15 +263,20 @@
             $(this).parents('.btn-group').find('.btn').html(lselected +' <span class="caret"></span>');
             $(this).parents('.btn-group').find('.btn').attr('btn-type',lselected);
             if(typeof tselected != 'undefined' && typeof lselected != 'undefined' &&typeof yselected != 'undefined' && typeof uselected != 'undefined'){
-              console.log(lselected+''+tselected+''+yselected+''+uselected);
-                ajaxCall();
+              ajaxCall();
             }
-
+            console.log();
+            if(lselected=='Units'){
+              $('#copyImportLessons').text('Copy Units');
+            }
+            else{
+              $('#copyImportLessons').text('Copy Lessons');
+            }
          });
         $('.tselected li a').on('click',function(e){ 
              tselected        = $(this).text();
             if(typeof tselected != 'undefined' && typeof lselected != 'undefined' &&typeof yselected != 'undefined' && typeof uselected != 'undefined'){
-              console.log(lselected+''+tselected+''+yselected+''+uselected);
+
                 ajaxCall();
             }
             var background   = $(this).css('background-color');
@@ -280,7 +285,6 @@
         $('.yselected li a').on('click',function(e){
            
             if(typeof tselected != 'undefined' && typeof lselected != 'undefined' &&typeof yselected != 'undefined' && typeof uselected != 'undefined'){
-              console.log(lselected+''+tselected+''+yselected+''+uselected);
                 ajaxCall();
             }
             if(typeof tselected != 'undefined'){ 
@@ -465,7 +469,7 @@
           var insert    = $('input:radio[name=importOptions]:checked').val();
           var copyTo    = $('#copyTo').attr('class_id');
           var beforeDate= $('#demo7').val();
-          console.log(type+''+year+''+class_id+''+insert+''+beforeDate);
+
           if(insert=='A'){
             afterbeforecopy(type,year,class_id,insert,copyTo,beforeDate);
 
@@ -487,7 +491,7 @@
             type:'POST',
             url: BASE_URL +'/teacher/classes/copyafterbefore',
             data:{"_token": "{{ csrf_token() }}",'type':type,'year':year, 'class_id':class_id,'insert':insert,'copyTo':copyTo,'beforeDate':beforeDate },
-
+            dataType: 'json',
             beforeSend: function () {
               $('#main-loader').show();
             },
@@ -496,7 +500,27 @@
             },
 
             success: function (response) {
-              console.log(response);
+              var html = '';
+              if(response['error']){
+                  html += '<div id="warning-box" class="alert alert-danger fade in">';
+                  html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+                  html += '<strong>Error!</strong>';
+
+                  for (var i = 0; i < response['error'].length; i++) {
+                      html += '<p>' + response['error'][i] + '</p>';
+                  }
+
+                  html += '</div>';
+                  $('#droppable').before(html);
+                  
+              }  
+              if(response['success']=='TRUE'){
+                var trigger_id = $('#copyTo').attr('class_id');
+                var trigger_id1 = $('#copyTo').parent('.btn-group').find("ul li .unitdropbuton[target_id='"+trigger_id+"']").trigger('click');
+                var txt  = $('#copyTo').parent('.btn-group').find("ul li .unitdropbuton[target_id='"+trigger_id+"']").text();
+                $(this).parents('.btn-group').find('.btn').html(txt +' <span class="caret"></span>');
+                
+              }
             },
             error: function(data){
               //console.log("error");

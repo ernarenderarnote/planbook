@@ -9,7 +9,7 @@
           </ul>
         </div>
       </div>
-      <div class="col-sm-8"><img class="img-responsive mx-auto" src="/images/planbook.png" alt=""></div>
+      <div class="col-sm-8"><img class="img-responsive mx-auto" src="/images/logonew.png" alt=""></div>
       <div class="user-drop li-inline pull-right text-right col-sm-2">
         <div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> 

@@ -42,7 +42,7 @@
                <button type="button" class="btn unitsbutton list-contentmainbuton" data-toggle="modal" data-target="#performancereport">Performance Reports</button>
             </div>
             <div class="studentGradesMsg">
-               <p>No <a href="addstudent.html" target="_blank">students</a> have been assigned to this class</p>
+               <p>No <a href="addstudents">students</a> have been assigned to this class</p>
             </div>
          </div>
       </div>

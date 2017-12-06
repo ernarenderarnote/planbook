@@ -196,6 +196,7 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
         {
 
             Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "GradesController@index"]);
+            Route::match(['get','post'], '/addstudents', [ 'as' => 'addstudents', 'uses' => "GradesController@addstudents"]);
         });
 
         /* Teacher's Mylist Routes*/

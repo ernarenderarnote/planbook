@@ -30,5 +30,4 @@ class ClassLesson extends Model
                 ->where("lesson_date",">=", $end)
                 ->whereIn('class_id', $classId);
     }
-   
 }

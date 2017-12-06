@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Facades\App\Helpers\Common;
-
+use App\Students;
 use App\UserClass;
 use App\SchoolYear;
 use App\Unit;
@@ -47,5 +47,8 @@ class GradesController extends Controller
 
 	}
 
-	
+	public function addstudents(){
+		$this->data['students'] = Students::where('teacher_id',Auth::user()->id)->get();
+       	return view('teacher.addstudents.index', $this->data);
+	}
 }

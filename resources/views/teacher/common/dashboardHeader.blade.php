@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="col-sm-8">
-      <a href="{{route('teacher.dashboard.index')}}"><img class="img-responsive mx-auto" src="/images/planbook.png" alt=""></a>
+      <a href="{{route('teacher.dashboard.index')}}"><img class="img-responsive mx-auto" src="/images/logonew.png" alt=""></a>
       </div>
       <div class="user-drop li-inline pull-right text-right col-sm-2">
         <div class="dropdown">
