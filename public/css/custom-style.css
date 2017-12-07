@@ -1432,39 +1432,10 @@ color: #FFFFFF;
 .show-assignmentstablerow1{
 	width:202px;
 }
-.show-assignmentstablerow2{
-	width: 80px;
-    border-right: 1px solid white;
-    border-bottom: 1px solid #0057C1;
-    background-color: #0057C1;
-    color: white;
-    height: 140px;
-    vertical-align: bottom;
-   padding-bottom:20px;
-    padding-left: 20px;
-	
-}
-.showassesmenttable-innerrow {
-    display: inline-block;
-    -moz-transform: rotate(-90deg);
-    -webkit-transform: rotate(-90deg);
-    transform: rotate(-90deg);
-   
-}
-.show-assignmentstable td {
-    border: 1px solid #ddd;
-    padding: 8px;
-}
-.show-assesmentsorting i {
-    width: 15px;
-    background-color: #0057C1;
-    color: white;
-    text-align: center;
-    border-radius: 3px;
-    margin-left: 11px;
-    cursor: pointer;
-}
-.show-assessmentrowbackground {
+.show-assignmentstablerow2{width: 80px; border-right: 1px solid white; border-bottom: 1px solid #0057C1; background-color: #0057C1; color: white; height: 130px; }
+.showassesmenttable-innerrow {display: inline-block; -moz-transform: rotate(-90deg); -webkit-transform: rotate(-90deg); transform: rotate(-90deg); width: 100%; white-space: nowrap; } 
+.show-assignmentstable td {border: 1px solid #ddd; padding: 8px; } 
+.show-assesmentsorting i {width: 15px; background-color: #0057C1; color: white; text-align: center; border-radius: 3px; margin-left: 11px; cursor: pointer; } .show-assessmentrowbackground {
     background: rgb(255, 199, 206);
 }
 .individualStudentGradesBox{
@@ -2137,4 +2108,8 @@ width:220px;
    
     height: 24px;
 }
+.show-assignmentstable input.grade-assigned {width: initial; max-width: 60px; margin-right: 0; display: block; text-align: right; margin-left: auto; padding: 3px 5px; border-color: transparent; appearance: none; -webkit-appearance: none; -moz-appearance: none; }
 
+
+
+.show-assignmentstable input.grade-assigned:hover, .show-assignmentstable input.grade-assigned:focus {appearance: none; -webkit-appearance: none; border: 1px solid #aaa; -moz-appearance: none; }

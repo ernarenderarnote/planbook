@@ -181,13 +181,13 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::match(['get'], '/add', [ 'as' => 'addEvents', 'uses' => "EventsController@getAddEvents"]);
             route::match(['get'], '/authUploads', [ 'as' => 'authUploads', 'uses' => "EventsController@authUploads"]);
             Route::Post('/attachFiles', ['as' => 'attachFiles', 'uses' => 'EventsController@myFileUpload']);
-             Route::match(['post'], '/add', [ 'as' => 'postAddEvent', 'uses' => "EventsController@postAddEvents"]);
-             Route::match(['get'], '/edit/{event_id}', [ 'as' => 'getEditEvent', "uses" => "EventsController@getEditEvent"]);
-             Route::match(['post'], '/edit/{event_id}', [ 'as' => 'postEditEvent', "uses" => "EventsController@postEditEvent"]);
-             Route::get('/importExport', [ 'as' => 'importExport', "uses" => 'EventsController@importExport']);
-             Route::get('/downloadExcel/{events}', [ 'as' => 'downloadExcel', "uses" => 'EventsController@downloadExcel']);
-             Route::post('/importExcel', [ 'as' => 'importExcel', "uses" => 'EventsController@importExcel']);
-             Route::get('/getyear', [ 'as' => 'getyear', "uses" => 'EventsController@getImport']);
+            Route::match(['post'], '/add', [ 'as' => 'postAddEvent', 'uses' => "EventsController@postAddEvents"]);
+            Route::match(['get'], '/edit/{event_id}', [ 'as' => 'getEditEvent', "uses" => "EventsController@getEditEvent"]);
+            Route::match(['post'], '/edit/{event_id}', [ 'as' => 'postEditEvent', "uses" => "EventsController@postEditEvent"]);
+            Route::get('/importExport', [ 'as' => 'importExport', "uses" => 'EventsController@importExport']);
+            Route::get('/downloadExcel/{events}', [ 'as' => 'downloadExcel', "uses" => 'EventsController@downloadExcel']);
+            Route::post('/importExcel', [ 'as' => 'importExcel', "uses" => 'EventsController@importExcel']);
+            Route::get('/getyear', [ 'as' => 'getyear', "uses" => 'EventsController@getImport']);
         });
 
         /* Teacher's Grades Routes*/
@@ -197,8 +197,8 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
 
             Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "GradesController@index"]);
             Route::match(['get','post'], '/addstudents', [ 'as' => 'addstudents', 'uses' => "GradesController@addstudents"]);
+            Route::match(['get'], '/getData/{class_id}', [ 'as' => 'getData', 'uses' => "GradesController@getUserData"]);
         });
-
         /* Teacher's Mylist Routes*/
 
         Route::group([ 'prefix' => "mylist", 'as' => 'mylist.' ], function()
