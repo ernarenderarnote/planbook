@@ -20,5 +20,13 @@ class ClassAssigned extends Model
         return $this->belongsTo('App\Students');
     }
 
+    public function assignpoints(){
+
+        return $this->hasMany('App\AssignmentPoints','student_id','student_id');
+    }
+    public function assesspoints(){
+
+        return $this->hasMany('App\AssessmentPoints','student_id','student_id');
+    }
    
 }

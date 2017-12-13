@@ -1,3 +1,7 @@
+@if(isset($students) && count($students)>0)
+@foreach($students as $student=>$value)
+@endforeach
+@php $count_student = count($students); @endphp
 <div class="show-assignmentstop">
    <p>Show Assignments</p>
    <div class="show-gradeassignmentsbuttons assignment-filter">
@@ -15,6 +19,7 @@
    </div>
 </div>
 <div class="show-assignmentstable">
+<form class="gradeForm" method="post" action="">
    <table>
       <thead>
          <tr id="heading-data">
@@ -32,6 +37,7 @@
          </tr>
       </thead>
       <tbody>
+       
          <tr id="sortdata">
             <td> <div class="show-assesmentsorting pull-right">Due Date &nbsp; Sort<i class="fa fa-caret-left" aria-hidden="true"></i></div></td>
             <td> </td>
@@ -43,7 +49,7 @@
             @endphp
             <td class="assignment-data">{{$ends_on}}</td>
             @empty
-            <td class="show-assessmentrowbackground assignment-data"></td>
+            <!--td class="show-assessmentrowbackground assignment-data"></td-->
             @endforelse
 
             @forelse($assessments as $assessment)
@@ -53,7 +59,7 @@
             @endphp
             <td class="assessment-data">{{$ends_on}}</td>
             @empty
-            <td class="show-assessmentrowbackground assessment-data"></td>
+            <!--td class="show-assessmentrowbackground assessment-data"></td-->
             @endforelse
            
          </tr>
@@ -61,38 +67,88 @@
             <td>Class Average</td>
             <td> </td>
             <td> </td>
-            @forelse($assignments as $assignment)
-            <td class="assignment-data"> 10/02</td>
-            @empty
-            <td class="assignment-data"></td>
+            @php 
+               $selected_class_id = '';
+               $students_id = '';   
+               $count  =  0; 
+               $countass = 0;  
+               $a = array();
+               $b = array();
+            @endphp
+
+            @forelse($assignments as $assignment=>$avg)
+            
+               @php $arr = array(); @endphp
+               @foreach($avg->avgAssignmentPoints as $avgMarks=>$val)
+                  @php $arr[] = $val->points; @endphp
+               @endforeach
+               @php
+               $a[] = array_sum($arr);  
+               $selected_class_id = $avg['class_id'];@endphp
+               <td class="assignment-data">@php echo floor($a[$count]/$count_student); @endphp /{{$avg['total_points']}}</td>
+               @php $count++; @endphp
+               @empty
+               <!--td class="assignment-data"></td-->
             @endforelse
-            @forelse($assessments as $assessment)
-            <td class="assessment-data">10/02</td>
+            @forelse($assessments as $assessment=>$avgpoints)
+               @php $asse = array(); @endphp
+               @foreach($avgpoints->avgAssessmentPoints as $avgMarks=>$val)
+                  @php $asse[] = $val->points; @endphp
+               @endforeach
+               @php $b[] = array_sum($asse);  
+               @endphp
+            <td class="assessment-data">@php echo floor($b[$countass]/$count_student); @endphp/{{$avgpoints['total_points']}}</td>
+            @php $countass++; @endphp
             @empty
-            <td class="assessment-data"></td>
+            <!--td class="assessment-data"></td-->
             @endforelse
          </tr>
+        
+         {{ csrf_field() }}
          @forelse($students as $student=>$value)
-         <tr id="studentValue">  
-            
+         <tr class="studentValue">  
+            <input type="hidden" name="class_id" value="{{$selected_class_id}}">
+           
             <td>{{$value->student['last_name']}} , {{$value->student['name']}}</td>
             <td> </td>
             <td> </td>
-            @forelse($assignments as $assignment)
-            <td class='assignment-data'><input type="text" class="grade-assigned"></td>
+
+            @forelse($value->assignpoints as $assipoint)
+            <td class='assignment-data'>
+               <input type="hidden" name="student_id[]" value="{{$value->student['id']}}">
+               <input type="hidden" name='assignment_id[]' value="{{$assipoint->assignment_id}}">
+               <input type="text"  value="{{$assipoint->points}}" name="assignment_points[]" class="grade-assigned">
+            </td>
             @empty
-            <td></td>
+            @foreach($assignments as $assignment)
+            <td class='assignment-data'>
+               <input type="hidden" name="student_id[]" value="{{$value->student['id']}}">
+               <input type="hidden" name='assignment_id[]' value="{{$assignment->id}}">
+               <input type="text"   name="assignment_points[]" class="grade-assigned">
+            </td>
+            @endforeach
             @endforelse
-            @forelse($assessments as $assessment)
-            <td class="assessment-data"><input type="text" class="grade-assigned"></td>
+            @forelse($value->assesspoints as $assipoints)
+            <td class='assignment-data'>
+               <input type="hidden" name="ass_student_id[]" value="{{$value->student['id']}}">
+               <input type="hidden" name='assessment_id[]' value="{{$assipoints->assessment_id}}">
+               <input type="text"   value="{{$assipoints->points}}" name="assessment_points[]" class="grade-assigned">
+            </td>
             @empty
-            <td></td>
-            @endforelse
-           
+            @foreach($assessments as $assessment)
+            <td class='assessment-data'>
+               <input type="hidden" name="ass_student_id[]" value="{{$value->student['id']}}">
+               <input type="hidden" name='assessment_id[]' value="{{$assessment->id}}">
+               <input type="text"   name="assessment_points[]" class="grade-assigned">
+            </td>
+            @endforeach
+            @endforelse       
          </tr> 
           @empty
             @endforelse
+            
       </tbody>
    </table>
+   </form>
 </div>
-
+@endif

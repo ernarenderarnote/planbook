@@ -32,7 +32,7 @@ class IsTeacherSetupCompleted
             }
             else if( Auth::user()->signup_step_completed == 3)
             {
-                 return redirect()->route('teacher.step4');
+                return redirect()->route('teacher.step3');
             }
             else if( Auth::user()->signup_step_completed == 4)
             {
@@ -41,7 +41,6 @@ class IsTeacherSetupCompleted
             else
                 return $next($request);
         }
-
         return redirect()->route("auth.educator");
                 
     }

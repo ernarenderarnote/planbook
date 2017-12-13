@@ -10,11 +10,6 @@
             <div class="btn-group">
                <button type="button" class="btn classBtn unitsbutton list-contentmainbuton dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" target_id="0"> All Classes<span class="caret"></span> </button>
                <ul class="dropdown-menu language-dropdown">
-                  <li class="classSelected">
-                     <a href="#" class="language-dropbutons unitdropbuton">
-                        All Classes
-                     </a>
-                  </li>
                   @forelse($classes as $className)
                      <li class="classSelected">
                         <a href="#" class="language-dropbutons  unitdropbuton" style="background-color:{{ $className['class_color'] }}; color: #fff;" target_id = "{{$className['id']}}">
@@ -33,10 +28,10 @@
                </ul>
             </div>
             <div class="btn-group">
-               <button type="button" class="btn unitsbutton list-contentmainbuton" data-toggle="modal" data-target="#addassessment"> Add Assessment</button>
+               <a href="{{route('teacher.assessments.index')}}" target='_blank' class="btn unitsbutton list-contentmainbuton"> Add Assessment</a>
             </div>
             <div class="btn-group">
-               <button type="button" class="btn unitsbutton list-contentmainbuton" data-toggle="modal" data-target="#assignmentmodal"> Add Assignments</button>
+               <a href="{{route('teacher.assignments.index')}}" target='_blank' class="btn unitsbutton list-contentmainbuton"> Add Assignments</a>
             </div>
             <div class="btn-group">
                <div type="button" class="btn unitsbutton list-contentmainbuton  standardmainbuttons"> <span class="show-standard">Show Standards</span> <span class="hide-standard">Hide Standards</span></div>
@@ -64,9 +59,41 @@
       </div>
 
       <!-- Add class popup end here ! -->
-
-
-
+      <div id="lettergrade" class="modal fade editmodalcontent in" role="dialog">
+         <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+               <form method="post" action="#" class="editlessonform editscore-form">
+                  <div class="modal-header">
+                     <div class="normalLesson pull-left">
+                        <p>Letter Grades</p>
+                     </div>
+                     <div class="actionright pull-right">
+                        <button class="actiondropbutton renew-button">Save</button>
+                        <a class="closebutton" data-dismiss="modal"><i class="fa fa-close" aria-hidden="true"></i></a> 
+                     </div>
+                  </div>
+                  <div class="modal-body editscore-body">
+                     <p>To add sample grades, <a href="#" id="gradeLetters">click here</a></p>
+                     <div class="added-daysection added-assessmentbox">
+                        <p>Letter Grades <a href="javascript:void(0)" class="main-buton"><i class="fa fa-plus" aria-hidden="true"></i></a></p>
+                     </div>
+                     <div class="assignment-table">
+                        <table>
+                           <thead>
+                           
+                           </thead>
+                           <tbody>
+                             
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+      
 @endsection
   
 @push('js')
@@ -75,18 +102,6 @@
          $(".standardmainbuttons").click(function(){
                  $(".standardmainbuttons").toggleClass("standardshowbutton");
              });
-         /*$('#demo9').dcalendarpicker();
-         $('#calendar-demo').dcalendar(); //creates the calendar
-         $('#demo10').dcalendarpicker();
-         $('#calendar-demo').dcalendar(); //creates the calendar
-         $('#demo13').dcalendarpicker();
-         $('#calendar-demo').dcalendar(); //creates the calendar
-         $('#demo14').dcalendarpicker();
-         $('#calendar-demo').dcalendar(); //creates the calendar
-         $('#demo15').dcalendarpicker();
-         $('#calendar-demo').dcalendar(); //creates the calendar
-         $('#demo16').dcalendarpicker();
-         $('#calendar-demo').dcalendar(); //creates the calendar*/
          $(".fileattachmentmain").click(function(){
               $(".fileattachment-modal").show();
              });
@@ -131,57 +146,27 @@
             url: BASE_URL +'/teacher/grades/getData/'+class_id,
 
             beforeSend: function () {
-              //obj.html('Sending... <i class="fa fa-send"></i>');
+              $('#main-loader').show();
             },
             complete: function () {
-              //obj.html('Sent <i class="fa fa-send"></i>');
+              $('#main-loader').hide();
             },
 
             success: function (response) {
-               $('.show-assignmentsgrades').html(response);
-              /*var html = '';
-
-              $('#warning-box').remove();
-              $('#success-box').remove();
-
-              if(response['error']){
-                  html += '<div id="warning-box" class="alert alert-danger fade in">';
-                  html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
-                  html += '<strong>Error!</strong>';
-
-                  for (var i = 0; i < response['error'].length; i++) {
-                      html += '<p>' + response['error'][i] + '</p>';
-                  }
-
-                  html += '</div>';
-                  $('.errorMessage').before(html);
-                  
-              }
-
-              if(response['success']){
-                     
-                console.log(response['success']);
-
-                html += '<div id="success-box" class="alert alert-success fade in">';
-                html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
-                html += '<strong>You Have created Assignment successfully !</strong>';
-                html += '</div>';
-
-                $('.errorMessage').before(html);
-                $('#assessment_add_form')[0].reset();
-               $(".d-render-popoup").fadeOut();
-
-
-                window.location.reload();
-              }
-*/
-
-              },
+               $('.show-assignmentsgrades').html('');
+               if(response){
+                  $('.studentGradesMsg').hide();
+                  $('.show-assignmentsgrades').html(response);
+               }
+               else{
+                  $('.studentGradesMsg').show();
+               }  
+            },
 
 
             error: function(data){
-              console.log("error");
-              console.log(data);
+             // console.log("error");
+              //console.log(data);
             }
 
          });
@@ -192,6 +177,7 @@
       $(document).on('click','.assignment-filter .btn',function(){
          var txt = $(this).text();
          var arr = $('#heading-data .assignment-data').length;
+         console.log(arr);
          $(this).parent().find('.btn').removeClass('active');
          $(this).addClass('active');
          if(txt == 'None'){
@@ -219,9 +205,9 @@
             $("#avgClass .assignment-data:eq("+click+")").prevAll('.assignment-data').hide();
             $("#avgClass .assignment-data:eq("+click+")").show();
             $("#avgClass .assignment-data:eq("+click+")").nextAll('.assignment-data').hide();
-            $("#studentValue .assignment-data:eq("+click+")").prevAll('.assignment-data').hide();
-            $("#studentValue .assignment-data:eq("+click+")").show();
-            $("#studentValue .assignment-data:eq("+click+")").nextAll('.assignment-data').hide();
+            $(".studentValue .assignment-data:eq("+click+")").prevAll('.assignment-data').hide();
+            $(".studentValue .assignment-data:eq("+click+")").show();
+            $(".studentValue .assignment-data:eq("+click+")").nextAll('.assignment-data').hide();
             if(click>=arr){
               var newclick = click%arr; 
               $("#heading-data .assignment-data:eq("+newclick+")").show(); 
@@ -233,19 +219,20 @@
               $("#avgClass .assignment-data:eq("+newclick+")").show(); 
               $("#avgClass .assignment-data:eq("+newclick+")").prevAll('.assignment-data').hide();
               $("#avgClass .assignment-data:eq("+newclick+")").nextAll('.assignment-data').hide(); 
-              $("#studentValue .assignment-data:eq("+newclick+")").show(); 
-              $("#studentValue .assignment-data:eq("+newclick+")").prevAll('.assignment-data').hide();
-              $("#studentValue .assignment-data:eq("+newclick+")").nextAll('.assignment-data').hide(); 
+              $(".studentValue .assignment-data:eq("+newclick+")").show(); 
+              $(".studentValue .assignment-data:eq("+newclick+")").prevAll('.assignment-data').hide();
+              $(".studentValue .assignment-data:eq("+newclick+")").nextAll('.assignment-data').hide(); 
             }
             
             $('.assessment-filter').find('.btn').removeClass('active');
             $('.assessment-filter').find('.none').addClass('active');
          }  
       });
-       var click = -1;
+       var clickass = -1;
        $(document).on('click','.assessment-filter .btn',function(){
          var txt     = $(this).text();
          var arr = $('#heading-data .assessment-data').length;
+         console.log(clickass);
          $(this).parent().find('.btn').removeClass('active');
          $(this).addClass('active');
          if(txt == 'None'){
@@ -261,34 +248,33 @@
             $('.assignment-filter').find('.none').addClass('active');
          }
          if(txt == 'Next'){
-            click++;
-            $("#heading-data .assessment-data:eq("+click+")").prevAll('.assessment-data').hide();
-            $("#heading-data .assessment-data:eq("+click+")").show();
-            $("#heading-data .assessment-data:eq("+click+")").nextAll('.assessment-data').hide();
-            $("#sortdata .assessment-data:eq("+click+")").prevAll('.assessment-data').hide();
-            $("#sortdata .assessment-data:eq("+click+")").show();
-            $("#sortdata .assessment-data:eq("+click+")").nextAll('.assessment-data').hide();
-            $("#avgClass .assessment-data:eq("+click+")").prevAll('.assessment-data').hide();
-            $("#avgClass .assessment-data:eq("+click+")").show();
-            $("#avgClass .assessment-data:eq("+click+")").nextAll('.assessment-data').hide();
-            $("#studentValue .assessment-data:eq("+click+")").prevAll('.assessment-data').hide();
-            $("#studentValue .assessment-data:eq("+click+")").show();
-            $("#studentValue .assessment-data:eq("+click+")").nextAll('.assessment-data').hide();
-            if(click>=arr){
-               var newclick = click%arr; 
-               console.log(newclick);
-              $("#heading-data .assessment-data:eq("+newclick+")").show(); 
-              $("#heading-data .assessment-data:eq("+newclick+")").prevAll('.assessment-data').hide();
-              $("#heading-data .assessment-data:eq("+newclick+")").nextAll('.assessment-data').hide();
-              $("#sortdata .assessment-data:eq("+newclick+")").show(); 
-              $("#sortdata .assessment-data:eq("+newclick+")").prevAll('.assessment-data').hide();
-              $("#sortdata .assessment-data:eq("+newclick+")").nextAll('.assessment-data').hide(); 
-              $("#avgClass .assessment-data:eq("+newclick+")").show(); 
-              $("#avgClass .assessment-data:eq("+newclick+")").prevAll('.assessment-data').hide();
-              $("#avgClass .assessment-data:eq("+newclick+")").nextAll('.assessment-data').hide(); 
-              $("#studentValue .assessment-data:eq("+newclick+")").show(); 
-              $("#studentValue .assessment-data:eq("+newclick+")").prevAll('.assessment-data').hide();
-              $("#studentValue .assessment-data:eq("+newclick+")").nextAll('.assessment-data').hide();  
+            clickass++;
+            $("#heading-data .assessment-data:eq("+clickass+")").prevAll('.assessment-data').hide();
+            $("#heading-data .assessment-data:eq("+clickass+")").show();
+            $("#heading-data .assessment-data:eq("+clickass+")").nextAll('.assessment-data').hide();
+            $("#sortdata .assessment-data:eq("+clickass+")").prevAll('.assessment-data').hide();
+            $("#sortdata .assessment-data:eq("+clickass+")").show();
+            $("#sortdata .assessment-data:eq("+clickass+")").nextAll('.assessment-data').hide();
+            $("#avgClass .assessment-data:eq("+clickass+")").prevAll('.assessment-data').hide();
+            $("#avgClass .assessment-data:eq("+clickass+")").show();
+            $("#avgClass .assessment-data:eq("+clickass+")").nextAll('.assessment-data').hide();
+            $("#studentValue .assessment-data:eq("+clickass+")").prevAll('.assessment-data').hide();
+            $("#studentValue .assessment-data:eq("+clickass+")").show();
+            $("#studentValue .assessment-data:eq("+clickass+")").nextAll('.assessment-data').hide();
+            if(clickass>=arr){
+               var newclickass = clickass%arr; 
+              $("#heading-data .assessment-data:eq("+newclickass+")").show(); 
+              $("#heading-data .assessment-data:eq("+newclickass+")").prevAll('.assessment-data').hide();
+              $("#heading-data .assessment-data:eq("+newclickass+")").nextAll('.assessment-data').hide();
+              $("#sortdata .assessment-data:eq("+newclickass+")").show(); 
+              $("#sortdata .assessment-data:eq("+newclickass+")").prevAll('.assessment-data').hide();
+              $("#sortdata .assessment-data:eq("+newclickass+")").nextAll('.assessment-data').hide(); 
+              $("#avgClass .assessment-data:eq("+newclickass+")").show(); 
+              $("#avgClass .assessment-data:eq("+newclickass+")").prevAll('.assessment-data').hide();
+              $("#avgClass .assessment-data:eq("+newclickass+")").nextAll('.assessment-data').hide(); 
+              $("#studentValue .assessment-data:eq("+newclickass+")").show(); 
+              $("#studentValue .assessment-data:eq("+newclickass+")").prevAll('.assessment-data').hide();
+              $("#studentValue .assessment-data:eq("+newclickass+")").nextAll('.assessment-data').hide();  
             }
             $('.assignment-data').hide();
             $('.assignment-filter').find('.btn').removeClass('active');
@@ -299,6 +285,84 @@
         
       });
 
+       /*submit data on focus out of grade marks*/
+       $(document).on('change','.grade-assigned',function(){
+         var data = $('.gradeForm').serialize();
+
+          $.ajax({
+            type:'POST',
+            url: BASE_URL +'/teacher/grades/postData',
+            data:data,
+            beforeSend: function () {
+              //obj.html('Sending... <i class="fa fa-send"></i>');
+            },
+            complete: function () {
+              //obj.html('Sent <i class="fa fa-send"></i>');
+            },
+
+            success: function (response) {
+               
+
+            },
+
+
+            error: function(data){
+              console.log("error");
+              console.log(data);
+            }
+
+         });
+      })
+
+      /*append grade letters on click*/ 
+      
+      var num = 0;
+      $(document).on('click','#gradeLetters',function(){
+         var countnum = $(".assignment-table tbody tr:last" ).index();
+         if(countnum!='' && countnum >= 0){
+            num = countnum+1;
+         }
+         var thead = '';
+             thead += '<tr class="tHeader">';
+             thead += '<th>Letter Grade</th>';
+             thead += '<th>Minimum Percent</th>';
+             thead += '<th style="background-color:#dbdfe8; border:none;"></th>';
+             thead += '</tr>';
+
+         var tbody = '';
+             tbody +='<tr>';
+             tbody +='<td><input id="nameAssignmentWeight'+ parseInt(0 + num)+'" size="11" value="A" type="text"></td>';
+             tbody +='<td><input id="percentAssignmentWeight'+ parseInt(0 + num)+'" size="11" value="90" class="perchantage-input" type="text"></td>';
+             tbody +='<td><i class="fa fa-close closebtn closeicon-assessment'+ parseInt(0 + num)+'" aria-hidden="true"></i></td>';
+             tbody +='</tr>';
+             tbody +='<tr>';
+             tbody +=' <td><input id="nameAssignmentWeight'+ parseInt(1 + num)+'" size="11" value="B" type="text"></td>';
+             tbody +=' <td><input id="percentAssignmentWeight'+ parseInt(1 + num)+'" size="11" value="80" class="perchantage-input" type="text"></td>';
+             tbody +=' <td><i class="fa fa-close closebtn closeicon-assessment'+ parseInt(1 + num)+'" aria-hidden="true"></i></td>';
+             tbody +='</tr>';
+             tbody +='<tr>';
+             tbody +=' <td><input id="nameAssignmentWeight'+ parseInt(2 + num)+'" size="11" value="C" type="text"></td>';
+             tbody +=' <td><input id="percentAssignmentWeight'+ parseInt(2 + num)+'" size="11" value="70" class="perchantage-input" type="text"></td>';
+             tbody +=' <td><i class="fa fa-close closebtn closeicon-assessment'+ parseInt(2 + num)+'" aria-hidden="true"></i></td>';
+             tbody +='</tr>';
+             tbody +='<tr>';
+             tbody +=' <td><input id="nameAssignmentWeight'+ parseInt(3 + num)+'" size="11" value="D" type="text"></td>';
+             tbody +=' <td><input id="percentAssignmentWeight'+ parseInt(3 + num)+'" size="11" value="60" class="perchantage-input" type="text"></td>';
+             tbody +=' <td><i class="fa fa-close closebtn closeicon-assessment'+ parseInt(3 + num)+'" aria-hidden="true"></i></td>';
+             tbody +='</tr>';
+             tbody +='<tr>';
+             tbody +=' <td><input id="nameAssignmentWeight'+ parseInt(4 + num)+'" size="11" value="F" type="text"></td>';
+             tbody +=' <td><input id="percentAssignmentWeight'+ parseInt(4 + num)+'" size="11" value="0" class="perchantage-input" type="text"></td>';
+             tbody +=' <td><i class="fa fa-close closebtn closeicon-assessment'+ parseInt(4 + num)+'" aria-hidden="true"></i></td>';
+             tbody +='</tr>';    
+         $('.assignment-table table thead').html(thead);
+         $('.assignment-table table tbody').append(tbody);
+         num++;
+      });
+
+      $(document).on('click','.closebtn',function(){
+         $(this).parents('tr').remove();
+      })
       </script>
 
 @endpush  

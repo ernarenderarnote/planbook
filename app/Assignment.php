@@ -36,7 +36,9 @@ class Assignment extends Model
         return $this->belongsTo('App\Unit','unit_id');
     }
 
+    public function avgAssignmentPoints(){
+        return $this->hasMany('App\AssignmentPoints','assignment_id','id');
+    }
    
-
    
 }

@@ -37,4 +37,7 @@ class Students extends Authenticatable
      public function selectedYear(){
         return $this->belongsTo(SchoolYear::class,'teacher_id','user_id');
     }
+    public function assignments(){
+    return $this->hasMany('App\Assignment','student_id');
+   }
 }

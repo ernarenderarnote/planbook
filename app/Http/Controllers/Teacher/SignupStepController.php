@@ -214,7 +214,6 @@ class SignupStepController extends Controller
     public function step4(Request $request, $LessonSectionLayout)
     {
 
-
         $user_selected_school_year = SchoolYear::where('id',Auth::user()->current_selected_year)->where('user_id',Auth::user()->id)->first();
         $this->data['user_selected_school_year'] = $user_selected_school_year;
 
@@ -238,8 +237,6 @@ class SignupStepController extends Controller
         $user = Auth::user();
         $user->signup_step_completed = $signup_step_completed;
         $user->save();
-
-      
          /* Add User Class Information*/
 
          $userClasses = auth()->user()->userClass()->get();

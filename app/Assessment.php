@@ -37,6 +37,9 @@ class Assessment extends Model
     }
 
    
+    public function avgAssessmentPoints(){
 
+        return $this->hasMany('App\AssessmentPoints','assessment_id','id');
+    }
    
 }
