@@ -28,6 +28,8 @@ use App\MyFile;
 use App\ClassAssigned;
 use App\AssignmentPoints;
 use App\AssessmentPoints;
+use App\GradeLetters;
+use App\ClassPeriods;
 class GradesController extends Controller
 {
     /**
@@ -46,9 +48,11 @@ class GradesController extends Controller
 	 */
 	public function index()
 	{
-	   $this->data['classes'] = UserClass::where('year_id',Auth::user()->current_selected_year)->where('user_id',Auth::user()->id)->with('schoolYear')->get();
-       return view('teacher.grades.index', $this->data);
+	  $this->data['classes'] = UserClass::where('year_id',Auth::user()->current_selected_year)->where('user_id',Auth::user()->id)->with('schoolYear')->get();
+	   
+	   $this->data['gradeletters'] = GradeLetters::where('user_id',Auth::user()->id)->get();
 
+	   $this->data['periods'] = ClassPeriods::where('user_id',Auth::user()->id)->get();																			return view('teacher.grades.index', $this->data);
 	}
 
 	public function addstudents(){
@@ -58,6 +62,7 @@ class GradesController extends Controller
 
 	/*Return assessments and assignments*/
 	public function getUserData(Request $request,$class_id){
+		$response = array();
 		$this->data['assignments'] = Assignment::where('user_id',Auth::user()->id)->where('class_id',$class_id)->with(['avgAssignmentPoints' =>function($query) use($class_id){
 			$query->where('class_id',$class_id);}])->get();
 		$this->data['assessments'] = Assessment::where('user_id',Auth::user()->id)->where('class_id',$class_id)->with(['avgAssessmentPoints' =>function($query) use($class_id){
@@ -65,6 +70,7 @@ class GradesController extends Controller
 		$this->data['students']    = ClassAssigned::where('teacher_id',Auth::user()->id)->where('class_id',$class_id)->with(['assignpoints' => function($query)use($class_id){
 			$query->where('class_id',$class_id); }],'student')->with(['assesspoints' => function($query)use($class_id){
 			$query->where('class_id',$class_id); }])->get();
+			
 		return view('teacher.grades.assigndata', $this->data);
 	}
 
@@ -149,4 +155,69 @@ class GradesController extends Controller
 	   
 	   
 	}
+
+	public function postGradeLetters(Request $request){
+		$GradeLetters = new GradeLetters();
+		$response     = array();
+		$GradeLetters->user_id = Auth::id();
+		$hasGrade     = GradeLetters::where('user_id',Auth::user()->id)->get();		
+		$GradeLetters->grade_letters_data = json_encode($request['grade']);
+		if(count($hasGrade) >= '1'){
+			GradeLetters::where('user_id',Auth::user()->id)->delete();
+				$GradeLetters->save();
+				$response['success'] ='Updated Successfully';
+		}
+		elseif($GradeLetters->save()){
+			$response['success'] = 'Grade Letters Added Successfully';
+		}
+		return response()->json($response);
+
+	}
+
+	public function addPeriods(Request $request){
+
+		return view('teacher.grades.addperiod', $this->data);
+	}
+
+	public function postPeriod(Request $request){
+		$response = array();
+        $ClassPeriods = new ClassPeriods();
+        if($request->isMethod('post')) {
+            $validation['periodname']	 = 'required';
+            $validation['class_id']  = 'required';           
+            $validator = Validator::make($request->all(), $validation);
+
+            if($validator->fails()) {
+
+                $response['error'] = $validator->errors()->all();
+
+            }else{
+
+            	$format = 'd/m/Y';
+
+                $ClassPeriods->user_id = Auth::id();
+                $ClassPeriods->class_id = $request['class_id'];
+                $ClassPeriods->starts_on = \Carbon\Carbon::createFromFormat($format, $request['start_date']);
+                $ClassPeriods->ends_on = \Carbon\Carbon::createFromFormat($format,$request['end_date']);
+                $ClassPeriods->title = $request['periodname'];
+                if($ClassPeriods->save()){
+
+                    $response['success'] = 'TRUE';
+
+                }
+
+            }
+
+        }
+
+        return response()->json($response);
+
+
+	}
+
+	public function geteditPeriod(Request $request,$period_id){
+		$this->data['period'] = ClassPeriods::where('id',$period_id)->first();
+		return view('teacher.grades.editperiod', $this->data);  
+	}
+
 }

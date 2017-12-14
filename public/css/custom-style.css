@@ -2113,3 +2113,11 @@ width:220px;
 
 
 .show-assignmentstable input.grade-assigned:hover, .show-assignmentstable input.grade-assigned:focus {appearance: none; -webkit-appearance: none; border: 1px solid #aaa; -moz-appearance: none; }
+.unitdropbuton i.fa.fa-pencil {
+    float: right;
+    z-index: 999999999;
+    line-height: 21px;
+    background-color: #ddd;
+    margin-right: 8px;
+    padding: 2px 4px;
+}

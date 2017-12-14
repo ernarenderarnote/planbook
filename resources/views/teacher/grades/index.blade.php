@@ -11,6 +11,7 @@
                <button type="button" class="btn classBtn unitsbutton list-contentmainbuton dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" target_id="0"> All Classes<span class="caret"></span> </button>
                <ul class="dropdown-menu language-dropdown">
                   @forelse($classes as $className)
+
                      <li class="classSelected">
                         <a href="#" class="language-dropbutons  unitdropbuton" style="background-color:{{ $className['class_color'] }}; color: #fff;" target_id = "{{$className['id']}}">
                            {{ $className['class_name'] }}
@@ -24,7 +25,12 @@
                <button type="button" class="btn unitsbutton list-contentmainbuton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> All Periods<span class="caret"></span> </button>
                <ul class="dropdown-menu language-dropdown gradedropdown">
                   <li><a href="#" class="language-dropbutons unitdropbuton">All Periods </a></li>
-                  <li><a href="#" class="language-dropbutons unitdropbuton" data-toggle="modal" data-target="#addperiod">Add Periods </a></li>
+                  @forelse($periods as $period)
+                     <li><a href="#" class="language-dropbutons unitdropbuton">{{$period['title']}}  <i class="fa fa-pencil" period_id = "{{$period['id']}}"aria-hidden="true"></i></a>
+</li>
+                  @empty
+                  @endforelse
+                  <li><a href="#" class="language-dropbutons unitdropbuton" id="addperiod">Add Periods </a></li>
                </ul>
             </div>
             <div class="btn-group">
@@ -53,7 +59,7 @@
 
       </div>
       <!-- Add class Popup Starts Here -->
-      <div class="d-render-popoup t-data-popup modal fade editmodalcontent in" id="dynamicRenderDiv" role="dialog">
+      <div class="d-render-popoup movemodalcontent t-data-popup modal fade editmodalcontent addteachercontent in" id="dynamicRenderDiv" role="dialog">
         
 
       </div>
@@ -63,28 +69,52 @@
          <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
-               <form method="post" action="#" class="editlessonform editscore-form">
+               <form method="post" action="#" class="editlessonform gradeScoreForm editscore-form">
+                  {{ csrf_field() }}
                   <div class="modal-header">
                      <div class="normalLesson pull-left">
                         <p>Letter Grades</p>
                      </div>
                      <div class="actionright pull-right">
-                        <button class="actiondropbutton renew-button">Save</button>
+                        <input type="submit" class="actiondropbutton renew-button gradesSave" value="Save">
                         <a class="closebutton" data-dismiss="modal"><i class="fa fa-close" aria-hidden="true"></i></a> 
                      </div>
                   </div>
                   <div class="modal-body editscore-body">
                      <p>To add sample grades, <a href="#" id="gradeLetters">click here</a></p>
                      <div class="added-daysection added-assessmentbox">
-                        <p>Letter Grades <a href="javascript:void(0)" class="main-buton"><i class="fa fa-plus" aria-hidden="true"></i></a></p>
+                        <p>Letter Grades <a href="javascript:void(0)" class="main-buton appendGrade"><i class="fa fa-plus" aria-hidden="true"></i></a></p>
                      </div>
                      <div class="assignment-table">
+                      @php $letters = array();@endphp
+                      
+                      
                         <table>
                            <thead>
-                           
+                           @if(isset($gradeletters))
+                              <tr class="tHeader">
+                                 <th>Letter Grade</th>
+                                 <th>Minimum Percent</th>
+                                 <th style="background-color:#dbdfe8; border:none;"></th>
+                              </tr>
+                           @endif
                            </thead>
                            <tbody>
-                             
+                            @forelse($gradeletters as $data=>$val)
+                              @php $letters = (json_decode($val->grade_letters_data));@endphp
+                       
+                              @foreach($letters as $letter=>$value)
+                                 @php $count=0; @endphp
+
+                                 <tr>
+                                    <td><input id="nameAssignmentWeight{{$count}}" value="{{$value->title}}" name="grade[{{$count}}][title]" size="11" type="text"></td>
+                                    <td><input id="percentAssignmentWeight{{$count}}" value="{{$value->marks}}" name="grade[{{$count}}][marks] size="11"  class="perchantage-input" type="text"></td>
+                                    <td><i class="fa fa-close closebtn closeicon-assessment{{$count}}" aria-hidden="true"></i></td>
+                                 </tr>
+                                 @php $count++; @endphp
+                              @endforeach
+                              @empty
+                           @endforelse  
                            </tbody>
                         </table>
                      </div>
@@ -93,12 +123,18 @@
             </div>
          </div>
       </div>
-      
+      <!-- Add class Popup Starts Here -->
+      <div class="d-render-popoup t-data-popup modal fade editmodalcontent in" id="dynamicRenderDiv" role="dialog">
+        
+
+      </div>
+
+      <!-- Add class popup end here ! -->
 @endsection
   
 @push('js')
-   
       <script>
+      
          $(".standardmainbuttons").click(function(){
                  $(".standardmainbuttons").toggleClass("standardshowbutton");
              });
@@ -141,6 +177,7 @@
         $('.classBtn').html(classVar +' <span class="caret"></span>');
         $('.classBtn').css({'background-color':background,'border-color':background, 'color':'#fff'});
         $('.classBtn').attr('target_id',class_id);
+        $('#periodClassID').val(class_id);
          $.ajax({
             type:'GET',
             url: BASE_URL +'/teacher/grades/getData/'+class_id,
@@ -165,8 +202,8 @@
 
 
             error: function(data){
-             // console.log("error");
-              //console.log(data);
+             console.log("error");
+              console.log(data);
             }
 
          });
@@ -289,7 +326,7 @@
        $(document).on('change','.grade-assigned',function(){
          var data = $('.gradeForm').serialize();
 
-          $.ajax({
+         $.ajax({
             type:'POST',
             url: BASE_URL +'/teacher/grades/postData',
             data:data,
@@ -317,11 +354,15 @@
       /*append grade letters on click*/ 
       
       var num = 0;
-      $(document).on('click','#gradeLetters',function(){
+      
+      $(document).on('click','#gradeLetters',function(index){
          var countnum = $(".assignment-table tbody tr:last" ).index();
          if(countnum!='' && countnum >= 0){
             num = countnum+1;
          }
+         appendIndexElement(num);
+      });
+      function appendIndexElement(num){
          var thead = '';
              thead += '<tr class="tHeader">';
              thead += '<th>Letter Grade</th>';
@@ -358,11 +399,173 @@
          $('.assignment-table table thead').html(thead);
          $('.assignment-table table tbody').append(tbody);
          num++;
+
+      }
+      $('.appendGrade').on('click',function(){
+         console.log(num);
+         var countnum = $(".assignment-table tbody tr:last" ).index();
+            num = countnum+1;
+            appendSingle(num);
       });
 
+
+      function appendSingle(num){
+         var thead = '';
+             thead += '<tr class="tHeader">';
+             thead += '<th>Letter Grade</th>';
+             thead += '<th>Minimum Percent</th>';
+             thead += '<th style="background-color:#dbdfe8; border:none;"></th>';
+             thead += '</tr>';
+         var tbody = '';   
+            tbody +='<tr>';
+            tbody +=' <td><input id="nameAssignmentWeight'+ parseInt(num) +'" name="grade['+num+'][title]" size="11" type="text"></td>';
+            tbody +=' <td><input id="percentAssignmentWeight'+ parseInt(num)+'" name="grade['+num+'][marks] size="11"  class="perchantage-input" type="text"></td>';
+            tbody +=' <td><i class="fa fa-close closebtn closeicon-assessment'+ parseInt(num)+'" aria-hidden="true"></i></td>';
+            tbody +='</tr>';
+            $('.assignment-table table thead').html(thead);
+            $('.assignment-table table tbody').append(tbody);
+      }
       $(document).on('click','.closebtn',function(){
+         var deletedNode = $(this).parent('td').prev('td').find('input').attr('id');
+         console.log(deletedNode);
          $(this).parents('tr').remove();
-      })
+      });
+
+      $('.gradeScoreForm').on('submit',function(e){
+         var data = $(this).serialize();
+         $.ajax({
+            type:'POST',
+            url: BASE_URL +'/teacher/grades/postGradeLetters',
+            data:data,
+            beforeSend: function () {
+              $('#main-loader').show();
+            },
+            complete: function () {
+              $('#main-loader').hide();
+            },
+
+            success: function (response) {
+               
+
+            },
+
+
+            error: function(data){
+              console.log("error");
+              console.log(data);
+            }
+
+         });
+         e.preventDefault();
+      });
+
+      /*Add period Script*/
+      $("#addperiod").click(function(){
+
+
+         $("#dynamicRenderDiv").show().load("/teacher/grades/add",function(){    
+
+         });
+
+      });
+
+      
+      
+      $(document).on('submit','.addperiodform',function(e){
+         var data = $(this).serialize();
+         $.ajax({
+            type:'POST',
+            url: BASE_URL +'/teacher/grades/postPeriod',
+            data:data,
+            beforeSend: function () {
+               $('#main-loader').show();
+            },
+            complete: function () {
+              $('#main-loader').hide();
+            },
+
+            success: function (response) {
+              var html = ''; 
+              if(response['error']){
+                  html += '<div id="warning-box" class="alert alert-danger fade in">';
+                  html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+                  html += '<strong>Error!</strong>';
+
+                  for (var i = 0; i < response['error'].length; i++) {
+                      html += '<p>' + response['error'][i] + '</p>';
+                  }
+
+                  html += '</div>';
+                  $('.modal-body').before(html);
+                  
+              }
+
+              if(response['success']){
+                     
+                console.log(response['success']);
+
+                html += '<div id="success-box" class="alert alert-success fade in">';
+                html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+                html += '<strong>Period Added !..</strong>';
+                html += '</div>';
+
+                $('.modal-body').before(html);
+               // $('#assessment_add_form')[0].reset();
+               $("#addperiod").fadeOut();
+
+
+                window.location.reload();
+              } 
+
+            },
+
+
+            error: function(data){
+              console.log("error");
+              console.log(data);
+            }
+
+         });
+         e.preventDefault();
+      });
+
+      /*Edit period*/
+
+      $(".fa-pencil").click(function(){
+
+          var period_id  = $(this).attr('period_id');
+         $("#dynamicRenderDiv").show().load("/teacher/grades/geteditperiod/"+period_id,function(){    
+
+         });
+
+      });
+
+      /*$('.fa-pencil').on('click',function(e){
+        var period_id  = $(this).attr('period_id');
+        $.ajax({
+            type:'GET',
+            url: BASE_URL +'/teacher/grades/geteditPeriod/'+period_id,
+            beforeSend: function () {
+               $('#main-loader').show();
+            },
+            complete: function () {
+              $('#main-loader').hide();
+            },
+
+            success: function (response) {
+              console.log(response.period);   
+
+            },
+
+
+            error: function(data){
+              console.log("error");
+              console.log(data);
+            }
+
+         });
+
+      })*/
       </script>
 
 @endpush  
