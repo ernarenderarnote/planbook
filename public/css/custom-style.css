@@ -429,14 +429,15 @@ input[type=color].form-control { padding: 0; width: auto; min-width: 40px; }
 .weekcontent .mathematics { background-color: #fe090a; border-color: #fe090a; color: #fff; }
 .reading { background-color: #fe090a; border-color: #fe090a; color: #fff; }
 .reading { background-color: #fe9c0a; border-color: #fe9c0a; color: #fff; }
-/*list tab content start*/
+.language-dropdown li {text-align: center; } /*list tab content start*/
 
 .listtab-content .list-header { color: #0057c1; font-size: 17px; margin-bottom: 20px; }
 .list-contentbutton .caret { border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px dashed; margin-left: 14px; vertical-align: middle; }
 .languagebuton { background-color: rgb(96, 63, 153); color: #fff; }
 .language-dropdown { border: 2px solid #0057c1; padding-top: 17px; width: 181px; }
 .list-contentbutton .dropdown-menu .languagebuton:hover { color: #fff; background-color: rgb(96, 63, 153); }
-.list-contentbutton .dropdown-menu .language-dropbutons { border-radius: 4px; font-size: 15px; margin: 0 auto 11px; padding: 4px 0 6px 11px; text-align: left; width: 145px; color: #fff; }
+.list-contentbutton .dropdown-menu .language-dropbutons { border-radius: 4px; font-size: 15px; margin: 0 auto 11px; padding: 4px 0 6px 11px; text-align: left; width: 145px; color: #fff; white-space: normal;
+    word-wrap: break-word;display: inline-block; }
 .list-contentbutton .dropdown-menu .language-dropbutons:hover { color: #fff; }
 .list-contentbutton .dropdown-menu .mathematics { background-color: #fe090a; }
 .list-contentbutton .dropdown-menu .reading { background-color: #fe9c0a; }
@@ -2121,3 +2122,11 @@ width:220px;
     margin-right: 8px;
     padding: 2px 4px;
 }
+performanceform .performance-item{  text-decoration:underline; }
+.performance-itemdropdown {     background-color: #dbdfe8;     border-radius: 5px;     position: absolute;     top: -50px;     left: 163px;     height: auto;     line-height: 12px;     border: 2px solid #0057C1;     width: 130px;   display: none; } 
+.performance-itemdropdown .reportItem:first-child {     background-color: #0057c1;     color: white; } 
+.performance-itemdropdown .reportItem {     padding: 6px;     position: relative;     white-space: nowrap; } 
+.performance-itemdropdown .reportItem input[type="checkbox"] {     margin: 0px 0px 0px 0px;     vertical-align: top; } 
+.performance-itemdropdown .reportItem span {     margin-left: 6px;     white-space: nowrap;     color: #000; } 
+.performance-itemdropdown .reportItem:first-child span{     color:#fff; } 
+.performance-itemdropdown .report-doneitems{    background-color:#fff;  text-align: center; cursor:pointer; }

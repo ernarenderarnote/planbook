@@ -46,7 +46,7 @@
                <button type="button" class="btn unitsbutton list-contentmainbuton" data-toggle="modal" data-target="#lettergrade">Letter Grades</button>
             </div>
             <div class="btn-group">
-               <button type="button" class="btn unitsbutton list-contentmainbuton" data-toggle="modal" data-target="#performancereport">Performance Reports</button>
+               <button type="button" class="btn unitsbutton list-contentmainbuton" id="performancereport">Performance Reports</button>
             </div>
             <div class="studentGradesMsg">
                <p>No <a href="addstudents">students</a> have been assigned to this class</p>
@@ -534,17 +534,20 @@
       $(".fa-pencil").click(function(){
 
           var period_id  = $(this).attr('period_id');
-         $("#dynamicRenderDiv").show().load("/teacher/grades/geteditperiod/"+period_id,function(){    
+         $("#dynamicRenderDiv").show().load("/teacher/grades/geteditPeriod/"+period_id,function(){    
 
          });
 
       });
 
-      /*$('.fa-pencil').on('click',function(e){
-        var period_id  = $(this).attr('period_id');
-        $.ajax({
-            type:'GET',
-            url: BASE_URL +'/teacher/grades/geteditPeriod/'+period_id,
+      $(document).on('submit','.editperiodform',function(e){
+        
+         var data = $(this).serialize();
+         var period_id = $("input[name='period_id']").val();
+         $.ajax({
+            type:'POST',
+            url: BASE_URL +'/teacher/grades/posteditPeriod/'+period_id,
+            data:data,
             beforeSend: function () {
                $('#main-loader').show();
             },
@@ -553,7 +556,37 @@
             },
 
             success: function (response) {
-              console.log(response.period);   
+              var html = ''; 
+              if(response['error']){
+                  html += '<div id="warning-box" class="alert alert-danger fade in">';
+                  html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+                  html += '<strong>Error!</strong>';
+
+                  for (var i = 0; i < response['error'].length; i++) {
+                      html += '<p>' + response['error'][i] + '</p>';
+                  }
+
+                  html += '</div>';
+                  $('.modal-body').before(html);
+                  
+              }
+
+              if(response['success']){
+                     
+                console.log(response['success']);
+
+                html += '<div id="success-box" class="alert alert-success fade in">';
+                html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+                html += '<strong>Period updated !..</strong>';
+                html += '</div>';
+
+                $('.modal-body').before(html);
+               // $('#assessment_add_form')[0].reset();
+               $("#addperiod").fadeOut();
+
+
+               window.location.reload();
+              } 
 
             },
 
@@ -564,8 +597,78 @@
             }
 
          });
+          e.preventDefault();
+      });
+      
+      /*Delete periods*/
+      $(document).on('click','.delete-periods',function(e){
+         var period_id = $("input[name='period_id']").val();
+         $.ajax({
+            type:'GET',
+            url: BASE_URL +'/teacher/grades/deletePeriod/'+period_id,
+            beforeSend: function () {
+               $('#main-loader').show();
+            },
+            complete: function () {
+              $('#main-loader').hide();
+            },
 
-      })*/
+            success: function (response) {
+              var html = ''; 
+              if(response['error']){
+                  html += '<div id="warning-box" class="alert alert-danger fade in">';
+                  html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+                  html += '<strong>Error!</strong>';
+
+                  for (var i = 0; i < response['error'].length; i++) {
+                      html += '<p>' + response['error'][i] + '</p>';
+                  }
+
+                  html += '</div>';
+                  $('.modal-body').before(html);
+                  
+              }
+
+              if(response['success']){
+                     
+                console.log(response['success']);
+
+                html += '<div id="success-box" class="alert alert-success fade in">';
+                html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+                html += '<strong>Period Deleted !..</strong>';
+                html += '</div>';
+
+                $('.modal-body').before(html);
+               // $('#assessment_add_form')[0].reset();
+               $("#addperiod").fadeOut();
+
+
+              window.location.reload();
+              } 
+
+            },
+
+
+            error: function(data){
+              console.log("error");
+              console.log(data);
+            }
+
+         });
+          e.preventDefault();
+      });
+
+      /*performance Report*/
+      $(document).on('click','#performancereport',function(){
+         $("#dynamicRenderDiv").show().load("/teacher/grades/performanceReport",function(){    
+
+         }); 
+      });
+      
+      /*Close tab*/
+      $(document).on('click','.fa-close',function(){
+         $('#dynamicRenderDiv').hide();
+      });
       </script>
 
 @endpush  

@@ -203,6 +203,10 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::match(['get'], '/add', [ 'as' => 'add', 'uses' => "GradesController@addPeriods"]);
             Route::match(['post'], '/postPeriod', [ 'as' => 'postPeriod', 'uses' => "GradesController@postPeriod"]);
             Route::match(['get'], '/geteditPeriod/{period_id}', [ 'as' => 'geteditPeriod', 'uses' => "GradesController@geteditPeriod"]);
+            Route::match(['post'], '/posteditPeriod/{period_id}', [ 'as' => 'posteditPeriod', 'uses' => "GradesController@posteditPeriod"]);
+            Route::match(['get'], '/deletePeriod/{period_id}', [ 'as' => 'deletePeriod', 'uses' => "GradesController@deletePeriod"]);
+            Route::match(['get'], '/performanceReport', [ 'as' => 'performanceReport', 'uses' => "GradesController@performanceReport"]);
+        
         });
         /* Teacher's Mylist Routes*/
 

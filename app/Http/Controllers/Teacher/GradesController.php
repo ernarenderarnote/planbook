@@ -184,7 +184,7 @@ class GradesController extends Controller
         $ClassPeriods = new ClassPeriods();
         if($request->isMethod('post')) {
             $validation['periodname']	 = 'required';
-            $validation['class_id']  = 'required';           
+            /*$validation['class_id']  = 'required'; */          
             $validator = Validator::make($request->all(), $validation);
 
             if($validator->fails()) {
@@ -196,7 +196,7 @@ class GradesController extends Controller
             	$format = 'd/m/Y';
 
                 $ClassPeriods->user_id = Auth::id();
-                $ClassPeriods->class_id = $request['class_id'];
+                /*$ClassPeriods->class_id = $request['class_id'];*/
                 $ClassPeriods->starts_on = \Carbon\Carbon::createFromFormat($format, $request['start_date']);
                 $ClassPeriods->ends_on = \Carbon\Carbon::createFromFormat($format,$request['end_date']);
                 $ClassPeriods->title = $request['periodname'];
@@ -216,8 +216,68 @@ class GradesController extends Controller
 	}
 
 	public function geteditPeriod(Request $request,$period_id){
-		$this->data['period'] = ClassPeriods::where('id',$period_id)->first();
+		$this->data['periods'] = ClassPeriods::where('id',$period_id)->first();
 		return view('teacher.grades.editperiod', $this->data);  
 	}
 
+	public function posteditPeriod(Request $request,$period_id){
+		$response = array();
+
+        $ClassPeriods = ClassPeriods::where('id', $period_id)->first();
+
+
+        if($request->isMethod('post')) {
+
+
+            $rules = array(
+                /*'class_id'  => 'required',*/
+                'periodname'   => 'required',
+                
+            );
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if($validator->fails()) {
+
+                $response['error'] = $validator->errors()->all();
+
+            }else{
+
+            	$format = 'd/m/Y';
+               
+                $ClassPeriods->user_id = Auth::id();
+                /*$ClassPeriods->class_id = $request['class_id'];*/
+                $ClassPeriods->starts_on = \Carbon\Carbon::createFromFormat($format, $request['start_date']);
+                $ClassPeriods->ends_on = \Carbon\Carbon::createFromFormat($format,$request['end_date']);
+                $ClassPeriods->title = $request['periodname'];
+                if($ClassPeriods->save()){
+
+                    $response['success'] = 'TRUE';
+
+                }
+                
+
+            }
+
+        }
+
+        return response()->json($response);
+
+	}
+
+	public function deletePeriod(Request $request, $period_id){
+		 $response = array();
+
+		 $ClassPeriods = ClassPeriods::where('id', $period_id)->delete();
+		
+		 $response['success'] = 'TRUE';
+
+		  return response()->json($response);
+	}
+
+	public function performanceReport(Request $request){
+		$this->data['periods'] = ClassPeriods::where('user_id', Auth::user()->id)->get();
+		$this->data['studentsAssigned'] = ClassAssigned::where('teacher_id',Auth::user()->id)->with('student')->get();
+		return view('teacher.grades.performanceReport', $this->data);
+	}
 }
