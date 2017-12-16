@@ -1,18 +1,19 @@
-<!-- performancereport Section Start Here -->
+<!-- performancereport Section Start Here -->                         
       <div class="modal-dialog">
             <!-- Modal content-->
+          <form method="post" action="#" class="addteacher-form performanceform">
             <div class="modal-content">
                <div class="modal-header addperiodheder">
                   <div class="normalLesson pull-left">
                      <p>Performance Reports</p>
                   </div>
                   <div class="actionright pull-right">
-                     <button class="actiondropbutton renew-button">Create Reports</button>
+                     <input type="submit" class="actiondropbutton renew-button" value="Create Reports">
                      <a class="closebutton" data-dismiss="modal"><i class="fa fa-close" aria-hidden="true"></i></a> 
                   </div>
                </div>
                <div class="modal-body">
-                  <form method="post" action="#" class="addteacher-form performanceform">
+                 
                      <div class="col-md-6">
                         <div class="form-group col-md-12">
                            <label>Grade Period</label>
@@ -27,16 +28,12 @@
                         <div class="form-group col-md-12">
                            <label>Student </label>
                            <select>
-                           <option value="A">Students - All (3)</option>
-                           @forelse($studentsAssigned as $student=>$values)
-
-                              @foreach($values->student as $stud)
-                              
-                              <option value="A1">Students - {{$stud['last_name']}} (1)</option>
-         							
-                              @endforeach
+                           <option value="A">Students - All ({{count($studentsAssigned)}})</option>
+                              @forelse(json_decode($eachstudent) as $stu)
+                               
+                                 <option value="{{$stu->id}}">Students -{{$stu->name}} ({{$stu->count}})</option>
                               @empty
-                           @endforelse   
+                              @endforelse
                            </select>
                         </div>
                         <div class="form-group col-md-12">
@@ -76,7 +73,8 @@
                        
                      </div>
                      
-                  </form>
+                  
                </div>
             </div>
+            </form>
          </div>

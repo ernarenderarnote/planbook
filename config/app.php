@@ -181,6 +181,7 @@ return [
 
         Zizaco\Entrust\EntrustServiceProvider::class,
         'Maatwebsite\Excel\ExcelServiceProvider',
+        Barryvdh\DomPDF\ServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
 
     ],
@@ -234,6 +235,7 @@ return [
         'Entrust'  => Zizaco\Entrust\EntrustFacade::class,
         'Excel' => 'Maatwebsite\Excel\Facades\Excel',
         'Input'     => Illuminate\Support\Facades\Input::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 

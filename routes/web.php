@@ -206,7 +206,9 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::match(['post'], '/posteditPeriod/{period_id}', [ 'as' => 'posteditPeriod', 'uses' => "GradesController@posteditPeriod"]);
             Route::match(['get'], '/deletePeriod/{period_id}', [ 'as' => 'deletePeriod', 'uses' => "GradesController@deletePeriod"]);
             Route::match(['get'], '/performanceReport', [ 'as' => 'performanceReport', 'uses' => "GradesController@performanceReport"]);
-        
+            Route::match(['get'], '/pdfview', [ 'as' => 'pdfview', 'uses' => "GradesController@pdfView"]);
+            /*Route::match(['get'], '/donwload-file', [ 'as' => 'donwload-file', 'uses' => "GradesController@downloadFile"]);
+            Route::match(['post'], '/pdfgenerate', [ 'as' => 'pdfgenerate', 'uses' => "GradesController@pdfGenerator"]);*/
         });
         /* Teacher's Mylist Routes*/
 

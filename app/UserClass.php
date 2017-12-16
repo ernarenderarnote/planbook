@@ -55,6 +55,8 @@ class UserClass extends Model
                 ->whereYearId(Auth::user()->current_selected_year);
     }
     
-
+    public function assignedStudents(){
+        return $this->hasMany('App\ClassAssigned','class_id','id');
+    }
    
 }

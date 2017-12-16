@@ -664,7 +664,68 @@
 
          }); 
       });
-      
+
+      /*generate pdf file*/
+      $(document).on('submit','.performanceform',function(e){
+         var data = $(this).serialize();
+         e.preventDefault();
+         $.ajax({
+            type:'GET',
+            url: BASE_URL +'/teacher/grades/pdfview',
+            data:data,
+            beforeSend: function () {
+               $('#main-loader').show();
+            },
+            complete: function () {
+              $('#main-loader').hide();
+            },
+
+            success: function (response) {
+              var html = ''; 
+              if(response['error']){
+                  html += '<div id="warning-box" class="alert alert-danger fade in">';
+                  html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+                  html += '<strong>Error!</strong>';
+
+                  for (var i = 0; i < response['error'].length; i++) {
+                      html += '<p>' + response['error'][i] + '</p>';
+                  }
+
+                  html += '</div>';
+                  $('.modal-body').before(html);
+                  
+              }
+
+              if(response['success']){
+                     
+                console.log(response['success']);
+
+                html += '<div id="success-box" class="alert alert-success fade in">';
+                html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+                html += '<strong>Period Deleted !..</strong>';
+                html += '</div>';
+
+                $('.modal-body').before(html);
+               // $('#assessment_add_form')[0].reset();
+               $("#addperiod").fadeOut();
+
+
+              window.location.reload();
+              } 
+
+            },
+
+
+            error: function(data){
+              console.log("error");
+              console.log(data);
+            }
+
+         });
+          
+
+      });
+
       /*Close tab*/
       $(document).on('click','.fa-close',function(){
          $('#dynamicRenderDiv').hide();

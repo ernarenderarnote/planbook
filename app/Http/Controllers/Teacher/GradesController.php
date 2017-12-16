@@ -30,6 +30,7 @@ use App\AssignmentPoints;
 use App\AssessmentPoints;
 use App\GradeLetters;
 use App\ClassPeriods;
+use PDF;
 class GradesController extends Controller
 {
     /**
@@ -277,7 +278,41 @@ class GradesController extends Controller
 
 	public function performanceReport(Request $request){
 		$this->data['periods'] = ClassPeriods::where('user_id', Auth::user()->id)->get();
-		$this->data['studentsAssigned'] = ClassAssigned::where('teacher_id',Auth::user()->id)->with('student')->get();
+		$this->data['studentsAssigned'] = Students::where('teacher_id',Auth::user()->id)->get();
+		  $allclasses = UserClass::where('year_id',Auth::user()->current_selected_year)->where('user_id',Auth::user()->id)->with('schoolYear')->get();
+		  $class_title     = array();
+		  $class_students  = array();
+		  $id              = array(); 
+		  foreach($allclasses as $class){
+		  	$class_title[] = $class->class_name;
+		  	$id[] = $class->id;         
+		  	$assi_stu = ClassAssigned::where('teacher_id',Auth::user()->id)->where('class_id',$class->id)->count();
+		  	$class_students[] = $assi_stu; 
+		  }
+		    $result = array_map(function ($id, $class_title,  $class_students) {
+			  return array_combine(
+			    ['id', 'name', 'count'],
+			    [$id, $class_title, $class_students]
+			  );
+			}, $id, $class_title, $class_students);
+
+		$this->data['eachstudent'] = json_encode($result, JSON_PRETTY_PRINT);
 		return view('teacher.grades.performanceReport', $this->data);
 	}
+
+	public function pdfView(Request $request)
+    {
+       /*$items = DB::table("class_assigned")->get();
+        view()->share('items',$items);*/
+        $this->data['students'] = Students::where('teacher_id',Auth::user()->id)->get();
+        $this->data['classes'] = UserClass::where('year_id',Auth::user()->current_selected_year)->where('user_id',Auth::user()->id)->with('schoolYear')->get();
+        view()->share($this->data);
+        if($request->has('download')){
+            $pdf = PDF::loadView('teacher.grades.pdfview');
+            return $pdf->download('performanceReport.pdf');
+        }
+
+        return view('teacher.grades.pdfview');
+    }
+
 }
