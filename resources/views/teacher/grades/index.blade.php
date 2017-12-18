@@ -667,7 +667,8 @@
 
       /*generate pdf file*/
       $(document).on('submit','.performanceform',function(e){
-         var data = $(this).serialize();
+         var data     = $(this).serialize();
+         var download = $('#pdfDownload').attr('data-url');
          e.preventDefault();
          $.ajax({
             type:'GET',
@@ -681,38 +682,8 @@
             },
 
             success: function (response) {
-              var html = ''; 
-              if(response['error']){
-                  html += '<div id="warning-box" class="alert alert-danger fade in">';
-                  html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
-                  html += '<strong>Error!</strong>';
-
-                  for (var i = 0; i < response['error'].length; i++) {
-                      html += '<p>' + response['error'][i] + '</p>';
-                  }
-
-                  html += '</div>';
-                  $('.modal-body').before(html);
-                  
-              }
-
-              if(response['success']){
-                     
-                console.log(response['success']);
-
-                html += '<div id="success-box" class="alert alert-success fade in">';
-                html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
-                html += '<strong>Period Deleted !..</strong>';
-                html += '</div>';
-
-                $('.modal-body').before(html);
-               // $('#assessment_add_form')[0].reset();
-               $("#addperiod").fadeOut();
-
-
-              window.location.reload();
-              } 
-
+               $('#dynamicRenderDiv').hide();
+               document.location.href = download;
             },
 
 

@@ -302,8 +302,7 @@ class GradesController extends Controller
 
 	public function pdfView(Request $request)
     {
-       /*$items = DB::table("class_assigned")->get();
-        view()->share('items',$items);*/
+     	
         $this->data['students'] = Students::where('teacher_id',Auth::user()->id)->get();
         $this->data['classes'] = UserClass::where('year_id',Auth::user()->current_selected_year)->where('user_id',Auth::user()->id)->with('schoolYear')->get();
         view()->share($this->data);
@@ -311,7 +310,6 @@ class GradesController extends Controller
             $pdf = PDF::loadView('teacher.grades.pdfview');
             return $pdf->download('performanceReport.pdf');
         }
-
         return view('teacher.grades.pdfview');
     }
 

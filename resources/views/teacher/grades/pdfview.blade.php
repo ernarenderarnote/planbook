@@ -1,5 +1,5 @@
 <style>
-	 body{background-color:#000;width:100%; font-family: 'Open Sans',Helvetica,Arial,Lucida,sans-serif;margin:0;padding:0; 	  }
+	 body{font-family: 'Open Sans',Helvetica,Arial,Lucida,sans-serif;margin:0;padding:0; 	  }
 	  *{ box-sizing:border-box; 	  }
 	  .report-page {     width: 100%;     height: 842px;     background-color: #fff;     margin: 0 auto;     margin-top: 20px;     padding: 0px 40px; box-shadow:1px 1px 1px 1px #ddd; position:relative; }
 	 .student-report-heading {     width: 100%;     text-align: center;     font-size: 19px;     color: #000;     margin: 20px 0px;     display: inline-block;     font-weight: bold; }
@@ -18,16 +18,16 @@
 
 
 	<br/>
-	<a href="{{ route('teacher.grades.pdfview',['download'=>'pdf'],[]) }}">Download PDF</a>
+	
 	@forelse($students as $student)
-	<div class="report-page">
+	<div class="report-page" style="display: block; page-break-before: always">
   		<div class="student-report-heading">
    			Student Performance Report
    		</div>
 	   <p>Student: {{$student->last_name}} {{$student->name}}</p>
 	   <p>Teacher: {{Auth::user()->name}}</p>
 	   <p>Grade Period: All</p>
-	   <p>Date: 12/15/2017</p>
+	   <p>Date:{{$ldate = date('d-m-Y')}}</p>
 		  <table border="1">
 		       <thead>
 			           <tr>
@@ -50,7 +50,22 @@
 					@endforelse   
 			   </tbody>
 		  </table>
-		  
-      </div>
+		</div>
+
+      	<div class="report-page" style="display: block; page-break-before: always">
+			<div class="student-report-heading">
+			   Student Performance Report
+			</div>
+		    <p>Student: {{$student->last_name}} {{$student->name}}</p>
+		    <p>Teacher: {{Auth::user()->name}}</p>
+		    <p>Grade Period: All</p>
+		    <p>Date:{{$ldate = date('d-m-Y')}}</p>
+		    @forelse($classes as $class)
+			    <div class="report-data">
+					{{$class->class_name}}<span style="float:right;">%</span>
+			    </div>
+				@empty
+			@endforelse	    
+		  </div>	
     @empty
     @endforelse  

@@ -13,7 +13,7 @@
                   </div>
                </div>
                <div class="modal-body">
-                 
+                  <input type="hidden" data-url="{{ route('teacher.grades.pdfview',['download'=>'pdf'],[]) }}" id="pdfDownload">
                      <div class="col-md-6">
                         <div class="form-group col-md-12">
                            <label>Grade Period</label>
