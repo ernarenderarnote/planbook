@@ -104,7 +104,8 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::match(['get'], '/importcalendar/{class_id}/{year}', [ 'as' => 'importCalendar', 'uses' => "ClassesController@copyCalendar"]);
             Route::match(['post'], '/copyclass', [ 'as' => 'copyClass', 'uses' => "ClassesController@copyClass"]);
             Route::match(['post'], '/copyafterbefore', [ 'as' => 'copyafterbefore', 'uses' => "ClassesController@copyAfterBefore"]);
-
+            Route::match(['get'],'/addteacher',['as'=>'addteacher','uses'=>'ClassesController@addTeacher']);
+            Route::match(['post'], '/postAddteacher', [ 'as' => 'postAddteacher', 'uses' => "ClassesController@postAddteacher"]);
         });
 
         /* teacher units Routes*/
@@ -207,7 +208,7 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::match(['get'], '/deletePeriod/{period_id}', [ 'as' => 'deletePeriod', 'uses' => "GradesController@deletePeriod"]);
             Route::match(['get'], '/performanceReport', [ 'as' => 'performanceReport', 'uses' => "GradesController@performanceReport"]);
             Route::match(['get'], '/pdfview', [ 'as' => 'pdfview', 'uses' => "GradesController@pdfView"]);
-            //Route::match(['get'], '/downloadPdf', [ 'as' => 'donwloadPdf', 'uses' => "GradesController@downloadPdf"]);
+            
            
         });
         /* Teacher's Mylist Routes*/
@@ -268,6 +269,8 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
         {
 
             Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "SharingoptionController@index"]);
+            Route::match(['post'], '/postOptions', [ 'as' => 'postOptions', 'uses' => "SharingoptionController@postOptions"]);
+            Route::match(['post'], '/posteditOptions/{id}', [ 'as' => 'posteditOptions', 'uses' => "SharingoptionController@postEditOptions"]);
            
         });
 

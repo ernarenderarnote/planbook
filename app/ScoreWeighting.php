@@ -8,7 +8,7 @@ class ScoreWeighting extends Model
 {
      protected $table = 'score_weightings';
 
-public function user(){
+	public function user(){
 
 
         return $this->belongsTo('App\User');

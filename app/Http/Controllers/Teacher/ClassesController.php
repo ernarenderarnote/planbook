@@ -24,6 +24,9 @@ use Mail;
 use Exception;
 use App\Unit;
 use App\ClassLesson;
+use App\User;
+use App\SharingOption;
+use App\AddTeachers;
 class ClassesController extends Controller
 {
     /**
@@ -96,7 +99,6 @@ class ClassesController extends Controller
             if($validator->fails()) {
 
                 $response['error'] = $validator->errors()->all();
-
             }else{
 
             	$format = 'd/m/Y';
@@ -937,4 +939,48 @@ class ClassesController extends Controller
 		    return response()->json($response);
 		}
 	}
+
+	public function addteacher(Request $request){
+
+		return view('teacher.classes.addTeacher');
+	}
+
+	public function postAddteacher(Request $request){
+		$response  = array();
+		
+        $UserClass = new UserClass();
+
+        if($request->isMethod('post')) {
+
+            $validation['email']        = 'required';
+            $validation['teacher_key'] = 'required';
+            $validator = Validator::make($request->all(), $validation);
+
+            if($validator->fails()) {
+
+                $response['error'] = $validator->errors()->all();
+            }else{
+            	$email    = User::where('email',$request->email)->first();
+            	if($email!=''){
+            		$shareKey = SharingOption::where('user_id',$email->id)->first();
+            		if($request->teacher_key == $shareKey->teacher_key){
+            			$addteachers = new AddTeachers();
+            			$addteachers->user_id    = Auth::user()->id;
+            			$addteachers->teacher_id = $email->id;
+            			$addteachers->sharekey  = $request->teacher_key;
+            			if($addteachers->save()){
+            				$response['success'] = 'TRUE';
+            			} 
+            		}
+            		else{
+            			$response['error'] = array('Teacher Email or Teacher Key is incorrect');
+            		}
+            	}
+	            else{
+	            	$response['error'] = array('Teacher Email or Teacher Key is incorrect');
+	            }	
+            }	
+        }  
+        return response()->json($response);
+    }      
 }

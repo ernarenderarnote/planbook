@@ -28,12 +28,12 @@
                         <div class="form-group col-md-12">
                            <label>Student </label>
                            <select>
-                           <option value="A">Students - All ({{count($studentsAssigned)}})</option>
-                              @forelse(json_decode($eachstudent) as $stu)
-                               
-                                 <option value="{{$stu->id}}">Students -{{$stu->name}} ({{$stu->count}})</option>
-                              @empty
-                              @endforelse
+                                 <option value="A">Students - All ({{count($studentsAssigned)}})</option>
+                                 @forelse(json_decode($eachstudent) as $stu)
+                                  
+                                    <option value="{{$stu->id}}">Students -{{$stu->name}} ({{$stu->count}})</option>
+                                 @empty
+                                 @endforelse
                            </select>
                         </div>
                         <div class="form-group col-md-12">

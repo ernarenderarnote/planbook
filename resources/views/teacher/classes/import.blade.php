@@ -26,7 +26,7 @@
                     <ul class="dropdown-menu language-dropdown tselected">
                         <li class="tacherselected"><a href="#" class="language-dropbutons unitdropbuton">My Classes </a></li>
                         <li id="copyCsv" class="tacherselected"><a href="#" class="language-dropbutons unitdropbuton" data-toggle="modal" data-target="#importcsv">Import CSV </a></li>
-                        <li class="tacherselected"><a href="#" class="language-dropbutons unitdropbuton"  data-toggle="modal" data-target="#addteacher">Add Teacher </a></li>
+                        <li class="tacherselected"><a href="#" class="language-dropbutons unitdropbuton"  id="addteacher">Add Teacher </a></li>
                     </ul>
                 </div>
                 <div class="btn-group">
@@ -161,6 +161,10 @@
       </div>
     </div>
   </div>
+</div>
+<div class="d-render-popoup t-data-popup modal fade movemodalcontent addteachercontent in" id="dynamicRenderDiv" role="dialog">
+  
+
 </div>
 @endsection
 
@@ -538,6 +542,69 @@
             $('#importstudents').modal();
          }); 
 
+         /*Add Teachers*/
+          $("#addteacher").click(function(){
+
+
+            $("#dynamicRenderDiv").show().load("/teacher/classes/addteacher",function(){
+              
+
+            });
+
+          });
+
+          $(document).on('submit','.addteacher-form',function(e){
+              var formData = $(this).serialize();
+              $.ajax({
+                type:'POST',
+                url: BASE_URL +'/teacher/classes/postAddteacher',
+                data:formData,
+                dataType: 'json',
+                beforeSend: function () {
+                  $('#main-loader').show();
+                },
+                complete: function () {
+                   $('#main-loader').hide();
+                },
+
+                success: function (response) {
+                  var html = '';
+                  if(response['error']){
+                      html += '<div id="warning-box" class="alert alert-danger fade in">';
+                      html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+                      html += '<strong>Error!</strong>';
+
+                      for (var i = 0; i < response['error'].length; i++) {
+                          html += '<p>' + response['error'][i] + '</p>';
+                      }
+
+                      html += '</div>';
+                      
+                      
+                  }  
+                  if(response['success']=='TRUE'){
+                    
+                    html += '<div id="success-box" class="alert alert-success fade in">';
+                    html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+                    html += '<strong>Teacher Added !</strong>';
+                    html += '</div>';
+
+                    $('.modal-header').after(html);
+                    $('.addteacher-form')[0].reset();
+                    $(".d-render-popoup").fadeOut();
+
+
+                    window.location.reload();
+                            }
+                },
+                error: function(data){
+                  //console.log("error");
+                  //console.log(data);
+                }
+
+              });
+              e.preventDefault();
+          });
       </script>
 
 
