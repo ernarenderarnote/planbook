@@ -54,7 +54,6 @@ class AssessmentsController extends Controller
              ->get();
 		    return view('teacher.assessments.index', $this->data);
 
-		//return redirect()->to('/');
 	}
 
 	/**

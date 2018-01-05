@@ -18,7 +18,7 @@
                     <button id="lessonBtn" type="button" class="lessonbtn btn unitsbutton list-contentmainbuton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" btn-type="Lessons">Lessons<span class="caret"></span> </button>
                     <ul class="dropdown-menu language-dropdown lselected">
                         <li class="selectedlessons"><a href="#" class="language-dropbutons unitdropbuton" data-toggle="modal" data-target="#importcsv">Lessons</a></li>
-                        <li class="selectedlessons"><a href="#" class="language-dropbutons unitdropbuton"  data-toggle="modal" data-target="#addteacher">Units</a></li>
+                        <li class="selectedlessons"><a href="#" class="language-dropbutons unitdropbuton">Units</a></li>
                     </ul>
                 </div>
                 <div class="btn-group">
@@ -26,13 +26,18 @@
                     <ul class="dropdown-menu language-dropdown tselected">
                         <li class="tacherselected"><a href="#" class="language-dropbutons unitdropbuton">My Classes </a></li>
                         <li id="copyCsv" class="tacherselected"><a href="#" class="language-dropbutons unitdropbuton" data-toggle="modal" data-target="#importcsv">Import CSV </a></li>
+                        @forelse($teachers as $meta)
+
+                          <li class=""><a href="#" class="language-dropbutons unitdropbuton"  id="" data-val='{{$meta->teacher_id}}'>{{$meta->usermeta->email}}</a></li>
+       
+                        @empty
+                        @endforelse
                         <li class="tacherselected"><a href="#" class="language-dropbutons unitdropbuton"  id="addteacher">Add Teacher </a></li>
                     </ul>
                 </div>
                 <div class="btn-group">
                     <button type="button" id="yearbtn" class="yearbtn btn unitsbutton list-contentmainbuton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Select Year<span class="caret"></span> </button>
                     <ul class="dropdown-menu language-dropdown yselected">
-                        @php //print_r($user_selected_school_year); @endphp
                         @forelse($user_selected_school_year as $year=>$value)
                         <li class="yearselected"><a href="#" class="language-dropbutons unitdropbuton" target_date="{{ $value['year_name'] }}">{{ $value['year_name'] }}</a></li>
                         @empty
@@ -41,15 +46,14 @@
                 </div>
                 <div class="btn-group">
                     <button type="button" id="classbtn" class="classbtn btn unitsbutton list-contentmainbuton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Select Class<span class="caret"></span> </button>
-                    <ul class="dropdown-menu language-dropdown uselected">
-                       
+                    <ul class="dropdown-menu language-dropdown uselected"> 
                         @forelse($user_classes as $class)
                         <li><a href="#" class="language-dropbutons unitdropbuton" target_id = "{{ $class->id }}">{{ $class->class_name }}</a></li>
                         @empty
                         @endforelse
                     </ul>
                 </div>
-           </div>
+            </div>
             <div class="copy-textcontent copy-contentleft">
                 <p> Date range to copy (leave empty for ALL lessons)</p>
                 <input class="form-control copy-inputs filter-start-date" value='' type="text">
@@ -228,10 +232,11 @@
                     var copy_to_class = $('#copyTo').attr('class_id'); 
                     var next_lessons  = $(this).parent('tr').nextAll('tr').find('.copy-descriptiontext').prev('td');
                     var blank_dates   = [];
+                    var teacher_id    = $('#teacherBtn').attr('data-id');
                     $(next_lessons).each(function( index ) {
                       blank_dates.push($( this ).attr('data-lesson'));
                     });
-                    copyDroppedData(lesson_id,to_date,copy_to_class+'+'+blank_dates,type);
+                    copyDroppedData(lesson_id,to_date,copy_to_class+'+'+blank_dates,type,teacher_id);
                     $(this).addClass( "ui-state-highlight").html(ui.draggable.html());
                   break;
                   case 'Units':
@@ -239,11 +244,12 @@
                     var copy_to_class = $('#copyTo').attr('class_id'); 
                     var next_lessons  = $(this).parent('tr').nextAll('tr').find('.copy-descriptiontext').prev('td');
                     var blank_dates   = [];
+                    var teacher_id    = $('#teacherBtn').attr('data-id');
                     $(next_lessons).each(function( index ) {
                       blank_dates.push($( this ).attr('data-lesson'));
                     });
                     //console.log(dates);
-                    copyDroppedData(unit_id,to_date,copy_to_class+'+'+blank_dates,type);
+                    copyDroppedData(unit_id,to_date,copy_to_class+'+'+blank_dates,type,teacher_id);
                   break;
                   default:
                   console.log('something went wrong');
@@ -279,12 +285,17 @@
          });
         $('.tselected li a').on('click',function(e){ 
              tselected        = $(this).text();
+             var teacher_id   = $(this).attr('data-val');
+            if(typeof   teacher_id != 'undefined'){
+              anotherAjax(teacher_id);
+            }
             if(typeof tselected != 'undefined' && typeof lselected != 'undefined' &&typeof yselected != 'undefined' && typeof uselected != 'undefined'){
 
                 ajaxCall();
             }
             var background   = $(this).css('background-color');
             $(this).parents('.btn-group').find('.btn').html(tselected +' <span class="caret"></span>');
+            $(this).parents('.btn-group').find('.btn').attr('data-id',teacher_id);
          });
         $('.yselected li a').on('click',function(e){
            
@@ -303,7 +314,7 @@
             }
            
          });
-        $('.uselected li a').on('click',function(e){
+        $(document).on('click','.uselected li a',function(e){
            class_id = $(this).attr('target_id');
            $('#classbtn').attr('class_data',class_id);
            if(typeof yselected != 'undefined'){  
@@ -367,6 +378,39 @@
           });
 
         };
+        /*function to load the classes based on teacher_id*/
+        function anotherAjax(teacher_id){
+          $.ajax({
+            type:'GET',
+            url: BASE_URL +'/teacher/classes/userdata/'+teacher_id,
+            dataType: 'json',
+            beforeSend: function () {
+              $('#main-loader').show();
+            },
+            complete: function () {
+               $('#main-loader').hide();
+            },
+
+            success: function (response) {
+              var html = '';
+              $.each(response.user_classes, function(key, value){
+                html += '<li>';
+                html += '<a href="#" class="language-dropbutons unitdropbuton" target_id="'+value["id"]+'">'+value["class_name"]+'</a>';
+                html += '</li>'
+              });
+              $('.uselected').html(html);
+              //console.log(response);     
+              //$('.lessonCopyCalendar').html(response);
+             
+          
+            },
+            error: function(data){
+              console.log("error");
+              console.log(data);
+            }
+
+          });
+        }
     </script>
     <script>
     $('.dropTableClass li a').on('click',function(e){ 
@@ -408,11 +452,11 @@
          });
 
         /*Post Droped lessons*/
-        function copyDroppedData(lesson_id,to_date,copy_to_class,type){
+        function copyDroppedData(lesson_id,to_date,copy_to_class,type,teacher_id){
           $.ajax({
             type:'POST',
             url: BASE_URL +'/teacher/classes/copyclass',
-            data:{"_token": "{{ csrf_token() }}",'type':type,'lesson_id':lesson_id, 'date':to_date,'to_class':copy_to_class},
+            data:{"_token": "{{ csrf_token() }}",'type':type,'lesson_id':lesson_id, 'date':to_date,'to_class':copy_to_class,'teacher_id':teacher_id},
 
             beforeSend: function () {
               $('#main-loader').show();

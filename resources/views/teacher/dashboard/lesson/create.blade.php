@@ -21,6 +21,7 @@
                   </div>
                </div>
                <div class="row">
+                @php print_r($user_plan);@endphp
                   <label class="control-label col-sm-4 text-right">Date</label>
                   <div class="form-group col-sm-8 ">
                      <div class="lesson-time sp-t  text-primary">Friday 05/12/2017</div>
@@ -68,6 +69,7 @@
          <div class="clearfix"></div>
          <div class="tabnav">
             <ul class="nav nav-tabs">
+
                <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
                <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
                <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>

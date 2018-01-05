@@ -106,6 +106,11 @@ $(document).ready(function(){
 							$(".pageLoader").hide();  
 						});
 					}
+					else if(view == 'list'){
+						$("#dynamicCalendarContent").load("/teacher/dashboard/listCalendar" ,function(){
+							$(".pageLoader").hide();  
+						});
+					}
 					else{
 						$("#dynamicCalendarContent").load("/teacher/dashboard/showCalendar" ,function(){
 							$(".pageLoader").hide();  
@@ -150,6 +155,11 @@ $(document).ready(function(){
 						}
 						else if(view == 'day'){
 							$("#dynamicCalendarContent").load("/teacher/dashboard/dayCalendar" ,function(){
+								$(".pageLoader").hide();  
+							});
+						}
+						else if(view == 'list'){
+							$("#dynamicCalendarContent").load("/teacher/dashboard/listCalendar" ,function(){
 								$(".pageLoader").hide();  
 							});
 						}
@@ -199,6 +209,11 @@ $(document).ready(function(){
 							$(".pageLoader").hide();  
 						});
 					}
+					else if(view == 'list'){
+						$("#dynamicCalendarContent").load("/teacher/dashboard/listCalendar" ,function(){
+							$(".pageLoader").hide();  
+						});
+					}
 					else{
 						$("#dynamicCalendarContent").load("/teacher/dashboard/showCalendar" ,function(){
 							$(".pageLoader").hide();  
@@ -245,6 +260,11 @@ $(document).ready(function(){
 								$(".pageLoader").hide();  
 							});
 						}
+						else if(view == 'list'){
+							$("#dynamicCalendarContent").load("/teacher/dashboard/listCalendar" ,function(){
+								$(".pageLoader").hide();  
+							});
+						}
 						else{
 							$("#dynamicCalendarContent").load("/teacher/dashboard/showCalendar" ,function(){
 								$(".pageLoader").hide();  
@@ -280,6 +300,11 @@ $(document).ready(function(){
 						}
 						else if(view == 'day'){
 							$("#dynamicCalendarContent").load("/teacher/dashboard/dayCalendar" ,function(){
+								$(".pageLoader").hide();  
+							});
+						}
+						else if(view == 'list'){
+							$("#dynamicCalendarContent").load("/teacher/dashboard/listCalendar" ,function(){
 								$(".pageLoader").hide();  
 							});
 						}

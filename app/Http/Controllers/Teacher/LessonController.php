@@ -10,6 +10,7 @@ use DB;
 use Session;
 use Input;
 use Auth;
+use App\SchoolYear;
 class LessonController extends Controller
 {
     /**
@@ -41,7 +42,14 @@ class LessonController extends Controller
 	  $classLessons->lesson_title = $request->title;
 	  $classLessons->lesson_text = $request->lessonTxt;
 	  $classLessons->homework = $request->homework;
-	  $classLessons->notes = $request->notes;
+	  $classLessons->objective = $request->objectiveTxt;
+	  $classLessons->differentiation = $request->differentiation;
+	  $classLessons->instructional  = $request->instructional;
+	  $classLessons->material      = $request->material;
+	  $classLessons->direct = $request->directTxt;
+	  $classLessons->guided = $request->guidedTxt;
+	  $classLessons->independent = $request->independentTxt;
+ 	  $classLessons->notes = $request->notes;
 	  $classLessons->lock_lesson_to_date = $request->lockLesson; 
 	  $attach = $request->attach;
 		if(!empty($attach) || count($attach) >= '1' ){
@@ -66,6 +74,13 @@ class LessonController extends Controller
 				  'lesson_text' => $request->lessonTxt,
 				  'homework' => $request->homework,
 				  'notes' => $request->notes,
+				  'objective' => $request->objectiveTxt,
+				  'differentiation' => $request->differentiation,
+				  'instructional'  => $request->instructional,
+				  'material'    => $request->material,
+				  'direct' => $request->directTxt,
+				  'guided' => $request->guidedTxt,
+				  'independent' => $request->independentTxt,
 				  'lock_lesson_to_date' => $request->lockLesson,
 				  'attachments' => $imgFiles
 				  ]);
@@ -84,6 +99,13 @@ class LessonController extends Controller
 				  'lesson_text' => $request->lessonTxt,
 				  'homework' => $request->homework,
 				  'notes' => $request->notes,
+				  'objective' => $request->objectiveTxt,
+				  'differentiation' => $request->differentiation,
+				  'instructional'  => $request->instructional,
+				  'material'    => $request->material,
+				  'direct' => $request->directTxt,
+				  'guided' => $request->guidedTxt,
+				  'independent' => $request->independentTxt,
 				  'lock_lesson_to_date' => $request->lockLesson
 				  ]);
 				   $this->data['response'] = $values;
@@ -504,6 +526,47 @@ class LessonController extends Controller
 		}
 	}	
 	
+	public function listLessons(Request $request,$class_id){
+		$year = SchoolYear::where('user_id',Auth::user()->id)->first();
+		$working_dates = array();
+		$visibleDay  = array();
+		$years = explode('-',$year->year_name);
+		$start = $years[0];
+		$end   = $years[1];
+		$user_id 	= Auth::user()->id;
+		$class_id 	= $request->class_id;
+		$class_color = '';
+		$user_classes = UserClass::where('user_id',$user_id)->where('id',$class_id)->where('start_date', '>=', $start)->Where('end_date', '<=' , $end)->orWhere(function($q) use($user_id,$start, $end, $class_id){
+			$q->where('user_id',$user_id)->where('id',$class_id)->where('end_date', '>=' ,$start )->where('start_date' ,'<=', $end);
+			})->first();
+			$visibleDay   = collect(json_decode($user_classes->class_schedule))->where("is_class", "1")->pluck("text")->all();
+			$class_color   = collect($user_classes->class_color)->first();
+			$start_date   = collect($user_classes->start_date)->first();
+			$end_date     = collect($user_classes->end_date)->first();
+			$datediff = strtotime($end_date) - strtotime($start_date);
+	    	$datediff = floor($datediff/(60*60*24));
+			for($i = 0; $i < $datediff + 1; $i++){
+	          $all_dates = date("l Y-m-d", strtotime($start_date . ' + ' . $i . 'day'));
+	          $dates = explode(' ',$all_dates);
+	      	  if(in_array($dates[0],$visibleDay)){
+	          
+	   			 $working_dates[] = date("l Y-m-d", strtotime($dates[1]));
+	   			 $dates_format[]  = date("Y-m-d", strtotime($dates[1]));
+	           }     
+		
+			}
+			
+			foreach($dates_format as $date_format){
+				$lessons[] = ClassLesson::where('user_id',$user_id)->where('class_id',$class_id)->Where('lesson_date', $date_format)->with(["units" => function($q) use($class_id,$date_format){
+					$q->where('class_id',$class_id)->where('user_id',Auth::user()->id);}])->get();
+				
+			}
+			$this->data['user_lessons'] = array_combine($working_dates,$lessons);
+			$this->data['class_id'] 	= $class_id; 
+			$this->data['class_color'] 	= $class_color;
+			return view('teacher.dashboard.lesson.month.listlessons',$this->data);
+
+	}
 	
 	/*Check Working Days*/
 	public function getWorkingDays($class_id,$start,$end){

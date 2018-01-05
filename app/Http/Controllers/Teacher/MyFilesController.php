@@ -80,7 +80,7 @@ class MyFilesController extends Controller
 
         $MyFile->user_id = Auth::user()->id;
         $MyFile->file_name = $file;
-		$MyFile->uploadSize = $request->uploadSize;
+		    $MyFile->uploadSize = $request->uploadSize;
         $MyFile->file_changeable_name = $filename;
                
                 

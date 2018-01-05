@@ -95,8 +95,8 @@
 						});
 						var checkedAttach;
 						if(checkedItems != null){
-							$('.attachOrEmbedBody').html('');
-							$('#attachedFiles').html('');
+							//$('.attachOrEmbedBody').html('');
+							//$('#attachedFiles').html('');
 						}
 						for(checkedAttach in checkedItems){
 						 $('#attachedFiles').append("<tr style=''><td class='filename' id='selectedFile'><a href='#'>"+checkedItems[checkedAttach][0]+"</a></td><td><label><input type='hidden' id='check_file' name='attach[]' value="+checkedItems[checkedAttach][1]+"> <input type='checkbox'>Private</label></td><td><div class='main-buton trash-button'><i class='fa fa-trash' aria-hidden='true'></i></div></td></tr>");

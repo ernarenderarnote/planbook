@@ -26,6 +26,13 @@ class CreateClassLessonsTable extends Migration
             $table->text('homework')->nullable();
             $table->text('notes')->nullable();
             $table->text('standards')->nullable();
+            $table->text('objective')->nullable();
+            $table->text('differentiation')->nullable();
+            $table->text('instructional')->nullable();
+            $table->text('materials')->nullable();
+            $table->text('direct')->nullable();
+            $table->text('guided')->nullable();
+            $table->text('independent')->nullable();
             $table->text('attachments')->nullable();
             $table->integer('lock_lesson_to_date')->default('0');
             $table->timestamps();

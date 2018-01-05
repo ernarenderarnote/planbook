@@ -94,7 +94,7 @@
 							</li>
 							<li><a href="{{route('teacher.dashboard.index')}}" class="btn btn-primary calBtn">Month</a>
 							</li>
-							<li><a href="#" class="btn btn-primary calBtn" data-toggle="tab">List</a>
+							<li><a href="{{route('teacher.dashboard.index',['view'=>'list'])}}" class="btn btn-primary calBtn" data-toggle="tab">List</a>
 							</li>
 						</ul>
 					</div>

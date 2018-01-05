@@ -3,8 +3,15 @@
 namespace App\Http\Controllers\Teacher;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-
+use App\UserLessonSectionLayout;
+use Session;
+use App\User;
+use App\UserClass;
+use App\SchoolYear;
+use App\Unit;
+use DB;
 class DashboardController extends Controller
 {
 
@@ -42,8 +49,9 @@ class DashboardController extends Controller
 	 */
 	public function index()
 	{
-
+        $this->data['user_plan'] = UserLessonSectionLayout::where('user_id',Auth::user()->id)->first(); 
 		return view('teacher.dashboard.index', $this->data);
+
 
 	}
     public function weekView()
@@ -58,6 +66,16 @@ class DashboardController extends Controller
 		return view('teacher.dashboard.dayCalendar', $this->data);
 
 	}
+    public function listView(Request $request)
+    {
+        $this->data['classes'] = UserClass::where('year_id',Auth::user()->current_selected_year)->where('user_id',Auth::user()->id)->with('schoolYear')->get();
+        $this->data['units'] = DB::table('units')
+             ->where('units.user_id',Auth::user()->id)
+             ->leftJoin('user_classes', 'units.class_id', '=', 'user_classes.id')
+             ->get();
+        return view('teacher.dashboard.listCalendar', $this->data);
+
+    }
     /**
     * print out the calendar
     */

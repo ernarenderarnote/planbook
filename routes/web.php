@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/login',function(){
+    return view('welcome');
+});
+
 Route::post('/signUp', array(
     'as' => 'signUp',
     'uses' => 'GuestController@register'
@@ -62,7 +66,8 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::get('/showCalendar', ['as' => 'showCalendar', 'uses' => 'DashboardController@showCalendar']);
 			Route::get('/weekCalendar', ['as' => 'week', 'uses' => 'DashboardController@weekView']);
             Route::get('/dayCalendar', ['as' => 'day', 'uses' => 'DashboardController@dayView']);
-			Route::post('/getClasses', ['as' => 'class', 'uses' => 'ClassesController@getClass']);
+			Route::get('/listCalendar', ['as' => 'list', 'uses' => 'DashboardController@listView']);
+            Route::post('/getClasses', ['as' => 'class', 'uses' => 'ClassesController@getClass']);
 			Route::Post('/addlessons', ['as' => 'addlesson', 'uses' => 'LessonController@create']);
 			Route::Post('/attachFiles', ['as' => 'attachFiles', 'uses' => 'MyFilesController@myFileUpload']);
 			Route::Post('/movelessons', ['as' => 'movelessons', 'uses' => 'LessonController@movelessons']);
@@ -72,6 +77,7 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
 			Route::Post('/extendlessons', [ 'as' => 'extendlessons', 'uses' => 'LessonController@extendlessons']);
 			Route::Post('/deletelessons', [ 'as' => 'deletelessons', 'uses' => "LessonController@deletelessons"]);
 			Route::get('/authUploads', [ 'as' => 'authUploads', 'uses' => "MyFilesController@authUploads"]);
+            Route::get('/listClasses/{class_id}', [ 'as' => 'listClasses', 'uses' => "LessonController@listLessons"]);
 			
 		});
 		
@@ -99,15 +105,47 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::match(['post'], '/add', [ 'as' => 'postAddClass', 'uses' => "ClassesController@postAddClass"]);
             Route::match(['get'], '/edit/{class_id}', [ 'as' => 'edit', "uses" => "ClassesController@getEditClass"]);
             Route::match(['post'], '/edit/{class_id}', [ 'as' => 'edit', "uses" => "ClassesController@postEditClass"]);
-			Route::match(['get'], '/import', [ 'as' => 'getImportClass', 'uses' => "ClassesController@getImportClass"]);
+			/*Route::match(['get'], '/import', [ 'as' => 'getImportClass', 'uses' => "ClassesController@getImportClass"]);
             Route::match(['get'], '/importcalendar', [ 'as' => 'importCalendar', 'uses' => "ClassesController@importCalendar"]);
             Route::match(['get'], '/importcalendar/{class_id}/{year}', [ 'as' => 'importCalendar', 'uses' => "ClassesController@copyCalendar"]);
             Route::match(['post'], '/copyclass', [ 'as' => 'copyClass', 'uses' => "ClassesController@copyClass"]);
             Route::match(['post'], '/copyafterbefore', [ 'as' => 'copyafterbefore', 'uses' => "ClassesController@copyAfterBefore"]);
             Route::match(['get'],'/addteacher',['as'=>'addteacher','uses'=>'ClassesController@addTeacher']);
             Route::match(['post'], '/postAddteacher', [ 'as' => 'postAddteacher', 'uses' => "ClassesController@postAddteacher"]);
+            Route::match(['get'],'/userdata/{id}',['as'=>'userdata','uses'=>'ClassesController@userData']);*/
         });
 
+        /*Import & share user's data*/
+        Route::group([ 'prefix' => "import", 'as' => 'import.' ], function()
+        {
+            Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "ImportController@index"]);
+            Route::match(['get'],'/userYear/{id}',['as'=>'userYear','uses'=>'ImportController@userYear']);
+            Route::match(['get'],'/userClass',['as'=>'userClass','uses'=>'ImportController@userClass']);
+            Route::match(['get'],'/getdata',['as'=>'getdata','uses'=>'ImportController@getdata']);
+            Route::match(['get'],'/classData',['as'=>'classData','uses'=>'ImportController@classData']);
+            Route::match(['get'],'/getAssessment',['as'=>'getAssessment','uses'=>'ImportController@getAssessment']);
+            Route::match(['get'],'/getAssignment',['as'=>'getAssignment','uses'=>'ImportController@getAssignment']);
+            Route::match(['get'],'/getLessons',['as'=>'getLessons','uses'=>'ImportController@getLessons']);
+            Route::match(['get'],'/getStudents/{year_id}',['as'=>'getStudents','uses'=>'ImportController@getStudents']);
+            Route::match(['get'],'/getUnits',['as'=>'getUnits','uses'=>'ImportController@getUnits']);
+            Route::match(['get'],'/copyCalendar/{class_id}/{year}', [ 'as' => 'copyCalendar', 'uses' => "ImportController@copyCalendar"]);
+            Route::match(['post'],'/copylessons', [ 'as' => 'copylessons', 'uses' => "ImportController@copylessons"]);
+            Route::match(['post'],'/copyunits', [ 'as' => 'copyunits', 'uses' => "ImportController@copyunits"]);
+            Route::match(['post'],'/copyafterbefore', [ 'as' => 'copyafterbefore', 'uses' => "ImportController@copyAfterBefore"]);
+            Route::match(['post'],'/copyafterunits', [ 'as' => 'copyafterunits', 'uses' => "ImportController@copyafterunits"]);
+            Route::match(['get'],'/getclasstable', [ 'as' => 'getclasstable', 'uses' => "ImportController@getClassTable"]);
+            Route::match(['post'],'/postclasscopy', [ 'as' => 'postclasscopy', 'uses' => "ImportController@postClassCopy"]);
+            Route::match(['get'],'/getassessmenttable/{id}', [ 'as' => 'getassessmenttable', 'uses' => "ImportController@getAssessmentTable"]);
+            Route::match(['post'],'/postassessmentcopy/{id}', [ 'as' => 'postassessmentcopy', 'uses' => "ImportController@postAssessmentCopy"]);
+            Route::match(['get'],'/getassignmenttable/{id}', [ 'as' => 'getassignmenttable', 'uses' => "ImportController@getAssignmentTable"]);
+            Route::match(['post'],'/postassignmentcopy/{id}', [ 'as' => 'postassignmentcopy', 'uses' => "ImportController@postAssignmentCopy"]);
+            Route::match(['get'],'/getstudenttable/{id}', [ 'as' => 'getstudenttable', 'uses' => "ImportController@getStudentTable"]);
+            Route::match(['post'],'/poststudentcopy', [ 'as' => 'poststudentcopy', 'uses' => "ImportController@postStudentCopy"]);
+            Route::match(['get'],'/getstudentcopytable/{id}', [ 'as' => 'getstudentcopytable', 'uses' => "ImportController@studentCopyTable"]);
+            Route::match(['get'],'/addteacher',['as'=>'addteacher','uses'=>'ImportController@addTeacher']);
+            Route::match(['post'], '/postAddteacher', [ 'as' => 'postAddteacher', 'uses' => "ImportController@postAddteacher"]);
+
+        }); 
         /* teacher units Routes*/
 
         Route::group([ 'prefix' => "units", 'as' => 'units.' ], function()
@@ -304,6 +342,7 @@ Route::group(['namespace' => 'Student','prefix' => 'student', 'as' => 'student.'
             Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "DashboardController@index"]);
             Route::get('/weekCalendar', ['as' => 'week', 'uses' => 'DashboardController@weekView']);
             Route::get('/dayCalendar', ['as' => 'day', 'uses' => 'DashboardController@dayView']);
+
 
     });
 });

@@ -16,7 +16,7 @@
         <div class="sharingoptions-left pull-left"> Sharing Options </div>
         <div class="sharingoptions-right pull-right">
           <input type="submit" class="renew-button save-button" value="Save">
-          <a href="classes.html" class="closebutton"><i class="fa fa-close" aria-hidden="true"></i></a></div>
+          <a href="/teacher/dashboard/index" class="closebutton"><i class="fa fa-close" aria-hidden="true"></i></a></div>
       </div>
       <div class="sharingoptions-body">
         
@@ -85,7 +85,7 @@
       <div class="sharingoptions-left pull-left"> Sharing Options </div>
       <div class="sharingoptions-right pull-right">
         <input type="submit" class="renew-button save-button" value="Save">
-        <a href="classes.html" class="closebutton"><i class="fa fa-close" aria-hidden="true"></i></a></div>
+        <a href="/teacher/dashboard/index" class="closebutton"><i class="fa fa-close" aria-hidden="true"></i></a></div>
     </div>
     <div class="sharingoptions-body">
       

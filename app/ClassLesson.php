@@ -30,4 +30,14 @@ class ClassLesson extends Model
                 ->where("lesson_date",">=", $end)
                 ->whereIn('class_id', $classId);
     }
+
+    public function getClassColor(){
+         return $this->belongsTo('App\UserClass','class_id','id');
+    }
+
+    public function units(){
+        return $this->belongsTo('App\Unit','unit','id');
+    }
+
+
 }

@@ -455,7 +455,7 @@ input[type=color].form-control { padding: 0; width: auto; min-width: 40px; }
 .list-contentbutton .unitsbutton:hover { background-color: #0057c1; border-radius: 5px; color: #fff; font-weight: bold; }
 .list-contentbutton .dropdown-menu .unitdropbuton { background-color: #dbdfe8; border: 2px solid #0057c1; color: #0057c1; }
 .list-contentbutton .dropdown-menu .unitdropbuton:hover { background-color: #0057c1; color: #fff; }
-.lesson-text { margin-top: 15px; text-align: center; color: #444; font-size: 16px; }
+.lesson-text { margin-top: 15px; text-align: center; color: #fff; font-size: 16px; background:#0057c1; }
 .list-contenttable .table-header { background-color: #0057c1; height: auto; width: 100%; }
 .list-contenttable th.first-feild { width: 28px; }
 .list-contenttable thead th { border-right: 1px solid #fff; color: #fff; text-align: center; }
@@ -548,7 +548,7 @@ input[type=color].form-control { padding: 0; width: auto; min-width: 40px; }
 .editlessonform .titlefield label { width: 8.5%; }
 .editsectiontabs .tab-content { background-color: #0057C1; color: #fff; padding: 5px 7px; }
 .editsectiontabs .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover { color: #fff; cursor: default; background-color: #0057C1; border: 1px solid #0057C1; border-bottom-color: transparent; }
-.editsectiontabs .nav-tabs>li>a { margin-right: 8px; background-color: #fff; border-radius: 8px 8px 0px 0px; color: #0057c1; padding: 4px 15px; }
+.editsectiontabs .nav-tabs>li>a { margin-right: 8px; background-color: #fff; border-radius: 8px 8px 0px 0px; color: #0057c1; padding: 4px 10px; }
 .editsectiontabs .edittabsheader { background-color: #003b81; color: #fff; width: 100%; padding: 5px 8px; font-size: 16px; }
 .standard-button { background-color: #0057c1; border: 1px solid #0057c1; border-radius: 3px; box-shadow: -1px 1px 0 0 #54a3f7 inset; color: #ffffff; cursor: pointer; padding: 4px 4px 2px 4px; }
 .standardedit-modal { width: 693px; height: auto; border: 5px solid #003b81; position: absolute; top: 11%; left: 0; z-index: 999999999; opacity: 1; display: none; right: 0; margin: 0 auto; border-radius: 5px; }
@@ -1235,7 +1235,7 @@ div#main-loader {  background-color: rgba(0, 0, 0, 0.5);  bottom: 0;  left: 0;  
 .unitscopytable th {
   border: 1px solid #fff;
   text-align: center;
-  width: 15%;
+  width: auto;
 }
 .copy-classtable.unitscopytable {
   height: auto;
@@ -2130,3 +2130,36 @@ performanceform .performance-item{  text-decoration:underline; }
 .performance-itemdropdown .reportItem span {     margin-left: 6px;     white-space: nowrap;     color: #000; } 
 .performance-itemdropdown .reportItem:first-child span{     color:#fff; } 
 .performance-itemdropdown .report-doneitems{    background-color:#fff;  text-align: center; cursor:pointer; }
+.unitSelected{
+background-color:#fcb71e;
+}
+td.details-lessons {
+    text-align: left;
+}
+
+.list-contenttable td {     position: relative; }.lesondropdown.leson-tablelist {
+    left: 34px;
+}.lesondropdown-body.lessondrop-bodymain li {
+    text-align: left;
+}
+.caret.list-tablecaret1 {
+    border-top: 8px dashed #fff;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+}
+td.list-tablecolumn1.list-column {
+    width: 26px;
+}
+td.list-tablecoloumn2.list-column2 {
+    width: 28px;
+}
+.teacher-dash-action.list-contentbutton .dropdown-menu.asignment-list .language-dropbutons {
+    width: 100%;
+}
+.asignment-list .unitSelected {
+    background: none;
+}
+.list-contenttable {
+    max-height: 680px;
+    overflow: auto;
+}

@@ -9,6 +9,10 @@
 
 	$classes = $monthView->getDayClasses();
 
+	$user_plan = $monthView->userPlans(Auth::user()->id);
+
+	$plan = $user_plan->layout_name;
+	
 	@endphp
 	<style type="text/css">
 	   .month-view [data-day]{
@@ -50,7 +54,7 @@
 									->isEmpty();
 									$classID = $filters['id'];
 									$sqlDate = date('Y-m-d', strtotime($daysName));
-									$lessonsData = $monthView->getLessons($classID,$sqlDate);
+									$lessonsData = $monthView->getLessons($classID,$sqlDate,Auth::user()->id);
 					@endphp
 		  
 					@if($hasClass)
@@ -151,7 +155,9 @@
 								@php
 								$classID = $filters['id'];
 								$sqlDate = date('Y-m-d', strtotime($daysName));
-								$lessonsData = $monthView->getLessons($classID,$sqlDate);
+								$lessonsData = $monthView->getLessons($classID,$sqlDate,Auth::user()->id);
+								$assignmentData = $monthView->getAssignments($classID,$sqlDate,Auth::user()->id);
+								$assessmentData = $monthView->getAssessments($classID,$sqlDate,Auth::user()->id);
 								@endphp
 								
 								@forelse($lessonsData as $lData)
@@ -161,39 +167,75 @@
 										$groups = explode(',',$attach);
 									@endphp
 									@if($lData['lesson_title'])
-									<div class="t-heading" style="border-bottom: 1px solid {{ $filters['class_color'] }}">{{ $lData['lesson_title'] }}</div>
-									@endif
-									@if($lData['unit'])
-									<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}">{{ $lData['unit'] }}</div>
-									@endif	
-									@if($lData['lesson_text'])	
-									<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}">{!! $lData['lesson_text'] !!}</div>
-									@endif
-									@if($lData['homework'])	
-									<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Homework</h5>{!! $lData['homework'] !!}</div>
-									@endif
-									@if($lData['notes'])	
-									<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Notes</h5>{!! $lData['notes'] !!}</div>
-									@endif
-									@if($groups)	
-									<div class="t-cel"><h4>Attachments:</h4>
-										@forelse($groups as $group)
-											@if($group)
-												<a target="_blank" href="../../uploads/myfiles/{{ $group }}">{{ $group }}</a>
-											@endif
+										<div class="t-heading" style="border-bottom: 1px solid {{ $filters['class_color'] }}">{{ $lData['lesson_title'] }}</div>
+										@endif
+										@if($lData['unit'])
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}">{{ $lData['unit'] }}</div>
+										@endif	
+										@if($lData['lesson_text'])	
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}">{!! $lData['lesson_text'] !!}</div>
+										@endif
+										@if($lData['objective'])
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Objective / Essential Question</h5>{!! $lData['objective'] !!}</div>
+										@endif
+
+										@if($lData['direct'])
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Direct Instruction</h5>{!! $lData['direct'] !!}</div>
+										@endif
+
+										@if($lData['independent'])
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Independent Practice</h5>{!! $lData['independent'] !!}</div>
+										@endif
+										@if($lData['guided'])
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Guided Practice</h5>{!! $lData['guided'] !!}</div>
+										@endif
+										@if($lData['differentation'])	
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Differentiation / Accommodations</h5>{!! $lData['differentation'] !!}</div>
+										@endif
+										@if($lData['homework'])	
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}">@if($plan=='detailed')<h5>Homework / Evidence of Learning</h5> @else <h5>Homework</h5> @endif {!! $lData['homework'] !!}</div>
+										@endif
+										@if($lData['instructional'])	
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Instructional Strategies</h5>{!! $lData['instructional'] !!}</div>
+										@endif
+										@if($lData['notes'])	
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}">@if($plan=='detailed')<h5>Notes / Reflection</h5>@else <h5>Notes</h5> @endif {!! $lData['notes'] !!}</div>
+										@endif
+										@if($lData['material'])	
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Materials / Resources / Technology</h5>{!! $lData['material'] !!}</div>
+										@endif
+										@if($groups)	
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}">
+											@forelse($groups as $group)
+												@if($group)
+													<a target="_blank" href="../../uploads/myfiles/{{ $group }}">{{ $group }}</a>
+												@endif
+											@empty
+											
+											@endforelse
+										</div>
+										@endif
 										@empty
 										
-										@endforelse
-									</div>
-									@endif
-									@empty
 									
-								
-								@endforelse
-								
-								
-							</div>
-						</div>	
+									@endforelse
+									
+									@forelse($assignmentData as $assignment)
+										@if($assignment['title'])
+										<div class="t-heading" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Assignment</h5>{{ $assignment['title'] }}</div>
+										@endif
+									@empty
+									@endforelse
+
+									@forelse($assessmentData as $assessment)
+										@if($assessment['title'])
+										<div class="t-heading" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Assessment</h5>{{ $assessment['title'] }}</div>
+										@endif
+									@empty
+									@endforelse
+									
+								</div>
+							</div>  
 					@endif
 				@endforeach
 			@endif

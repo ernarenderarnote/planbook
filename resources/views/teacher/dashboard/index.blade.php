@@ -136,41 +136,181 @@
 				  </div>
 			   </div>
 			   <div class="editsectiontabs">
+			   	@php $plan = $user_plan->layout_name; @endphp
 				  <ul class="nav nav-tabs editorTabs">
-					 <li class="lessonTab active"><a data-toggle="tab" href="#lesson">Lesson</a></li>
-					 <li class="homeworkTab"><a data-toggle="tab" href="#homework">Homework</a></li>
-					 <li class="notesTab"><a data-toggle="tab" href="#notes">Notes</a></li>
-					 <li class="standardTab"><a data-toggle="tab" href="#standards">Standards</a></li>
+				  	@if($plan=='basic')
+						<li class="lessonTab active"><a data-toggle="tab" href="#lesson">Lesson</a></li>
+						<li class="homeworkTab"><a data-toggle="tab" href="#homework">Homework</a></li>
+						<li class="notesTab"><a data-toggle="tab" href="#notes">Notes</a></li>
+						<li class="standardTab"><a data-toggle="tab" href="#standards">Standards</a></li>
+				  	@elseif($plan=='instructional')
+				  		<li class="lessonTab active"><a data-toggle="tab" href="#Iobjective">Objective</a></li>
+						<li class="homeworkTab"><a data-toggle="tab" href="#Idirect">Direct</a></li>
+						<li class="notesTab"><a data-toggle="tab" href="#Iguided">Guided</a></li>
+						<li class="standardTab"><a data-toggle="tab" href="#Iindependent">Independent</a></li>
+				  		<li class="lessonTab"><a data-toggle="tab" href="#Ilesson">Lesson</a></li>
+						<li class="homeworkTab"><a data-toggle="tab" href="#Ihomework">Homework</a></li>
+						<li class="notesTab"><a data-toggle="tab" href="#Inotes">Notes</a></li>
+						<li class="standardTab"><a data-toggle="tab" href="#Istandards">Standards</a></li>			
+				  	@elseif($plan=='detailed')
+				  		<li class="standardTab active"><a data-toggle="tab" href="#Dstandards">Standards</a></li>
+				  		<li class="lessonTab"><a data-toggle="tab" href="#Dobjective">Objective</a></li>
+						<li class="lessonTab"><a data-toggle="tab" href="#Dlesson">Lesson</a></li>
+						<li class="homeworkTab"><a data-toggle="tab" href="#Ddifferentiation">Differentiation</a></li>
+						<li class="homeworkTab"><a data-toggle="tab" href="#Dhomework">Homework</a></li>
+						<li class="notesTab"><a data-toggle="tab" href="#Dinstructional">Instructional</a></li>
+						<li class="standardTab"><a data-toggle="tab" href="#Dmaterials">Materials</a></li>
+						<li class="notesTab"><a data-toggle="tab" href="#Dnotes">Notes</a></li>
+						
+
+				  	@endif
+
 				  </ul>
-				  <div class="tab-content">
-					 <div id="lesson" class="tab-pane fade in active">
-						<div class="edittabsheader">Lesson</div>
-						<div class="edittabmiddle">
-						   <textarea class="editorMce" name="lessonTxt" id="lessonTxt" placeholder="Write Somehting"></textarea>
+				  @if($plan=='basic')
+					<div class="tab-content">
+						<div id="lesson" class="tab-pane fade in active">
+							<div class="edittabsheader">Lesson</div>
+							<div class="edittabmiddle">
+							   <textarea class="editorMce" class="lessonTxt" name="lessonTxt" id="lessonTxt" placeholder="Write Somehting"></textarea>
+							</div>
 						</div>
-					 </div>
-					 <div id="homework" class="tab-pane fade">
-						<div class="edittabsheader">Homework</div>
-						<div class="edittabmiddle">
-						   <textarea name="homework" class="editorMce" id="homeworkTxt" placeholder="Write Somehting">
+						<div id="homework" class="tab-pane fade">
+							<div class="edittabsheader">Homework</div>
+							<div class="edittabmiddle">
+							   <textarea name="homework" class="editorMce" id="homeworkTxt" placeholder="Write Somehting">
 
-							</textarea>
+								</textarea>
+							</div>
 						</div>
-					 </div>
-					 <div id="notes" class="tab-pane fade">
-						<div class="edittabsheader">Notes</div>
-						<div class="edittabmiddle">
-						   <textarea class="editorMce" name="notes"  id="notesTxt" placeholder="Write Somehting">
+						<div id="notes" class="tab-pane fade">
+							<div class="edittabsheader">Notes</div>
+							<div class="edittabmiddle">
+							   <textarea class="editorMce" name="notes"  id="notesTxt" placeholder="Write Somehting">
 
-							</textarea>
+								</textarea>
+							</div>
 						</div>
-					 </div>
-					 <div id="standards" class="tab-pane fade">
-						<div class="edittabsheader">Standards <a class="standard-button"><i class="fa fa-plus" aria-hidden="true"></i></a></div>
-						<input type="submit" name="standards[]" value="">
-						<div class="edittabmiddle"></div>
-					 </div>
-				  </div>
+						<div id="standards" class="tab-pane fade">
+							<div class="edittabsheader">Standards <a class="standard-button"><i class="fa fa-plus" aria-hidden="true"></i></a></div>
+							<input type="submit" name="standards[]" value="">
+							<div class="edittabmiddle"></div>
+						 </div>
+					</div>
+				@elseif($plan=='instructional')  
+					<div class="tab-content">
+						<div id="Iobjective" class="tab-pane fade in active">
+							<div class="edittabsheader">Objective</div>
+							<div class="edittabmiddle">
+							   <textarea class="editorMce" name="objectiveTxt" id="objectiveTxt" placeholder="Write Somehting"></textarea>
+							</div>
+						</div>
+						<div id="Idirect" class="tab-pane fade">
+							<div class="edittabsheader">Direct Instruction</div>
+							<div class="edittabmiddle">
+							   <textarea class="editorMce" name="directTxt" id="directTxt" placeholder="Write Somehting"></textarea>
+							</div>
+						</div>
+						<div id="Iguided" class="tab-pane fade">
+							<div class="edittabsheader">Guided Practice</div>
+							<div class="edittabmiddle">
+							   <textarea class="editorMce" name="guidedTxt" id="guidedTxt" placeholder="Write Somehting"></textarea>
+							</div>
+						</div>
+						<div id="Iindependent" class="tab-pane fade">
+							<div class="edittabsheader">Independent Practice</div>
+							<div class="edittabmiddle">
+							   <textarea class="editorMce" name="independentTxt" id="independentTxt" placeholder="Write Somehting"></textarea>
+							</div>
+						</div>
+						<div id="Ilesson" class="tab-pane fade">
+							<div class="edittabsheader">Lesson</div>
+							<div class="edittabmiddle">
+							   <textarea class="editorMce" name="lessonTxt" id="lessonTxt" placeholder="Write Somehting"></textarea>
+							</div>
+						</div>
+						<div id="Ihomework" class="tab-pane fade">
+							<div class="edittabsheader">Homework</div>
+							<div class="edittabmiddle">
+							   <textarea name="homework" class="editorMce" id="homeworkTxt" placeholder="Write Somehting">
+
+								</textarea>
+							</div>
+						</div>
+						<div id="Inotes" class="tab-pane fade">
+							<div class="edittabsheader">Notes</div>
+							<div class="edittabmiddle">
+							   <textarea class="editorMce" name="notes"  id="notesTxt" placeholder="Write Somehting">
+
+								</textarea>
+							</div>
+						</div>
+						<div id="Istandards" class="tab-pane fade">
+							<div class="edittabsheader">Standards <a class="standard-button"><i class="fa fa-plus" aria-hidden="true"></i></a></div>
+							<input type="submit" name="standards[]" value="">
+							<div class="edittabmiddle"></div>
+						 </div>
+					</div>
+				@elseif($plan=='detailed')
+					<div class="tab-content">
+						<div id="Dstandards" class="tab-pane fade in active">
+							<div class="edittabsheader">Standards <a class="standard-button"><i class="fa fa-plus" aria-hidden="true"></i></a></div>
+							<input type="submit" name="standards[]" value="">
+							<div class="edittabmiddle"></div>
+						</div>
+					
+						<div id="Dobjective" class="tab-pane fade ">
+							<div class="edittabsheader">Objectives / Essential Question</div>
+							<div class="edittabmiddle">
+							   <textarea class="editorMce" name="objectiveTxt" id="objectiveTxt" placeholder="Write Somehting"></textarea>
+							</div>
+						</div>
+						<div id="Dlesson" class="tab-pane fade">
+							<div class="edittabsheader">Lesson</div>
+							<div class="edittabmiddle">
+							   <textarea class="editorMce" name="lessonTxt" id="lessonTxt" placeholder="Write Somehting"></textarea>
+							</div>
+						</div>
+						<div id="Ddifferentiation" class="tab-pane fade">
+							<div class="edittabsheader">Differentiation / Accommodations</div>
+							<div class="edittabmiddle">
+							   <textarea class="editorMce" name="differentiation" id="differentiationTxt" placeholder="Write Somehting"></textarea>
+							</div>
+						</div>
+						<div id="Dhomework" class="tab-pane fade">
+							<div class="edittabsheader">Homework</div>
+							<div class="edittabmiddle">
+							   <textarea name="homework" class="editorMce" id="homeworkTxt" placeholder="Write Somehting">
+
+								</textarea>
+							</div>
+						</div>
+						<div id="Dinstructional" class="tab-pane fade">
+							<div class="edittabsheader">Instructional Strategies</div>
+							<div class="edittabmiddle">
+							   <textarea name="instructional" class="editorMce" id="instructionalTxt" placeholder="Write Somehting">
+
+								</textarea>
+							</div>
+						</div>
+						<div id="Dmaterials" class="tab-pane fade">
+							<div class="edittabsheader">Materials / Resources / Technology</div>
+							<div class="edittabmiddle">
+							   <textarea name="material" class="editorMce" id="materialTxt" placeholder="Write Somehting">
+
+								</textarea>
+							</div>
+						</div>
+						<div id="Dnotes" class="tab-pane fade">
+							<div class="edittabsheader">Notes</div>
+							<div class="edittabmiddle">
+							   <textarea class="editorMce" name="notes"  id="notesTxt" placeholder="Write Somehting">
+
+								</textarea>
+							</div>
+						</div>
+						
+					</div>
+				@endif
 			   </div>
 			   <div class="attachment-field">
 				  <div class="form-group">
@@ -472,6 +612,17 @@
 			e.preventDefault();
 		});
 		}
+		else if(currentUrl == 'list'){
+			$("#dynamicCalendarContent").load("/teacher/dashboard/listCalendar");
+			$(".get-calendar").click(function(e){
+			$("#dynamicCalendarContent").load("/teacher/dashboard/listCalendar"+$(this).attr('href') ,function(){
+				//$('.datepicker').datepicker({format: 'dd/mm/yyyy',});
+			});
+
+			e.preventDefault();
+		});
+		}
+
 		else{
 			$("#dynamicCalendarContent").load("/teacher/dashboard/showCalendar");
 			$(".get-calendar").click(function(e){
@@ -541,6 +692,7 @@
 				var date = $(this).attr('targetDate');
 				$('#lesson_date').val(date);
 			    event.preventDefault();
+			    tinyMCE.triggerSave();
 				$.ajax({
 					  type:'POST',
 					  url: BASE_URL +'/teacher/dashboard/getClasses',
@@ -556,20 +708,41 @@
 					  complete: function () {
 						//obj.html('Sent <i class="fa fa-send"></i>');
 					  },
-
 					  success: function (response){ 
+					  	var plan = response.user_plan.layout_name;
 						if(!response.length){
 							$('#lessonTitle').val('');
-								$('.unitOptions').html("<option value=''>Select Units</option>");
+						$('.unitOptions').html("<option value=''>Select Units</option>");
+							if(plan=='basic'){
 								tinyMCE.get('lessonTxt').setContent('');
 								tinyMCE.get('homeworkTxt').setContent('');
 								tinyMCE.get('notesTxt').setContent('');
+							}
+							else if(plan=='instructional'){
+								tinyMCE.get('objectiveTxt').setContent('');
+								tinyMCE.get('directTxt').setContent('');
+								tinyMCE.get('guidedTxt').setContent('');
+								tinyMCE.get('independentTxt').setContent('');
+								tinyMCE.get('lessonTxt').setContent('');
+								tinyMCE.get('homeworkTxt').setContent('');
+								tinyMCE.get('notesTxt').setContent('');								
+							}
+							else if(plan=='detailed'){
+								tinyMCE.get('objectiveTxt').setContent('');
+								tinyMCE.get('lessonTxt').setContent('');
+								tinyMCE.get('differentiationTxt').setContent('');
+								tinyMCE.get('homeworkTxt').setContent('');
+								tinyMCE.get('instructionalTxt').setContent('');
+								tinyMCE.get('materialTxt').setContent('');
+								tinyMCE.get('notesTxt').setContent('');
+								
+							}
+						
 						}  
 						var unit;
 						
 						$('#classId').val(classID);
 						$('.unitOptions').empty();
-						console.log(response);
 						/*for (unit in response.unit) {
 							unit = response.unit[unit];
 							if(unit != null){
@@ -593,7 +766,9 @@
 						}
 							
 						var lessonDetail = response.lessonDetails;
+						var plan         = response.user_plan.layout_name; 
 						if(lessonDetail!=null && lessonDetail.attachments != null ){
+							$('#attachedFiles').html('');
 							var attachment = lessonDetail.attachments;
 							var splittedattachment = attachment.split(',');		
 							for ( var i = 0;  i < splittedattachment.length; i++ ) {
@@ -618,24 +793,124 @@
 						if(lessonDetail != null)
 						{
 							$('#lessonTitle').val(lessonDetail.lesson_title);
-							if(lessonDetail.lesson_text !== null){
-								tinyMCE.get('lessonTxt').setContent(lessonDetail.lesson_text);
-							}
-							else{
-								//tinyMCE.get('lessonTxt').setContent('');
-							}
-							if(lessonDetail.homework !== null){
-								tinyMCE.get('homeworkTxt').setContent(lessonDetail.homework);
-							}
-							else{
-								//tinyMCE.get('homeworkTxt').setContent('');
-							}
-							if(lessonDetail.notes !== null){
+							if(plan =='basic'){
+								if(lessonDetail.lesson_text !== null){
+									tinyMCE.get('lessonTxt').setContent(lessonDetail.lesson_text);
+								}
+								else{
+									tinyMCE.get('lessonTxt').setContent('');
+								}
+								if(lessonDetail.homework !== null){
+									tinyMCE.get('homeworkTxt').setContent(lessonDetail.homework);
+								}
+								else{
+									tinyMCE.get('homeworkTxt').setContent('');
+								}
+								if(lessonDetail.notes !== null){
 								tinyMCE.get('notesTxt').setContent(lessonDetail.notes);
+								}
+								else{
+									tinyMCE.get('notesTxt').setContent('');
+								}
 							}
-							else{
-								//tinyMCE.get('notesTxt').setContent('');
+							else if(plan=='instructional'){
+								if(lessonDetail.objective != null){
+									tinyMCE.get('objectiveTxt').setContent(lessonDetail.objective);
+								}
+								else{
+									tinyMCE.get('objectiveTxt').setContent('');
+								}	
+
+								if(lessonDetail.direct != null){
+									tinyMCE.get('directTxt').setContent(lessonDetail.direct);
+								}
+								else{
+									tinyMCE.get('directTxt').setContent('');
+								}	
+
+								if(lessonDetail.guided != null){
+									tinyMCE.get('guidedTxt').setContent(lessonDetail.guided);
+								}
+								else{
+									tinyMCE.get('guidedTxt').setContent('');
+								}	
+								
+								if(lessonDetail.independent != null){
+									tinyMCE.get('independentTxt').setContent(lessonDetail.independent);
+								}
+								else{
+									tinyMCE.get('independentTxt').setContent('');
+								}	
+				
+								if(lessonDetail.lesson_text !== null){
+									tinyMCE.get('lessonTxt').setContent(lessonDetail.lesson_text);
+								}
+								else{
+									tinyMCE.get('lessonTxt').setContent('');
+								}
+								if(lessonDetail.homework !== null){
+									tinyMCE.get('homeworkTxt').setContent(lessonDetail.homework);
+								}
+								else{
+									tinyMCE.get('homeworkTxt').setContent('');
+								}
+								if(lessonDetail.notes !== null){
+								tinyMCE.get('notesTxt').setContent(lessonDetail.notes);
+								}
+								else{
+									tinyMCE.get('notesTxt').setContent('');
+								}							
 							}
+
+							else if(plan =='detailed'){			
+								
+								if(lessonDetail.objective != null){
+									tinyMCE.get('objectiveTxt').setContent(lessonDetail.objective);
+								}
+								else{
+									tinyMCE.get('objectiveTxt').setContent('');
+								}
+								if(lessonDetail.lesson_text !== null){
+									tinyMCE.get('lessonTxt').setContent(lessonDetail.lesson_text);
+								}
+								else{
+									tinyMCE.get('lessonTxt').setContent('');
+								}
+
+								if(lessonDetail.differentiation != null){
+									tinyMCE.get('differentiationTxt').setContent(lessonDetail.differentiation);
+								}
+								else{
+									tinyMCE.get('differentiationTxt').setContent('');
+								}
+								if(lessonDetail.homework !== null){
+									tinyMCE.get('homeworkTxt').setContent(lessonDetail.homework);
+								}
+								else{
+									tinyMCE.get('homeworkTxt').setContent('');
+								}
+								if(lessonDetail.instructional != null){
+									tinyMCE.get('instructionalTxt').setContent(lessonDetail.instructional);
+								}
+								else{
+									tinyMCE.get('instructionalTxt').setContent('');
+								}
+								if(lessonDetail.material != null){
+									tinyMCE.get('materialTxt').setContent(lessonDetail.material);
+								}
+								else{
+									tinyMCE.get('materialTxt').setContent('');
+								}
+								if(lessonDetail.notes !== null){
+									tinyMCE.get('notesTxt').setContent(lessonDetail.notes);
+								}
+								else{
+									tinyMCE.get('notesTxt').setContent('');
+								}
+		
+							}
+							
+
 						}
 						else{
 						console.log('no data');
@@ -652,7 +927,9 @@
 			
 			/*Adding lessons*/
 			$( 'body' ).on( "submit",".editlessonform",function( event ) {
+
 				  var data =  $('.editlessonform').serialize();
+				  tinyMCE.triggerSave();
 				  event.preventDefault();				  
 				  $.ajax({
 				  type:'POST',
@@ -674,6 +951,11 @@
 					}
 					else if(currentUrl == 'day'){
 						$("#dynamicCalendarContent").load("/teacher/dashboard/dayCalendar" ,function(){
+							$(".pageLoader").hide();  
+						});
+					}
+					else if(currentUrl == 'list'){
+						$("#dynamicCalendarContent").load("/teacher/dashboard/listCalendar" ,function(){
 							$(".pageLoader").hide();  
 						});
 					}
@@ -820,6 +1102,11 @@
 							$(".pageLoader").hide();  
 						});
 					}
+					else if(currentUrl == 'list'){
+						$("#dynamicCalendarContent").load("/teacher/dashboard/listCalendar" ,function(){
+							$(".pageLoader").hide();  
+						});
+					}
 					else{
 						$("#dynamicCalendarContent").load("/teacher/dashboard/showCalendar" ,function(){
 							$(".pageLoader").hide();  
@@ -853,6 +1140,11 @@
 					}
 					else if(currentUrl == 'day'){
 						$("#dynamicCalendarContent").load("/teacher/dashboard/dayCalendar" ,function(){
+							$(".pageLoader").hide();  
+						});
+					}
+					else if(currentUrl == 'list'){
+						$("#dynamicCalendarContent").load("/teacher/dashboard/listCalendar" ,function(){
 							$(".pageLoader").hide();  
 						});
 					}
@@ -947,10 +1239,22 @@
           $("#embedfilemodal").hide();
          });
 	});	 
+	
+	
+	
 	</script>
 	<script type="text/javascript">
 		$(window).load(function() {
 			$(".pageLoader").hide();
+			if(('.appendText .t-cel:last-child').length!=0){
+				$('.appendText .t-cel:last-child').css('border-bottom','none');	
+			}
+			else{
+				$('.appendText .t-cel:last-child').css('border-bottom','none');	
+			}
+		});
+		$(document).ready(function(){
+		  $('.appendText .t-cel:last-child').css('border-bottom','none');
 		});
 	</script>
 	<script>
@@ -959,4 +1263,6 @@
 		});
 		/*https://medium.com/@krunallathiya/login-with-facebook-in-laravel-5-4-3c783fdc2b9d*/
 	</script>	
+
+
 @endpush

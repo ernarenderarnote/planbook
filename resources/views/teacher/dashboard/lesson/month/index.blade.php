@@ -14,6 +14,10 @@ $weeksInMonth = $monthView->_weeksInMonth();
 
 $classes = $monthView->getClasses();
 
+$user_plan = $monthView->userPlans(Auth::user()->id);
+
+$plan = $user_plan->layout_name; 
+	
 @endphp
 <style type="text/css">
    .month-view [data-day]{

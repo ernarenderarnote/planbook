@@ -7,6 +7,9 @@ use App\User;
 use App\UserClass;
 use App\SchoolYear;
 use App\ClassLesson;
+use App\Assignment;
+use App\Assessment;
+use App\UserLessonSectionLayout;
 class Month
 {
 /********************* PROPERTY ********************/  
@@ -24,7 +27,8 @@ class Month
     private $daysInMonth=0;
      
     private $naviHref= null;
-     
+    
+    private $currentWeek=0;  
     /********************* PUBLIC **********************/ 
 
     public function __construct(){
@@ -78,7 +82,7 @@ class Month
         $this->currentMonth =   $month;
         $this->currentYear  =   $year; 
 		$this->currentWeek  =   $week;
-		$this->currentCalDay   =   $calDay;
+		$this->currentCalDay=   $calDay;
         $this->daysInMonth  =   $this->_daysInMonth($month,$year);            
     }  
 
@@ -91,9 +95,21 @@ class Month
     }
     
 	public function getWeek(){
-		$year = $this->currentYear;
-		$weeks = date('W', strtotime($this->currentWeek));
-    	return date("Y-m-d", strtotime("{$year}-W{$weeks}-1"));
+		
+		$year = (isset($_GET['year'])) ? $_GET['year'] : date("Y");
+        $week = (isset($_GET['week'])) ? $_GET['week'] : date('W');
+        $day = 1;
+        if($week > 52) {
+            $year++;
+            $week = 1;
+        } elseif($week < 1) {
+            $year--;
+            $week = 52;
+        }
+       // echo ($year ."W". $week . $day);
+        //$d = strtotime($year ."W". $weeks . $day);
+        return date("Y-m-d", strtotime($year ."W". str_pad($week, 2, 0, STR_PAD_LEFT)));
+        //return date("Y-m-d", strtotime("{$year}-W{$weeks}-1"));
     }
 	
 	public function getDay(){
@@ -228,6 +244,7 @@ class Month
 
     public function getClasses(){
         $start = $this->currentYear .'-'. $this->currentMonth .'-01';
+
         $end   = $this->currentYear .'-'. $this->currentMonth .'-'. $this->_daysInMonth(); 
 
         return  UserClass::where('start_date', '>=', $start)->Where('end_date', '<=' , $end)->orWhere(function($q) use($start, $end){
@@ -238,8 +255,15 @@ class Month
     }
     
 	public function getWeekClasses(){
-        $start = $this->currentWeek;
-        $weekEnd   = $this->currentWeek; 
+        if(isset($_GET['week']) && isset($_GET['year'])){
+            $year = $_GET['year'];
+            $week = $_GET['week'];
+            $start = date("Y-m-d", strtotime($year ."W". str_pad($week, 2, 0, STR_PAD_LEFT)));
+        }
+        else{
+            $start = $this->currentWeek;
+        }
+        $weekEnd   = $start; 
         $end =  date('Y-m-d', strtotime($weekEnd.' +7 day'));
         return  UserClass::where('start_date', '>=', $start)->Where('end_date', '<=' , $end)->orWhere(function($q) use($start, $end){
        $q->where('end_date', '>=' ,$start )->where('start_date' ,'<=', $end);
@@ -259,12 +283,17 @@ class Month
     }
 	
     public function _createWeekNavi(){
-        $year = $this->currentYear;
-		$weeks = date('W', strtotime($this->currentWeek));
-		$next = ($weeks + 1);
-		$previous = ($weeks - 1);
-        $nextWeek = date("Y-m-d", strtotime("{$year}-W{$next}-1"));   
-        $preWeek =  date("Y-m-d", strtotime("{$year}-W{$previous}-1"));
+        $year = (isset($_GET['year'])) ?  str_pad($_GET['year'], 2, 0, STR_PAD_LEFT) : date("Y");
+        $week = (isset($_GET['week'])) ?  str_pad($_GET['week'], 2, 0, STR_PAD_LEFT) : date('W');
+        if($week > 52) {
+            $year++;
+            $week = 1;
+        } elseif($week < 1) {
+            $year--;
+            $week = 52;
+        }
+        $nextWeek = ($week == 52 ? 1 : 1 + $week).'&year='.($week == 52 ? 1 + $year : $year);   
+        $preWeek =  ($week == 1 ? 52 : $week -1).'&year='.($week == 1 ? $year - 1 : $year);
          
         return 
             '<script>'.
@@ -285,16 +314,22 @@ class Month
             '</script>';
     }
 	
-	public function getLessons($classID,$date){
-		$userID = Auth::id();
-        if($userID!=''){
-            $lessons = ClassLesson::where('user_id',$userID)->where('class_id',$classID)->where('lesson_date',$date)->get();
-        }
-		else{
-            $userID = auth()->guard('students')->user()->user_id;
-             $lessons = ClassLesson::where('user_id',$userID)->where('class_id',$classID)->where('lesson_date',$date)->get();
-        }
+	public function getLessons($classID,$date,$user_id){
+        $lessons = ClassLesson::where('user_id',$user_id)->where('class_id',$classID)->where('lesson_date',$date)->get();
 		return $lessons;
 	}
-	
+
+    public function getAssignments($classID,$date,$user_id){
+       $assignment = Assignment::where('user_id',$user_id)->where('class_id',$classID)->where('starts_on','<=',$date)->Where('ends_on','>=',$date)->get();
+      return $assignment;
+    }
+
+    public function getAssessments($classID,$date,$user_id){
+       $assignment = Assessment::where('user_id',$user_id)->where('class_id',$classID)->where('starts_on','<=',$date)->Where('ends_on','>=',$date)->get();
+      return $assignment;
+    }
+
+    public function userPlans($user_id){
+        return $user_plans = UserLessonSectionLayout::where('user_id',$user_id)->first(); 
+    }
 }
