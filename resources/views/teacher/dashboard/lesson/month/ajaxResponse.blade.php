@@ -1,13 +1,32 @@
  <div id="main-loader" style="display:none;">
   <div class="loader-content"> <span class="loading-text">Loading</span> <img src="../../images/loading.gif"> </div>
 </div>
+
  @forelse($myFiles as $images)
-  <li class="list-group-item" targetID={{$images->id}} targetVal="{{ $images->file_name }}">
-	{{ $images->file_name }}
-		<span class="download-link">
-			<i class="fa fa-download pull-right" aria-hidden="true"></i>
-		</span> 	
-	</li>
+    @if(isset($attachments))
+        @if(in_array($images->file_name,$attachments))
+            <li class="list-group-item" targetID="{{$images->id}}" targetVal="{{ $images->file_name }}" data-checked="true" >
+        	   {{ $images->file_name }}
+        		<span class="download-link">
+        			<i class="fa fa-download pull-right" aria-hidden="true"></i>
+        		</span> 	
+        	</li>
+        @else 
+            <li class="list-group-item" targetID="{{$images->id}}" targetVal="{{ $images->file_name }}">
+               {{ $images->file_name }}
+                <span class="download-link">
+                    <i class="fa fa-download pull-right" aria-hidden="true"></i>
+                </span>     
+            </li>
+        @endif 
+    @else 
+        <li class="list-group-item" targetID="{{$images->id}}" targetVal="{{ $images->file_name }}">
+           {{ $images->file_name }}
+            <span class="download-link">
+                <i class="fa fa-download pull-right" aria-hidden="true"></i>
+            </span>     
+        </li>
+    @endif          
 	@empty
 	<li>Nothing Found</li>
   @endforelse
@@ -95,8 +114,8 @@
 						});
 						var checkedAttach;
 						if(checkedItems != null){
-							//$('.attachOrEmbedBody').html('');
-							//$('#attachedFiles').html('');
+							$('.attachOrEmbedBody').html('');
+							$('#attachedFiles').html('');
 						}
 						for(checkedAttach in checkedItems){
 						 $('#attachedFiles').append("<tr style=''><td class='filename' id='selectedFile'><a href='#'>"+checkedItems[checkedAttach][0]+"</a></td><td><label><input type='hidden' id='check_file' name='attach[]' value="+checkedItems[checkedAttach][1]+"> <input type='checkbox'>Private</label></td><td><div class='main-buton trash-button'><i class='fa fa-trash' aria-hidden='true'></i></div></td></tr>");

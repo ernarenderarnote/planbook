@@ -321,4 +321,9 @@ $(document).ready(function(){
 			});
 		});
 		/*End Delete Lessons*/
+
+		/*Remove a attachment*/
+		$(document).on('click','.trash-button .fa-trash',function(){
+			$(this).parents('tr').remove();
+		});
 	});

@@ -2163,3 +2163,183 @@ td.list-tablecoloumn2.list-column2 {
     max-height: 680px;
     overflow: auto;
 }
+/*contacxt us account edit ,chat css*/
+
+/* Edit Account Popup Css */
+/*21-12*/
+.acount-infoleft {     display: inline-block;     width: 50%;  }
+.acount-infoleft .form-control {     height: 24px;     padding: 0px 8px; }
+.school-scheduleform .acount-infoleft label {     width: 40%;     float: left;     text-align: right;     line-height: 24px; }
+.acount-infoleft .form-inputs{ width: 57%;     float: right;  }
+.acount-infoleft .btn{    border-radius: 3px;     border: 1px solid #0057c1;     display: inline-block;     cursor: pointer;     color: #ffffff;    padding: 1px 8px 1px 8px;     text-decoration: none;     text-shadow: 0px 1px 0px #154682; }
+.acount-infoleft  .form-group {     width: 100%;     float: left;     margin-bottom: 8px; }
+.account-date{font-weight: bold; padding-right:8px; line-height: 24px;}
+.acount-infoleft .form-control.year-field{width:60px; margin-right:8px; float:left;}
+.accountinfo-content .modal-dialog {     width: 60%; }
+.accountnumber{text-align:left; padding: 5px; font-style: italic; margin-top:28px;}
+.accountinfo-content  .modal-body {  padding: 15px 8px 0px 8px; }
+.account-inforight {     width: 45%;     float: right; }
+.account-inforight p{font-weight:bold; margin-bottom:11px; }
+.accountinfo-content .modal-content {     float: left;     width: 100%; }
+.account-inforight .btn-danger.dropdown-toggle {     border-right: 1px solid #bb3f30;     border-radius: 4px 0px 0px 4px;   padding: 0 2px 5px 0; }
+.account-inforight span.icon {     background: url(../images/Red-signin_Short_base_32dp.png);     display: inline-block;     vertical-align: middle;     width: 35px;     height: 35px; }
+.account-inforight .btn-danger {     background-color: #df4a32;     padding: 10px 35px; }
+
+.accountinfo-section .school-schedulebody {     padding: 0px 0px; }
+.accountinfo-section .btn-danger:active:focus, .accountinfo-section .btn-danger:active:hover, .accountinfo-section .open>.dropdown-toggle.btn-danger.focus{         background-color:#df4a32;   }   
+.movemodalcontent .modal-body .get-freemodal-content p {     padding-bottom: 20px; }
+.get-freemodal-content.alertMessage {     padding: 10px 10px 10px 0px;     vertical-align: middle;     font-weight: bold;     font-size: 14px;     color: #cc0717; }
+.get-freemodal-content .editBoxRow.alertContainer {     height: 55px;     background-color: #FFC7CE;     vertical-align: middle;     display: block;     margin-bottom: 20px; }
+.get-freemodal-content p {     padding: 0px 20px 20px 20px; }
+.get-freemodal-content .form-group {     margin-bottom: 8px;     padding: 0px 20px;     display: inline-block;     width: 100%; }
+.get-freemodal-content  .form-group label {     width: 20%;     float: left;     text-align: right; }
+.get-freemodal-content .form-group .form-control {     height: 24px;     padding: 0px;     width: 48%;     float: left;     margin-left: 20px; }
+
+.get-freemodal-content .form-group .form-control.free-monthfields{width:26%; float:left; margin-right:11px;}
+.get-freemodal-content .btn{    border-radius: 3px;     border: 1px solid #0057c1;     display: inline-block;     cursor: pointer;     color: #ffffff;     padding: 1px 8px 1px 8px;     text-decoration: none;     text-shadow: 0px 1px 0px #154682;}
+.get-freemodal-content button.main-buton.school-continuebutton {     padding: 4px 24px;     font-size: 14px; }
+.addschoolyear .get-freemodal-content.modal-dialog {     margin: 190px auto; }
+.get-freemodal-content .modal-body{     padding:0px; }
+.freemonth-header{  text-align: center;     font-size: 12pt;     padding: 3px;     color: white;     background-color: #003B81; }
+.get-freemodal-content .submitionrenewal-form .form-group label {     width: 15%;     text-align: left; line-height:24px; }
+.get-freemodal-content .submitionrenewal-form .form-group label.submition-labelfull{    width:100%; }
+.acount-infoleft label {
+    width: 40%;
+    text-align: right;
+}
+div#update_password_div {
+    box-shadow: 0 0 1px 1px #0057c1;
+    padding: 10px;
+}
+input#change_pswd {
+    background-color: #0057c1;
+    border: 1px solid #0057c1;
+    color: #fff;
+    float: right;
+    width: 22%;
+}
+div#change_email_div {
+    box-shadow: 0 0 1px 1px #0057c1;
+    padding: 10px;
+}
+input#update_email {
+    background-color: #0057c1;
+    border: 1px solid #0057c1;
+    color: #fff;
+    width: 22%;
+    margin-top: 10px;
+}
+/* End Edit Account Popup Css */
+/* Contact us Model Css*/
+/*2-1-2018*/
+.contactus-sectioncontent .modal-dialog {     float: right;     left: auto;       margin-top: 240px;     max-width: 370px; right: 11px; }
+.contactus-sectioncontent .modal-header .close {     position: relative;     color: #a9b0b7;     border: none;     border-radius: 0px;     box-shadow: none;     font-size: 29px; }
+.contactus-sectioncontent .modal-header .close:hover {     background: none;     color: #000;     transform: rotateZ(90deg); -webkit-transform: rotateZ(90deg); -moz-transform: rotateZ(90deg); }
+.contactus-sectioncontent .modal-header .close {     position: absolute;     color: #a9b0b7;     border: none;     border-radius: 0px;     box-shadow: none;     font-size: 29px;     transition: 0.5s;     top: 20px;     right: 15px;     opacity: 1;     font-weight: normal; }
+.contactus-sectioncontent .modal-header .close:focus{ outline:none;}
+.contactus-sectioncontent .modal-content:before {     width: 0;     height: 0;     border-left: 11px solid transparent;     border-right: 11px solid transparent;     border-bottom: 15px solid #fff;     position: absolute;     top: -15px;     content: "";     right: 0;     left: 0;     margin: 0 auto; }
+.contactus-sectioncontent  .modal-header {     padding: 1.2em 1em 0.8em;     border-bottom: none;     text-align: center; }
+.contactus-sectioncontent .modal-title {     color: #4b4d4f;     font-weight: 600; }
+.contactus-sectioncontent .contact-usform{ background:rgb(251, 251, 252); height:400px; border-color: 1px solid #000; border-radius: 3px;  width:100%;}
+.contactus-sectioncontent .contact-usform {     background: rgb(251, 251, 252);     height: auto;     border: 1px solid rgb(181, 181, 181);     border-radius: 3px;     width: 100%; }
+.contactus-sectioncontent .modal-body {     position: relative;     padding: 0px 15px; }
+.contact-formarea textarea {     height: 163px;     width: 100%;     border: none;     background: none;     padding: 8px;  resize:none;    color: #4b4d4f;    }
+.contact-formarea textarea:focus {     outline: none; }
+.contact-formbutton button .attach-filetext{ color:rgb(251, 251, 252);}
+.contact-formbutton button:hover .attach-filetext {color:#000;}
+.contact-formbutton button {     background: none;     box-shadow: none;     border: none;     padding: 8px; }
+.contact-formbutton button i {     font-size: 20px;     color:#a9b0b7; }
+.contact-formbutton button:hover i{     color:#000; }
+.contact-nextbuton .btn {     margin-top: 11px;     color: #fff;     font-weight: 600;     background-color: #448dd6;     -moz-box-shadow: 0 -1px 0 rgba(0,0,0,0.1) inset;     -webkit-box-shadow: 0 -1px 0 rgba(0,0,0,0.1) inset;     box-shadow: 0 -1px 0 rgba(0,0,0,0.1) inset;     border-radius: 15px;     padding: 0.3em 1em;     margin-bottom: 11px; }
+.contact-nextbuton {
+    text-align: right;
+}
+.contact-formarea textarea::-webkit-input-placeholder{color: #4b4d4f;}
+.contact-formarea textarea::-moz-input-placeholder{color: #4b4d4f;}
+.contactus-sectioncontent .modal-footer{    background-color: #fcfcfc;     border-top: 1px solid #eaedef;    padding: 0.5em 1em;     text-align: center;     display: block; }
+.contactus-sectioncontent .modal-footer .powered-by {     color: #9ea5b2; }
+.contactus-sectioncontent .powered-by a {     color: #9ea5b2;     text-decoration: underline; }
+.contactus-sectioncontent .powered-by a:hover {     color: #4b4d4f; }
+.attach-filemodal .modal-content{     background-color: rgb(69, 79, 89);     -webkit-background-clip: padding-box;     background-clip: padding-box;     border: 1px solid #999;     border: 1px solid rgba(0,0,0,.2);     border-radius: 6px;     outline: 0;     -webkit-box-shadow: rgba(0,0,0,0.3) 0 -10px 60px, rgba(0,0,0,0.1) 0 0 20px;     box-shadow: rgba(0,0,0,0.3) 0 -10px 60px, rgba(0,0,0,0.1) 0 0 20px;  height:auto;}
+.attach-filemodal .modal-content:before {     width: 0;     height: 0;     border-left: 11px solid transparent;     border-right: 11px solid transparent;     border-bottom: 15px solid rgb(69, 79, 89);     position: absolute;     top: -15px;     content: "";     right: 0;     left: 0;     margin: 0 auto; }
+.attach-filemodal .modal-header .close {     position: relative;     color: #a9b0b7;     border: none;     border-radius: 0px;     box-shadow: none;     font-size: 29px;     transition: 0.5s;     font-weight: normal;     margin-top: 7px;     opacity: 1; right: 0px; }
+.attach-filemodal .modal-header .close:hover {     background: none;     color: #fff;     transform: rotateZ(90deg); -webkit-transform: rotateZ(90deg); -moz-transform: rotateZ(90deg); }
+.attach-filemodal .modal-dialog {     float: right;     left: auto;       margin-top: 240px;     max-width: 370px; right: 11px;}
+.attach-filemodal .modal-header {        border-bottom: none; }
+.attach-filemodal .alert-title {     color: #fff;     font-size: 28px;     text-align: center;     margin-top: 0px;     margin-bottom: 28px; }
+.attach-filemodal .modal-body {     text-align: center;     padding: 0px; }
+ .attach-filemodal .primary {     background: #21272c;     border-color: #b5b9bd;     border-radius: 15px;     border: 1px solid #838c94;     color: #fff;     padding: 0.3em 1em;     width: 80%;        font-size: 16px; margin-bottom: 11px;  }
+  .attach-filemodal .attach-filebutton input[type=file] {     display: block;     opacity: 0;     position: absolute;     width: 100%;     height: 100%;     left: 0;   top: 0; }
+ .attach-filemodal .attach-filebutton{  position:relative;  }
+.attach-filemodal .cancel-button{border: 1px solid #838c94;     background: transparent;     font-weight: 600;     -moz-box-shadow: none;     -webkit-box-shadow: none;     box-shadow: none;   margin-top:28px;     border-radius: 15px;    color: #fff;        padding: 0.3em 1em;         width: 80%;             font-size: 16px;    margin-bottom:60px; }
+ .contact-formbutton button:focus{ outline:0;}
+ .chatoptions-content {     position: fixed;     width: 350px;     height: auto;     margin: 0.75em;     box-shadow: 0 0 0.688em 0 rgba(0,0,0,0.5);     bottom: 0;     background-color: #e6ecf2;     right: 11px;     left: auto;  border-radius: 8px; display:none; }
+.chatoptions-header {     background-color: #0055aa;     color: #ffffff;     font-weight: normal;     text-align: center;     position: relative;     height: auto;     border-radius: 8px 8px 0px 0px; }
+.chatoptions-header  .icon-chat {     position: absolute;     left: 11px;     top: 6px;  cursor: move;}
+.chatoptions-header  .icon-chat i {     color: #fff;     font-size: 28px; }
+.chatoptions-header h2{     display: inline-block;  color:#fff;     font-size:17px;     font-weight:300;    margin:11px 0px; }
+.icon-close{position: absolute;    right: 11px;     top: 6px; left:auto;}
+.icon-close i{padding-left: 11px; font-weight:normal; font-size:28px;}
+.icon-close a{color:#fff;}
+.chatoptions-body {     padding: 11px 24px; margin-bottom:60px; }
+.chatoptions-body .form-group label{color: #0055aa; font-size: 15px; font-weight:300; width:100%;}
+.chatoptions-body .form-group .form-control{border:1px solid #a6c8e8; }
+.chatoptions-body .form-group .form-control {     border: 1px solid #a6c8e8;     border-radius: 4px;     height: 40px; }
+.chatoptions-body button.btn-primary {     border-radius: 2em;     float: right;     border: none; }
+.chat-searcherror {     padding-top: 17px;     font-size: 15px;     display: inline-block; }
+.chatoptions-footer {     width: 100%;     padding: 11px 24px;     float: left; }
+.chatoptions-footer .chatoption-logo{ width:28%; float:left; }
+.chatoption-nextbutton button{border-radius: 2em;     float: right;     border: none;}
+.chatoption-logo img {     padding-top: 6px; }
+.overview-modalcontent .modal-content {     background-color: rgb(249, 237, 190);     border-color: rgb(240, 195, 109);     border-width: 3px;     width: 450px;     height: auto;     border-radius: 0px; }
+.overview-modalcontent .modal-dialog {     margin-top: 210px; }
+.overview-modalcontent h4 {     margin-bottom: 15px;     font-size: 20px;     font-weight: bold;     margin-top: 0px; }
+.overview-modalcontent p {     font-size: 14px;     color: #000;     text-align: justify; }
+.overview-modalcontent .modal-body {     margin-bottom: 40px; }
+.overview-modalcontent .modal-footer {     text-align: left;     border-top: 0px; }
+.overview-modalcontent .modal-footer button.btn {     padding: 1px 6px;     margin-right: 0px;     border-radius: 0px;     background-color: buttonface;     color: #000;     border-color: buttonface;     border-width: 2px;     border-style: outset; }
+.overviewschool-year .modal-dialog {     margin-top: 5px;     margin-left: 110px; }
+.overviewschool-year .modal-content:before{width: 0;
+    height: 0;
+    border-left: 11px solid transparent;
+    border-right: 11px solid transparent;
+    border-bottom: 15px solid rgb(249, 237, 190);
+    position: absolute;
+    top: 80px;
+    content: "";
+    left: 0;
+    
+=======
+.unitSelected{
+background-color:#fcb71e;
+}
+td.details-lessons {
+    text-align: left;
+}
+
+.list-contenttable td { position: relative; }.lesondropdown.leson-tablelist {
+    left: 34px;
+}.lesondropdown-body.lessondrop-bodymain li {
+    text-align: left;
+}
+.caret.list-tablecaret1 {
+    border-top: 8px dashed #fff;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+}
+td.list-tablecolumn1.list-column {
+    width: 26px;
+}
+td.list-tablecoloumn2.list-column2 {
+    width: 28px;
+}
+.teacher-dash-action.list-contentbutton .dropdown-menu.asignment-list .language-dropbutons {
+    width: 100%;
+}
+.asignment-list .unitSelected {
+    background: none;
+}
+.list-contenttable {
+    max-height: 680px;
+    overflow: auto;
+}

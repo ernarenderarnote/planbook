@@ -151,7 +151,7 @@
 											<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}">
 												@forelse($groups as $group)
 													@if($group)
-														<a target="_blank" href="../../uploads/myfiles/{{ $group }}">{{ $group }}</a>
+														<a target="_blank" href="../../uploads/myfiles/{{ $group }}">{{ $group }}</a><br/>
 													@endif
 												@empty
 												

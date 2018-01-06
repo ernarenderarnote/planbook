@@ -27,31 +27,56 @@ class LessonController extends Controller
 	/* Edit or Add lessons*/
     public function create(Request $request)
     {	
-	  $classLessons = new ClassLesson();
 	  $imgFiles='';
+      
+      $classLessons = new ClassLesson();
+
       $values = $request->all();
+	  
 	  $date = $request->lesson_date;
+	  
 	  $singleDate = explode(' ',$date);
+	  
 	  $sendDate = $singleDate[1];
+	  
 	  $classLessons->lesson_date = $sendDate;
+	  
 	  $classLessons->class_id = $request->classId;
+	  
 	  $classLessons->user_id = Auth::user()->id;
+
 	  $classLessons->lesson_start_time = $request->starttime;
+
       $classLessons->lesson_end_time = $request->endtime;
+
 	  $classLessons->unit = $request->units;
+
 	  $classLessons->lesson_title = $request->title;
+
 	  $classLessons->lesson_text = $request->lessonTxt;
+
 	  $classLessons->homework = $request->homework;
+
 	  $classLessons->objective = $request->objectiveTxt;
+
 	  $classLessons->differentiation = $request->differentiation;
+
 	  $classLessons->instructional  = $request->instructional;
+
 	  $classLessons->material      = $request->material;
+
 	  $classLessons->direct = $request->directTxt;
+
 	  $classLessons->guided = $request->guidedTxt;
+
 	  $classLessons->independent = $request->independentTxt;
+
  	  $classLessons->notes = $request->notes;
+
 	  $classLessons->lock_lesson_to_date = $request->lockLesson; 
+
 	  $attach = $request->attach;
+
 		if(!empty($attach) || count($attach) >= '1' ){
 			$imgFiles =  implode( ",", $attach );
 			$classLessons->attachments = $imgFiles;
@@ -106,7 +131,8 @@ class LessonController extends Controller
 				  'direct' => $request->directTxt,
 				  'guided' => $request->guidedTxt,
 				  'independent' => $request->independentTxt,
-				  'lock_lesson_to_date' => $request->lockLesson
+				  'lock_lesson_to_date' => $request->lockLesson,
+				  'attachments' => '',
 				  ]);
 				   $this->data['response'] = $values;
 				   return $this->data;

@@ -133,6 +133,7 @@
 				  <div class="form-group col-md-12 titlefield">
 					 <label>Title</label>
 					 <input type="text" id="lessonTitle" name="title" value="" >
+					 <input type="hidden" id="get_lesson_id" value="">
 				  </div>
 			   </div>
 			   <div class="editsectiontabs">
@@ -315,7 +316,7 @@
 			   <div class="attachment-field">
 				  <div class="form-group">
 					 <label>Attachments</label>
-					 <a class="main-buton attachment-button fileattachmentmain" target><img src="/images/paperclip.png"></a> <a class="main-buton attachment-button"> <img src="/images/google-drive.png"></a> </div>
+					 <a class="main-buton attachment-button fileattachmentmain"><img src="/images/paperclip.png"></a> <a class="main-buton attachment-button"> <img src="/images/google-drive.png"></a> </div>
 			   </div>
 			   <div class="filetable">
 				  <table id="attachedFiles" class="attachedFiles">
@@ -767,12 +768,31 @@
 							
 						var lessonDetail = response.lessonDetails;
 						var plan         = response.user_plan.layout_name; 
+						$('#attachedFiles').html('');
 						if(lessonDetail!=null && lessonDetail.attachments != null ){
-							$('#attachedFiles').html('');
 							var attachment = lessonDetail.attachments;
 							var splittedattachment = attachment.split(',');		
+							var lesson_id = lessonDetail.id;	
+							$('.fileattachmentmain').attr('target_id',lesson_id);
 							for ( var i = 0;  i < splittedattachment.length; i++ ) {
-								$('#attachedFiles').append("<tr style='display:block'><td class='filename' id='selectedFile'><a href='#'>"+splittedattachment[ i ]+"</a></td><td><label><input type='hidden' id='check_file' name='attach[]' value="+splittedattachment[ i ]+"> <input type='checkbox'>Private</label></td><td><div class='main-buton trash-button'><i class='fa fa-trash' aria-hidden='true'></i></div></td></tr>");
+								var respo_html = '';
+								respo_html += "<tr style='display:block'>";
+								respo_html += "<td class='filename' id='selectedFile'>";
+								respo_html += "<a href='#'>"+splittedattachment[ i ]+"</a>";
+								respo_html += "</td>";
+								respo_html += "<td>";
+								respo_html += "<label>";
+								respo_html += "<input type='hidden' id='check_file' name='attach[]' value="+splittedattachment[ i ]+">";
+								respo_html += "<input type='checkbox'>Private";
+								respo_html += "</label>";
+								respo_html += "</td>";
+								respo_html += "<td>";
+								respo_html += "<div class='main-buton trash-button'>";
+								respo_html += "<i class='fa fa-trash' aria-hidden='true'></i>";
+								respo_html += "</div>";
+								respo_html += "</td>";
+								respo_html += "</tr>";
+								$('#attachedFiles').append(respo_html);
 							}
 					  }	
 						$('.userClass').text(userClass);
@@ -972,14 +992,15 @@
 			});	
 			/*Show user upload files*/
 			$("body").on('click','.fileattachmentmain',function(e){
-				e.preventDefault();
+				var data_id = $(this).attr('target_id');
 				$.ajax({
 				  type:'get',
 				  contentType: "application/x-www-form-urlencoded; charset=UTF-8", 
 				  dataType : "html",
-				  data:{"_token": "{{ csrf_token() }}"},
+				  data:{"_token": "{{ csrf_token() }}",'data_id':data_id},
 				  url: 'authUploads',
 				  success:function(response){
+				  	$('.attachedFiles').show();
 					$('.file-attchedmain').append(response);  
 					$(".fileattachment-modal").show();
 				  },
@@ -989,6 +1010,7 @@
 				  }
 
 				});	
+				e.preventDefault();
 			}) ; 
 			/*End Show user upload files*/
 			
@@ -1046,7 +1068,7 @@
 
 				  success:function(data){
 					$(".file-attchedmain").load("authUploads"); 
-					//$('#main-loader').css('display','none');
+					$('#main-loader').css('display','none');
 					setTimeout(function(){
 						$('.popupProgress').css("display","none"); 
 						
@@ -1264,5 +1286,160 @@
 		/*https://medium.com/@krunallathiya/login-with-facebook-in-laravel-5-4-3c783fdc2b9d*/
 	</script>	
 
+	 <script>
+	 /* Script for account and contact us */
+      $(document).ready(function(){
+          $("#change_email_btn").click(function(){
+                $("#change_email_div").toggle();
+            });
+            
+         $('#update_email').on('click', function (e) {
+             e.preventDefault()
+                var new_email = $('#new_email').val();
+                var url = BASE_URL + "/teacher/dashboard/updateEmail";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    dataType: "json",
+                    data: {'_token':"{{ csrf_token() }}",email: new_email},
+                    success: function( responce ) {
+                        console.log(responce);
+                        if(responce.status == 'ok'){
+                            $('#change_email_btn').trigger('click');
+                            $('.sucess_msg_email').show();
+                        }
+                    },
+                });
+            });  
+         $("#change_pswd_btn").click(function(){
+                $("#update_password_div").toggle();
+            });
+            
+         $('#updatepassword_form').on('submit', function (e) {
+             e.preventDefault()
+                var url = BASE_URL + "/teacher/dashboard/updatePassword";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    dataType: "json",
+                    data: $(this).serialize(),
+                    success: function( responce ) {
+                        console.log(responce);
+                        if(responce.status == 'ok'){
+                            $('#change_pswd_btn').trigger('click');
+                            $('.sucess_msg_pswd').show();
+                        }
+                    },
+                });
+            }); 
+         $("#final_save_details").click(function(){
+                $('#save_user_details').trigger('click');
+            });
+            
+        $('#edit_account_deatils_form').on('submit', function (e) {
+             e.preventDefault()
+                var url = BASE_URL + "/teacher/dashboard/updateAccountDetails";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    dataType: "json",
+                    data: $(this).serialize(),
+                    success: function( responce ) {
+                        console.log(responce);
+                        if(responce.status == 'ok'){
+                            $('#change_pswd_btn').trigger('click');
+                            $('.sucess_msg_pswd').show();
+                        }
+                    },
+                });
+            }); 
+          
+         $("#contact_us_message").click(function(){
+                $('#send_message').trigger('click');
+            }); 
+         $("#con_image_att").change(function(){
+            $("#attachcontactfile-modal").modal('hide');
+            $('#selcted_yes').show();
+         });
+          $("#fake_image_choose").click(function(){
+                $('#con_image_att').trigger('click');
+            });
+            
+    function readURLcover(input) {
+        if (input.files && input.files[0]) {
+            var readercover = new FileReader();
+            
+            readercover.onload = function (e) {
+                $('#blah-img')
+                    .attr('src', e.target.result)
+                    .width(30)
+                    .height(30);
+            };
+           
+            readercover.readAsDataURL(input.files[0]);
+        }
+    }  
+    $("#con_image_att").change(function(){
+    readURLcover(this);
+    });
+        $('#contact_us_form').on('submit', function (e) {
+             e.preventDefault()
+                var url = BASE_URL + "/teacher/dashboard/contactUs";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: new FormData(this),
+                    contentType: false,
+                    processData:false,
+                    success: function( responce ) {
+                        console.log(responce);
+                        if(responce.status == 'ok'){
+                            $('#sending_msg').hide();
+                            $('#thank_you').show();
+                        }
+                    },
+                });
+            });  
+           
+    //SCRENNSHOT
+            $("#fake_screen").click(function(){
+                $('#screenshot').trigger('click');
+                $('#attchment_btn_div').hide();
+                $('#taking_screenshot_div').show();
+            });  
+            $('#screenshot').on('click', function(e){
+                        e.preventDefault();
+                        html2canvas($('body'), {
+                            onrendered: function(canvas){
+                                var imgString = canvas.toDataURL();
+                                $('#img_val').val(canvas.toDataURL("image/png"));
+                                $("#screenshot_yes").show();
+                                $('#see_screenshot').on('click', function(){
+                                    window.open(imgString);
+                                });
+                            }
+                         
+                        });
+        setTimeout(function(){
+              $('#attachcontactfile-modal').modal('hide')
+            }, 8000);
+         setTimeout(function(){
+              $('#attachcontactfile-modal').modal('refresh')
+            }, 9000);   
+            });
+            
+    /** code to show thanks you messge**/
+     $("#contact_us_message").click(function(){
+                $('#main_contact_form').hide();
+                $('#submiting_msg').show();
+        }); 
+    /** Add class to body on click the contact us button **/
+    $("#contact_us_icon").click(function(){
+                $('body').addClass('contact_cls');
+        }); 
+            
+      });
 
+	
+      </script>
 @endpush

@@ -3,8 +3,6 @@
 
 @section('content')
 
-@include('common.errors')
-
 <div class="signup-modals"> 
 <!--popup-4 class infomation-->
   <div class="" id="classInfo" role="dialog">
@@ -14,6 +12,7 @@
           <h4 class="modal-title">Class Information</h4>
         </div>
         <div class="modal-body">
+        @include('common.errors')
           <div class="sp-heading pb-4">Enter the subjects to teach. You can add and change subject any time on your <strong>classes</strong> page<!--If you are an elementry school teacher,  you can <a href="#"> click </a> to add a typical set of elementry subjects.--></div>
           <div class="clearfix"></div>
           <div class="modal-form">

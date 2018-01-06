@@ -1,10 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\Teacher;
-
-use Illuminate\Http\Request;
+use Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
+use Validator;
+use App\ContactUsMesssge;
+use App\Mail\ContactUs;
 use App\UserLessonSectionLayout;
 use Session;
 use App\User;
@@ -12,6 +16,7 @@ use App\UserClass;
 use App\SchoolYear;
 use App\Unit;
 use DB;
+
 class DashboardController extends Controller
 {
 
@@ -265,7 +270,108 @@ class DashboardController extends Controller
         return date('t',strtotime($year.'-'.$month.'-01'));
     }
 
+    /** Edit User Account Details**/
 
+    public function updateEmail(Request $request){
+                $userId = Auth::user()->id;
+                $update_email = User::where('id', $userId)->update(['email'=>$request->get('email')]);
+                if($update_email){
+                    $response['status'] = 'ok';
+                }else{
+                    $response['status'] = 'error';
+                }
+                return response()->json($response);
+        }
+
+   public function updatePassword(Request $request) {
+            $this->validate($request, [
+                'old_password'     => 'required',
+                'new_password'     => 'required',
+                'confirm_password' => 'required|same:new_password',
+            ]);
+            $data = $request->all();
+            $user = User::find(auth()->user()->id);
+            if(!Hash::check($data['old_password'], $user->password)){
+                 return back()
+                            ->with('error','The specified password does not match the database password');
+                $response['status'] = 'error';
+            }else{
+              $update_pswd = User::where('id', auth()->user()->id)->update(['password'=>Hash::make($data['new_password'])]);
+              if($update_pswd){
+                    $response['status'] = 'ok';
+                }
+            } 
+        return response()->json($response);
+        }  
+        public function updateAccountDetails(Request $request) {
+            $userdata = $request->all();
+            $userId = Auth::user()->id;
+            $myDetails = User::where('id', $userId)->update(['first_name' => $userdata['first_name'], 'last_name'=>$userdata['last_name'], 'display_name'=>$userdata['display_name'], 'school_district'=>$userdata['school_district'], 'school_name'=>$userdata['school_name']  ]);
+            if($myDetails){
+                $response['status'] = 'ok';
+                return response()->json($response);
+            }else{
+                $response['status'] = 'error';
+                return response()->json($response);
+            }
+        }  
+    /*  Custom functions to get calendar data */
+    /* Send Email On contact us messge*/
+    
+         public function contactUs(Request $request) {
+            $msgdata = $request->all();
+            if($msgdata['img_val']){
+            $screenshot_64 = explode(",", $msgdata['img_val']);
+            $screenshot_file = time();
+            $savefile = @file_put_contents(base_path() ."/public/contactus_image/screen".$screenshot_file.".png", base64_decode($screenshot_64[1]));
+            $screemshotname = "screen".$screenshot_file.".png";
+             } else{
+                 $screemshotname = '';
+             }
+          
+            $my_data_array = array();
+            $my_data_array['contact_message'] = $msgdata['contact_message'];
+            $userId = Auth::user()->id;
+            
+         $validator = Validator::make($request->all(), [
+                'file_name'    => 'mimes:jpeg,jpg,png'
+            ]);
+            if ($validator->fails()){
+                $response['status'] = 'error';
+                $response['msg'] = $validator->errors(); 
+                return response()->json($response);
+            }else{
+                if($request->file('file_name')){
+                $image = $request->file('file_name'); 
+                $fileExtension = $image->getClientOriginalExtension();
+                $imgName =time().'.'.$fileExtension;
+                $my_data_array['att_image_name'] = $imgName;
+                $my_data_array['screenshot_n'] = $screemshotname;
+                $image_att = ContactUsMesssge::insert(['user_id' => $userId, 'message' => $msgdata['contact_message'] ,'image' => $imgName ,'screenshot' => $screemshotname ]);
+                if($image_att){
+                $request->file('file_name')->move(base_path().'/public/contactus_image/', $imgName);
+                Mail::to('jonnykumar@techsparksit.com')->send(new ContactUs($my_data_array));
+                    $response['status'] = 'ok';
+                    return response()->json($response);
+                }else{
+                    $response['status'] = 'code_error';
+                    return response()->json($response);
+                }
+             }else{
+                $without_image_att = ContactUsMesssge::insert(['user_id' => $userId, 'message' => $msgdata['contact_message'],'screenshot' => $screemshotname]);
+                $my_data_array['att_image_name'] = '';
+                $my_data_array['screenshot_n'] = $screemshotname;
+                if($without_image_att){
+                Mail::to('jonnykumar@techsparksit.com')->send(new ContactUs($my_data_array));
+                    $response['status'] = 'ok';
+                    return response()->json($response);
+                }else{
+                    $response['status'] = 'code_error';
+                    return response()->json($response);
+                }
+              }
+            }
+        } 
     /*  Custom functions to get calendar data */
 
     private function _get_class_lesson($month=null,$year=null){

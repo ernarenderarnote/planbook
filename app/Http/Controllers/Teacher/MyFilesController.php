@@ -11,7 +11,7 @@ use App\UserClass;
 use App\SchoolYear;
 use App\Unit;
 use App\MyFile;
-
+use App\ClassLesson;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Paginator;
@@ -122,14 +122,16 @@ class MyFilesController extends Controller
 		return $pathToFile;
     }
 	public function authUploads(Request $request){
+
 		$this->data['myFiles'] = MyFile::where('user_id',Auth::user()->id)->get();
-		return view('teacher.dashboard.lesson.month.ajaxResponse',$this->data);
+    if(isset($request->data_id)){
+      $lessons = ClassLesson::where('id',$request->data_id)->first()->attachments;
+      $this->data['attachments'] = explode(',',$lessons);
     }
+    
 
-
-
-
-
+		return view('teacher.dashboard.lesson.month.ajaxResponse',$this->data);
+  }
 
 
 }

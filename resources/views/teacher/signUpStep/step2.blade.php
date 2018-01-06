@@ -3,8 +3,6 @@
 
 @section('content')
 
-@include('common.errors')
-
 <div class="signup-modals"> 
 <!--popup-2-->
   <div class="" id="signupSecond" role="dialog">
@@ -14,6 +12,7 @@
           <h4 class="modal-title">Select Year Information</h4>
         </div>
         <div class="modal-body">
+        @include('common.errors')
           <div class="sp-heading pb-4">Enter your school information below. You can change this information at any time on your <strong>school year</strong> page</div>
           <div class="modal-form">
             <form action="" method="POST" id="signup-step2-form" class="form-horizontal">

@@ -3,8 +3,6 @@
 
 @section('content')
 
-@include('common.errors')
-
 <div class="signup-modals"> 
   <!--popup-1-->
   <div class="" id="signupFirst" >
@@ -14,6 +12,7 @@
           <h4 class="modal-title">Account Information</h4>
         </div>
         <div class="modal-body">
+          @include('common.errors')
           <div class="sp-heading pb-4">To get started, enter your account information below. You can change this information at any time on your <strong>account</strong> page</div>
           <div class="modal-form">
             <form action="" method="POST" id="signup-step1-form" class="form-horizontal">

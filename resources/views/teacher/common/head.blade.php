@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css"/>
    
     <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css" />
-
-
+<!--screen shot-->
+ <script type="text/javascript" src="/js/html2canvas.js"></script>
     <!-- Date Picker -->
     <link rel="stylesheet" href="{{ asset('/plugins/datepicker/datepicker3.css') }}">
     <!-- time picker css jonthornton-timepicker -->
