@@ -586,6 +586,8 @@
 		</div>
 	</div>
 </div>  
+
+
 @endsection
 
 @push('js')
@@ -1142,6 +1144,7 @@
 			
 			/*Copy Lesson submit data*/
 			$('body').on('click','.copyLbtn',function(event){
+				var currentUrl = '@php echo $url @endphp' ;	
 			var data = $(this).closest('form').serialize();	
 		    event.preventDefault();		
 			$.ajax({
@@ -1194,7 +1197,7 @@
 			});	
 		});
 	
-	<!--Apply images and embed script-->
+	/*Apply images and embed script */
 
 		 $(".closefile-button").click(function(){
           $("#applyfilemodal").hide();
@@ -1439,7 +1442,60 @@
         }); 
             
       });
+	/*Function to save view Items*/
+		$('body').on('submit','.displayItems',function(event){
+			var data = $(this).closest('form').serialize();	
+		    event.preventDefault();		
+			$.ajax({
+				  type:'POST',
+				  url: BASE_URL +'/teacher/dashboard/viewItems',
+				  data:data,
+				  beforeSend: function () {
+				  },
+				  complete: function () {	
+				  },
 
-	
+				  success: function (response) {
+				  	var currentUrl = '@php echo $url @endphp' ;
+					if(currentUrl =='week'){	
+						$("#dynamicCalendarContent").load("/teacher/dashboard/weekCalendar" ,function(){
+							$(".pageLoader").hide();  
+						});
+					}
+					else if(currentUrl == 'day'){
+						$("#dynamicCalendarContent").load("/teacher/dashboard/dayCalendar" ,function(){
+							$(".pageLoader").hide();  
+						});
+					}
+					else if(currentUrl == 'list'){
+						$("#dynamicCalendarContent").load("/teacher/dashboard/listCalendar" ,function(){
+							$(".pageLoader").hide();  
+						});
+					}
+					else{
+						$("#dynamicCalendarContent").load("/teacher/dashboard/showCalendar" ,function(){
+							$(".pageLoader").hide();  
+						});
+					}	
+				},
+				  error: function(data){
+				  }
+				});
+			});	
+			
+			$(document).ready(function(){
+				var values = [];
+				$('.viewlist-body ul li .viewDetails:not(:checked)').each(function(index){
+					//var data =  $('.viewDetails').prop('checked'); 
+					 var data = $(this).attr('data-val');
+					 values.push(data);
+					
+				});
+				$('.lesson_title').css('display','none');
+				console.log(values);
+			});
+		//function displaySettings(){
+			
+		//}
       </script>
 @endpush

@@ -10,6 +10,8 @@ use App\ClassLesson;
 use App\Assignment;
 use App\Assessment;
 use App\UserLessonSectionLayout;
+use App\ViewItems;
+use App\Unit;
 class Month
 {
 /********************* PROPERTY ********************/  
@@ -331,5 +333,14 @@ class Month
 
     public function userPlans($user_id){
         return $user_plans = UserLessonSectionLayout::where('user_id',$user_id)->first(); 
+    }
+
+    public function getViewList(){
+        return $viewList  = ViewItems::where('user_id',Auth::user()->id)->first();
+    }
+
+    public function units($unit)
+    {
+        return Unit::where('user_id',Auth::user()->id)->where('id',$unit)->first()->unit_id;
     }
 }

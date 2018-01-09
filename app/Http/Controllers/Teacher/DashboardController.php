@@ -16,7 +16,7 @@ use App\UserClass;
 use App\SchoolYear;
 use App\Unit;
 use DB;
-
+use App\ViewItems;
 class DashboardController extends Controller
 {
 
@@ -376,6 +376,30 @@ class DashboardController extends Controller
 
     private function _get_class_lesson($month=null,$year=null){
        
+    }
+
+    public function viewItems(Request $request){
+        $response = array();
+
+        $viewItems = ViewItems::where('user_id',Auth::user()->id)->first();
+        if($viewItems!=''){
+            $viewItems->user_id     = Auth::id();
+            $viewItems->view_items  = json_encode($request->view_items);
+            $viewItems->view_class  = json_encode($request->user_class);
+        }
+        else{
+            $viewItems = new ViewItems();
+            $viewItems->user_id     = Auth::id();
+            $viewItems->view_items  = json_encode($request->view_items);
+            $viewItems->view_class  = json_encode($request->user_class);
+        }
+        
+        if($viewItems->save()){
+
+            $response['success'] = 'TRUE';
+
+        }
+        return response()->json($response);
     }
 
 }

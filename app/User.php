@@ -50,7 +50,9 @@ class User extends Authenticatable
         return $this->belongsTo(SchoolYear::class,'current_selected_year');
     }
 
-
+    public function viewItems(){
+        return $this->belongsTo(ViewItems::class,'id','user_id');
+    }
 
 
 }

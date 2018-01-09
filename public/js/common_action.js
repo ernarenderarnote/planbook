@@ -326,4 +326,11 @@ $(document).ready(function(){
 		$(document).on('click','.trash-button .fa-trash',function(){
 			$(this).parents('tr').remove();
 		});
+
+		/*Show hide view details*/
+		$(document).on('change','.viewDetails',function(){
+			$('.displayItems').trigger('submit');
+			/*var data_val = $('this').attr('data-val');
+			$('.unit_id').toggleClass('hide'); */
+		});
 	});

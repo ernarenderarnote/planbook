@@ -8,11 +8,10 @@
     <div class="text-center head-center">
       <div class="pull-left text-left col-sm-2">
         <div class="dropdown">
-          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">2016-2017 <span class="caret"></span></button>
+          <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{{ date('Y', strtotime('-1 year')) }}-{{ date("Y") }}<span class="caret"></span></button>
           <ul class="dropdown-menu selectedClassYear">
-            <li><a href="#">2016-2017</a></li>
-            <li><a href="#">2017-2018</a></li>
-            <li><a href="#">Add a year</a></li>
+
+            <li><a href="#">{{ date('Y', strtotime('-1 year')) }}-{{ date("Y") }}</a></li>
           </ul>
         </div>
       </div>
@@ -29,7 +28,7 @@
             @else
                 {{auth()->user()->email}}
             @endif
-           <span class="caret"></span></button>
+          <span class="caret"></span></button>
           <ul class="dropdown-menu pull-right">
             <li><a data-toggle="modal" data-target="#add-accountinfo"><span class="add-ico"><img src="/images/icon-account.png" width="36" height="35" alt="account"></span> <span class="add-text">Account</span></a></li>
             <li><a href="#"><span class="add-ico"><img src="/images/icon-overview.png" alt="overview"></span> <span class="add-text">Overview</span></a></li>
@@ -89,102 +88,122 @@
             <li><a href="#" class="btn btn-primary px-3 py-2" ><i class="fa fa-minus" aria-hidden="true"></i><span class="sr-only"></span></a> </li>
             <li><a href="#" class="color-theme "><i class="fa fa-2x fa-file-text-o" aria-hidden="true"></i><span class="sr-only">collepse</span></a></li>
             <li class="type-view-drop dropdown">
-              <button class="btn btn-primary px-3 py-2 dropdown-toggle" type="button" data-toggle="dropdown">View <span class="caret"></span></button>
+            <button class="btn btn-primary px-3 py-2 dropdown-toggle" type="button" data-toggle="dropdown">View <span class="caret"></span></button>
               <ul class="dropdown-menu view-dropdown">
-					<div class="viewnav-tabs">
-						<ul class="nav nav-pills">
-							<li><a href="{{route('teacher.dashboard.index',['view'=>'day'])}}" class="btn btn-primary calBtn">Day</a>
-							</li>
-							<li><a href="{{route('teacher.dashboard.index',['view'=>'week'])}}" class="btn btn-primary calBtn" >Week</a>
-							</li>
-							<li><a href="{{route('teacher.dashboard.index')}}" class="btn btn-primary calBtn">Month</a>
-							</li>
-							<li><a href="{{route('teacher.dashboard.index',['view'=>'list'])}}" class="btn btn-primary calBtn" data-toggle="tab">List</a>
-							</li>
-						</ul>
-					</div>
-					<div class="view-list">
-						<div class="col-md-6">
-							<div class="viewlistleft">
-								<div class="viewlist-header"> View Items </div>
-								<div class="viewlist-body">
-									<ul>
-										<li> All Items</li>
-										<li> No Items</li>
-										<li>
-											<input type="checkbox" name="list1" value="Unitid"> Unit Id</li>
-										<li>
-											<input type="checkbox" name="list2" value="lessontitle"> Lesson Title</li>
-										<li>
-											<input type="checkbox" name="list3" value="lesson"> Lesson
-										</li>
-										<li>
-											<input type="checkbox" name="list4" value="homework"> Homework
-										</li>
-										<li>
-											<input type="checkbox" name="list5" value="notes"> Notes
-										</li>
-										<li>
-											<input type="checkbox" name="list6" value="standardid"> Standard ID</li>
-										<li>
-											<input type="checkbox" name="list7" value="standard-desc"> Standard Desc</li>
-										<li>
-											<input type="checkbox" name="list8" value="attachments"> Attachments
-										</li>
-										<li>
-											<input type="checkbox" name="list9" value="assignments"> Assignments
-										</li>
-										<li>
-											<input type="checkbox" name="list10" value="assessments"> Assessments
-										</li>
-										<li>
-											<input type="checkbox" name="list11" value="templates"> Templates
-										</li>
-										<li>
-											<input type="checkbox" name="list12" value="times"> Times
-										</li>
-										<li>
-											<input type="checkbox" name="list13" value="events"> Events
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6">
-							<div class="viewlistleft">
-								<div class="viewlist-header"> View Classes </div>
-								<div class="viewlist-body">
-									<ul>
-										<li> All Classes</li>
-										<li> No Classes</li>
-										<li>
-											<input type="checkbox" name="list14" value="language-arts"> Language Arts</li>
-										<li>
-											<input type="checkbox" name="list15" value="mathematics"> Mathematics
-										</li>
-										<li>
-											<input type="checkbox" name="list16" value="reading"> Reading
-										</li>
-										<li>
-											<input type="checkbox" name="list17" value="science"> Science
-										</li>
-										<li>
-											<input type="checkbox" name="list18" value="social-studies"> Social Studies</li>
-										<li>
-											<input type="checkbox" name="list19" value="supermarket"> Supermarket
-										</li>
-										<li>
-											<input type="checkbox" name="list20" value="writing"> Writing
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="preferencebutton">
-							<button type="button" class="btn btn-primary calBtn">Save Preferences</button>
-						</div>
-					</div>
-				</ul>
+  					<div class="viewnav-tabs">
+  						<ul class="nav nav-pills">
+  							<li><a href="{{route('teacher.dashboard.index',['view'=>'day'])}}" class="btn btn-primary calBtn">Day</a>
+  							</li>
+  							<li><a href="{{route('teacher.dashboard.index',['view'=>'week'])}}" class="btn btn-primary calBtn" >Week</a>
+  							</li>
+  							<li><a href="{{route('teacher.dashboard.index')}}" class="btn btn-primary calBtn">Month</a>
+  							</li>
+  							<li><a href="{{route('teacher.dashboard.index',['view'=>'list'])}}" class="btn btn-primary calBtn" data-toggle="tab">List</a>
+  							</li>
+  						</ul>
+  					</div>
+  					<div class="view-list">
+              <form class='displayItems' method="" action=''>
+                  {{ csrf_field() }}
+    						<div class="col-md-6">
+    							<div class="viewlistleft">
+    								<div class="viewlist-header"> View Items </div>
+    								<div class="viewlist-body">
+    									<ul>
+    										<li> All Items</li>
+    										<li> No Items</li>
+                            @php 
+                              $check_data  = array();
+                              $check_class = array();
+                              $viewItems   = request()->user()->viewItems()->first(); 
+                              $data   = json_decode($viewItems->view_items);
+                              $class  = json_decode($viewItems->view_class);
+                              foreach($data as $value){
+                                $check_data[] =  $value;
+                              }
+                              foreach($class as $class_val){
+                                $check_class[] =  $class_val;
+                              }
+                            @endphp
+    										<li>
+                          <input type="hidden" name="view_items['unit_id']" value="N">
+    											<input type="checkbox"  data-val="unit_id" class='viewDetails' name="view_items['unit_id']" value="Y" @php echo $check_data[0] == 'Y' ? 'checked' : ''  @endphp > Unit Id</li>
+    										<li>
+                          <input type="hidden" name="view_items['lesson_title']" value="N">
+    											<input type="checkbox" class='viewDetails' name="view_items['lesson_title']"  data-val="title" value="Y" @php echo $check_data[1] == 'Y' ? 'checked' : ''  @endphp> Lesson Title</li>
+    										<li>
+                          <input type="hidden" name="view_items['lessons']" value="N">
+    											<input type="checkbox"  data-val="lessons" class='viewDetails' name="view_items['lessons']" value="Y" @php echo $check_data[2] == 'Y' ? 'checked' : ''  @endphp> Lesson
+    										</li>
+    										<li>
+                          <input type="hidden" name="view_items['homework']" value="N">
+    											<input type="checkbox"  data-val="homework" class='viewDetails' name="view_items['homework']" value="Y" @php echo $check_data[3] == 'Y' ? 'checked' : ''  @endphp> Homework
+    										</li>
+    										<li>
+                          <input type="hidden" name="view_items['notes']" value="N">
+    											<input type="checkbox"  data-val="notes" class='viewDetails' name="view_items['notes']" value="Y" @php echo $check_data[4] == 'Y' ? 'checked' : ''  @endphp> Notes
+    										</li>
+    										<li>
+                          <input type="hidden" name="view_items['standard_id']" value="N">
+    											<input type="checkbox"  data-val="standard_id" class='viewDetails' name="view_items['standard_id']" value="Y" @php echo $check_data[5] == 'Y' ? 'checked' : ''  @endphp> Standard ID</li>
+    										<li>
+                          <input type="hidden" name="view_items['standard']" value="N">
+    											<input type="checkbox" data-val="standard" class='viewDetails' name="view_items['standard']" value="Y"
+                          @php echo $check_data[6] == 'Y' ? 'checked' : ''  @endphp> Standard Desc</li>
+    										<li>
+                          <input type="hidden" name="view_items['Attachments']" value="N">
+    											<input type="checkbox" data-val="attachments" class='viewDetails' name="view_items['Attachments']" value="Y" @php echo $check_data[7] == 'Y' ? 'checked' : ''  @endphp> Attachments
+    										</li>
+    										<li>
+                          <input type="hidden" name="view_items['Assignments']" value="N">
+    											<input type="checkbox" data-val="assignments" class='viewDetails' name="view_items['Assignments']" value="Y" @php echo $check_data[8] == 'Y' ? 'checked' : ''  @endphp> Assignments
+    										</li>
+    										<li>
+                          <input type="hidden" name="view_items['assessments]" value="N">
+    											<input type="checkbox" data-val='assessments' class='viewDetails' name="view_items['assessments]" value="Y" @php echo $check_data[9] == 'Y' ? 'checked' : ''  @endphp> Assessments
+    										</li>
+    										<li>
+                          <input type="hidden" name="view_items['templates']" value="N">
+    											<input type="checkbox" data-val='templates' class='viewDetails' name="view_items['templates']" value="Y" @php echo $check_data[10] == 'Y' ? 'checked' : ''  @endphp> Templates
+    										</li>
+    										<li>
+                          <input type="hidden" name="view_items['times']" value="N">
+    											<input data-val='times' type="checkbox" class='viewDetails' name="view_items['times']" value="Y" @php echo $check_data[11] == 'Y' ? 'checked' : ''  @endphp> Times
+    										</li>
+    										<li>
+                          <input type="hidden" name="view_items['events']" value="N">
+    											<input data-val='events' type="checkbox" class='viewDetails' name="view_items['events']" value="Y" @php echo $check_data[12] == 'Y' ? 'checked' : ''  @endphp> Events
+    										</li>
+    									</ul>
+    								</div>
+    							</div>
+    						</div>
+    						<div class="col-md-6">
+    							<div class="viewlistleft">
+    								<div class="viewlist-header"> View Classes </div>
+    								<div class="viewlist-body">
+                    @php $user_classes = request()->user()->userClass()->get(); @endphp 
+    									<ul>
+    										<li> All Classes</li>
+    										<li> No Classes</li>
+                        @php $i= 0; @endphp
+                        @forelse($user_classes as $classes)
+                          <input type="hidden" name="user_class[{{$classes->id}}]" value="N">
+    										  <li><input type="checkbox" name="user_class[{{$classes->id}}]" value="Y" @php echo $check_class[$i] == 'Y' ? 'checked' : ''  @endphp>{{$classes->class_name}}</li>
+                        @php  $i++; @endphp
+  									    @empty
+
+                        @endforelse
+                     </ul>
+  								  </div>
+  							  </div>
+  						  </div>
+    						<div class="preferencebutton">
+    							<button type="submit" class="btn btn-primary calBtn">Save Preferences</button>
+    						</div>
+              </form>  
+  					</div>
+  				</ul>
             </li>
             <li class="goto-drop dropdown">
               <button class="btn btn-primary px-3 py-2 dropdown-toggle" type="button" data-toggle="dropdown">Go to <span class="caret"></span></button>

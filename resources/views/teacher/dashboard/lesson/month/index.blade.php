@@ -65,6 +65,24 @@ $plan = $user_plan->layout_name;
 	<!-- Add class Popup Starts Here -->
 	<div class="d-render-popoup t-data-popup" id="dynamicRenderDiv" style="display:none;">
 	 </div>
+	 <div id="deletemodal" class="modal fade movemodalcontent" role="dialog" style="display: none;">
+		<div class="modal-dialog"> 
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Delete Lesson</h4>
+				</div>
+				<div class="modal-body">
+					<p>Would you like your lessons shifted back to accommodate for the deleted lesson?</p>
+					<div class="button-group">
+					  <button class="renew-button wshiftLessons" data-dismiss="modal"> Shift Lessons</button>
+					  <button class="renew-button wnshiftLessons" data-dismiss="modal"> Do not Shift Lessons</button>
+					  <button class="close-button" data-dismiss="modal"> Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 @push('js')
 <script type="text/javascript">
    

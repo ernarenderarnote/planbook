@@ -40,7 +40,7 @@
           <div type="button" class="btn unitsbutton list-contentmainbuton listcontenthide"> <span class="hide-detailslist"> Hide Detail</span> <span class="show-detailslist">Show Detail</span></div>
         </div>
         <div class="btn-group">
-          <button type="button" class="btn unitsbutton list-contentmainbuton"> Return to Week</button>
+          <a href="{{route('teacher.dashboard.index',['view'=>'week'])}}" class="btn unitsbutton list-contentmainbuton"> Return to Week</a>
         </div>
       </div>
       <div class="lesson-text"> Lesson </div>

@@ -2308,8 +2308,7 @@ input#update_email {
     top: 80px;
     content: "";
     left: 0;
-    
-=======
+ }   
 .unitSelected{
 background-color:#fcb71e;
 }
@@ -2342,4 +2341,18 @@ td.list-tablecoloumn2.list-column2 {
 .list-contenttable {
     max-height: 680px;
     overflow: auto;
+}
+.t-heading span {
+    padding: 1px 3px;
+    margin: 3px;
+    font-size: 15px;
+}
+.t-heading span:first-child {
+    padding: 1px 3px;
+    margin: 3px;
+    font-size: 15px;
+    color: #fff;
+}
+.showThis{
+    display:none;
 }

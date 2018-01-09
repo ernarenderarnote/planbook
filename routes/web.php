@@ -78,12 +78,13 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
 			Route::Post('/deletelessons', [ 'as' => 'deletelessons', 'uses' => "LessonController@deletelessons"]);
 			Route::get('/authUploads', [ 'as' => 'authUploads', 'uses' => "MyFilesController@authUploads"]);
             Route::get('/listClasses/{class_id}', [ 'as' => 'listClasses', 'uses' => "LessonController@listLessons"]);
-			/*live work*/
             Route::post('/updateEmail', ['as' => 'updateEmail', 'uses' => 'DashboardController@updateEmail']);
             Route::post('/updatePassword', ['as' => 'updatePassword', 'uses' => 'DashboardController@updatePassword']);
             Route::post('/updateAccountDetails', ['as' => 'updateAccountDetails', 'uses' => 'DashboardController@updateAccountDetails']);
             Route::post('/contactUs', ['as' => 'contactUs', 'uses' => 'DashboardController@contactUs']);
-		});
+            Route::post('/viewItems', ['as' => 'viewItems', 'uses' => 'DashboardController@viewItems']);
+		      
+        });
 		
 
         /* School Year Routes*/

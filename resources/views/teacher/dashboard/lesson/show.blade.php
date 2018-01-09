@@ -16,17 +16,29 @@
 		 $weekDay = date('l', strtotime($content['date']) );
 		 
 		 $hasClass = !collect(json_decode($filters->class_schedule))
-						->where("text", $weekDay)
-						->where("is_class" , "1")
-						->isEmpty();
-						$classID = $filters['id'];
-						$sqlDate = date('Y-m-d', strtotime($daysName));
-						$lessonsData = $monthView->getLessons($classID,$sqlDate,Auth::user()->id);
-
-      @endphp
+				->where("text", $weekDay)
+				->where("is_class" , "1")
+				->isEmpty();
+				$classID = $filters['id'];
+				$sqlDate = date('Y-m-d', strtotime($daysName));
+				$lessonsData = $monthView->getLessons($classID,$sqlDate,Auth::user()->id);
+				$viewList = $monthView->getViewList();
+				$check_data  = array();
+	            $check_class = array();
+	            $data   = json_decode($viewList->view_items);
+	            $class  = json_decode($viewList->view_class);
+	            foreach($data as $key=>$value){
+	            	//echo $key.'=>'.$value;
+	               $check_data[] =  $value;
+	            }
+	            foreach($class as $class_val){
+	              $check_class[] =  $class_val;
+	            }
+	            //print_r($data);
+			@endphp
 	  
 		@if($hasClass)
-			<div class="mainClass" style="border-color: {{ $filters['class_color'] }}">			
+			<div class="mainClass {{ $filters['class_name'] }}" style="border-color: {{ $filters['class_color'] }}">			
 				<div class="languagearts week-tabcontentinner" style="background-color:{{ $filters['class_color'] }}; color:#fff; border-color: {{ $filters['class_color'] }};">
 				@forelse($lessonsData as $lData)		
 				 {!! $filters['class_name'] !!} {!!$lData['lesson_start_time']!!}  {!!$lData['lesson_end_time']!!}
@@ -135,11 +147,15 @@
 							$groups = explode(',',$attach);
 						@endphp
 						@if($lData['lesson_title'])
-						<div class="t-heading" style="border-bottom: 1px solid {{ $filters['class_color'] }}">{{ $lData['lesson_title'] }}</div>
+						<div class="t-heading lesson_title" style="border-bottom: 1px solid {{ $filters['class_color'] }};">
+							@if($lData['unit'])
+								<span class="unit_id  @php echo $check_data[0] == 'N' ? 'hide' : ''  @endphp" style="background: {{ $filters['class_color'] }};"> {{ $monthView->units($lData['unit'])}}  
+								</span>
+							@endif	
+							<span class="@php echo $check_data[1] == 'N' ? 'hide' : '' @endphp">{{ $lData['lesson_title'] }}</span>
+						</div>
 						@endif
-						@if($lData['unit'])
-						<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}">{{ $lData['unit'] }}</div>
-						@endif	
+						
 						@if($lData['lesson_text'])	
 						<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}">{!! $lData['lesson_text'] !!}</div>
 						@endif
@@ -190,14 +206,16 @@
 					
 					@forelse($assignmentData as $assignment)
 						@if($assignment['title'])
-						<div class="t-heading" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Assignment</h5>{{ $assignment['title'] }}</div>
+						<div class="t-heading" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Assignment</h5>{{ $assignment['title'] }}
+						</div>
 						@endif
 					@empty
 					@endforelse
 
 					@forelse($assessmentData as $assessment)
 						@if($assessment['title'])
-						<div class="t-heading" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Assessment</h5>{{ $assessment['title'] }}</div>
+						<div class="t-heading" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Assessment</h5>{{ $assessment['title'] }}
+						</div>
 						@endif
 					@empty
 					@endforelse
