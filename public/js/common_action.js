@@ -328,9 +328,280 @@ $(document).ready(function(){
 		});
 
 		/*Show hide view details*/
-		$(document).on('change','.viewDetails',function(){
-			$('.displayItems').trigger('submit');
-			/*var data_val = $('this').attr('data-val');
-			$('.unit_id').toggleClass('hide'); */
+		$(".viewDetails").unbind("change").bind('change',function(){
+			//$('.displayItems').trigger('submit');
+			var data_val 	  = $(this).attr('data-val');
+			var selectedClass = $('.'+data_val);
+			if($(selectedClass).hasClass('hide')){
+				$(selectedClass).removeClass('hide');
+			}
+			else{
+				$(selectedClass).addClass('hide');
+			}
+			
 		});
+
+		/* Edit assignment */
+
+	  	$(".edit_assignment").click(function(){
+
+		    var assignment_id = $(this).data("assignment-id");
+
+		    $("#dynamicRenderDiv").show().load("/teacher/assignments/edit/"+assignment_id,function(){
+
+		      //$('.datepicker').datepicker({format: 'dd/mm/yyyy',});
+		      
+
+		    });
+
+		 });
+
+	  /* Save edit classs data*/
+
+	  $("body").on('click','#save_edit_assignment_data_button',function(e){
+		tinyMCE.triggerSave();  
+		e.preventDefault();  
+	    var assignment_id = $("#assignment_id").val();
+
+	    var formData = $("#assignment_edit_form").serialize();
+
+	    var obj = $(this);
+	    $.ajax({
+	      type:'POST',
+	      url: BASE_URL +'/teacher/assignments/edit/'+assignment_id,
+	      data: formData,
+	      dataType: 'json',
+
+	      beforeSend: function () {
+	        $(".pageLoader").show();
+	      },
+	      complete: function () {
+	        //obj.html('Sent <i class="fa fa-send"></i>');
+	      },
+
+	      success: function (response) {
+	      	$(".pageLoader").hide();
+	        var html = '';
+
+	        $('#warning-box').remove();
+	        $('#success-box').remove();
+
+	        if(response['error']){
+	            html += '<div id="warning-box" class="alert alert-danger fade in">';
+	            html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+	            html += '<strong>Error!</strong>';
+
+	            for (var i = 0; i < response['error'].length; i++) {
+	                html += '<p>' + response['error'][i] + '</p>';
+	            }
+
+	            html += '</div>';
+	            $('.errorMessage').before(html);
+	            
+	        }
+
+	        if(response['success']){
+	               
+	          console.log(response['success']);
+
+	          html += '<div id="success-box" class="alert alert-success fade in">';
+	          html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+	          html += '<strong>You Have updated Unit successfully !</strong>';
+	          html += '</div>';
+
+	          $('.errorMessage').before(html);
+	          //$('#class_add_form')[0].reset();
+			  setTimeout(function(){
+	          $("#dynamicCalendarContent").fadeOut();		
+				window.location.reload();
+			  },3000);
+	        }
+
+
+	        },
+
+
+	      error: function(data){
+	        console.log("error");
+	        console.log(data);
+	      }
+
+	    });
+	      
+	  }); 
+
+	  /* Edit Unit */
+
+  $(".edit_unit").click(function(){
+
+    var unit_id = $(this).data("unit-id");
+
+    $("#dynamicRenderDiv").show().load("/teacher/units/edit/"+unit_id,function(){
+
+      //$('.datepicker').datepicker({format: 'dd/mm/yyyy',});
+      
+
+    });
+
+  });
+
+  /* Save edit classs datra*/
+
+  $("body").on('click','#save_edit_unit_data_button',function(){
+
+    var unit_id = $("#unit_id").val();
+
+    var formData = $("#unit_edit_form").serialize();
+
+    var obj = $(this);
+    $.ajax({
+      type:'POST',
+      url: BASE_URL +'/teacher/units/edit/'+unit_id,
+      data: formData,
+      dataType: 'json',
+
+      beforeSend: function () {
+        //obj.html('Sending... <i class="fa fa-send"></i>');
+      },
+      complete: function () {
+        //obj.html('Sent <i class="fa fa-send"></i>');
+      },
+
+      success: function (response) {
+        var html = '';
+
+        $('#warning-box').remove();
+        $('#success-box').remove();
+
+        if(response['error']){
+            html += '<div id="warning-box" class="alert alert-danger fade in">';
+            html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+            html += '<strong>Error!</strong>';
+
+            for (var i = 0; i < response['error'].length; i++) {
+                html += '<p>' + response['error'][i] + '</p>';
+            }
+
+            html += '</div>';
+            $('#unit_edit_form').before(html);
+            
+        }
+
+        if(response['success']){
+               
+          console.log(response['success']);
+
+          html += '<div id="success-box" class="alert alert-success fade in">';
+          html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+          html += '<strong>You Have updated Unit successfully !</strong>';
+          html += '</div>';
+
+          $('#unit_edit_form').before(html);
+          //$('#class_add_form')[0].reset();
+          $(".d-render-popoup").fadeOut();
+
+
+          window.location.reload();
+        }
+
+
+        },
+
+
+      error: function(data){
+        console.log("error");
+        console.log(data);
+      }
+
+    });
+      
+}); 
+  	$(".edit_assessment").click(function(){
+
+	    var assessment_id = $(this).data("assessment-id");
+	    
+	    $("#dynamicRenderDiv").show().load("/teacher/assessments/edit/"+assessment_id,function(){
+
+	    });
+
+	});
+
+  	/* Save edit classs datra*/
+
+  $("body").on('click','#save_edit_assessment_data_button',function(e){
+	tinyMCE.triggerSave();
+	e.preventDefault();
+    var assessment_id = $("#assessment_id").val();
+
+    var formData = $(this).closest('form').serialize();
+    
+    var obj = $(this);
+    $.ajax({
+	  contentType: "application/x-www-form-urlencoded; charset=UTF-8", 	
+      type:'POST',
+      url: BASE_URL +'/teacher/assessments/edit/'+assessment_id,
+      data: formData,
+      dataType: 'json',
+
+      beforeSend: function () {
+        //obj.html('Sending... <i class="fa fa-send"></i>');
+      },
+      complete: function () {
+        //obj.html('Sent <i class="fa fa-send"></i>');
+      },
+
+      success: function (response) {
+        var html = '';
+
+        $('#warning-box').remove();
+        $('#success-box').remove();
+
+        if(response['error']){
+            html += '<div id="warning-box" class="alert alert-danger fade in">';
+            html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+            html += '<strong>Error!</strong>';
+
+            for (var i = 0; i < response['error'].length; i++) {
+                html += '<p>' + response['error'][i] + '</p>';
+            }
+
+            html += '</div>';
+            $('.errorMessage').before(html);
+            
+        }
+
+        if(response['success']){
+               
+          console.log(response['success']);
+
+          html += '<div id="success-box" class="alert alert-success fade in">';
+          html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+          html += '<strong>You Have updated Unit successfully !</strong>';
+          html += '</div>';
+
+          $('.errorMessage').before(html);
+          //$('#class_add_form')[0].reset();
+         $(".d-render-popoup").fadeOut();
+
+
+        window.location.reload();
+        }
+
+
+        },
+
+
+      error: function(data){
+        console.log("error");
+        console.log(data);
+      }
+
+    });
+      
+  }); 
+	  /*Close a modal box*/
+	  $(document).on('click','.d-popoup-close',function(){
+	  	$('.d-render-popoup').fadeOut();
+	  });
+
 	});

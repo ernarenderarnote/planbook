@@ -199,6 +199,7 @@ class LessonController extends Controller
 	/* bump Lessons */
 	public function bumplessons(Request $request)
     {   
+    	
 		$class_id = $request->class_id;
 		$start =  $request->bump_date;
 		$end = date('Y-m-d', strtotime($start.'+' .$request->bump_days.' day'));
@@ -557,8 +558,8 @@ class LessonController extends Controller
 		$working_dates = array();
 		$visibleDay  = array();
 		$years = explode('-',$year->year_name);
-		$start = $years[0];
-		$end   = $years[1];
+		$start = $year->first_day;
+		$end   = $year->last_day;
 		$user_id 	= Auth::user()->id;
 		$class_id 	= $request->class_id;
 		$class_color = '';
@@ -566,6 +567,7 @@ class LessonController extends Controller
 			$q->where('user_id',$user_id)->where('id',$class_id)->where('end_date', '>=' ,$start )->where('start_date' ,'<=', $end);
 			})->first();
 			$visibleDay   = collect(json_decode($user_classes->class_schedule))->where("is_class", "1")->pluck("text")->all();
+
 			$class_color   = collect($user_classes->class_color)->first();
 			$start_date   = collect($user_classes->start_date)->first();
 			$end_date     = collect($user_classes->end_date)->first();

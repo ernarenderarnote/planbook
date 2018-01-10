@@ -274,7 +274,7 @@ $(document).ready(function() {
 
 
 
-  /* Edit Unit */
+  /* Edit assignment */
 
   $(".edit_assignment").click(function(){
 

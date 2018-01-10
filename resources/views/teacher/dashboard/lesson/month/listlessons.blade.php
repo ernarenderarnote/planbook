@@ -47,7 +47,7 @@
           <li data-toggle="modal" data-target="#pastemodal"> <i class="fa fa-paste" aria-hidden="true"></i> Paste</li>
           <li> 
             <i class="fa fa-arrow-right" aria-hidden="true"></i> 
-            <span class="weekBump" token="{{ csrf_token() }}" targetID = "" targetDate="">Bump</span>
+            <span class="weekBump" token="{{ csrf_token() }}" targetID = "{{$class_id}}" targetDate="{{$date[1]}}">Bump</span>
             <div class="copy-incrementfunction">
               <input type="button" class="decrementBtn" value="-" >
               <input type="text" value="1" class="copydropdown-value">
@@ -56,7 +56,7 @@
           </li>
           <li>
             <i class="fa fa-arrow-left" aria-hidden="true"></i> 
-            <span class="weekBack" token="{{ csrf_token() }}" targetID = "" targetDate="">Back</span>
+            <span class="weekBack" token="{{ csrf_token() }}" targetID = "{{$class_id}}" targetDate="{{$date[1]}}">Back</span>
             <div class="copy-incrementfunction">
               <input type="button" class="decrementBtn" value="-" >
               <input type="text" value="1" class="copydropdown-value">
@@ -65,7 +65,7 @@
           </li>
           <li> 
             <i class="fa fa-forward" aria-hidden="true"></i>
-            <span class="weekExtend" token="{{ csrf_token() }}" targetID = "" targetDate="">Extend Lesson</span>
+            <span class="weekExtend" token="{{ csrf_token() }}" targetID = "{{$class_id}}" targetDate="{{$date[1]}}">Extend Lesson</span>
             <div class="copy-incrementfunction">
               <input type="button" class="decrementBtn" value="-" >
               <input type="text" value="1" class="copydropdown-value">
@@ -74,14 +74,14 @@
           </li>
           <li>
             <i class="fa fa-forward" aria-hidden="true"></i>
-            <span class="weekStandardsExtend" token="{{ csrf_token() }}" targetID = "" targetDate=""> Extend Standards</span>
+            <span class="weekStandardsExtend" token="{{ csrf_token() }}" targetID = "{{$class_id}}" targetDate="{{$date[1]}}"> Extend Standards</span>
             <div class="copy-incrementfunction">
               <input type="button" class="decrementBtn" value="-" >
               <input type="text" value="1" class="copydropdown-value">
               <input type="button" class="incrementBtn" value="+" >
             </div>
           </li>
-          <li class="deleteLessons" data-toggle="modal" token="{{ csrf_token() }}" targetID = "" targetDate="" ><i class="fa fa fa-trash" aria-hidden="true"></i> Delete Lessons</li>
+          <li class="deleteLessons" data-toggle="modal" token="{{ csrf_token() }}" targetID = "{{$class_id}}" targetDate="{{$date[1]}}" ><i class="fa fa fa-trash" aria-hidden="true"></i> Delete Lessons</li>
           <li data-toggle="modal" token="{{ csrf_token() }}" data-target="#movemodal"><i class="fa fa-calendar" aria-hidden="true"></i> No Class Day</li>
         </ul>
       </div>
@@ -207,5 +207,4 @@
   @empty
 
   @endforelse
-
   <script src="{{ asset('/js/common_action.js') }}"></script>

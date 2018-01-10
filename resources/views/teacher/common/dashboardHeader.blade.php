@@ -3,6 +3,23 @@
     display: none;
 }
 </style>
+
+@php 
+  $check_data  = array();
+  $check_class = array();
+  $viewItems   = request()->user()->viewItems()->first(); 
+  if($viewItems!=''){
+    $data   = json_decode($viewItems->view_items);
+    $class  = json_decode($viewItems->view_class);
+
+    foreach($data as $value){
+      $check_data[] =  $value;
+    }
+    foreach($class as $class_val){
+      $check_class[] =  $class_val;
+    }
+  }  
+@endphp
 <div class="signup-pheader">
   <div class="container-fluid">
     <div class="text-center head-center">
@@ -106,73 +123,61 @@
               <form class='displayItems' method="" action=''>
                   {{ csrf_field() }}
     						<div class="col-md-6">
+                @if($viewItems!='')
     							<div class="viewlistleft">
     								<div class="viewlist-header"> View Items </div>
     								<div class="viewlist-body">
     									<ul>
     										<li> All Items</li>
     										<li> No Items</li>
-                            @php 
-                              $check_data  = array();
-                              $check_class = array();
-                              $viewItems   = request()->user()->viewItems()->first(); 
-                              $data   = json_decode($viewItems->view_items);
-                              $class  = json_decode($viewItems->view_class);
-                              foreach($data as $value){
-                                $check_data[] =  $value;
-                              }
-                              foreach($class as $class_val){
-                                $check_class[] =  $class_val;
-                              }
-                            @endphp
+                            
     										<li>
                           <input type="hidden" name="view_items['unit_id']" value="N">
-    											<input type="checkbox"  data-val="unit_id" class='viewDetails' name="view_items['unit_id']" value="Y" @php echo $check_data[0] == 'Y' ? 'checked' : ''  @endphp > Unit Id</li>
+    											<input type="checkbox"  data-val="unit_id" class='viewDetails' name="view_items['unit_id']" value="Y" {{ $check_data[0] == 'Y' ? 'checked' : ''  }} > Unit Id</li>
     										<li>
                           <input type="hidden" name="view_items['lesson_title']" value="N">
-    											<input type="checkbox" class='viewDetails' name="view_items['lesson_title']"  data-val="title" value="Y" @php echo $check_data[1] == 'Y' ? 'checked' : ''  @endphp> Lesson Title</li>
+    											<input type="checkbox" class='viewDetails' name="view_items['lesson_title']"  data-val="lesson_title" value="Y" {{  $check_data[1] == 'Y' ? 'checked' : ''  }}> Lesson Title</li>
     										<li>
                           <input type="hidden" name="view_items['lessons']" value="N">
-    											<input type="checkbox"  data-val="lessons" class='viewDetails' name="view_items['lessons']" value="Y" @php echo $check_data[2] == 'Y' ? 'checked' : ''  @endphp> Lesson
+    											<input type="checkbox"  data-val="lesson_main" class='viewDetails' name="view_items['lessons']" value="Y" {{  $check_data[2] == 'Y' ? 'checked' : ''  }}> Lesson
     										</li>
     										<li>
                           <input type="hidden" name="view_items['homework']" value="N">
-    											<input type="checkbox"  data-val="homework" class='viewDetails' name="view_items['homework']" value="Y" @php echo $check_data[3] == 'Y' ? 'checked' : ''  @endphp> Homework
+    											<input type="checkbox"  data-val="lesson_homework" class='viewDetails' name="view_items['homework']" value="Y" {{  $check_data[3] == 'Y' ? 'checked' : ''  }}> Homework
     										</li>
     										<li>
                           <input type="hidden" name="view_items['notes']" value="N">
-    											<input type="checkbox"  data-val="notes" class='viewDetails' name="view_items['notes']" value="Y" @php echo $check_data[4] == 'Y' ? 'checked' : ''  @endphp> Notes
+    											<input type="checkbox"  data-val="lesson_notes" class='viewDetails' name="view_items['notes']" value="Y" {{  $check_data[4] == 'Y' ? 'checked' : ''  }}> Notes
     										</li>
     										<li>
                           <input type="hidden" name="view_items['standard_id']" value="N">
-    											<input type="checkbox"  data-val="standard_id" class='viewDetails' name="view_items['standard_id']" value="Y" @php echo $check_data[5] == 'Y' ? 'checked' : ''  @endphp> Standard ID</li>
+    											<input type="checkbox"  data-val="lesson_standard_id" class='viewDetails' name="view_items['standard_id']" value="Y" {{  $check_data[5] == 'Y' ? 'checked' : ''  }}> Standard ID</li>
     										<li>
                           <input type="hidden" name="view_items['standard']" value="N">
-    											<input type="checkbox" data-val="standard" class='viewDetails' name="view_items['standard']" value="Y"
-                          @php echo $check_data[6] == 'Y' ? 'checked' : ''  @endphp> Standard Desc</li>
+    											<input type="checkbox" data-val="lesson_standard" class='viewDetails' name="view_items['standard']" value="Y" {{  $check_data[6] == 'Y' ? 'checked' : ''  }}> Standard Desc</li>
     										<li>
                           <input type="hidden" name="view_items['Attachments']" value="N">
-    											<input type="checkbox" data-val="attachments" class='viewDetails' name="view_items['Attachments']" value="Y" @php echo $check_data[7] == 'Y' ? 'checked' : ''  @endphp> Attachments
+    											<input type="checkbox" data-val="lesson_attachments" class='viewDetails' name="view_items['Attachments']" value="Y" {{  $check_data[7] == 'Y' ? 'checked' : ''  }}> Attachments
     										</li>
     										<li>
                           <input type="hidden" name="view_items['Assignments']" value="N">
-    											<input type="checkbox" data-val="assignments" class='viewDetails' name="view_items['Assignments']" value="Y" @php echo $check_data[8] == 'Y' ? 'checked' : ''  @endphp> Assignments
+    											<input type="checkbox" data-val="lesson_assignments" class='viewDetails' name="view_items['Assignments']" value="Y" {{  $check_data[8] == 'Y' ? 'checked' : ''  }}> Assignments
     										</li>
     										<li>
-                          <input type="hidden" name="view_items['assessments]" value="N">
-    											<input type="checkbox" data-val='assessments' class='viewDetails' name="view_items['assessments]" value="Y" @php echo $check_data[9] == 'Y' ? 'checked' : ''  @endphp> Assessments
+                          <input type="hidden" name="view_items['Assessments]" value="N">
+    											<input type="checkbox" data-val='lesson_assessments' class='viewDetails' name="view_items['Assessments]" value="Y" {{  $check_data[9] == 'Y' ? 'checked' : '' }}> Assessments
     										</li>
     										<li>
                           <input type="hidden" name="view_items['templates']" value="N">
-    											<input type="checkbox" data-val='templates' class='viewDetails' name="view_items['templates']" value="Y" @php echo $check_data[10] == 'Y' ? 'checked' : ''  @endphp> Templates
+    											<input type="checkbox" data-val='lesson_templates' class='viewDetails' name="view_items['templates']" value="Y" {{  $check_data[10] == 'Y' ? 'checked' : '' }}> Templates
     										</li>
     										<li>
                           <input type="hidden" name="view_items['times']" value="N">
-    											<input data-val='times' type="checkbox" class='viewDetails' name="view_items['times']" value="Y" @php echo $check_data[11] == 'Y' ? 'checked' : ''  @endphp> Times
+    											<input data-val='lesson_times' type="checkbox" class='viewDetails' name="view_items['times']" value="Y" {{  $check_data[11] == 'Y' ? 'checked' : ''  }}> Times
     										</li>
     										<li>
                           <input type="hidden" name="view_items['events']" value="N">
-    											<input data-val='events' type="checkbox" class='viewDetails' name="view_items['events']" value="Y" @php echo $check_data[12] == 'Y' ? 'checked' : ''  @endphp> Events
+    											<input data-val='lesson_events' type="checkbox" class='viewDetails' name="view_items['events']" value="Y" {{$check_data[12] == 'Y' ? 'checked' : ''}}> Events
     										</li>
     									</ul>
     								</div>
@@ -198,6 +203,85 @@
   								  </div>
   							  </div>
   						  </div>
+                @else
+                  <div class="viewlistleft">
+                    <div class="viewlist-header"> View Items </div>
+                    <div class="viewlist-body">
+                      <ul>
+                        <li> All Items</li>
+                        <li> No Items</li>
+                            
+                        <li>
+                          <input type="hidden" name="view_items['unit_id']" value="N">
+                          <input type="checkbox"  data-val="unit_id" class='viewDetails' name="view_items['unit_id']" value="Y" checked> Unit Id</li>
+                        <li>
+                          <input type="hidden" name="view_items['lesson_title']" value="N">
+                          <input type="checkbox" class='viewDetails' name="view_items['lesson_title']"  data-val="lesson_title" value="Y" checked> Lesson Title</li>
+                        <li>
+                          <input type="hidden" name="view_items['lessons']" value="N">
+                          <input type="checkbox"  data-val="lesson_main" class='viewDetails' name="view_items['lessons']" value="Y" checked> Lesson
+                        </li>
+                        <li>
+                          <input type="hidden" name="view_items['homework']" value="N">
+                          <input type="checkbox"  data-val="lesson_homework" class='viewDetails' name="view_items['homework']" value="Y" checked> Homework
+                        </li>
+                        <li>
+                          <input type="hidden" name="view_items['notes']" value="N">
+                          <input type="checkbox"  data-val="lesson_notes" class='viewDetails' name="view_items['notes']" value="Y" checked> Notes
+                        </li>
+                        <li>
+                          <input type="hidden" name="view_items['standard_id']" value="N">
+                          <input type="checkbox"  data-val="lesson_standard_id" class='viewDetails' name="view_items['standard_id']" value="Y" checked> Standard ID</li>
+                        <li>
+                          <input type="hidden" name="view_items['standard']" value="N">
+                          <input type="checkbox" data-val="lesson_standard" class='viewDetails' name="view_items['standard']" value="Y" checked> Standard Desc</li>
+                        <li>
+                          <input type="hidden" name="view_items['Attachments']" value="N">
+                          <input type="checkbox" data-val="lesson_attachments" class='viewDetails' name="view_items['Attachments']" value="Y" checked> Attachments
+                        </li>
+                        <li>
+                          <input type="hidden" name="view_items['Assignments']" value="N">
+                          <input type="checkbox" data-val="lesson_assignments" class='viewDetails' name="view_items['Assignments']" value="Y" checked> Assignments
+                        </li>
+                        <li>
+                          <input type="hidden" name="view_items['Assessments]" value="N">
+                          <input type="checkbox" data-val='lesson_assessments' class='viewDetails' name="view_items['Assessments]" value="Y" checked> Assessments
+                        </li>
+                        <li>
+                          <input type="hidden" name="view_items['templates']" value="N">
+                          <input type="checkbox" data-val='lesson_templates' class='viewDetails' name="view_items['templates']" value="Y" checked> Templates
+                        </li>
+                        <li>
+                          <input type="hidden" name="view_items['times']" value="N">
+                          <input data-val='lesson_times' type="checkbox" class='viewDetails' name="view_items['times']" value="Y" checked> Times
+                        </li>
+                        <li>
+                          <input type="hidden" name="view_items['events']" value="N">
+                          <input data-val='lesson_events' type="checkbox" class='viewDetails' name="view_items['events']" value="Y" checked> Events
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="viewlistleft">
+                    <div class="viewlist-header"> View Classes </div>
+                    <div class="viewlist-body">
+                    @php $user_classes = request()->user()->userClass()->get(); @endphp 
+                      <ul>
+                        <li> All Classes</li>
+                        <li> No Classes</li>
+                        @forelse($user_classes as $classes)
+                          <input type="hidden" name="user_class[{{$classes->id}}]" value="N">
+                          <li><input type="checkbox" name="user_class[{{$classes->id}}]" value="Y" checked>{{$classes->class_name}}</li>
+                        @empty
+
+                        @endforelse
+                     </ul>
+                    </div>
+                  </div>
+                </div>
+                @endif
     						<div class="preferencebutton">
     							<button type="submit" class="btn btn-primary calBtn">Save Preferences</button>
     						</div>

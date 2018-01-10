@@ -2342,17 +2342,26 @@ td.list-tablecoloumn2.list-column2 {
     max-height: 680px;
     overflow: auto;
 }
-.t-heading span {
+.cell-main-data .t-heading span.edit_assessment, .mainClass .t-heading span.edit_assessment  {
     padding: 1px 3px;
     margin: 3px;
     font-size: 15px;
+    width: 100%;
+    display: inline-block;
 }
 .t-heading span:first-child {
     padding: 1px 3px;
     margin: 3px;
     font-size: 15px;
-    color: #fff;
+    /*color: #fff;*/
 }
 .showThis{
     display:none;
 }
+.calendar-view .edit_unit a {
+    color: #fff;
+}
+.mainClass .edit_unit a {
+    color: #fff;
+}
+

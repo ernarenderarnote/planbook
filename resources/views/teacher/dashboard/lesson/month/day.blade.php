@@ -55,6 +55,20 @@
 									$classID = $filters['id'];
 									$sqlDate = date('Y-m-d', strtotime($daysName));
 									$lessonsData = $monthView->getLessons($classID,$sqlDate,Auth::user()->id);
+						$viewList = $monthView->getViewList();
+						$check_data  = array();
+			            $check_class = array();
+			            if($viewList!=''){
+			            	$data   = json_decode($viewList->view_items);
+				            $class  = json_decode($viewList->view_class);
+				            foreach($data as $key=>$value){
+				               $check_data[] =  $value;
+				            }
+				            foreach($class as $class_val){
+				              $check_class[] =  $class_val;
+				            }	
+			            }
+			            		
 					@endphp
 		  
 					@if($hasClass)
@@ -151,6 +165,7 @@
 									</ul>
 								</span> 
 							</div>
+							@if($viewList!='')
 							<div class="appendText">
 								@php
 								$classID = $filters['id'];
@@ -158,6 +173,7 @@
 								$lessonsData = $monthView->getLessons($classID,$sqlDate,Auth::user()->id);
 								$assignmentData = $monthView->getAssignments($classID,$sqlDate,Auth::user()->id);
 								$assessmentData = $monthView->getAssessments($classID,$sqlDate,Auth::user()->id);
+								
 								@endphp
 								
 								@forelse($lessonsData as $lData)
@@ -167,13 +183,20 @@
 										$groups = explode(',',$attach);
 									@endphp
 									@if($lData['lesson_title'])
-										<div class="t-heading" style="border-bottom: 1px solid {{ $filters['class_color'] }}">{{ $lData['lesson_title'] }}</div>
+										<div class="t-heading lesson_title" style="border-bottom: 1px solid {{ $filters['class_color'] }};">
+											@if($lData['unit'])
+												<span class="lesson_main edit_unit unit_id {{ $check_data[0] == 'N' ? 'hide' : '' || $check_data[2] == 'N' ? 'hide' : ''}}" style="background: {{ $filters['class_color'] }};" data-unit-id="{{$lData['unit']}}"> 
+													<a href="javascript:;">
+														{{ $monthView->units($lData['unit'])}}
+													</a>  
+												</span>
+											@endif	
+											<span class="lesson_main lesson_title {{ $check_data[1] == 'N' ? 'hide' : '' || $check_data[2] == 'N' ? 'hide' : '' }}">{{ $lData['lesson_title'] }}</span>
+										</div>
 										@endif
-										@if($lData['unit'])
-										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}">{{ $lData['unit'] }}</div>
-										@endif	
+										
 										@if($lData['lesson_text'])	
-										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}">{!! $lData['lesson_text'] !!}</div>
+										<div class="t-cel lesson_main lesson_text {{ $check_data[2] == 'N' ? 'hide' : ''}}" style="border-bottom: 1px solid {{ $filters['class_color'] }}">{!! $lData['lesson_text'] !!}</div>
 										@endif
 										@if($lData['objective'])
 										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Objective / Essential Question</h5>{!! $lData['objective'] !!}</div>
@@ -193,19 +216,19 @@
 										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Differentiation / Accommodations</h5>{!! $lData['differentation'] !!}</div>
 										@endif
 										@if($lData['homework'])	
-										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}">@if($plan=='detailed')<h5>Homework / Evidence of Learning</h5> @else <h5>Homework</h5> @endif {!! $lData['homework'] !!}</div>
+										<div class="t-cel lesson_main lesson_homework {{ $check_data[3] == 'N' ? 'hide' : '' || $check_data[2] == 'N' ? 'hide' : '' }}" style="border-bottom: 1px solid {{ $filters['class_color'] }}">@if($plan=='detailed')<h5>Homework / Evidence of Learning</h5> @else <h5>Homework</h5> @endif {!! $lData['homework'] !!}</div>
 										@endif
 										@if($lData['instructional'])	
 										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Instructional Strategies</h5>{!! $lData['instructional'] !!}</div>
 										@endif
 										@if($lData['notes'])	
-										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}">@if($plan=='detailed')<h5>Notes / Reflection</h5>@else <h5>Notes</h5> @endif {!! $lData['notes'] !!}</div>
+										<div class="t-cel lesson_main lesson_notes {{ $check_data[4] == 'N' ? 'hide' : '' || $check_data[2] == 'N' ? 'hide' : '' }}" style="border-bottom: 1px solid {{ $filters['class_color'] }}">@if($plan=='detailed')<h5>Notes / Reflection</h5>@else <h5>Notes</h5> @endif {!! $lData['notes'] !!}</div>
 										@endif
 										@if($lData['material'])	
 										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Materials / Resources / Technology</h5>{!! $lData['material'] !!}</div>
 										@endif
 										@if($groups)	
-										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}">
+										<div class="t-cel lesson_main lesson_attachments {{ $check_data[7] == 'N' ? 'hide' : '' || $check_data[2] == 'N' ? 'hide' : ''}}" style="border-bottom: 1px solid {{ $filters['class_color'] }}">
 											@forelse($groups as $group)
 												@if($group)
 													<a target="_blank" href="../../uploads/myfiles/{{ $group }}">{{ $group }}</a><br/>
@@ -220,21 +243,162 @@
 									
 									@endforelse
 									
+									@php $assititle=''; @endphp
 									@forelse($assignmentData as $assignment)
-										@if($assignment['title'])
-										<div class="t-heading" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Assignment</h5>{{ $assignment['title'] }}</div>
-										@endif
+										@php $assititle = $assignment['title'];  @endphp
 									@empty
+									
 									@endforelse
+									<div class="t-heading lesson_assignment {{ $assititle == '' ? 'hide' : '' || $check_data[8] == 'N' ? 'hide' : '' }}" style="border-bottom: 1px solid {{ $filters['class_color'] }}">
+											<h5>Assignment</h5>
+										@forelse($assignmentData as $assignment)
+											@if($assignment['title'])
+											
+												<span class="edit_assignment" data-assignment-id="{{$assignment['id']}}">
+													<a href="javascript:;">{{ $assignment['title'] }}</a>
+												</span>
+											
+											@endif
+										@empty
 
+										@endforelse
+									</div>
+									@php $asstitle=''; @endphp
 									@forelse($assessmentData as $assessment)
-										@if($assessment['title'])
-										<div class="t-heading" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Assessment</h5>{{ $assessment['title'] }}</div>
-										@endif
+										@php $asstitle = $assessment['title'];  @endphp
 									@empty
+									
 									@endforelse
+									<div class="t-heading lesson_assessments {{ $asstitle == '' ? 'hide' : '' || $check_data[9] == 'N' ? 'hide' : '' }}"><h5>Assessment</h5>
+										@forelse($assessmentData as $assessment)
+											@if($assessment['title'])
+											
+												<span class="edit_assessment" data-assessment-id="{{$assessment['id']}}">
+													<a href="javascript:;">{{ $assessment['title'] }}</a>
+												</span>
+											
+											@endif
+										@empty
+										@endforelse
+									</div>
 									
 								</div>
+								@else
+									<div class="appendText">
+									@php
+									$classID = $filters['id'];
+									$sqlDate = date('Y-m-d', strtotime($daysName));
+									$lessonsData = $monthView->getLessons($classID,$sqlDate,Auth::user()->id);
+									$assignmentData = $monthView->getAssignments($classID,$sqlDate,Auth::user()->id);
+									$assessmentData = $monthView->getAssessments($classID,$sqlDate,Auth::user()->id);
+									@endphp
+									
+									@forelse($lessonsData as $lData)
+										@php 
+											$groups = array();
+											$attach = $lData['attachments'];
+											$groups = explode(',',$attach);
+										@endphp
+										@if($lData['lesson_title'])
+										<div class="t-heading lesson_title" style="border-bottom: 1px solid {{ $filters['class_color'] }};">
+											@if($lData['unit'])
+												<span class="lesson_main edit_unit unit_id" style="background: {{ $filters['class_color'] }};" data-unit-id="{{$lData['unit']}}"> 
+													<a href="javascript:;">
+														{{ $monthView->units($lData['unit'])}}
+													</a>  
+												</span>
+											@endif	
+											<span class="lesson_main lesson_title">{{ $lData['lesson_title'] }}</span>
+										</div>
+										@endif
+										
+										@if($lData['lesson_text'])	
+										<div class="t-cel lesson_main lesson_text" style="border-bottom: 1px solid {{ $filters['class_color'] }}">{!! $lData['lesson_text'] !!}</div>
+										@endif
+										@if($lData['objective'])
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Objective / Essential Question</h5>{!! $lData['objective'] !!}</div>
+										@endif
+
+										@if($lData['direct'])
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Direct Instruction</h5>{!! $lData['direct'] !!}</div>
+										@endif
+
+										@if($lData['independent'])
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Independent Practice</h5>{!! $lData['independent'] !!}</div>
+										@endif
+										@if($lData['guided'])
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Guided Practice</h5>{!! $lData['guided'] !!}</div>
+										@endif
+										@if($lData['differentation'])	
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Differentiation / Accommodations</h5>{!! $lData['differentation'] !!}</div>
+										@endif
+										@if($lData['homework'])	
+										<div class="t-cel lesson_main lesson_homework" style="border-bottom: 1px solid {{ $filters['class_color'] }}">@if($plan=='detailed')<h5>Homework / Evidence of Learning</h5> @else <h5>Homework</h5> @endif {!! $lData['homework'] !!}</div>
+										@endif
+										@if($lData['instructional'])	
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Instructional Strategies</h5>{!! $lData['instructional'] !!}</div>
+										@endif
+										@if($lData['notes'])	
+										<div class="t-cel lesson_main lesson_notes" style="border-bottom: 1px solid {{ $filters['class_color'] }}">@if($plan=='detailed')<h5>Notes / Reflection</h5>@else <h5>Notes</h5> @endif {!! $lData['notes'] !!}</div>
+										@endif
+										@if($lData['material'])	
+										<div class="t-cel" style="border-bottom: 1px solid {{ $filters['class_color'] }}"><h5>Materials / Resources / Technology</h5>{!! $lData['material'] !!}</div>
+										@endif
+										@if($groups)	
+										<div class="t-cel lesson_main lesson_attachments" style="border-bottom: 1px solid {{ $filters['class_color'] }}">
+											@forelse($groups as $group)
+												@if($group)
+													<a target="_blank" href="../../uploads/myfiles/{{ $group }}">{{ $group }}</a><br/>
+												@endif
+											@empty
+											
+											@endforelse
+										</div>
+										@endif
+										@empty
+										
+									
+									@endforelse
+									@php $assititle=''; @endphp
+									@forelse($assignmentData as $assignment)
+										@php $assititle = $assignment['title'];  @endphp
+									@empty
+									
+									@endforelse
+									<div class="t-heading lesson_assignment" style="border-bottom: 1px solid {{ $filters['class_color'] }}">
+											<h5>Assignment</h5>
+										@forelse($assignmentData as $assignment)
+											@if($assignment['title'])
+											
+												<span class="edit_assignment" data-assignment-id="{{$assignment['id']}}">
+													<a href="javascript:;">{{ $assignment['title'] }}</a>
+												</span>
+											
+											@endif
+										@empty
+
+										@endforelse
+									</div>
+									@php $asstitle=''; @endphp
+									@forelse($assessmentData as $assessment)
+										@php $asstitle = $assessment['title'];  @endphp
+									@empty
+									
+									@endforelse
+									<div class="t-heading lesson_assessment"><h5>Assessment</h5>
+										@forelse($assessmentData as $assessment)
+											@if($assessment['title'])
+											
+												<span class="edit_assessment" data-assessment-id="{{$assessment['id']}}">
+													<a href="javascript:;">{{ $assessment['title'] }}</a>
+												</span>
+											
+											@endif
+										@empty
+										@endforelse
+									</div>
+								</div>
+								@endif
 							</div>  
 					@endif
 				@endforeach
@@ -243,4 +407,24 @@
 		{!! $monthView->_createDayNavi() !!}
 		<!--End Day View-->
 	</div>	
+	<div class="d-render-popoup t-data-popup" id="dynamicRenderDiv" style="display:none;">
+	</div>
+	<div id="deletemodal" class="modal fade movemodalcontent" role="dialog" style="display: none;">
+		<div class="modal-dialog"> 
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">Delete Lesson</h4>
+				</div>
+				<div class="modal-body">
+					<p>Would you like your lessons shifted back to accommodate for the deleted lesson?</p>
+					<div class="button-group">
+					  <button class="renew-button wshiftLessons" data-dismiss="modal"> Shift Lessons</button>
+					  <button class="renew-button wnshiftLessons" data-dismiss="modal"> Do not Shift Lessons</button>
+					  <button class="close-button" data-dismiss="modal"> Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<script src="{{ asset('/js/common_action.js') }}"></script>

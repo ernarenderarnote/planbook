@@ -2,7 +2,7 @@
 
 @section('content')
 @php $url = request()->view ; @endphp
-<div id="dynamicCalendarContent" >
+<div id="dynamicCalendarContent" class="editmodalcontent" >
 
 </div>
 <div id="main-loader" class="pageLoader" >
@@ -598,9 +598,8 @@
 		if(currentUrl == 'week'){
 		$("#dynamicCalendarContent").load("/teacher/dashboard/weekCalendar");
 			$(".get-calendar").click(function(e){
-
 			$("#dynamicCalendarContent").load("/teacher/dashboard/weekCalendar"+$(this).attr('href') ,function(){
-
+				$('.displayItems')[0].reset();
 			});
 			e.preventDefault();
 		});	
@@ -609,7 +608,7 @@
 			$("#dynamicCalendarContent").load("/teacher/dashboard/dayCalendar");
 			$(".get-calendar").click(function(e){
 			$("#dynamicCalendarContent").load("/teacher/dashboard/dayCalendar"+$(this).attr('href') ,function(){
-				//$('.datepicker').datepicker({format: 'dd/mm/yyyy',});
+				$('.displayItems')[0].reset();
 			});
 
 			e.preventDefault();
@@ -619,7 +618,7 @@
 			$("#dynamicCalendarContent").load("/teacher/dashboard/listCalendar");
 			$(".get-calendar").click(function(e){
 			$("#dynamicCalendarContent").load("/teacher/dashboard/listCalendar"+$(this).attr('href') ,function(){
-				//$('.datepicker').datepicker({format: 'dd/mm/yyyy',});
+				$('.displayItems')[0].reset();
 			});
 
 			e.preventDefault();
@@ -632,7 +631,7 @@
 
 			$("#dynamicCalendarContent").load("/teacher/dashboard/showCalendar"+$(this).attr('href') ,function(){
 
-				//$('.datepicker').datepicker({format: 'dd/mm/yyyy',});
+				$('.displayItems')[0].reset();
 			});
 
 			e.preventDefault();

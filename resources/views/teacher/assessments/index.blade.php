@@ -299,7 +299,7 @@ $(document).ready(function() {
 
 
 
-  /* Save edit classs datra*/
+  /* Save edit assessment data*/
 
   $("body").on('click','#save_edit_assessment_data_button',function(e){
 	tinyMCE.triggerSave();
