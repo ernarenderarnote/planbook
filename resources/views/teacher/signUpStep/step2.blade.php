@@ -26,13 +26,13 @@
               <div class="form-group">
                 <label class="control-label col-sm-2" for="">First Day</label>
                 <div class="col-sm-5">
-                  <input type="text" class="form-control datepicker" name="first_day" value="{{old('first_day',$userSchoolYear->first_day)}}" id="">
+                  <input type="text" class="form-control datepicker" name="first_day" value="{{old('first_day',$userSchoolYear->first_day)}}" id="" required>
                 </div>
               </div>
               <div class="form-group">
                 <label class="control-label col-sm-2" for="">Last Day</label>
                 <div class="col-sm-5">
-                  <input type="text" class="form-control datepicker"  name="last_day" value="{{old('first_day',$userSchoolYear->first_day)}}" id="">
+                  <input type="text" class="form-control datepicker"  name="last_day" value="{{old('first_day',$userSchoolYear->first_day)}}" id="" required>
                 </div>
               </div>
               <div class="form-group class-schedule">

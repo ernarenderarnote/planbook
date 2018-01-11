@@ -26,8 +26,8 @@
                   </thead>
                </table>
                <ul class="sortlistlessonsetting">
-                  <li>
-                     <table>
+                  <li class="drophere">
+                     <table class="draghere"s>
                         <tbody>
                            <tr>
                               <td><i class="fa fa-arrows-v" aria-hidden="true"></i></td>
@@ -165,8 +165,8 @@
                         </tbody>
                      </table>
                   </li>
-                  <li>
-                     <table>
+                  <li class="drophere">
+                     <table class="draghere">
                         <tbody>
                            <tr>
                               <td><i class="fa fa-arrows-v" aria-hidden="true"></i></td>
@@ -193,8 +193,8 @@
                         </tbody>
                      </table>
                   </li>
-                  <li>
-                     <table>
+                  <li class="drophere">
+                     <table class="draghere">
                         <tbody>
                            <tr>
                               <td><i class="fa fa-arrows-v" aria-hidden="true"></i></td>
@@ -217,8 +217,8 @@
                         </tbody>
                      </table>
                   </li>
-                  <li>
-                     <table>
+                  <li class="drophere">
+                     <table class="draghere">
                         <tbody>
                            <tr>
                               <td><i class="fa fa-arrows-v" aria-hidden="true"></i></td>
@@ -241,8 +241,8 @@
                         </tbody>
                      </table>
                   </li>
-                  <li>
-                     <table>
+                  <li class="drophere">
+                     <table class="draghere">
                         <tbody>
                            <tr>
                               <td><i class="fa fa-arrows-v" aria-hidden="true"></i></td>
@@ -265,8 +265,8 @@
                         </tbody>
                      </table>
                   </li>
-                  <li>
-                     <table>
+                  <li class="drophere">
+                     <table class="draghere">
                         <tbody>
                            <tr>
                               <td><i class="fa fa-arrows-v" aria-hidden="true"></i></td>
@@ -289,8 +289,8 @@
                         </tbody>
                      </table>
                   </li>
-                  <li>
-                     <table>
+                  <li class="drophere">
+                     <table class="draghere">
                         <tbody>
                            <tr>
                               <td><i class="fa fa-arrows-v" aria-hidden="true"></i></td>
@@ -313,8 +313,8 @@
                         </tbody>
                      </table>
                   </li>
-                  <li>
-                     <table>
+                  <li class="drophere">
+                     <table class="draghere">
                         <tbody>
                            <tr>
                               <td><i class="fa fa-arrows-v" aria-hidden="true"></i></td>
@@ -337,8 +337,8 @@
                         </tbody>
                      </table>
                   </li>
-                  <li>
-                     <table>
+                  <li class="drophere">
+                     <table class="draghere">
                         <tbody>
                            <tr>
                               <td><i class="fa fa-arrows-v" aria-hidden="true"></i></td>
@@ -361,8 +361,8 @@
                         </tbody>
                      </table>
                   </li>
-                  <li>
-                     <table>
+                  <li class="drophere">
+                     <table class="draghere">
                         <tbody>
                            <tr>
                               <td><i class="fa fa-arrows-v" aria-hidden="true"></i></td>
@@ -756,5 +756,49 @@
    $(".lessonformat-buttonbottom").click(function(){
        $("#formateventmain-dropdownsetting").toggle();
    });
+
+   /*drag drop*/
+   $(document).ready(function () {
+      window.startPos = window.endPos = {};
+
+      makeDraggable(); 
+
+      $('.drophere').droppable({
+        hoverClass: 'hoverClass',
+        drop: function(event, ui) {
+          var $from = $(ui.draggable),
+              $fromParent = $from.parent(),
+              $to = $(this).children(),
+              $toParent = $(this);
+
+          window.endPos = $to.offset();
+
+          swap($from, $from.offset(), window.endPos, 0);
+          swap($to, window.endPos, window.startPos, 100, function() {
+            $toParent.html($from.css({position: 'relative', left: '', top: '', 'z-index': ''}));
+            $fromParent.html($to.css({position: 'relative', left: '', top: '', 'z-index': ''}));
+            makeDraggable();
+          });
+        }
+      });
+
+      function makeDraggable() {
+        $('.draghere').draggable({
+          zIndex: 99999,
+          revert: 'invalid',
+          start: function(event, ui) {
+            window.startPos = $(this).offset();
+          }
+        });
+      }
+
+      function swap($el, fromPos, toPos, duration, callback) {
+        $el.css('position', 'absolute')
+          .css(fromPos)
+          .animate(toPos, duration, function() {
+            if (callback) callback();
+          });
+      }
+    });
 </script>
 @endpush

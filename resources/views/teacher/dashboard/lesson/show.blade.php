@@ -328,7 +328,7 @@
 					@empty
 					
 					@endforelse
-					<div class="t-heading lesson_assignment" style="border-bottom: 1px solid {{ $filters['class_color'] }}">
+					<div class="t-heading lesson_assignment {{ $assititle == '' ? 'hide' : '' }}" style="border-bottom: 1px solid {{ $filters['class_color'] }}">
 							<h5>Assignment</h5>
 						@forelse($assignmentData as $assignment)
 							@if($assignment['title'])
@@ -348,7 +348,7 @@
 					@empty
 					
 					@endforelse
-					<div class="t-heading lesson_assessment"><h5>Assessment</h5>
+					<div class="t-heading lesson_assessment {{ $asstitle == '' ? 'hide' : '' }}"><h5>Assessment</h5>
 						@forelse($assessmentData as $assessment)
 							@if($assessment['title'])
 							
