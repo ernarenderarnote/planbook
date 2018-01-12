@@ -22,7 +22,7 @@
 			          <span class="caret"></span></button>
 			          <ul class="dropdown-menu pull-right">
 			            <li><a href="#"><span class="add-ico"><img src="/images/icon-account.png" width="36" height="35" alt="account"></span> <span class="add-text">Account</span></a></li>
-			            <li><a href="#"><span class="add-ico"><img src="/images/icon-overview.png" alt="overview"></span> <span class="add-text">Overview</span></a></li>
+			            <li><a href="#"><span class="add-ico overview-open"><img src="/images/icon-overview.png" alt="overview"></span> <span class="add-text">Overview</span></a></li>
 			            <li><a href="#"><span class="add-ico"><img src="/images/icon-tutorials.png" alt="tutorial"></span> <span class="add-text">Tutorials</span></a></li>
 			            <li><a href="#"><span class="add-ico"><img src="/images/icon-knowledge.png" alt="knowledge"></span> <span class="add-text">Knowledge Base</span></a></li>
 			            <li><a href="#"><span class="add-ico"><img src="/images/icon-mail.png" alt="contact"></span> <span class="add-text">Contact Us</span></a></li>

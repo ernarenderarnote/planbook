@@ -599,9 +599,60 @@ $(document).ready(function(){
     });
       
   }); 
-	  /*Close a modal box*/
-	  $(document).on('click','.d-popoup-close',function(){
-	  	$('.d-render-popoup').fadeOut();
-	  });
+  /*Close a modal box*/
+  $(document).on('click','.d-popoup-close',function(){
+  	$('.d-render-popoup').fadeOut();
+  });
+
+  /*Show over-view*/
+  $(".overview-open").on('click',function(){
+	    
+	    $("#overviewwelcome-modal").show().load("/teacher/overview/index/",function(){
+
+	    });
 
 	});
+  $(document).on('click','.overview-next',function(){
+  	var href 		= $(this).attr('data-value');
+  	var nxtclass    = $(this).attr('next-class');
+  	var preclass    = $(this).attr('pre-class');
+  	var showcheck   = $(this).attr('data-show'); 
+  	$("#overviewwelcome-modal").show().load("/teacher/overview/overviewnext/"+href,function(){
+  		$(this).removeClass(preclass).addClass(nxtclass);
+  		if(showcheck=='add-menu'){
+  			$('.add-menus').trigger('click');
+  		}
+  		if(showcheck=='goto-menu'){
+  			$('.goto-menus').trigger('click');
+  		}
+	});
+  });
+
+  $(document).on('click','.overview-prev',function(){
+  	var href 		= $(this).attr('data-value');
+  	var nxtclass    = $(this).attr('next-class');
+  	var preclass    = $(this).attr('pre-class');
+  	var showcheck   = $(this).attr('data-show');
+  	$("#overviewwelcome-modal").show().load("/teacher/overview/overviewnext/"+href,function(){
+  		$(this).removeClass(nxtclass).addClass(preclass);
+  		if(showcheck=='add-menu'){
+  			$('.add-menus').trigger('click');
+  		}
+  		if(showcheck=='goto-menu'){
+  			$('.goto-menus').trigger('click');
+  		}
+	});
+  });
+
+ /*overview close button*/
+ $(document).on('click','.overview-modalcontent button.btn-default',function(){
+ 	$('.overview-modalcontent').hide();
+ });
+  
+ /*Today button*/
+ $('.todayBtn').on('click',function(){
+ 	window.location.reload();
+ }) 
+  //https://codepen.io/b0y/pen/qNazQV
+//$(this).removeClass('.redBG').addClass('.black');
+});

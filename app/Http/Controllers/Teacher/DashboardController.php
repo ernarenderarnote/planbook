@@ -402,4 +402,12 @@ class DashboardController extends Controller
         return response()->json($response);
     }
 
+    public function overview(Request $request){
+        return view('teacher.overview.index');
+    }
+
+    public function overviewnext(Request $request,$url){
+        return view('teacher.overview.'.$url);
+    }
+
 }

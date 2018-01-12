@@ -10,7 +10,7 @@
             <div class="sharingoptions-left pull-left"> Display Settings </div>
             <div class="sharingoptions-right pull-right">
                <button class="renew-button save-button">Save</button>
-               <a href="classes.html" class="closebutton"><i class="fa fa-close" aria-hidden="true"></i></a>
+               <a href="javascript:;" class="closebutton"><i class="fa fa-close" aria-hidden="true"></i></a>
             </div>
          </div>
          <div class="sharingoptions-body displaysetting-section">

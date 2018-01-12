@@ -48,7 +48,7 @@
           <span class="caret"></span></button>
           <ul class="dropdown-menu pull-right">
             <li><a data-toggle="modal" data-target="#add-accountinfo"><span class="add-ico"><img src="/images/icon-account.png" width="36" height="35" alt="account"></span> <span class="add-text">Account</span></a></li>
-            <li><a href="#"><span class="add-ico"><img src="/images/icon-overview.png" alt="overview"></span> <span class="add-text">Overview</span></a></li>
+            <li><a href="#"><span class="add-ico overview-open"><img src="/images/icon-overview.png" alt="overview"></span> <span class="add-text">Overview</span></a></li>
             <li><a href="#"><span class="add-ico"><img src="/images/icon-tutorials.png" alt="tutorial"></span> <span class="add-text">Tutorials</span></a></li>
             <li><a href="#"><span class="add-ico"><img src="/images/icon-knowledge.png" alt="knowledge"></span> <span class="add-text">Knowledge Base</span></a></li>
             <li><a data-toggle="modal" data-target="#Contact-usmodal" id="contact_us_icon"><span class="add-ico"><img src="/images/icon-mail.png" alt="contact"></span> <span class="add-text">Contact Us</span></a></li>
@@ -63,7 +63,8 @@
       <div class="col-sm-6">
         <div class="h-l-menu header-t-menu text-left li-inline">
           <ul class="p-0 m-0">
-            <li><a href="#" class="btn btn-primary px-3 py-2">Today</a></li>
+            <li><a href="#" class="color-theme notesdropdownmain-relative"><img src="/images/icon-notes.png" alt="notes"></a></li>
+            <li><a href="#" class="btn btn-primary px-3 py-2 todayBtn">Today</a></li>
             <li><a href="#" class="color-theme"><i class="fa fa-2x fa-calendar" aria-hidden="true"></i><span class="sr-only">calendar</span></a></li>
             <li>
               <a href="#" class="btn btn-primary px-3 py-2 get-calendar" id="pPrev"><i class="fa fa-chevron-left" aria-hidden="true"></i><span class="sr-only"></span></a>
@@ -72,7 +73,7 @@
             <li><a href="#" class="color-theme "><i class="fa fa-2x fa-file-text-o" aria-hidden="true"></i><span class="sr-only">calendar</span></a></li>
             <li><a href="#" class="btn btn-primary px-3 py-2">Copy</a></li>
             <li class="dropdown">
-              <button class="btn btn-primary px-3 py-2 dropdown-toggle" type="button" data-toggle="dropdown">Add <span class="caret"></span></button>
+              <button class="btn btn-primary px-3 py-2 dropdown-toggle add-menus" type="button" data-toggle="dropdown">Add <span class="caret"></span></button>
               <ul class="dropdown-menu">
                 <li><a href="{{route('teacher.assessments.index')}}"><span class="add-ico"><img src="/images/assessment-add.png" alt="add-assessment"></span> <span class="add-text">Add<br>
                   Assessment</span></a></li>
@@ -92,6 +93,8 @@
                   Template</span></a></li>
                 <li><a href="{{route('teacher.units.index')}}"><span class="add-ico"><img src="/images/unit-add.png" alt="add unit"></span> <span class="add-text">Add<br>
                   Unit</span></a></li>
+                <li><a href="#" data-toggle="modal" data-target="#studentannouncementsmodal"><span class="add-ico"><i class="fa fa-bullhorn fa-3x" aria-hidden="true" style="color: #5DA500;"></i></span> <span class="add-text">Student <br> Announcements</span></a> </li>  
+                <li><a href="#" data-toggle="modal" data-target="#substitutenotesmodal "><span class="add-ico"><i class="fa fa-sticky-note fa-3x" aria-hidden="true" style="color: #FF7900;"></i></span> <span class="add-text">Substitute<br>Notes</span></a> </li>
               </ul>
             </li>
           </ul>
@@ -290,7 +293,7 @@
   				</ul>
             </li>
             <li class="goto-drop dropdown">
-              <button class="btn btn-primary px-3 py-2 dropdown-toggle" type="button" data-toggle="dropdown">Go to <span class="caret"></span></button>
+              <button class="btn btn-primary px-3 py-2 dropdown-toggle goto-menus" type="button" data-toggle="dropdown">Go to <span class="caret"></span></button>
               <ul class="dropdown-menu">
                 <li><a href="{{route('teacher.dashboard.index')}}"><span class="add-ico"><img src="/images/plans.png" alt="plan"></span> <span class="add-text">Plan</span></a></li>
                 <li><a href="{{route('teacher.assessments.index')}}"><span class="add-ico"><img src="/images/assessments.png" alt="assessment"></span> <span class="add-text">Assessments</span></a></li>

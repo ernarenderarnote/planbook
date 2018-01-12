@@ -278,6 +278,13 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::match(['post'], '/edit/{id}', [ 'as' => 'postEditMystrategies', "uses" => "MystrategiesController@postEditstrategies"]);
         });
 
+        Route::group([ 'prefix' => "overview", 'as' => 'overview.' ], function()
+        {
+
+            Route::match(['get'], '/index', [ 'as' => 'index', 'uses' => "DashboardController@overview"]);
+            Route::match(['get'], '/overviewnext/{url}', [ 'as' => 'overviewnext', 'uses' => "DashboardController@overviewnext"]);
+        });
+
         /* Teacher's Add Student Routes*/
 
         Route::group([ 'prefix' => "addstudents", 'as' => 'addstudents.' ], function()

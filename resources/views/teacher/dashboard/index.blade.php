@@ -5,6 +5,9 @@
 <div id="dynamicCalendarContent" class="editmodalcontent" >
 
 </div>
+<div id="overviewwelcome-modal" class="modal fade in overview-modalcontent">
+
+</div>
 <div id="main-loader" class="pageLoader" >
   <div class="loader-content"> <span class="loading-text">Loading</span> <img src="../../images/loading.gif"> </div>
 </div>

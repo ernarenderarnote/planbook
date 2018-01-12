@@ -2268,12 +2268,12 @@ input#update_email {
 .attach-filemodal .modal-header {        border-bottom: none; }
 .attach-filemodal .alert-title {     color: #fff;     font-size: 28px;     text-align: center;     margin-top: 0px;     margin-bottom: 28px; }
 .attach-filemodal .modal-body {     text-align: center;     padding: 0px; }
- .attach-filemodal .primary {     background: #21272c;     border-color: #b5b9bd;     border-radius: 15px;     border: 1px solid #838c94;     color: #fff;     padding: 0.3em 1em;     width: 80%;        font-size: 16px; margin-bottom: 11px;  }
-  .attach-filemodal .attach-filebutton input[type=file] {     display: block;     opacity: 0;     position: absolute;     width: 100%;     height: 100%;     left: 0;   top: 0; }
- .attach-filemodal .attach-filebutton{  position:relative;  }
+.attach-filemodal .primary {     background: #21272c;     border-color: #b5b9bd;     border-radius: 15px;     border: 1px solid #838c94;     color: #fff;     padding: 0.3em 1em;     width: 80%;        font-size: 16px; margin-bottom: 11px;  }
+.attach-filemodal .attach-filebutton input[type=file] {     display: block;     opacity: 0;     position: absolute;     width: 100%;     height: 100%;     left: 0;   top: 0; }
+.attach-filemodal .attach-filebutton{  position:relative;  }
 .attach-filemodal .cancel-button{border: 1px solid #838c94;     background: transparent;     font-weight: 600;     -moz-box-shadow: none;     -webkit-box-shadow: none;     box-shadow: none;   margin-top:28px;     border-radius: 15px;    color: #fff;        padding: 0.3em 1em;         width: 80%;             font-size: 16px;    margin-bottom:60px; }
- .contact-formbutton button:focus{ outline:0;}
- .chatoptions-content {     position: fixed;     width: 350px;     height: auto;     margin: 0.75em;     box-shadow: 0 0 0.688em 0 rgba(0,0,0,0.5);     bottom: 0;     background-color: #e6ecf2;     right: 11px;     left: auto;  border-radius: 8px; display:none; }
+.contact-formbutton button:focus{ outline:0;}
+.chatoptions-content {     position: fixed;     width: 350px;     height: auto;     margin: 0.75em;     box-shadow: 0 0 0.688em 0 rgba(0,0,0,0.5);     bottom: 0;     background-color: #e6ecf2;     right: 11px;     left: auto;  border-radius: 8px; display:none; }
 .chatoptions-header {     background-color: #0055aa;     color: #ffffff;     font-weight: normal;     text-align: center;     position: relative;     height: auto;     border-radius: 8px 8px 0px 0px; }
 .chatoptions-header  .icon-chat {     position: absolute;     left: 11px;     top: 6px;  cursor: move;}
 .chatoptions-header  .icon-chat i {     color: #fff;     font-size: 28px; }
@@ -2297,22 +2297,9 @@ input#update_email {
 .overview-modalcontent p {     font-size: 14px;     color: #000;     text-align: justify; }
 .overview-modalcontent .modal-body {     margin-bottom: 40px; }
 .overview-modalcontent .modal-footer {     text-align: left;     border-top: 0px; }
-.overview-modalcontent .modal-footer button.btn {     padding: 1px 6px;     margin-right: 0px;     border-radius: 0px;     background-color: buttonface;     color: #000;     border-color: buttonface;     border-width: 2px;     border-style: outset; }
-.overviewschool-year .modal-dialog {     margin-top: 5px;     margin-left: 110px; }
-.overviewschool-year .modal-content:before{width: 0;
-    height: 0;
-    border-left: 11px solid transparent;
-    border-right: 11px solid transparent;
-    border-bottom: 15px solid rgb(249, 237, 190);
-    position: absolute;
-    top: 80px;
-    content: "";
-    left: 0;
- }   
-.unitSelected{
-background-color:#fcb71e;
-}
-td.details-lessons {
+
+.overview-modalcontent .modal-footer a.btn, .overview-modalcontent .modal-footer button.btn {padding: 1px 6px; margin-right: 0px; border-radius: 0px; background-color: #ffc92b; background-image: -webkit-gradient(linear, left top, left bottom, from(#ffc92b), to(#ce9a01)); background-image: -webkit-linear-gradient(top, #ffc92b, #ce9a01); background-image: -moz-linear-gradient(top, #ffc92b, #ce9a01); background-image: -ms-linear-gradient(top, #ffc92b, #ce9a01); background-image: -o-linear-gradient(top, #ffc92b, #ce9a01); background-image: linear-gradient(to bottom, #ffc92b, #ce9a01);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#ffc92b, endColorstr=#ce9a01); color: #000; border: 1px solid #000; font-size: 14px; } .overviewschool-year .modal-dialog {     margin-top: 5px;     margin-left: 130px; }
+ .overviewschool-year .modal-content:before {width: 10px; height: 17px; background-image: url(../images/tutorleft.png); position: absolute; top: 13px; content: ""; left: -13px; } .unitSelected{background-color:#fcb71e; } td.details-lessons {
     text-align: left;
 }
 
@@ -2364,4 +2351,122 @@ td.list-tablecoloumn2.list-column2 {
 .mainClass .edit_unit a {
     color: #fff;
 }
-
+.overview-modalcontent  .tutorList li {     font-size: 14px;     color: #444;     margin-bottom: 8px; }
+.overview-modalcontent  ul.tutorList {     margin-top: 11px;     margin-bottom: 0px; }
+.overview-modalcontent  .tutorList li:last-child {     margin-bottom: 0px; }
+.overviewdisplay-content .modal-body {     margin-bottom: 0px; }
+.overviewdisplay-content .modal-dialog {
+    margin-top: 8px;
+    margin-right: -8px;
+}
+.overviewdisplay-content  .modal-content:before {     width: 10px;     height: 17px;     background-image: url(../images/tutorright.png);     position: absolute;     top: 8px;     content: "";     right: -13px; }
+.overviewddate-content .modal-content:before{ width: 17px;     height: 10px;     background-image: url(../images/tutortop.png);     position: absolute;     top: -13px;     content: "";     left:8px;}
+.overviewddate-content .modal-dialog {     margin-top: 155px;     margin-left: 64px; }
+.overviewteachernotes-content .modal-dialog {     margin-top: 155px;     margin-left: 29px; }
+.overviewteachernotes-content .modal-content:before{ width: 17px;     height: 10px;     background-image: url(../images/tutortop.png);     position: absolute;     top: -13px;     content: "";     left:-3px;}
+.overviewstudent-content .modal-content:before {     width: 10px;     height: 17px;     background-image: url(../images/tutorleft.png);     position: absolute;     top: 13px;     content: "";     left: -13px; }
+.overviewadditem-content .modal-dialog {
+    margin-top: 155px;
+    margin-left: 371px;
+}
+.overviewstudent-content .modal-dialog {
+    margin-top: 450px;
+    margin-left: 495px;
+}
+.overviewsubstitutenotes .modal-content:before {     width: 10px;     height: 17px;     background-image: url(../images/tutorleft.png);     position: absolute;     top: 13px;     content: "";     left: -13px; }
+.overviewsubstitutenotes .modal-dialog {
+    margin-top: 450px;
+    margin-left: 581px;
+}
+.overviewadditem-content .modal-content:before{ width: 17px;     height: 10px;     background-image: url(../images/tutortop.png);     position: absolute;     top: -13px;     content: "";     left:8px;}
+.overviewprint-content .modal-dialog {     margin-top: 155px;     margin-right: 48px; }
+.overviewprint-content .modal-content:before{ width: 17px;     height: 10px;     background-image: url(../images/tutortop.png);     position: absolute;     top: -13px;     content: "";     right:53px;}
+.overviewhide-content .modal-dialog {     margin-top: 155px;     margin-right: 34px; }
+.overviewhide-content .modal-content:before{ width: 17px;     height: 10px;     background-image: url(../images/tutortop.png);     position: absolute;     top: -13px;     content: "";     right:28px;}
+/*4-1-2018*/
+.overviewlist-modalcontent .modal-dialog {     margin-top: 155px;     margin-right: -46px; }
+.overviewlist-modalcontent .modal-content:before{ width: 17px;     height: 10px;     background-image: url(../images/tutortop.png);     position: absolute;     top: -13px;  content: "";     right:8px;}
+.list-contenttable td {     position: relative; }.lesondropdown.leson-tablelist {     left: 34px; }
+.lesondropdown-body.lessondrop-bodymain li {     text-align: left; }
+.overviewplan-modalcontent  .modal-content:before {     width: 10px;     height: 17px;     background-image: url(../images/tutorright.png);     position: absolute;     top: 8px;     content: "";     right: -13px; }
+.overviewsearch-modalcontent .modal-dialog {     margin-top: 155px;     margin-right: 121px; }
+.overviewsearch-modalcontent .modal-content:before{ width: 17px;     height: 10px;     background-image: url(../images/tutortop.png);     position: absolute;     top: -13px;  content: "";     right:13px;}
+.overviewplan-modalcontent .modal-dialog {
+    margin-top: 155px;
+    margin-right: 299px;
+}
+.overviewassessment .modal-dialog{
+    margin-top: 155px;
+    margin-right: 191px;
+}
+.overviewassessment .modal-content:before, .overviewassignment .modal-content:before, .overviewclasses .modal-content:before  {
+    width: 10px;
+    height: 17px;
+    background-image: url(../images/tutorright.png);
+    position: absolute;
+    top: 8px;
+    content: "";
+    right: -13px;
+}
+.overviewassignment .modal-dialog{
+    margin-top: 155px;
+    margin-right: 90px;
+}
+.overviewclasses .modal-dialog{
+    margin-top: 155px;
+    margin-right: -20px;
+}
+.overviewdisplay .modal-content:before, .overviewevents .modal-content:before, .overviewgrades  .modal-content:before, .overviewmyfiles .modal-content:before, .overviewmylist .modal-content:before, .overviewschoolyear  .modal-content:before, .overviewsharingoption .modal-content:before, .overviewstandard .modal-content:before, .overviewstudents .modal-content:before, .overviewtemplate  .modal-content:before,  .overviewunits .modal-content:before  {
+    width: 10px;
+    height: 17px;
+    background-image: url(../images/tutorright.png);
+    position: absolute;
+    top: 8px;
+    content: "";
+    right: -13px;
+}
+.overviewdisplay .modal-dialog {
+    margin-right: 307px;
+    margin-top: 231px;
+}
+.overviewevents .modal-dialog {
+    margin-right:179px;
+    margin-top: 231px;
+}
+.overviewgrades .modal-dialog {
+    margin-right:82px;
+    margin-top: 231px;
+}
+.overviewmyfiles .modal-dialog
+{
+  margin-right: -25px;
+    margin-top: 231px;
+}
+.overviewmylist .modal-dialog {
+    margin-top: 313px;
+    margin-right: 289px;
+}
+.overviewschoolyear .modal-dialog {
+    margin-top: 313px;
+    margin-right: 90px;
+}
+.overviewsharingoption .modal-dialog {
+    margin-top: 313px;
+    margin-right:  -8px;;
+}
+.overviewstandard .modal-dialog {
+   margin-top: 389px;
+    margin-right: 298px;
+}
+.overviewstudents .modal-dialog {
+   margin-top: 389px;
+    margin-right: 189px;
+}
+.overviewtemplate .modal-dialog {
+   margin-top: 389px;
+    margin-right: 80px;
+}
+.overviewunits  .modal-dialog {
+   margin-top: 389px;
+    margin-right: -28px;
+}
