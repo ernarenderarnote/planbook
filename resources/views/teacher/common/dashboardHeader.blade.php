@@ -93,8 +93,8 @@
                   Template</span></a></li>
                 <li><a href="{{route('teacher.units.index')}}"><span class="add-ico"><img src="/images/unit-add.png" alt="add unit"></span> <span class="add-text">Add<br>
                   Unit</span></a></li>
-                <li><a href="#" data-toggle="modal" data-target="#studentannouncementsmodal"><span class="add-ico"><i class="fa fa-bullhorn fa-3x" aria-hidden="true" style="color: #5DA500;"></i></span> <span class="add-text">Student <br> Announcements</span></a> </li>  
-                <li><a href="#" data-toggle="modal" data-target="#substitutenotesmodal "><span class="add-ico"><i class="fa fa-sticky-note fa-3x" aria-hidden="true" style="color: #FF7900;"></i></span> <span class="add-text">Substitute<br>Notes</span></a> </li>
+                <li><a href="#" data-toggle="modal" class="studentannouncementsmodal"><span class="add-ico"><i class="fa fa-bullhorn fa-3x" aria-hidden="true" style="color: #5DA500;"></i></span> <span class="add-text">Student <br> Announcements</span></a> </li>  
+                <li><a href="#" data-toggle="modal" class="substitutenotesmodal "><span class="add-ico"><i class="fa fa-sticky-note fa-3x" aria-hidden="true" style="color: #FF7900;"></i></span> <span class="add-text">Substitute<br>Notes</span></a> </li>
               </ul>
             </li>
           </ul>

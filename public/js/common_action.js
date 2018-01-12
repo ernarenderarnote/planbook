@@ -648,11 +648,413 @@ $(document).ready(function(){
  $(document).on('click','.overview-modalcontent button.btn-default',function(){
  	$('.overview-modalcontent').hide();
  });
-  
+ $(document).on('click','.close-button',function(){
+ 	$('#dynamicRenderDiv').hide();
+ });
  /*Today button*/
  $('.todayBtn').on('click',function(){
  	window.location.reload();
- }) 
+ });
+
+ /*Show announcement popup*/
+ $('.studentannouncementsmodal').on('click',function(){
+ 	$("#dynamicRenderDiv").show().load("/teacher/partials/announcement/",function(){
+ 		$(this).addClass('samoplelayout-content movemodalcontent');
+	});
+ })
+
+/*Save announcement*/
+ $(document).on('click','.announcement-save',function(e){
+	tinyMCE.triggerSave();
+	e.preventDefault();
+    var formData = $(this).closest('form').serialize();
+    $.ajax({
+      type:'POST',
+      url: BASE_URL +'/teacher/partials/announcement_save',
+      data: formData,
+      dataType: 'json',
+
+      beforeSend: function () {
+        //obj.html('Sending... <i class="fa fa-send"></i>');
+      },
+      complete: function () {
+        //obj.html('Sent <i class="fa fa-send"></i>');
+      },
+
+      success: function (response) {
+        var html = '';
+
+        $('#warning-box').remove();
+        $('#success-box').remove();
+
+        if(response['error']){
+            html += '<div id="warning-box" class="alert alert-danger fade in">';
+            html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+            html += '<strong>Error!</strong>';
+
+            for (var i = 0; i < response['error'].length; i++) {
+                html += '<p>' + response['error'][i] + '</p>';
+            }
+
+            html += '</div>';
+            $('.errorMessage').before(html);
+            
+        }
+
+       	if(response['success']){
+               
+          console.log(response['success']);
+
+          html += '<div id="success-box" class="alert alert-success fade in">';
+          html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+          html += '<strong>Student Announcement added successfully !</strong>';
+          html += '</div>';
+
+          $('.errorMessage').before(html);
+          //$('#class_add_form')[0].reset();
+          $(".d-render-popoup").fadeOut();
+          window.location.reload();
+        }
+
+
+        },
+
+
+      error: function(data){
+        console.log("error");
+        console.log(data);
+      }
+
+    });
+      
+  });
+
+ /*Edit Announcement*/
+ $(document).on('click','.announcement-edit',function(e){
+	tinyMCE.triggerSave();
+	e.preventDefault();
+    var formData = $(this).closest('form').serialize();
+    $.ajax({
+      type:'POST',
+      url: BASE_URL +'/teacher/partials/announcement_edit',
+      data: formData,
+      dataType: 'json',
+
+      beforeSend: function () {
+        //obj.html('Sending... <i class="fa fa-send"></i>');
+      },
+      complete: function () {
+        //obj.html('Sent <i class="fa fa-send"></i>');
+      },
+
+      success: function (response) {
+        var html = '';
+
+        $('#warning-box').remove();
+        $('#success-box').remove();
+
+        if(response['error']){
+            html += '<div id="warning-box" class="alert alert-danger fade in">';
+            html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+            html += '<strong>Error!</strong>';
+
+            for (var i = 0; i < response['error'].length; i++) {
+                html += '<p>' + response['error'][i] + '</p>';
+            }
+
+            html += '</div>';
+            $('.errorMessage').before(html);
+            
+        }
+
+       	if(response['success']){
+               
+          console.log(response['success']);
+
+          html += '<div id="success-box" class="alert alert-success fade in">';
+          html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+          html += '<strong>Student Announcement updated!</strong>';
+          html += '</div>';
+
+          $('.errorMessage').before(html);
+          //$('#class_add_form')[0].reset();
+          $(".d-render-popoup").fadeOut();
+          window.location.reload();
+        }
+
+
+        },
+
+
+      error: function(data){
+        console.log("error");
+        console.log(data);
+      }
+
+    });
+      
+  });
+
+  /*Delete Function*/
+  $(document).on('click','.announcement-delete',function(e){
+  	var id = $(this).attr('delete_id')
+    $.ajax({
+      type:'GET',
+      url: BASE_URL +'/teacher/partials/announcement_delete/'+id,
+      beforeSend: function () {
+        //obj.html('Sending... <i class="fa fa-send"></i>');
+      },
+      complete: function () {
+        //obj.html('Sent <i class="fa fa-send"></i>');
+      },
+
+      success: function (response) {
+        var html = '';
+
+        $('#warning-box').remove();
+        $('#success-box').remove();
+
+        if(response['error']){
+            html += '<div id="warning-box" class="alert alert-danger fade in">';
+            html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+            html += '<strong>Error!</strong>';
+
+            for (var i = 0; i < response['error'].length; i++) {
+                html += '<p>' + response['error'][i] + '</p>';
+            }
+
+            html += '</div>';
+            $('.errorMessage').before(html);
+            
+        }
+
+       	if(response['success']){
+               
+          console.log(response['success']);
+
+          html += '<div id="success-box" class="alert alert-success fade in">';
+          html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+          html += '<strong>Student Announcement Deleted!</strong>';
+          html += '</div>';
+
+          $('.errorMessage').before(html);
+          //$('#class_add_form')[0].reset();
+          $(".d-render-popoup").fadeOut();
+          window.location.reload();
+        }
+
+
+        },
+
+
+      error: function(data){
+        console.log("error");
+        console.log(data);
+      }
+
+    });
+      
+  });	
+
+  /*Show substitute popup*/
+ $('.substitutenotesmodal').on('click',function(){
+ 	$("#dynamicRenderDiv").show().load("/teacher/partials/substitute/",function(){
+ 		$(this).addClass('samoplelayout-content movemodalcontent');
+	});
+ })
+
+/*Save substitute*/
+ $(document).on('click','.substitute-save',function(e){
+	tinyMCE.triggerSave();
+	e.preventDefault();
+    var formData = $(this).closest('form').serialize();
+    $.ajax({
+      type:'POST',
+      url: BASE_URL +'/teacher/partials/substitute_save',
+      data: formData,
+      dataType: 'json',
+
+      beforeSend: function () {
+        //obj.html('Sending... <i class="fa fa-send"></i>');
+      },
+      complete: function () {
+        //obj.html('Sent <i class="fa fa-send"></i>');
+      },
+
+      success: function (response) {
+        var html = '';
+
+        $('#warning-box').remove();
+        $('#success-box').remove();
+
+        if(response['error']){
+            html += '<div id="warning-box" class="alert alert-danger fade in">';
+            html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+            html += '<strong>Error!</strong>';
+
+            for (var i = 0; i < response['error'].length; i++) {
+                html += '<p>' + response['error'][i] + '</p>';
+            }
+
+            html += '</div>';
+            $('.errorMessage').before(html);
+            
+        }
+
+       	if(response['success']){
+               
+          console.log(response['success']);
+
+          html += '<div id="success-box" class="alert alert-success fade in">';
+          html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+          html += '<strong>Substitute Notes added successfully !</strong>';
+          html += '</div>';
+
+          $('.errorMessage').before(html);
+          //$('#class_add_form')[0].reset();
+          $(".d-render-popoup").fadeOut();
+          window.location.reload();
+        }
+
+
+        },
+
+
+      error: function(data){
+        console.log("error");
+        console.log(data);
+      }
+
+    });
+      
+  });
+
+ /*Edit substitute*/
+ $(document).on('click','.substitute-edit',function(e){
+	tinyMCE.triggerSave();
+	e.preventDefault();
+    var formData = $(this).closest('form').serialize();
+    $.ajax({
+      type:'POST',
+      url: BASE_URL +'/teacher/partials/substitute_edit',
+      data: formData,
+      dataType: 'json',
+
+      beforeSend: function () {
+        //obj.html('Sending... <i class="fa fa-send"></i>');
+      },
+      complete: function () {
+        //obj.html('Sent <i class="fa fa-send"></i>');
+      },
+
+      success: function (response) {
+        var html = '';
+
+        $('#warning-box').remove();
+        $('#success-box').remove();
+
+        if(response['error']){
+            html += '<div id="warning-box" class="alert alert-danger fade in">';
+            html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+            html += '<strong>Error!</strong>';
+
+            for (var i = 0; i < response['error'].length; i++) {
+                html += '<p>' + response['error'][i] + '</p>';
+            }
+
+            html += '</div>';
+            $('.errorMessage').before(html);
+            
+        }
+
+       	if(response['success']){
+               
+          console.log(response['success']);
+
+          html += '<div id="success-box" class="alert alert-success fade in">';
+          html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+          html += '<strong>Substitute Notes updated!</strong>';
+          html += '</div>';
+
+          $('.errorMessage').before(html);
+          //$('#class_add_form')[0].reset();
+          $(".d-render-popoup").fadeOut();
+          window.location.reload();
+        }
+
+
+        },
+
+
+      error: function(data){
+        console.log("error");
+        console.log(data);
+      }
+
+    });
+      
+  });
+
+  /*Delete substitute Function*/
+  $(document).on('click','.substitute-delete',function(e){
+  	var id = $(this).attr('delete_id')
+    $.ajax({
+      type:'GET',
+      url: BASE_URL +'/teacher/partials/substitute_delete/'+id,
+      beforeSend: function () {
+        //obj.html('Sending... <i class="fa fa-send"></i>');
+      },
+      complete: function () {
+        //obj.html('Sent <i class="fa fa-send"></i>');
+      },
+
+      success: function (response) {
+        var html = '';
+
+        $('#warning-box').remove();
+        $('#success-box').remove();
+
+        if(response['error']){
+            html += '<div id="warning-box" class="alert alert-danger fade in">';
+            html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+            html += '<strong>Error!</strong>';
+
+            for (var i = 0; i < response['error'].length; i++) {
+                html += '<p>' + response['error'][i] + '</p>';
+            }
+
+            html += '</div>';
+            $('.errorMessage').before(html);
+            
+        }
+
+       	if(response['success']){
+               
+          console.log(response['success']);
+
+          html += '<div id="success-box" class="alert alert-success fade in">';
+          html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+          html += '<strong>Substitute Notes Deleted!</strong>';
+          html += '</div>';
+
+          $('.errorMessage').before(html);
+          //$('#class_add_form')[0].reset();
+          $(".d-render-popoup").fadeOut();
+          window.location.reload();
+        }
+
+
+        },
+
+
+      error: function(data){
+        console.log("error");
+        console.log(data);
+      }
+
+    });
+      
+  });	
   //https://codepen.io/b0y/pen/qNazQV
 //$(this).removeClass('.redBG').addClass('.black');
 });

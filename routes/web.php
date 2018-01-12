@@ -278,6 +278,8 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::match(['post'], '/edit/{id}', [ 'as' => 'postEditMystrategies', "uses" => "MystrategiesController@postEditstrategies"]);
         });
 
+        /*overview modals Routes*/
+        
         Route::group([ 'prefix' => "overview", 'as' => 'overview.' ], function()
         {
 
@@ -285,6 +287,20 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::match(['get'], '/overviewnext/{url}', [ 'as' => 'overviewnext', 'uses' => "DashboardController@overviewnext"]);
         });
 
+        /*Partials Routes*/
+
+        Route::group([ 'prefix' => "partials", 'as' => 'partials.' ], function()
+        {
+
+            Route::match(['get'], '/announcement', [ 'as' => 'announcement', 'uses' => "PartialsController@Announcement"]);
+            Route::match(['post'], '/announcement_save', [ 'as' => 'announcement_save', 'uses' => "PartialsController@AnnouncementSave"]);
+            Route::match(['post'], '/announcement_edit', [ 'as' => 'announcement_edit', 'uses' => "PartialsController@AnnouncementEdit"]);
+            Route::match(['get'], '/announcement_delete/{id}', [ 'as' => 'announcement_delete', 'uses' => "PartialsController@AnnouncementDelete"]);
+            Route::match(['get'], '/substitute', [ 'as' => 'substitute', 'uses' => "PartialsController@Substitute"]);
+            Route::match(['post'], '/substitute_save', [ 'as' => 'substitute_save', 'uses' => "PartialsController@SubstituteSave"]);
+            Route::match(['post'], '/substitute_edit', [ 'as' => 'substitute_edit', 'uses' => "PartialsController@SubstituteEdit"]);
+            Route::match(['get'], '/substitute_delete/{id}', [ 'as' => 'substitute_delete', 'uses' => "PartialsController@SubstituteDelete"]);
+        });
         /* Teacher's Add Student Routes*/
 
         Route::group([ 'prefix' => "addstudents", 'as' => 'addstudents.' ], function()
