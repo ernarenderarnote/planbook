@@ -11,6 +11,7 @@
         </div>
     </div>
     <div class="studentsnotes-contentmain todocontent">
+        @if($todo)
         @php $i=1; @endphp
         @forelse(json_decode($todo->todo) as $do)
         <div class="studentsnotes-dropdwncontent">
@@ -33,6 +34,7 @@
         @empty
 
         @endforelse
+        @endif
     </div>
 
     <div class="studentsnotes-dropdwntopbar">
@@ -47,21 +49,37 @@
     </div>
     <div class="search-formnotes">
         <div class="form-group">
-            <input type="text" name="search-notes" class="form-control" placholder="search notes" value="{{$todo->search_notes}}">
+            @if($todo)
+                <input type="text" name="search-notes" class="form-control" placholder="search notes" value="{{$todo->search_notes}}">
+            @else
+                <input type="text" name="search-notes" class="form-control" placholder="search notes" value="">
+            @endif
         </div>
         <div class="form-group">
             <div class="notesinputdate-fields">
-                <input type="text" name="datefrom" class="form-control daterange" id="demo31"  value="{{$todo->date_from}}"> </div>
+                @if($todo)
+                    <input type="text" name="datefrom" class="form-control daterange" id="demo31"  value="{{$todo->date_from}}"> </div>
+                @else
+                    <input type="text" name="datefrom" class="form-control daterange" id="demo31"  value=""> </div>
+                @endif
             <div class="notesinputdate-text"> to </div>
             <div class="notesinputdate-fields">
-                <input type="text" name="dateto" class="form-control daterange" id="demo32"  value="{{$todo->date_from}}"> </div>
+                @if($todo)
+                    <input type="text" name="dateto" class="form-control daterange" id="demo32"  value="{{$todo->date_from}}"> </div>
+                @else
+                    <input type="text" name="dateto" class="form-control daterange" id="demo32"  value=""> </div>
+                @endif
         </div>
         <div class="form-group">
             <div class="notesserchselect-fields">
                 <select name="search-class" class="form-control">
                     <option value="">All Classes</option>
                     @forelse($classes as $class=>$id)
-                    <option value="{{$id}}" {{ $todo->class_id == $id ? 'selected' : ''}}>{{$class}}</option>
+                        @if($todo)
+                            <option value="{{$id}}" {{ $todo->class_id == $id ? 'selected' : ''}}>{{$class}}</option>
+                        @else
+                            <option value="{{$id}}">{{$class}}</option>
+                        @endif    
                     @empty
 
                     @endforelse
@@ -71,7 +89,11 @@
                 <select name="search-student" class="form-control studentsoptions" >
                     <option value="0">All Students</option>
                     @forelse($students as $student)
-                        <option value="{{$student['id']}}" {{ $todo->student_id == $student['id'] ? 'selected' : ''}}>{{$student['last_name']}} , {{$student['name'] }}</option>
+                        @if($todo)
+                            <option value="{{$student['id']}}" {{ $todo->student_id == $student['id'] ? 'selected' : ''}}>{{$student['last_name']}} , {{$student['name'] }}</option>
+                        @else
+                            <option value="{{$student['id']}}">{{$student['last_name']}} , {{$student['name'] }}</option>
+                        @endif    
                     @empty
 
                     @endforelse
@@ -81,6 +103,7 @@
     </div>
     <div class="todonotescontent">
         @php $i=1;@endphp
+        @if($todo)
         @forelse(json_decode($todo->notes) as $notes)
         <div class="studentsnotes-dropdwncontent">      
             <div class="studentsnotes-dropdwncontenttopbar">                                                            
@@ -115,6 +138,7 @@
         @empty
 
         @endforelse
+        @endif
     </div>
     
 </form>
