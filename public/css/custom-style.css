@@ -2130,14 +2130,8 @@ performanceform .performance-item{  text-decoration:underline; }
 .performance-itemdropdown .reportItem span {     margin-left: 6px;     white-space: nowrap;     color: #000; } 
 .performance-itemdropdown .reportItem:first-child span{     color:#fff; } 
 .performance-itemdropdown .report-doneitems{    background-color:#fff;  text-align: center; cursor:pointer; }
-.unitSelected{
-background-color:#fcb71e;
-}
-td.details-lessons {
-    text-align: left;
-}
-
-.list-contenttable td {     position: relative; }.lesondropdown.leson-tablelist {
+.unitSelected{background-color:#fcb71e; } td.details-lessons {
+    text-align: left; } .list-contenttable td {     position: relative; }.lesondropdown.leson-tablelist {
     left: 34px;
 }.lesondropdown-body.lessondrop-bodymain li {
     text-align: left;
@@ -2469,4 +2463,128 @@ td.list-tablecoloumn2.list-column2 {
 .overviewunits  .modal-dialog {
    margin-top: 389px;
     margin-right: -28px;
+}
+
+/*12-9*/
+.studentsnotes-dropdown {
+    position: absolute;
+    top: 150px;
+    left: -420px;
+    height: auto;
+    width: 400px;
+    background: #DBDFE8;
+    margin: 0px 5px 0px 0px;
+    padding: 5px 10px 13px 10px;
+    z-index: 9999;
+    
+    transition: 0.5s;
+}
+.notesdropdownmain-relative{
+    position:relative;
+}
+.studentsnotes-dropdwntopbar {
+    background: #0057c1;
+    width: 100%;
+    margin: 5px 0px;
+    position: relative;
+    color: white;
+    height: auto;
+    float: left;
+    padding: 4px 0px 4px 11px;
+}
+.studentsnotes-dropdwntopbar .do-listdowntext {
+    padding-left: 9px;
+    font-size: 15px;
+}
+.studentsnotes-dropdwnright i {
+    padding-right: 11px;
+}
+.studentsnotes-dropdwncontent {
+    width: 100%;
+   
+    position: relative;
+    
+    height: auto;
+    float: left;
+    padding: 4px 0px 4px 0px;
+    border-radius: 5px 5px 0px 0px;
+}
+.studentsnotes-dropdwncontenttopbar{
+    background-color: #c3d9ff;
+}
+.studentsnotes-dropdwncontenttopbar {
+    background-color: #c3d9ff;
+    float: left;
+    width: 100%;
+    padding: 4px 11px;
+    border-radius: 4px 4px 0px 0px;
+}
+.studen
+.do-calendertext{
+     color:#000;
+     font-size:15px;
+}
+.studentsnotes-dropdwncontenttopbar input[type="checkbox"] {
+    vertical-align: top;
+    margin-right: 8px;
+}
+.studentsnotes-dropdwncontentright i {
+    color: #000;
+    padding: 0px 6px;
+}
+.studentsnotes-dropdwncontentbottom .form-control {
+    border-radius: 0px 0px 4px 4px;
+  
+    float: left;
+    
+}
+.studentsnotes-dropdown.notes-dropdownmainhide {
+    left: 15px;
+}
+.studentsnotes-dropdown  i {
+    cursor: pointer;
+}
+.studentsnotes-contentmain {
+    margin-bottom: 4px;
+    float: left;
+    width: 100%;
+}
+.notesinputdate-text {
+    width: 4%;
+    float: left;
+    margin: 6px 9px;
+    font-size: 15px;
+}
+.notesinputdate-fields {
+    width: 45.6%;
+    float: left;
+    margin-bottom: 4px;
+}
+.search-formnotes .form-group {
+    margin-bottom: 4px;
+}
+.notesserchselect-fields:first-child {
+    margin-right: 7px;
+}
+.notesserchselect-fields {
+    width: 49%;
+    float: left;
+}
+.studentsnotes-dropdwncontentrightbottom select {float: left; margin-right: 8px; height: 28px; background: #c3d9ff; border: none; } .do-calendertextbottom {
+    line-height: 28px;
+    font-size: 15px;
+}
+.studentsnotes-dropdwncontentrightbottom a {color: #000; font-size: 15px; line-height: 28px; } .search-formnotes {
+    margin-bottom: 11px;
+    display: inline-block;
+    width:100%;
+}
+.studentsnotes-dropdwncontenttopbar input#demo30 {
+    width: 80px;
+    background: none;
+    border: none;
+    padding: 4px;
+}
+.studentsnotes-dropdwncontenttopbar input[type="checkbox"] {
+    margin-top: 6px;
 }

@@ -590,6 +590,11 @@
 	</div>
 </div>  
 
+<!--to do -->
+<!--notes-dropdown here -->
+<div class="studentsnotes-dropdown">
+    
+</div>
 
 @endsection
 
@@ -1413,37 +1418,37 @@
                 $('#taking_screenshot_div').show();
             });  
             $('#screenshot').on('click', function(e){
-                        e.preventDefault();
-                        html2canvas($('body'), {
-                            onrendered: function(canvas){
-                                var imgString = canvas.toDataURL();
-                                $('#img_val').val(canvas.toDataURL("image/png"));
-                                $("#screenshot_yes").show();
-                                $('#see_screenshot').on('click', function(){
-                                    window.open(imgString);
-                                });
-                            }
-                         
+                e.preventDefault();
+                html2canvas($('body'), {
+                    onrendered: function(canvas){
+                        var imgString = canvas.toDataURL();
+                        $('#img_val').val(canvas.toDataURL("image/png"));
+                        $("#screenshot_yes").show();
+                        $('#see_screenshot').on('click', function(){
+                            window.open(imgString);
                         });
-        setTimeout(function(){
-              $('#attachcontactfile-modal').modal('hide')
-            }, 8000);
-         setTimeout(function(){
-              $('#attachcontactfile-modal').modal('refresh')
-            }, 9000);   
-            });
+                    }
+                 
+                });
+	        	setTimeout(function(){
+	              $('#attachcontactfile-modal').modal('hide')
+	            }, 8000);
+	         	setTimeout(function(){
+	              $('#attachcontactfile-modal').modal('refresh')
+	            }, 9000);   
+	        });
             
     /** code to show thanks you messge**/
      $("#contact_us_message").click(function(){
-                $('#main_contact_form').hide();
-                $('#submiting_msg').show();
+            $('#main_contact_form').hide();
+            $('#submiting_msg').show();
         }); 
     /** Add class to body on click the contact us button **/
     $("#contact_us_icon").click(function(){
-                $('body').addClass('contact_cls');
-        }); 
+        $('body').addClass('contact_cls');
+    }); 
             
-      });
+   	});
 	/*Function to save view Items*/
 		$('body').on('submit','.displayItems',function(event){
 			var data = $(this).closest('form').serialize();	
@@ -1496,8 +1501,11 @@
 				$('.lesson_title').css('display','none');
 				console.log(values);
 			});
-		//function displaySettings(){
-			
-		//}
+			$(".notesdropdownmain-relative").on('click',function(){
+				$(".studentsnotes-dropdown").load("/teacher/dashboard/toDo" ,function(){
+					$(this).toggleClass("notes-dropdownmainhide");
+				});
+			});
       </script>
+      
 @endpush

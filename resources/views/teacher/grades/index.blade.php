@@ -214,7 +214,6 @@
       $(document).on('click','.assignment-filter .btn',function(){
          var txt = $(this).text();
          var arr = $('#heading-data .assignment-data').length;
-         console.log(arr);
          $(this).parent().find('.btn').removeClass('active');
          $(this).addClass('active');
          if(txt == 'None'){

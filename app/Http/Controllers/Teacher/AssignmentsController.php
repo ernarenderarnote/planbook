@@ -66,10 +66,10 @@ class AssignmentsController extends Controller
 		// get user class
         
         $this->data['userClasses'] = UserClass::where('year_id',Auth::user()->current_selected_year)->where('user_id',Auth::user()->id)->with('schoolYear')->get();
+        
         $this->data['units'] = Unit::where('user_id',Auth::user()->id)->get();
-		$this->data['type']  = ScoreWeighting::where('class_id','0')->get();
-		//echo"<pre>";print_r( $this->data['userClass']);die;
 
+		$this->data['type']  = ScoreWeighting::where('class_id','0')->get();
 
 		return view('teacher.assignments.add', $this->data);
 

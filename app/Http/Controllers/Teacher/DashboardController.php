@@ -15,8 +15,10 @@ use App\User;
 use App\UserClass;
 use App\SchoolYear;
 use App\Unit;
+use App\Students;
 use DB;
 use App\ViewItems;
+use App\Todo;
 class DashboardController extends Controller
 {
 
@@ -383,14 +385,20 @@ class DashboardController extends Controller
 
         $viewItems = ViewItems::where('user_id',Auth::user()->id)->first();
         if($viewItems!=''){
+
             $viewItems->user_id     = Auth::id();
+
             $viewItems->view_items  = json_encode($request->view_items);
+
             $viewItems->view_class  = json_encode($request->user_class);
         }
         else{
             $viewItems = new ViewItems();
+
             $viewItems->user_id     = Auth::id();
+
             $viewItems->view_items  = json_encode($request->view_items);
+
             $viewItems->view_class  = json_encode($request->user_class);
         }
         
@@ -403,11 +411,86 @@ class DashboardController extends Controller
     }
 
     public function overview(Request $request){
+        
         return view('teacher.overview.index');
+
     }
 
     public function overviewnext(Request $request,$url){
+        
         return view('teacher.overview.'.$url);
+
     }
 
+    public function toDo(Request $request){
+       
+        $this->data['students'] = Students::where('teacher_id',Auth::user()->id)->get()->toArray();
+        
+        $this->data['classes']  = UserClass::where('user_id',Auth::user()->id)->where('year_id',Auth::user()->current_selected_year)->get()->pluck('id','class_name');
+        
+        $this->data['todo']     = Todo::where('user_id',Auth::user()->id)->first();
+
+        return view('teacher.dashboard.todo',$this->data);
+    }
+
+    public function todoPost(Request $request){
+        
+        $response = array();
+        
+        $todo = Todo::where('user_id',Auth::user()->id)->first();
+
+        if($todo){
+
+            $todo->user_id      = Auth::id();
+       
+            $todo->todo         = json_encode($request['todo']);
+
+            $todo->search_notes = $request['search-notes'];
+           
+            $todo->date_from    = $request['datefrom'];
+           
+            $todo->date_to      = $request['dateto'];
+            
+            $todo->class_id     = $request['search-class'];
+           
+            $todo->student_id   = $request['search-student'];
+            
+            $todo->notes        = json_encode($request['notes']);
+            
+            if($todo->save()){
+
+                $response['success'] = 'TRUE';
+
+            }
+        }
+        else{
+        
+            $todo = new Todo();
+
+            $todo->user_id      = Auth::id();
+           
+            $todo->todo         = json_encode($request['todo']);
+
+            $todo->search_notes = $request['search-notes'];
+           
+            $todo->date_from    = $request['starts_on'];
+           
+            $todo->date_to      = $request['ends_on'];
+            
+            $todo->class_id     = $request['search-class'];
+           
+            $todo->student_id   = $request['search-student'];
+            
+            $todo->notes        = json_encode($request['notes']);
+            
+            if($todo->save()){
+
+                $response['success'] = 'TRUE';
+
+            }
+        }
+        return response()->json($response);
+
+    }
+    
 }

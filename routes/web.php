@@ -83,7 +83,8 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
             Route::post('/updateAccountDetails', ['as' => 'updateAccountDetails', 'uses' => 'DashboardController@updateAccountDetails']);
             Route::post('/contactUs', ['as' => 'contactUs', 'uses' => 'DashboardController@contactUs']);
             Route::post('/viewItems', ['as' => 'viewItems', 'uses' => 'DashboardController@viewItems']);
-		      
+            Route::get('/toDo', ['as' => 'toDo', 'uses' => 'DashboardController@toDo']);
+		    Route::post('/todoPost', ['as' => 'todoPost', 'uses' => 'DashboardController@todoPost']);  
         });
 		
 
