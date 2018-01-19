@@ -604,6 +604,10 @@ $(document).ready(function(){
   	$('.d-render-popoup').fadeOut();
   });
 
+  $(document).on('click','.fa-close',function(){
+  	$('.d-render-popoup').fadeOut();
+  });
+
   /*Show over-view*/
   $(".overview-open").on('click',function(){
 	    
@@ -903,8 +907,6 @@ $(document).ready(function(){
 
        	if(response['success']){
                
-          console.log(response['success']);
-
           html += '<div id="success-box" class="alert alert-success fade in">';
           html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
           html += '<strong>Substitute Notes added successfully !</strong>';
@@ -969,7 +971,6 @@ $(document).ready(function(){
 
        	if(response['success']){
                
-          console.log(response['success']);
 
           html += '<div id="success-box" class="alert alert-success fade in">';
           html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
@@ -1055,6 +1056,238 @@ $(document).ready(function(){
     });
       
   });	
+
+  /*function to add no school day*/
+   $(".addnoschoolday").click(function(){
+
+     	$("#dynamicRenderDiv").show().load("/teacher/events/add",function(){        
+     		$('input[name="schoolday"]').prop('checked','checked');	
+      	});
+
+    });
+    /*function to add or remove days*/
+    var num = 0;
+    $(document).on('click','.addday',function(){
+        var html = '';
+        html +='<div class="added-dayinner addDays">';
+        html += '<input name="addday[]" class="form-control datepicker input-fields" id="demo8" type="text" size="10">';
+        html += '<i class="fa fa-close" aria-hidden="true"></i>';
+        html +='</div>';
+        $('.addDiv').append(html);
+        $('.datepicker').datepicker({format: 'dd/mm/yyyy',autoclose:true});
+    });
+    $(document).on('click','.removeday',function(){
+        var html = '';
+        html +='<div class="added-dayinner addDays">';
+        html += '<input name="removeday[]" class="form-control datepicker input-fields" id="demo8" type="text" size="10">';
+        html += '<i class="fa fa-close" aria-hidden="true"></i>';
+        html +='</div>';
+        $('.removeDiv').append(html);
+        $('.datepicker').datepicker({format: 'dd/mm/yyyy',autoclose:true});
+    });      
+    $(document).on('click','.addDiv.fa-close',function(){
+        $(this).closest(".addDays").fadeOut(300);
+
+    }); 
+
+    var saveevent = [];      
+  $(document).on('click','#save_event_button',function(e){
+      var check = $(".noSchool").prop('checked');
+      saveevent = $("#eventaddform").serializeArray();
+      if(check==true){
+        $('#saveeventmodal').css('display','block');
+      }
+      else{
+          saveEvents(saveevent);
+      }
+
+  }); 
+  $(document).on('click','.saveshiftLessons',function(){
+      saveevent.push({name:'shiftlesson', value:'yes'});
+      saveEvents(saveevent);
+      $('#saveeventmodal').css('display','none');
+  });
+
+  $(document).on('click','.dontshiftLessons',function(){
+      saveevent.push({name:'shiftlesson', value:'No'});
+      saveEvents(saveevent);
+      $('#saveeventmodal').css('display','none');
+  });
+  /*save event function*/
+  function saveEvents(formData){
+    tinyMCE.triggerSave();
+    var obj = $(this);
+    $.ajax({
+      type:'POST',
+      url: BASE_URL +'/teacher/events/add',
+      data: formData,
+      dataType: 'json',
+
+      beforeSend: function () {
+        $('#main-loader').show();
+      },
+      complete: function () {
+        $('#main-loader').hide();
+      },
+
+      success: function (response) {
+        var html = '';
+
+        $('#warning-box').remove();
+        $('#success-box').remove();
+
+        if(response['error']){
+            html += '<div id="warning-box" class="alert alert-danger fade in">';
+            html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+            html += '<strong>Error!</strong>';
+
+            for (var i = 0; i < response['error'].length; i++) {
+                html += '<p>' + response['error'][i] + '</p>';
+            }
+
+            html += '</div>';
+            $('#eventaddform').before(html);
+            
+        }
+
+        if(response['success']=='TRUE'){
+          html += '<div id="success-box" class="alert alert-success fade in">';
+          html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+          html += '<strong>You Have created Event successfully !</strong>';
+          html += '</div>';
+
+          $('#eventaddform').before(html);
+          $('#eventaddform')[0].reset();
+          setTimeout(function(){ 
+            $(".d-render-popoup").fadeOut();
+             window.location.reload();
+           }, 5000);
+
+
+         
+        }
+
+
+        },
+
+
+      error: function(data){
+        console.log("error");
+        console.log(data);
+      }
+
+    });
+  }
+  
+
+  $(".edit_events").click(function(){
+
+    var event_id = $(this).data("event-id");
+    
+    $("#dynamicRenderDiv").show().load("/teacher/events/edit/"+event_id,function(){
+      
+
+    });
+  });  
+  /* Save edit classs datra*/
+  var saveevent = []; 
+  var event_id  = '';      
+  $(document).on('click','#save_edit_event_data_button',function(e){
+      event_id = $("#geteventid").val();
+      var check = $(".noSchool").prop('checked');
+      saveevent = $("#eventaddform").serializeArray();
+      if(check==true){
+        $('#editeventmodal').css('display','block');
+      }
+      else{
+          editEvents(saveevent,event_id);
+      }
+
+  }); 
+  $(document).on('click','.editshiftLessons',function(){
+      saveevent.push({name:'shiftlesson', value:'yes'});
+      editEvents(saveevent,event_id);
+      $('#editeventmodal').css('display','none');
+  });
+
+  $(document).on('click','.dontedittLessons',function(){
+      saveevent.push({name:'shiftlesson', value:'No'});
+      editEvents(saveevent,event_id);
+      $('#editeventmodal').css('display','none');
+  });
+  function editEvents(formData,event_id){
+  tinyMCE.triggerSave();
+    var obj = $(this);
+    $.ajax({
+    contentType: "application/x-www-form-urlencoded; charset=UTF-8",  
+      type:'POST',
+      url: BASE_URL +'/teacher/events/edit/'+event_id,
+      data: formData,
+      dataType: 'json',
+
+      beforeSend: function () {
+        $('#main-loader').show();
+      },
+      complete: function () {
+        $('#main-loader').hide();
+      },
+
+      success: function (response) {
+        var html = '';
+
+        $('#warning-box').remove();
+        $('#success-box').remove();
+
+        if(response['error']){
+            html += '<div id="warning-box" class="alert alert-danger fade in">';
+            html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+            html += '<strong>Error!</strong>';
+
+            for (var i = 0; i < response['error'].length; i++) {
+                html += '<p>' + response['error'][i] + '</p>';
+            }
+
+            html += '</div>';
+            $('.errorMessage').before(html);
+            
+        }
+
+        if(response['success']){
+               
+          console.log(response['success']);
+
+          html += '<div id="success-box" class="alert alert-success fade in">';
+          html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+          html += '<strong>You Have Edit Event successfully !</strong>';
+          html += '</div>';
+
+          $('#eventaddform').before(html);
+          $('#eventaddform')[0].reset();
+          setTimeout(function(){ 
+            $(".d-render-popoup").fadeOut();
+             window.location.reload();
+           }, 5000);
+         
+        }
+
+        },
+
+
+      error: function(data){
+        console.log("error");
+        console.log(data);
+      }
+
+    });
+      
+  }  
+  
+  $('.hover-weekicons .downarrow-icon').on('click',function(){
+  	$(this).parents('.week-tabbottom').css('position','initial');
+  }) ;
+  $(document).on('click',function(){
+  	$('.week-tabbottom').css('position','relative');
+  });
   //https://codepen.io/b0y/pen/qNazQV
 //$(this).removeClass('.redBG').addClass('.black');
 });

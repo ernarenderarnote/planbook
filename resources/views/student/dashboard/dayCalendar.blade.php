@@ -57,6 +57,7 @@
 									$classID = $filters['id'];
 									$sqlDate = date('Y-m-d', strtotime($daysName));
 									$lessonsData = $monthView->getLessons($classID,$sqlDate,$user_id);
+									$eventsData  = $monthView->getEvents($sqlDate,$user_id);
 					@endphp
 		  
 					@if($hasClass)
@@ -153,6 +154,14 @@
 									
 								</div>
 							</div>  
+							@forelse($eventsData as $event)
+							<div class="languagearts week-tabcontentinner week-tabbottom" style="background-color:#c3d9ff; color:#0000ff;">
+								{{$event['event_title']}}
+								
+						    </div> 
+						    @empty
+						    
+						    @endforelse
 					@endif
 				@endforeach
 			@endif

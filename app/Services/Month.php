@@ -12,6 +12,7 @@ use App\Assessment;
 use App\UserLessonSectionLayout;
 use App\ViewItems;
 use App\Unit;
+use App\Events;
 class Month
 {
 /********************* PROPERTY ********************/  
@@ -342,5 +343,10 @@ class Month
     public function units($unit)
     {
         return Unit::where('user_id',Auth::user()->id)->where('id',$unit)->first()->unit_id;
+    }
+
+    public function getEvents($date,$user_id){
+       $events = Events::where('user_id',$user_id)->where('start_date','<=',$date)->Where('end_date','>=',$date)->get();
+      return $events;
     }
 }

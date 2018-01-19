@@ -173,7 +173,7 @@
 								$lessonsData = $monthView->getLessons($classID,$sqlDate,Auth::user()->id);
 								$assignmentData = $monthView->getAssignments($classID,$sqlDate,Auth::user()->id);
 								$assessmentData = $monthView->getAssessments($classID,$sqlDate,Auth::user()->id);
-								
+								$eventsData     = $monthView->getEvents($sqlDate,Auth::user()->id);
 								@endphp
 								
 								@forelse($lessonsData as $lData)
@@ -291,6 +291,7 @@
 									$lessonsData = $monthView->getLessons($classID,$sqlDate,Auth::user()->id);
 									$assignmentData = $monthView->getAssignments($classID,$sqlDate,Auth::user()->id);
 									$assessmentData = $monthView->getAssessments($classID,$sqlDate,Auth::user()->id);
+									$eventsData     = $monthView->getEvents($sqlDate,Auth::user()->id);
 									@endphp
 									
 									@forelse($lessonsData as $lData)
@@ -399,7 +400,32 @@
 									</div>
 								</div>
 								@endif
-							</div>  
+							</div> 
+
+						@forelse($eventsData as $event)
+						<div class="languagearts week-tabcontentinner week-tabbottom" style="background-color:#c3d9ff; color:#0000ff;">
+							{{$event['event_title']}}
+							<span class="week-icons hover-weekicons">
+						        <ul>
+						            <li class="dropdown"> <img src="/images/downarrow2.png" class="downarrow-icon downarrowtoggle" aria-expanded="false">
+						              	<div class="lesondropdown event-dropdown" style="display: none;">
+							              	<ul class="daycontentdropdown weekcontentdropdown">
+								                <div class="lessondropdown-header"> Actions <span class="cross-icon copydropcrossicons"> <i class="fa fa-close" aria-hidden="true"></i></span></div>
+								                <div class="weekdropdownbody">
+								                  <ul>
+								                    <li class="edit_events" data-event-id="{{$event['id']}}"> <i class="fa fa-pencil" aria-hidden="true"></i> Edit</li>
+								                    <li {{$event['id']}}> <i class="fa fa fa-trash" aria-hidden="true"></i> Delete</li>
+								                  </ul>
+								                </div>
+								            </ul>
+							            </div>   
+						            </li>
+						        </ul> 
+					          </span> 
+					    </div> 
+					    @empty
+					    
+					    @endforelse	 
 					@endif
 				@endforeach
 			@endif

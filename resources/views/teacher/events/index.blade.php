@@ -8,65 +8,65 @@
 
 
 <div class="events-section">
-         <div class="copy-header"> Events </div>
-         <div class="list-contentbutton">
-            <div class="btn-group">
-               <button type="button" class="btn unitsbutton"> Today</button>
-            </div>
-            <div class="btn-group">
-               <button type="button" id="addEventButton" class="btn unitsbutton"><img src="/images/add2.png" class="event-icon" > Add Event </button>
-            </div>
-            <div class="btn-group">
-               <button type="button" id="importBtn" class="btn unitsbutton"><img src="/images/import.png" class="event-icon"> Import Events </button>
-            </div>
-            <div class="btn-group">
-               <button type="button" id="exportBtn" class="btn unitsbutton"><img src="/images/export.png" class="event-icon"> Export Events </button>
-            </div>
-         </div>
-         <div class="events-table">
-            <p> Events</p>
-            @if (\Session::has('success'))
-                <div class="alert alert-success">
-                    <ul>
-                        <li>{!! \Session::get('success') !!}</li>
-                    </ul>
-                </div>
-            @endif
-            <div class="event-tableinner">
-               <table border="1">
-                  <tbody>
-                     @forelse($events as $event)
-                     <tr class="edit_events" data-event-id="{{ $event->id }}">
-                        <td>{{$event->start_date}}</td>
-                        <td class="event-tablesecondfield">{{$event->event_title}}
-                         <br/>
-                          @php $attachments = unserialize($event->attachment); 
-                          @endphp
-                          @if(!empty($attachments))
-                          @forelse($attachments as $attach) 
-                            <a href="../../uploads/myfiles/{{ $attach }}" target='_blank'>{{ $attach }}</a><br/>
-                          @empty
-                          @endforelse
-                         @endif   
-
-                        </td>
-                     </tr> 
-                     @empty
-                        <tr>
-                    <td colspan="8">No Record Found ! </td>
-                  </tr>
-                     @endforelse
-
-                  </tbody>
-               </table>
-            </div>
-         </div>
+   <div class="copy-header"> Events </div>
+   <div class="list-contentbutton">
+      <div class="btn-group">
+         <button type="button" class="btn unitsbutton"> Today</button>
       </div>
-      <!--add event popup start-->
-      <div id="dynamicRenderDiv" class="d-render-popoup t-data-popup modal fade editmodalcontent listmodalcontent in" role="dialog">
-
+      <div class="btn-group">
+         <button type="button" id="addEventButton" class="btn unitsbutton"><img src="/images/add2.png" class="event-icon" > Add Event </button>
       </div>
-      <!--fileattachment modal start here-->
+      <div class="btn-group">
+         <button type="button" id="importBtn" class="btn unitsbutton"><img src="/images/import.png" class="event-icon"> Import Events </button>
+      </div>
+      <div class="btn-group">
+         <button type="button" id="exportBtn" class="btn unitsbutton"><img src="/images/export.png" class="event-icon"> Export Events </button>
+      </div>
+   </div>
+   <div class="events-table">
+      <p> Events</p>
+      @if (\Session::has('success'))
+          <div class="alert alert-success">
+              <ul>
+                  <li>{!! \Session::get('success') !!}</li>
+              </ul>
+          </div>
+      @endif
+      <div class="event-tableinner">
+         <table border="1">
+            <tbody>
+               @forelse($events as $event)
+               <tr class="edit_events" data-event-id="{{ $event->id }}">
+                  <td>{{$event->start_date}}</td>
+                  <td class="event-tablesecondfield">{{$event->event_title}}
+                   <br/>
+                    @php $attachments = json_decode($event->attachment); 
+                    @endphp
+                    @if(!empty($attachments))
+                    @forelse($attachments as $attach) 
+                      <a href="../../uploads/myfiles/{{ $attach }}" target='_blank'>{{ $attach }}</a><br/>
+                    @empty
+                    @endforelse
+                   @endif   
+
+                  </td>
+               </tr> 
+               @empty
+                  <tr>
+              <td colspan="8">No Record Found ! </td>
+            </tr>
+               @endforelse
+
+            </tbody>
+         </table>
+      </div>
+   </div>
+</div>
+<!--add event popup start-->
+<div id="dynamicRenderDiv" class="d-render-popoup t-data-popup modal fade editmodalcontent listmodalcontent in" role="dialog">
+
+</div>
+<!--fileattachment modal start here-->
 <div class="fileattachment-modal">
     <div class="fileattachment-header">My Files</div>
     <div class="fileattachment-body">
@@ -220,11 +220,11 @@
             </div>
          </div>
       </div>
+    
 	  @endsection
 
      @push('js')
       <!--script type="text/javascript" src="../js/custom.js" ></script--> 
-      <!--script type="text/javascript" src="../tinymce_4.6.3_dev/tinymce/js/tinymce/tinymce.js"></script--> 
      
       <script>
           /*Import events*/ 
@@ -542,13 +542,32 @@
             });
          }); 
         /* Add class dtatt*/
+  var saveevent = [];      
+  $(document).on('click','#save_event_button',function(e){
+      var check = $(".noSchool").prop('checked');
+      saveevent = $("#eventaddform").serializeArray();
+      if(check==true){
+        $('#saveeventmodal').css('display','block');
+      }
+      else{
+          saveEvents(saveevent);
+      }
 
-  $("body").on('click','#save_event_button',function(e){
-      tinyMCE.triggerSave();
-      e.preventDefault();
+  }); 
+  $(document).on('click','.saveshiftLessons',function(){
+      saveevent.push({name:'shiftlesson', value:'yes'});
+      saveEvents(saveevent);
+      $('#saveeventmodal').css('display','none');
+  });
 
-    var formData = $("#eventaddform").serialize();
-
+  $(document).on('click','.dontshiftLessons',function(){
+      saveevent.push({name:'shiftlesson', value:'No'});
+      saveEvents(saveevent);
+      $('#saveeventmodal').css('display','none');
+  });
+  /*save event function*/
+  function saveEvents(formData){
+    tinyMCE.triggerSave();
     var obj = $(this);
     $.ajax({
       type:'POST',
@@ -583,10 +602,7 @@
             
         }
 
-        if(response['success']){
-               
-          console.log(response['success']);
-
+        if(response['success']=='TRUE'){
           html += '<div id="success-box" class="alert alert-success fade in">';
           html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
           html += '<strong>You Have created Event successfully !</strong>';
@@ -613,27 +629,46 @@
       }
 
     });
+  }
+  
 
-  }); 
   $(".edit_events").click(function(){
 
     var event_id = $(this).data("event-id");
     
     $("#dynamicRenderDiv").show().load("/teacher/events/edit/"+event_id,function(){
-
-      //$('.datepicker').datepicker({format: 'dd/mm/yyyy',});
       
 
     });
+  });  
+  /* Save edit classs datra*/
+  var saveevent = []; 
+  var event_id  = '';      
+  $(document).on('click','#save_edit_event_data_button',function(e){
+      event_id = $("#geteventid").val();
+      var check = $(".noSchool").prop('checked');
+      saveevent = $("#eventaddform").serializeArray();
+      if(check==true){
+        $('#editeventmodal').css('display','block');
+      }
+      else{
+          editEvents(saveevent,event_id);
+      }
 
-    /* Save edit classs datra*/
+  }); 
+  $(document).on('click','.editshiftLessons',function(){
+      saveevent.push({name:'shiftlesson', value:'yes'});
+      editEvents(saveevent,event_id);
+      $('#editeventmodal').css('display','none');
+  });
 
-  $("body").on('click','#save_edit_event_data_button',function(e){
+  $(document).on('click','.dontedittLessons',function(){
+      saveevent.push({name:'shiftlesson', value:'No'});
+      editEvents(saveevent,event_id);
+      $('#editeventmodal').css('display','none');
+  });
+  function editEvents(formData,event_id){
   tinyMCE.triggerSave();
-  e.preventDefault();
-    var event_id = $("#geteventid").val();
-    var formData = $('#eventaddform').serialize();
-    alert(formData);
     var obj = $(this);
     $.ajax({
     contentType: "application/x-www-form-urlencoded; charset=UTF-8",  
@@ -684,8 +719,6 @@
             $(".d-render-popoup").fadeOut();
              window.location.reload();
            }, 5000);
-
-
          
         }
 
@@ -699,16 +732,13 @@
 
     });
       
-
-
-
-  }); 
+  } 
   $(document).on('click','.closebutton',function(){
     $(this).closest('#dynamicRenderDiv').hide();
   });
   /*csv Downloads*/
   
 
-  });
+ 
 </script>
 	@endpush  

@@ -85,7 +85,7 @@
                   Event</span></a></li>
                 <li><a href="#"><span class="add-ico"><img src="/images/extra-lesson-add.png" alt="add extra lesson"></span> <span class="add-text">Add<br>
                   Extra Lesson</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="/images/noschool.png" alt="add assignment"></span> <span class="add-text">Add No<br>
+                <li><a href="#" class="addnoschoolday"><span class="add-ico"><img src="/images/noschool.png" alt="add assignment"></span> <span class="add-text">Add No<br>
                   School Day</span></a></li>
                 <li><a href="{{route('teacher.school_year.getAddSchoolYear')}}"><span class="add-ico"><img src="/images/addyear.png" alt="add school year"></span> <span class="add-text">Add<br>
                   School year</span></a></li>
@@ -93,8 +93,8 @@
                   Template</span></a></li>
                 <li><a href="{{route('teacher.units.index')}}"><span class="add-ico"><img src="/images/unit-add.png" alt="add unit"></span> <span class="add-text">Add<br>
                   Unit</span></a></li>
-                <li><a href="#" data-toggle="modal" class="studentannouncementsmodal"><span class="add-ico"><i class="fa fa-bullhorn fa-3x" aria-hidden="true" style="color: #5DA500;"></i></span> <span class="add-text">Student <br> Announcements</span></a> </li>  
-                <li><a href="#" data-toggle="modal" class="substitutenotesmodal "><span class="add-ico"><i class="fa fa-sticky-note fa-3x" aria-hidden="true" style="color: #FF7900;"></i></span> <span class="add-text">Substitute<br>Notes</span></a> </li>
+                <li><a href="#" class="studentannouncementsmodal"><span class="add-ico"><i class="fa fa-bullhorn fa-3x" aria-hidden="true" style="color: #5DA500;"></i></span> <span class="add-text">Student <br> Announcements</span></a> </li>  
+                <li><a href="#" class="substitutenotesmodal "><span class="add-ico"><i class="fa fa-sticky-note fa-3x" aria-hidden="true" style="color: #FF7900;"></i></span> <span class="add-text">Substitute<br>Notes</span></a> </li>
               </ul>
             </li>
           </ul>
@@ -197,7 +197,7 @@
                         @php $i= 0; @endphp
                         @forelse($user_classes as $classes)
                           <input type="hidden" name="user_class[{{$classes->id}}]" value="N">
-    										  <li><input type="checkbox" name="user_class[{{$classes->id}}]" value="Y" @php echo $check_class[$i] == 'Y' ? 'checked' : ''  @endphp>{{$classes->class_name}}</li>
+    										  <li><input type="checkbox" name="user_class[{{$classes->id}}]" value="Y" >{{$classes->class_name}}</li>
                         @php  $i++; @endphp
   									    @empty
 

@@ -272,13 +272,12 @@ class LessonController extends Controller
 						 $dateGet = date('Y-m-d', strtotime($date.'next '.$day));
 						 $new_date = $dateGet;
 					}
-					//echo $dateGet;
 					   ClassLesson::where('class_id',$request->class_id)
 						->where('lesson_date',$date)
 						->where('user_id',Auth::user()->id)
 						->update(['lesson_date' => $dateGet]);
 						$this->data['response'] = "Lesson bumped Successfully";  
-						//return $this->data; 
+						
 				}
 			}
     } 

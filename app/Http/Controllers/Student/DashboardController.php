@@ -5,7 +5,7 @@ use App\Students;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Announcement;
 class DashboardController extends Controller
 {
 
@@ -51,7 +51,8 @@ class DashboardController extends Controller
 	public function index()
 	{
 		$this->data['teachers'] = Students::where('id',auth()->guard('students')->user()->id)->with('teacher')->first();
-		return view('student.dashboard.index', $this->data);
+		$this->data['announcement'] = Announcement::where('user_id',auth()->guard('students')->user()->teacher_id)->first();
+        return view('student.dashboard.index', $this->data);
 
 	}
     public function weekView()
@@ -254,5 +255,13 @@ class DashboardController extends Controller
     private function _get_class_lesson($month=null,$year=null){
        
     }
+
+    public function announcement(Request $request){
+
+        $this->data['announcement'] = Announcement::where('user_id',auth()->guard('students')->user()->teacher_id)->first();
+        
+        return view('students.announcement',$this->data);
+    }
+
 
 }

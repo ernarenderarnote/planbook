@@ -4,6 +4,7 @@
    $user_id = auth()->guard('students')->user()->teacher_id;
    $user_plan = $monthView->userPlans($user_id);
    $plan = $user_plan->layout_name;
+
 @endphp
 @if(!empty($filtered))
 <div class="cell-main-data">
@@ -25,7 +26,7 @@
 						$classID = $filters['id'];
 						$sqlDate = date('Y-m-d', strtotime($daysName));
 						$lessonsData = $monthView->getLessons($classID,$sqlDate,$user_id);
-
+						$eventsData  = $monthView->getEvents($sqlDate,$user_id);
       @endphp
 	  
 		@if($hasClass)
@@ -46,6 +47,7 @@
 					$lessonsData = $monthView->getLessons($classID,$sqlDate,$user_id);
 					$assignmentData = $monthView->getAssignments($classID,$sqlDate,$user_id);
 					$assessmentData = $monthView->getAssessments($classID,$sqlDate,$user_id);
+					
 					@endphp
 					
 					@forelse($lessonsData as $lData)
@@ -53,7 +55,6 @@
 							$groups = array();
 							$attach = $lData['attachments'];
 							$groups = explode(',',$attach);
-							//print_R($groups);
 						@endphp
 						@if($lData['lesson_title'])
 						<div class="t-heading" style="border-bottom: 1px solid {{ $filters['class_color'] }}">{{ $lData['lesson_title'] }}</div>
@@ -125,7 +126,14 @@
 					
 				</div>
 			</div>    
-			
+			@forelse($eventsData as $event)
+			<div class="languagearts week-tabcontentinner week-tabbottom" style="background-color:#c3d9ff; color:#0000ff;">
+				{{$event['event_title']}}
+				
+		    </div> 
+		    @empty
+		    
+		    @endforelse
 		@endif
    @endforeach
 </div>
