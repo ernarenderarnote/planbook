@@ -7,8 +7,8 @@
     <div class="row" >
       <ul class="footer-img text-center p-0  col-md-5 col-md-offset-1">
         <li>theyellowbus.com.br</li>
-        <li><a href="http://www.facebook.com/planbookcom" target="_blank" title="Follow us on Facebook"  class="ml-4"><img src="images/facebookfooter.png"></a></li>
-        <li><a href="http://www.twitter.com/planbookcom" target="_blank" title="Follow us on Twitter" class="ml-4"><img src="images/twittefooter.png"></a></li>
+        <li><a href="#" target="_blank" title="Follow us on Facebook"  class="ml-4"><img src="images/facebookfooter.png"></a></li>
+        <li><a href="#" target="_blank" title="Follow us on Twitter" class="ml-4"><img src="images/twittefooter.png"></a></li>
       </ul>
       <ul class="footer-img text-center p-0  col-md-6 footer-contact">
         

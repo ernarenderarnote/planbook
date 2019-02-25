@@ -11,7 +11,7 @@
 		@endphp	
 		@empty
 	@endforelse
-	@if(count($checkScore) > 0  && $class_id!='')
+	@if($checkScore  && $class_id!='')
 		<div class="modal-content">
 			<form method="post" action="#" class="editlessonform editscore-form">
 				{{ csrf_field() }}
@@ -194,7 +194,7 @@
 	   </div>
 	@endif 
 	@else
-		@if(count($checkScore) > 0)
+		@if($checkScore)
 		<div class="modal-content">
 			<form method="post" action="#" class="editlessonform editscore-form">
 				{{ csrf_field() }}

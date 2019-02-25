@@ -274,15 +274,29 @@
     </div>
 </div>
 <script>
+   
+   $('.datepicker').datepicker({format: 'dd/mm/yyyy',autoclose:true});
+$('.timepicker').timepicker({
+'timeFormat': 'h:i A',
+'scrollDefault' : '8:00am',
+'forceRoundTime' : false,
+});
+/*editor script*/
    tinymce.init({
      selector: '.editorMce',
      height: 200,
      theme: 'modern',
+setup: function (editor) {                  
+editor.on('focus', function(e) {
+editor.selection.select(editor.getBody(), true);
+editor.selection.collapse(false);
+});                                             
+},
      plugins: [
        'advlist autolink lists link image charmap print preview hr anchor pagebreak',
        'searchreplace wordcount visualblocks visualchars code fullscreen',
        'insertdatetime media nonbreaking save table contextmenu directionality',
-       'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc Start Datehelp'
+       'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc help'
      ],
      toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
      toolbar2: 'print preview media | forecolor backcolor emoticons | codesample help',
@@ -292,12 +306,8 @@
        { title: 'Test template 2', content: 'Test 2' }
      ],
      content_css: [
-      ]
+       
+      
+     ]
     });
-   $('.datepicker').datepicker({format: 'dd/mm/yyyy',autoclose:true});
-$('.timepicker').timepicker({
-'timeFormat': 'h:i A',
-'scrollDefault' : '8:00am',
-'forceRoundTime' : false,
-});
 </script>

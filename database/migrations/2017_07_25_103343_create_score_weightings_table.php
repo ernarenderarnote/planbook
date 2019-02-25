@@ -17,7 +17,9 @@ class CreateScoreWeightingsTable extends Migration
         	$table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('class_id')->unsigned();
-            $table->string('assessment_data')->nullable();
+            $table->string('assessment')->nullable();
+            $table->string('assignment')->nullable();
+            $table->string('standard')->nullable();
             $table->timestamps();
         });
     }

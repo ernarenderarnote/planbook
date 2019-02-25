@@ -347,6 +347,10 @@ Route::group(['namespace' => 'Teacher','prefix' => 'teacher', 'as' => 'teacher.'
         {
 
             Route::match(['get','post'], '/index', [ 'as' => 'index', 'uses' => "TemplateController@index"]);
+            Route::match(['get'], '/add', [ 'as' => 'add', 'uses' => "TemplateController@getAddTemplate"]);
+            Route::match(['post'], '/add', [ 'as' => 'add', 'uses' => "TemplateController@postAddTemplate"]);
+            Route::match(['get'], '/edit/{id}', [ 'as' => 'getEditTemplate', "uses" => "TemplateController@getEditTemplate"]);
+            Route::match(['post'], '/edit/{id}', [ 'as' => 'postEditTemplate', "uses" => "TemplateController@postEditTemplate"]);
            
         });
 

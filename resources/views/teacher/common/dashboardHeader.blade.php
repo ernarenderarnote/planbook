@@ -65,13 +65,13 @@
           <ul class="p-0 m-0">
             <li><a href="#" class="color-theme notesdropdownmain-relative"><img src="/images/icon-notes.png" alt="notes"></a></li>
             <li><a href="#" class="btn btn-primary px-3 py-2 todayBtn">Today</a></li>
-            <li><a href="#" class="color-theme"><i class="fa fa-2x fa-calendar" aria-hidden="true"></i><span class="sr-only">calendar</span></a></li>
+            <li><a href="#" id="dashDatePicker" class="color-theme"><i class="fa fa-2x fa-calendar" aria-hidden="true"></i><span class="sr-only">calendar</span></a></li>
+            <input type="hidden" id ="dashInput" value="">
             <li>
               <a href="#" class="btn btn-primary px-3 py-2 get-calendar" id="pPrev"><i class="fa fa-chevron-left" aria-hidden="true"></i><span class="sr-only"></span></a>
               <a href="#" class="btn btn-primary px-3 py-2 get-calendar" id="pNext"><i class="fa fa-chevron-right" aria-hidden="true"></i><span class="sr-only">goto right</span></a> 
             </li>
-            <li><a href="#" class="color-theme "><i class="fa fa-2x fa-file-text-o" aria-hidden="true"></i><span class="sr-only">calendar</span></a></li>
-            <li><a href="#" class="btn btn-primary px-3 py-2">Copy</a></li>
+            <li><a href="{{route('teacher.import.index')}}" class="btn btn-primary px-3 py-2">Copy</a></li>
             <li class="dropdown">
               <button class="btn btn-primary px-3 py-2 dropdown-toggle add-menus" type="button" data-toggle="dropdown">Add <span class="caret"></span></button>
               <ul class="dropdown-menu">
@@ -89,7 +89,7 @@
                   School Day</span></a></li>
                 <li><a href="{{route('teacher.school_year.getAddSchoolYear')}}"><span class="add-ico"><img src="/images/addyear.png" alt="add school year"></span> <span class="add-text">Add<br>
                   School year</span></a></li>
-                <li><a href="#"><span class="add-ico"><img src="/images/template-add.png" alt="add template"></span> <span class="add-text">Add<br>
+                <li><a href="{{route('teacher.template.index')}}"><span class="add-ico"><img src="/images/template-add.png" alt="add template"></span> <span class="add-text">Add<br>
                   Template</span></a></li>
                 <li><a href="{{route('teacher.units.index')}}"><span class="add-ico"><img src="/images/unit-add.png" alt="add unit"></span> <span class="add-text">Add<br>
                   Unit</span></a></li>

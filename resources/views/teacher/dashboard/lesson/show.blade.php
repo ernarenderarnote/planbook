@@ -1,4 +1,3 @@
-
 @php 
    $filtered = $classes->where('start_date', '<=' , $content['date'])->where('end_date', '>=', $content['date'])->where('user_id', '=' , Auth::user()->id )->all();
 @endphp

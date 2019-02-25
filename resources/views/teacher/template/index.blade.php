@@ -8,19 +8,26 @@
      <div class="list-contentbutton gradebutons">
         <div class="btn-group">
            <button type="button" class="btn unitsbutton list-contentmainbuton dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> All Classes<span class="caret"></span> </button>
-           <ul class="dropdown-menu language-dropdown">
-              <li><a href="#" class="language-dropbutons unitdropbuton"> All Classes</a></li>
-              <li><a href="#" class="language-dropbutons languagebuton">Language Arts </a></li>
-              <li><a href="#" class="language-dropbutons mathematics">Mathematics</a></li>
-              <li><a href="#" class="language-dropbutons reading">Reading</a></li>
-              <li><a href="#" class="language-dropbutons sciencebuton">Science</a></li>
-              <li><a href="#" class="language-dropbutons socialstudybuton">Social Studies</a></li>
-              <li><a href="#" class="language-dropbutons supermarketbutton">Supermarket</a></li>
-              <li><a href="#" class="language-dropbutons writingbutton">Writing</a></li>
-           </ul>
+           <ul class="dropdown-menu language-dropdown asignment-list">
+            <li class="classSelected">
+              <a href="#" class="language-dropbutons unitdropbuton" target_id="0">
+                All Classes
+              </a>
+            </li>
+            @forelse($classes as $className)
+              <li class="classSelected">
+                <a href="#" class="language-dropbutons unitdropbuton" style="background-color:{{ $className['class_color'] }}; color: #fff;" target_id = "{{$className['id']}}">
+                  {{ $className['class_name'] }}
+                </a>
+              </li> 
+              @empty
+            @endforelse
+          </ul>
         </div>
         <div class="btn-group">
-           <button type="button" class="btn unitsbutton"  data-toggle="modal" data-target="#addtemplatemain"> <img src="/images/add2.png" class="event-icon">Add Template</button>
+           <div class="btn-group">
+         <button type="button" id="addButton" class="btn unitsbutton"><img src="/images/add2.png" class="event-icon" > Add Template </button>
+      </div>
         </div>
      </div>
      <div class="lessonsearch-contenttable assessement-table">
@@ -36,137 +43,238 @@
               </tr>
            </thead>
            <tbody>
-              <tr>
-                 <td style="background-color:rgb(194, 68, 171); border:1px solid rgb(194, 68, 171); border-top-width:0; border-bottom-color:white; cursor:pointer;" data-toggle="modal" data-target="#addtemplatemain"></td>
-                 <td class="tempaltes-classfield">Language Arts</td>
-                 <td>Sunday</td>
-                 <td>Homework</td>
-                 <td>07/01/2017</td>
-                 <td>07/01/2018</td>
+            @forelse($templates as $template)
+              <tr class="edit_template" data-assessment-id="{{ $template->id }}">
+                 <td style="background-color:{{ $template->userClass->class_color }}"></td>
+                 <td class="tempaltes-classfield">{{$template->userClass->class_name}}</td>
+                 <td>{{ $template->day }}</td>
+                 <td>{{ $template->type }}</td>
+                 <td>{{ $template->starts_on }}</td>
+                 <td>{{ $template->ends_on }}</td>
               </tr>
+            @empty
+            <tr>
+              <td colspan="8">No Record Found ! </td>
+            </tr>
+            @endforelse  
            </tbody>
         </table>
      </div>
   </div>
-  <!--add template popup start-->
-  <div id="addtemplatemain" class="modal fade editmodalcontent" role="dialog">
-     <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-           <div class="modal-header">
-              <div class="normalLesson pull-left">
-                 <p> Template</p>
-              </div>
-              <div class="actionright pull-right">
-                 <button class="actiondropbutton renew-button">Save</button>
-                 <a class="closebutton" data-dismiss="modal"><i class="fa fa-close" aria-hidden="true"></i></a> 
-              </div>
-           </div>
-           <div class="modal-body">
-              <form method="post" action="#" class="editlessonform">
-                 <div class="row">
-                    <div class="col-md-4 form-group">
-                       <label>Class</label>
-                       <select >
-                          <option value="6902022">Language Arts</option>
-                          <option value="6902023">Mathematics</option>
-                          <option value="6902024">Reading</option>
-                          <option value="6902025">Science</option>
-                          <option value="6902026">Social Studies</option>
-                          <option value="6902028">Supermarket</option>
-                          <option value="6902027">Writing</option>
-                       </select>
-                    </div>
-                    <div class="col-md-4 form-group">
-                       <label>Starts on</label>
-                       <input class="form-control input-fields" id="demo14" type="text">
-                    </div>
-                    <div class="col-md-4 form-group checkbox-field">
-                       <label>
-                       <input type="checkbox" value="">
-                       Use class start</label>
-                    </div>
-                 </div>
-                 <div class="row">
-                    <div class="col-md-4 form-group">
-                       <label>Day</label>
-                       <select>
-                          <option value="E">Everyday</option>
-                          <option value="U">Sunday</option>
-                          <option value="M">Monday</option>
-                          <option value="T">Tuesday</option>
-                          <option value="W">Wednesday</option>
-                          <option value="R">Thursday</option>
-                          <option value="F">Friday</option>
-                          <option value="S">Saturday</option>
-                       </select>
-                    </div>
-                    <div class="col-md-4 form-group">
-                       <label>Ends on</label>
-                       <input class="form-control input-fields" id="demo15" type="text">
-                    </div>
-                    <div class="col-md-4 form-group checkbox-field">
-                       <label>
-                       <input type="checkbox" value="">
-                       Use class end</label>
-                    </div>
-                 </div>
-                 <div class="row">
-                    <div class="form-group col-md-12 titlefield">
-                       <label>Type</label>
-                       <select>
-                          <option id="templateLessonOption" value="L">Lesson</option>
-                          <option id="templateHomeworkOption" value="H">Homework</option>
-                          <option id="templateNotesOption" value="N">Notes</option>
-                          <option id="templateTab4Option" value="4" style="display: none;">Section 4</option>
-                          <option id="templateTab5Option" value="5" style="display: none;">Section 5</option>
-                          <option id="templateTab6Option" value="6" style="display: none;">Section 6</option>
-                          <option id="templateMyStandardOption" value="MS" style="display: none;">My List</option>
-                          <option id="templateSchoolStandardOption" value="SS" style="display: none;">School List</option>
-                          <option id="templateStandardOption" value="S">Standards</option>
-                       </select>
-                    </div>
-                 </div>
-                 <div class="Description-memorial">
-                    <p>Template</p>
-                    <textarea placeholder="Write Somehting">    </textarea>
-                 </div>
-              </form>
-           </div>
-        </div>
-     </div>
-  </div>
+<div class="d-render-popoup t-data-popup modal fade editmodalcontent in" id="dynamicRenderDiv" role="dialog">
+  
+
+</div>
   
 @endsection
 
 @push('js')
+  
   <script>
-     $('#demo14').dcalendarpicker();
-     $('#calendar-demo').dcalendar(); //creates the calendar
-     $('#demo15').dcalendarpicker();
-     $('#calendar-demo').dcalendar(); //creates the calendar
-  </script>
-  <script>
-     tinymce.init({
-       selector: 'textarea',
-       height: 200,
-       theme: 'modern',
-       plugins: [
-         'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-         'searchreplace wordcount visualblocks visualchars code fullscreen',
-         'insertdatetime media nonbreaking save table contextmenu directionality',
-         'emoticons template paste textcolor colorpicker textpattern imagetools codesample toc help'
-       ],
-       toolbar1: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-       toolbar2: 'print preview media | forecolor backcolor emoticons | codesample help',
-       image_advtab: true,
-       templates: [
-         { title: 'Test template 1', content: 'Test 1' },
-         { title: 'Test template 2', content: 'Test 2' }
-       ],
-       content_css: [
-        ]
-      });
-     
+    $(document).ready(function(){
+    $("#addButton").click(function(){
+
+
+    $("#dynamicRenderDiv").show().load("/teacher/template/add",function(){
+
+      //$('.datepicker').datepicker({format: 'dd/mm/yyyy',});
+      
+
+    });
+
+  });
+
+  //popup-custom  hide
+  
+  $("body").on('click','.d-popoup-close',function(){
+
+    $(".d-render-popoup").fadeOut();
+
+  });
+
+/* Add assignment data*/
+
+  $("body").on('click','#save_template_button',function(e){
+  tinyMCE.triggerSave();
+  e.preventDefault();
+
+    var formData = $("#template_add_form").serialize();
+
+    var obj = $(this);
+    $.ajax({
+      type:'POST',
+      url: BASE_URL +'/teacher/template/add',
+      data: formData,
+      dataType: 'json',
+
+      beforeSend: function () {
+        //obj.html('Sending... <i class="fa fa-send"></i>');
+      },
+      complete: function () {
+        //obj.html('Sent <i class="fa fa-send"></i>');
+      },
+
+      success: function (response) {
+        var html = '';
+
+        $('#warning-box').remove();
+        $('#success-box').remove();
+
+        if(response['error']){
+            html += '<div id="warning-box" class="alert alert-danger fade in">';
+            html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+            html += '<strong>Error!</strong>';
+
+            for (var i = 0; i < response['error'].length; i++) {
+                html += '<p>' + response['error'][i] + '</p>';
+            }
+
+            html += '</div>';
+            $('.errorMessage').before(html);
+            
+        }
+
+        if(response['success']){
+               
+          console.log(response['success']);
+
+          html += '<div id="success-box" class="alert alert-success fade in">';
+          html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+          html += '<strong>You Have Added Template successfully !</strong>';
+          html += '</div>';
+
+          $('.errorMessage').before(html);
+          $('#template_add_form')[0].reset();
+         $(".d-render-popoup").fadeOut();
+
+
+          window.location.reload();
+        }
+
+
+        },
+
+
+      error: function(data){
+        console.log("error");
+        console.log(data);
+      }
+
+    });
+      
+
+
+
+  }); 
+
+
+
+  /* Edit Unit */
+
+  $(".edit_template").click(function(){
+
+    var assessment_id = $(this).data("assessment-id");
+    
+    $("#dynamicRenderDiv").show().load("/teacher/template/edit/"+assessment_id,function(){
+
+    });
+
+  });
+
+  /*Score Weighting*/
+
+  /* Save edit assessment data*/
+
+  $("body").on('click','#edit_template_button',function(e){
+  tinyMCE.triggerSave();
+  e.preventDefault();
+    var assessment_id = $("#assessment_id").val();
+
+    var formData = $("#template_edit_form").serialize();
+
+    
+    var obj = $(this);
+    $.ajax({
+    contentType: "application/x-www-form-urlencoded; charset=UTF-8",  
+      type:'POST',
+      url: BASE_URL +'/teacher/template/edit/'+assessment_id,
+      data: formData,
+      dataType: 'json',
+
+      beforeSend: function () {
+        //obj.html('Sending... <i class="fa fa-send"></i>');
+      },
+      complete: function () {
+        //obj.html('Sent <i class="fa fa-send"></i>');
+      },
+
+      success: function (response) {
+        var html = '';
+
+        $('#warning-box').remove();
+        $('#success-box').remove();
+
+        if(response['error']){
+            html += '<div id="warning-box" class="alert alert-danger fade in">';
+            html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+            html += '<strong>Error!</strong>';
+
+            for (var i = 0; i < response['error'].length; i++) {
+                html += '<p>' + response['error'][i] + '</p>';
+            }
+
+            html += '</div>';
+            $('.errorMessage').before(html);
+            
+        }
+
+        if(response['success']){
+               
+          console.log(response['success']);
+
+          html += '<div id="success-box" class="alert alert-success fade in">';
+          html += '<a href="#" class="close" data-dismiss="alert">&times;</a>';
+          html += '<strong>You Have updated Template successfully !</strong>';
+          html += '</div>';
+
+          $('.errorMessage').before(html);
+          //$('#class_add_form')[0].reset();
+         $(".d-render-popoup").fadeOut();
+
+
+        window.location.reload();
+        }
+
+
+        },
+
+
+      error: function(data){
+        console.log("error");
+        console.log(data);
+      }
+
+    });
+      
+
+
+
+  }); 
+
+
+
+
+
+});
+
+/*Change the text of selected  button*/
+$('.classSelected a').on('click',function(){  
+  var class_id   = $(this).attr('target_id');
+  var classVar   = $(this).text();
+  var background = $(this).css('background-color');
+  $('.classBtn').html(classVar +' <span class="caret"></span>');
+  $('.classBtn').css({'background-color':background,'border-color':background, 'color':'#fff'});
+   $('.classBtn').attr('target_id',class_id);
+}); 
   </script> 
 @endpush

@@ -86,7 +86,7 @@
           <label class="control-label col-sm-2 text-right">Class Days</label>
           <div class="form-group col-sm-9 ">
 
-            @if(count($userClass->class_schedule) > 0)
+            @if(null!=$userClass->class_schedule)
 
             @php
 

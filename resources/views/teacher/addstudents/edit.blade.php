@@ -36,7 +36,7 @@
           </div>
           <div class="form-group col-md-6">
             <label>Phone Number</label>
-            <input name="phonenumber" id="phonenumber" type="email" class="addstudent-field" value="{{$students->phone_number}}">
+            <input name="phonenumber" id="phonenumber" type="text" class="addstudent-field" value="{{$students->phone_number}}">
           </div>
           <div class="form-group col-md-6">
             <label>Last Name</label>
@@ -44,7 +44,7 @@
           </div>
           <div class="form-group col-md-6">
             <label>Birthdate</label>
-            <input name="birthdate" class="addstudent-field" id="demo" type="text" value="{{$students->birthdate}}">
+            <input name="birthdate" class="addstudent-field datepicker" id="demo" type="text" value="{{$students->birthdate}}">
           </div>
           @php $grade_level = $students->grade_level @endphp
           <div class="form-group col-md-6">
@@ -70,10 +70,19 @@
           </div>  
           <div class="form-group col-md-6">
             <label>Student Key</label>
-            <input name="password" class="addstudent-field"  type="text" value="">
-            <button class="main-buton generate-button"> Generate</button>
+            <input name="password" class="addstudent-field password-field" type="text" value="{{$students->password_hash}}">
+            <input type="button" class="main-buton generate-button" value="Generate">
           </div>
         </form>
       </div>
     </div>
   </div>
+<script type="text/javascript">
+  
+  $('.datepicker').datepicker({format: 'dd/mm/yyyy',autoclose:true});
+  $('.timepicker').timepicker({
+    'timeFormat': 'h:i A',
+    'scrollDefault' : '8:00am',
+    'forceRoundTime' : false,
+  });
+ </script> 

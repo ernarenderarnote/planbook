@@ -62,17 +62,15 @@ class AddstudentController extends Controller
 
         if($request->isMethod('post')) {
 
-            //echo"<pre>";print_r($request->all());die;
-
-            $validation['studentID'] = 'required';
-            $validation['gradeLevel'] = 'required';
-            $validation['email'] = 'required';
-            $validation['parentemail'] = 'required';
-            $validation['password'] = 'required';
-            $validation['firstName'] = 'required';
-            $validation['middlename'] = 'required';
-            $validation['lastname'] = 'required';
-            
+            $validation['studentID']   = 'required';
+            $validation['gradeLevel']  = 'required';
+            $validation['email']       = 'required|email';
+            $validation['parentemail'] = 'required|email';
+            $validation['password']    = 'required';
+            $validation['firstName']   = 'required';
+            $validation['middlename']  = 'required';
+            $validation['lastname']    = 'required';
+            $validation['phonenumber'] = 'required|numeric';
             $validator = Validator::make($request->all(), $validation);
 
             if($validator->fails()) {
@@ -92,7 +90,7 @@ class AddstudentController extends Controller
                 $students->phone_number= $request['phonenumber'];
                 $students->birthdate   = $request['birthdate'];
                 $students->password    = Hash::make($request['password']);
-
+                $students->password_hash= $request['password'];
                 if($students->save()){
 
                     $response['success'] = 'TRUE';
@@ -132,12 +130,13 @@ class AddstudentController extends Controller
             $rules = array(
                 'studentID'    => 'required',
                 'gradeLevel'   => 'required',
-                'email'        => 'required',
-                'parentemail'  => 'required',
+                'email'        => 'required|email',
+                'parentemail'  => 'required|email',
                 'password'     => 'required',
                 'firstName'    => 'required',
                 'middlename'   => 'required',
                 'lastname'     => 'required',
+                'phonenumber'  => 'required|numeric'
             );
 
             $validator = Validator::make($request->all(), $rules);
@@ -159,6 +158,7 @@ class AddstudentController extends Controller
                 $students->phone_number= $request['phonenumber'];
                 $students->birthdate   = $request['birthdate'];
                 $students->password    = Hash::make($request['password']);
+                $students->password_hash = $request['password'];
                 if($students->save()){
 
                     $response['success'] = 'TRUE';

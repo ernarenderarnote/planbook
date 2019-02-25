@@ -149,7 +149,7 @@
             }
 
             html += '</div>';
-            $('#eventaddform').before(html);
+            $('.modal-body').before(html);
             
         }
 
@@ -231,7 +231,7 @@
             }
 
             html += '</div>';
-            $('#eventaddform').before(html);
+            $('.modal-body').before(html);
             
         }
 
@@ -385,6 +385,14 @@
         }
 
       });
-    });  
+    }); 
+
+    $(document).on('click','.generate-button',function(){
+      var text = "";
+      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      for (var i = 0; i < 5; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+       $('.password-field').attr('value',text);
+    }); 
   </script> 
 @endpush  

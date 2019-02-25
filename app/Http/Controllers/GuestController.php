@@ -172,11 +172,12 @@ class GuestController extends Controller
      * @return [response]
      *
      */
-    public function logout()
+    public function logout(Request $request)
     {
 
         Auth::logout();
-
+        $request->session()->flush();
+        $request->session()->regenerate();
         return Redirect('/');
 
         //return Redirect::to('/');

@@ -14,13 +14,13 @@
 					<button type="button" class="btn classBtn unitsbutton list-contentmainbuton dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" target_id="0"> All Classes<span class="caret"></span> </button>
 					<ul class="dropdown-menu language-dropdown asignment-list">
 						<li class="classSelected">
-							<a href="#" class="language-dropbutons unitdropbuton">
+							<a href="#" class="language-dropbutons unitdropbuton" target_id="0">
 								All Classes
 							</a>
 						</li>
 						@forelse($classes as $className)
 							<li class="classSelected">
-								<a href="#" class="language-dropbutons  unitdropbuton" style="background-color:{{ $className['class_color'] }}; color: #fff;" target_id = "{{$className['id']}}">
+								<a href="#" class="language-dropbutons unitdropbuton" style="background-color:{{ $className['class_color'] }}; color: #fff;" target_id = "{{$className['id']}}">
 									{{ $className['class_name'] }}
 								</a>
 							</li>	

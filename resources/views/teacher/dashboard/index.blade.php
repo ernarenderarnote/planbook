@@ -1506,6 +1506,13 @@
 					$(this).toggleClass("notes-dropdownmainhide");
 				});
 			});
+			$('#dashDatePicker').datepicker()
+			    .on("input change",'#dashDatePicker', function (e) {
+			    console.log("Date changed: ", e.target.value);
+			});
+			    $('.datepicker').datepicker()
+   					 .on('changeDate', function(e) {
+		         console.log("Date changed: ", e.target.value);
+		    });
       </script>
-      
 @endpush

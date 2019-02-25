@@ -35,7 +35,7 @@
           </div>
           <div class="form-group col-md-6">
             <label>Phone Number</label>
-            <input name="phonenumber" id="phonenumber" type="email" class="addstudent-field">
+            <input name="phonenumber" id="phonenumber" type="text" class="addstudent-field">
           </div>
           <div class="form-group col-md-6">
             <label>Last Name</label>
@@ -43,7 +43,7 @@
           </div>
           <div class="form-group col-md-6">
             <label>Birthdate</label>
-            <input name="birthdate" class="addstudent-field" id="demo" type="text">
+            <input name="birthdate" class="addstudent-field datepicker" id="demo" type="text">
           </div>
           <div class="form-group col-md-6">
             <label>Grade Level</label>
@@ -68,10 +68,19 @@
           </div>  
           <div class="form-group col-md-6">
             <label>Student Key</label>
-            <input name="password" class="addstudent-field"  type="text">
-            <button class="main-buton generate-button"> Generate</button>
+            <input name="password" class="addstudent-field password-field" type="text">
+            <input type="button" class="main-buton generate-button" value="Generate">
           </div>
         </form>
       </div>
     </div>
   </div>
+<script type="text/javascript">
+  
+  $('.datepicker').datepicker({format: 'dd/mm/yyyy',autoclose:true});
+  $('.timepicker').timepicker({
+    'timeFormat': 'h:i A',
+    'scrollDefault' : '8:00am',
+    'forceRoundTime' : false,
+  });
+ </script> 

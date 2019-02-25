@@ -21,7 +21,7 @@
             <th class="text-center bg-theme start-date">Start Date</th>
             <th class="text-center bg-theme end-date">End Date</th>
 
-            @if(count($user_selected_school_year) > 0)
+            @if(null!=$user_selected_school_year)
 
               @if($user_selected_school_year->class_schedule_type == "one_week")
                 <th class="text-center bg-theme class-numbering">S</th>

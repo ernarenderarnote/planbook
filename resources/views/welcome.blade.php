@@ -1,4 +1,3 @@
-
 @extends('layouts.default')
 
 @section('content')
@@ -271,7 +270,7 @@
         </div>
         <div class="pt-3"><a href="#" target="_blank" class="button">theyellowbus.com.br: responsive site </a></div>
         <div class="pt-3"><a href="https://itunes.apple.com/us/app/theyellowbus.com.br/id671763634?mt=8" target="_blank" class="button">Get theyellowbus.com.br for iOS</a></div>
-        <div class="pt-3"><a href="https://play.google.com/store/apps/details?id=com.planbook" target="_blank" class="button">Get theyellowbus.com.brfor Android</a></div>
+        <div class="pt-3"><a href="#" target="_blank" class="button">Get theyellowbus.com.brfor Android</a></div>
       </div>
       <div class="col-sm-6 img-box"><img  src="images/aplicativos.png" class="img-responsive" alt="">  </div>
     </div>
@@ -341,7 +340,7 @@
         <iframe width="100%" height="208" src="https://www.youtube.com/embed/2vcN5g1glUE" allowfullscreen></iframe>
       </div>
     </div> -->
-    <div class="p-3 text-center tutorial-links"> <a class="button signupmain" href="help/tutorials.html" target="_blank">View all tutorials</a></div>
+    <div class="p-3 text-center tutorial-links"> <a class="button signupmain" href="#" target="_blank">View all tutorials</a></div>
   
 
 <!--video content--> 

@@ -342,7 +342,8 @@ class Month
 
     public function units($unit)
     {
-        return Unit::where('user_id',Auth::user()->id)->where('id',$unit)->first()->unit_id;
+        return Unit::where('user_id',Auth::user()->id)->where('id',$unit)->pluck('unit_id')->first();
+     
     }
 
     public function getEvents($date,$user_id){
